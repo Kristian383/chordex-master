@@ -122,7 +122,7 @@ export default {
 }
 
 .active_item{
-  
+  /* background-color: #e73213; */
   background: rgb(194, 42, 42);
 }
 .new_song{

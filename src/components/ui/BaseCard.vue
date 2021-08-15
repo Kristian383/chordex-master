@@ -23,7 +23,7 @@
 export default {
   computed: {
     sidebarIsActive() {
-      console.log("otvoreno", this.$store.getters.sidebarIsActive);
+      // console.log("otvoreno", this.$store.getters.sidebarIsActive);
       return this.$store.getters.sidebarIsActive;
     },
   },
@@ -90,7 +90,8 @@ nav .search-box #search {
   height: 40px;
   padding: 6px;
   width: 40px;
-  background: #c22a2a;
+  
+  background: rgb(194, 42, 42);
   right: 5px;
   top: 50%;
   transform: translateY(-50%);

@@ -19,11 +19,15 @@
       </span>
       <span class="filter-option">
         <input type="checkbox" />
-        <label for="capo">Capo</label>
+        <label for="capo">Easy</label>
       </span>
       <span class="filter-option">
         <input type="checkbox" />
-        <label for="capo">Capo</label>
+        <label for="capo">Medium</label>
+      </span>
+      <span class="filter-option">
+        <input type="checkbox" />
+        <label for="capo">Hard</label>
       </span>
     </div>
   </nav>
