@@ -1,6 +1,5 @@
 <template>
-  <div class="song-cards">
-    <!-- <div class="icons">
+  <!-- <div class="icons">
       <div class="icon" @click="editQuote">
         <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
       </div>
@@ -13,134 +12,49 @@
       <h4>{{ songArtist }}NirvanaNirvana Nirvana</h4>
       <h6>{{ songName }}Smells like teen</h6>
     </div> -->
-    <div class="card" @click="Ispis">
-      <div class="card-header">
-        <img
-          src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg"
-          alt="rover"
-        />
-        <div class="icons">
-          <div class="icon" @click="editQuote">
-            <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
-          </div>
-          <div class="icon" @click="favorteQuote">
-            <font-awesome-icon
-              icon="heart"
-              class="favorite"
-            ></font-awesome-icon>
-          </div>
+  <div class="card" @click="Ispis">
+    <div class="card-header">
+      <img :src="song.imageUrl" alt="Artist photo" />
+      <div class="icons">
+        <div class="icon" @click="editQuote">
+          <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
         </div>
-      </div>
-
-      <div class="card-body">
-        <div class="tags">
-          <span class="tag tag-teal"> Capo</span>
-          <span class="tag tag-teal" :class="skillLevelClass">{{
-            skillLevel
-          }}</span>
-        </div>
-        <h3 class="artist">
-          <router-link to="/"> RHCP </router-link>
-        </h3>
-        <h4 class="song_name">{{ songName }} Californication</h4>
-        <div class="info">
-          <div class="history-info">
-            <font-awesome-icon icon="history"></font-awesome-icon>
-            <small>2h ago</small>
-          </div>
-          <h5>Practiced {{ score }}4/5</h5>
-        </div>
-      </div>
-      <div class="progress" style="width: 100%"></div>
-    </div>
-
-
-    <div class="card">
-      <div class="card-header">
-        <img
-          src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg"
-          alt="rover"
-        />
-        <div class="icons">
-          <div class="icon" @click="editQuote">
-            <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
-          </div>
-          <div class="icon" @click="favorteQuote">
-            <font-awesome-icon
-              icon="heart"
-              class="favorite"
-            ></font-awesome-icon>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="tags">
-          <span class="tag tag-teal"> Capo</span>
-          <span class="tag tag-teal medium">{{ skillLevel }}</span>
-        </div>
-        <h3 class="artist">
-          <router-link to="/">NirvNirvanaana NirvanaNirvan assssss</router-link>
-        </h3>
-        <h4 class="song_name">
-          {{ songName }}NirvanaNirvan assssss NirvanaNirvan assssss Smells
-        </h4>
-        <div class="info">
-          <div class="history-info">
-            <font-awesome-icon icon="history"></font-awesome-icon>
-            <small>2h ago</small>
-          </div>
-          <h5>Practiced {{ score }}4/5</h5>
+        <div class="icon" @click="favorteQuote">
+          <font-awesome-icon icon="heart" class="favorite"></font-awesome-icon>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">
-        <img
-          src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg"
-          alt="rover"
-        />
-        <div class="icons">
-          <div class="icon" @click="editQuote">
-            <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
-          </div>
-          <div class="icon" @click="favorteQuote">
-            <font-awesome-icon
-              icon="heart"
-              class="favorite"
-            ></font-awesome-icon>
-          </div>
-        </div>
+    <div class="card-body">
+      <div class="tags">
+        <span class="tag tag-teal"> Capo</span>
+        <span class="tag tag-teal" :class="skillLevelClass">{{
+          song.difficulty
+        }}</span>
       </div>
-      <div class="card-body">
-        <div class="tags">
-          <span class="tag tag-teal"> Capo</span>
-          <span class="tag tag-teal easy">{{ skillLevel }}</span>
+      <h3 class="artist">
+        <router-link to="/"> {{ song.artist }} </router-link>
+      </h3>
+      <h4 class="song_name">{{ song.songName }}</h4>
+      <div class="info">
+        <div class="history-info">
+          <font-awesome-icon icon="history"></font-awesome-icon>
+          <small>{{ song.lastViewed }}</small>
         </div>
-        <h3 class="artist">
-          <router-link to="/">NirvNirvanaana NirvanaNirvan assssss</router-link>
-        </h3>
-        <h4 class="song_name">{{ songName }} Smells</h4>
-        <div class="info">
-          <div class="history-info">
-            <font-awesome-icon icon="history"></font-awesome-icon>
-            <small>2h ago</small>
-          </div>
-          <h5>Practiced: {{ score }}4/5</h5>
-        </div>
+        <h5>Practiced: {{ song.practiced }}/5</h5>
       </div>
     </div>
+    <div class="progress" :style="{ width: practicePercentage }"></div>
   </div>
 </template>
 
 <script>
-// import Stars from "./../ui/Stars.vue"
 export default {
   name: "SongCard",
-  components: {},
+  props: ["song"],
   methods: {
     Ispis(e) {
-      console.log("stisak", e.target);
+      // console.log("stisak", e.target);
       if (e.target.className == "icon") {
         console.log("nemoj");
         return;
@@ -149,28 +63,20 @@ export default {
   },
   computed: {
     skillLevelClass() {
-      return this.skillLevel.toLowerCase();
+      return this.song.difficulty.toLowerCase();
     },
     songName() {
       return null;
     },
-  },
-  data() {
-    return {
-      skillLevel: "hard",
-      score: null,
-    };
+    practicePercentage() {
+      const num = (this.song.practiced / 5) * 100;
+      return num + "%";
+    },
   },
 };
 </script>
 
 <style scoped>
-.song-cards {
-  display: flex;
-  width: 1040px;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-}
 .card:first-child {
   margin-left: 10px;
 }
@@ -235,7 +141,7 @@ export default {
   height: 34px;
   border-radius: 50%;
   background-color: white;
-  transition: all 0.5s ease ;
+  transition: all 0.5s ease;
 }
 .icons .icon:hover {
   background-color: #303030;

@@ -109,9 +109,11 @@ nav .search-box #search:hover {
   position: relative;
   padding-top: 104px;
 }
-
+/* list of all songs - song-cards  */
 .home-section .song-cards {
-  display: grid;
-  /* grid-template: ; */
+  display: flex;
+  width: 1040px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 </style>

@@ -2,7 +2,7 @@
   <base-card>
     <filters></filters>
     <template v-slot:song_cards>
-      <song-card></song-card>
+      <song-card v-for="song in AllSongs" :key="song.id" :song="song"></song-card>
     </template>
   </base-card>
 </template>
@@ -22,7 +22,16 @@ export default {
       // console.log("otvoreno", this.$store.getters.sidebarIsActive);
       return this.$store.getters.sidebarIsActive;
     },
+    AllSongs(){
+      console.log("allsongs",this.$store.getters.getAllSongs);
+      return this.$store.getters.getAllSongs;
+    }
   },
+  data(){
+    return{
+
+    }
+  }
 };
 </script>
 
