@@ -31,6 +31,7 @@
           </div>
         </div>
       </div>
+
       <div class="card-body">
         <div class="tags">
           <span class="tag tag-teal"> Capo</span>
@@ -39,14 +40,9 @@
           }}</span>
         </div>
         <h3 class="artist">
-          <router-link to="/">
-            Nirvana NirvanaNirvanaNi NirvanaNirvana
-          </router-link>
+          <router-link to="/"> RHCP </router-link>
         </h3>
-        <h4 class="song_name">
-          {{ songName }} Smells like teen spirit hell yeah Smells like teen
-          Smells like teen
-        </h4>
+        <h4 class="song_name">{{ songName }} Californication</h4>
         <div class="info">
           <div class="history-info">
             <font-awesome-icon icon="history"></font-awesome-icon>
@@ -55,7 +51,10 @@
           <h5>Practiced {{ score }}4/5</h5>
         </div>
       </div>
+      <div class="progress" style="width: 100%"></div>
     </div>
+
+
     <div class="card">
       <div class="card-header">
         <img
@@ -82,7 +81,9 @@
         <h3 class="artist">
           <router-link to="/">NirvNirvanaana NirvanaNirvan assssss</router-link>
         </h3>
-        <h4 class="song_name">{{ songName }} Smells</h4>
+        <h4 class="song_name">
+          {{ songName }}NirvanaNirvan assssss NirvanaNirvan assssss Smells
+        </h4>
         <div class="info">
           <div class="history-info">
             <font-awesome-icon icon="history"></font-awesome-icon>
@@ -183,8 +184,9 @@ export default {
   overflow: hidden;
   width: 180px;
   position: relative; /*moj */
-  height: 250px;
-  color: #303030;
+  height: 260px;
+  /* color: #303030; */
+  color: #29264c;
   transition: 0.5s ease all;
 }
 .card:hover {
@@ -197,6 +199,24 @@ export default {
   height: 100px;
   object-fit: cover;
 }
+
+.progress {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.progress:before {
+  animation: slideIn 2s ease-out;
+  background-color: #11101d;
+  bottom: 0;
+  left: 0;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  border-radius: 0 0 2px 2px;
+}
 /*  ikonice*/
 .icons {
   display: flex;
@@ -206,7 +226,6 @@ export default {
   justify-content: space-between;
   padding: 4px;
   z-index: 15;
-  /* display: none; */
 }
 .icons .icon {
   display: flex;
@@ -216,7 +235,7 @@ export default {
   height: 34px;
   border-radius: 50%;
   background-color: white;
-  transition: 0.5s ease all;
+  transition: all 0.5s ease ;
 }
 .icons .icon:hover {
   background-color: #303030;
@@ -235,10 +254,9 @@ export default {
   justify-content: center;
   align-items: flex-start;
   padding: 4px 15px 15px 15px;
-  gap: 6px;
-
-  /* min-height: 120px; */
+  gap: 10px;
 }
+
 .tags {
   display: flex;
   gap: 4px;
@@ -254,16 +272,15 @@ export default {
   cursor: pointer;
 }
 .tag-teal {
-  background-color: #11101D;
-  
+  background-color: #11101d;
 }
 .easy {
-  background-color: #69B34C;
+  background-color: #69b34c;
   /* background-color: #fa8e44; */
 }
 .medium {
   background-color: #ff4500;
-  
+
   /* background-color: #fa8e44; */
 }
 .hard {
@@ -271,7 +288,7 @@ export default {
   /* background-color: #d8323c;
   background-color: #e73213; */
   background: rgb(194, 42, 42);
-  
+
   /* background-color: #FF0D0D; */
 }
 /* overflow 
@@ -292,7 +309,6 @@ export default {
 .artist a {
   text-decoration: none;
   color: inherit;
-  
 }
 /* .artist a:hover {
   color: rgb(73, 70, 70);
