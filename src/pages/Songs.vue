@@ -1,7 +1,13 @@
 <template>
   <base-card>
     <template v-slot:filters>
-      <filters v-for="filter in allFilters" :key="filter" :filter="filter"></filters>
+      <filters
+        v-for="filter in allFilters"
+        :key="filter"
+        :filter="filter"
+        @change-filter="setFilters"
+        :activeFilters="getActiveFilters"
+      ></filters>
     </template>
     <template v-slot:song_cards>
       <song-card
@@ -32,12 +38,31 @@ export default {
     allFilters(){
       return this.$store.getters.getAllFilters;
     },
+    getActiveFilters(){
+      return this.activeFilters;
+    },
     
   },
   data() {
-    return {};
+    return {
+      activeFilters:{
+        all:true,
+        favorites:false,
+        acoustic:false,
+        electric:false,
+        easy:false,
+        medium:false,
+        hard:false,
+      }
+    };
   },
+  methods:{
+    setFilters(updatedFilters){
+      this.activeFilters = updatedFilters;
+    }
+  }
 };
+
 </script>
 
 <style scoped>

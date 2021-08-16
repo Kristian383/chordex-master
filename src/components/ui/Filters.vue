@@ -1,6 +1,11 @@
 <template>
   <span class="filter-option" :class="{ active: isActive }">
-    <input type="checkbox" :id="filter" @change="setFilter" />
+    <input
+      :checked="isActive"
+      type="checkbox"
+      :id="filter"
+      @change="setFilter"
+    />
     <label :for="filter">{{ filter }}</label>
   </span>
   <!-- <span class="filter-option">
@@ -31,26 +36,50 @@
 
 <script>
 export default {
-  props: ["filter"],
+  props: ["filter", "activeFilters"],
+  data() {
+    return {};
+  },
   computed: {
     isActive() {
-      const activeFilters = this.$store.getters.activeFilters;
-
-      if (activeFilters.includes(this.filter)) {
+      if (this.activeFilters[this.filter]) {
         return true;
       }
-      return "";
+      return false;
     },
   },
   methods: {
-    setFilter() {
-      this.$emit("change-filter", this.filter);
+    setFilter(e) {
+      const isActive = e.target.checked;
+      let updatedFilters;
+      if (this.filter == "all" && isActive) {
+        updatedFilters = {
+          all: true,
+          favorites: false,
+          acoustic: false,
+          electric: false,
+          easy: false,
+          medium: false,
+          hard: false,
+        };
+      } else {
+        updatedFilters = {
+          ...this.activeFilters,
+          [this.filter]: isActive,
+          all: false,
+        };
+      }
+      this.$emit("change-filter", updatedFilters);
     },
   },
 };
 </script>
 
 <style scoped>
+.filter-option.active > label {
+  background-color: #242424;
+  color: white;
+}
 
 input[type="checkbox"] {
   display: none;
@@ -73,7 +102,6 @@ input[type="checkbox"] + label {
 }
 
 input[type="checkbox"]:checked + label {
-  -webkit-transition: all 500ms ease;
   transition: all 500ms ease;
   background-color: #242424;
   color: white;
