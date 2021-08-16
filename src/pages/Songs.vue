@@ -23,7 +23,7 @@ export default {
       return this.$store.getters.sidebarIsActive;
     },
     AllSongs(){
-      console.log("allsongs",this.$store.getters.getAllSongs);
+      // console.log("allsongs",this.$store.getters.getAllSongs);
       return this.$store.getters.getAllSongs;
     }
   },
@@ -36,4 +36,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

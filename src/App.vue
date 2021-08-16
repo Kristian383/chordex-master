@@ -1,8 +1,6 @@
 <template>
   <!-- <parallax></parallax> -->
   <sidebar></sidebar>
-  <!-- <the-header></the-header> -->
-  <!-- <filters></filters> -->
   <router-view></router-view>
 </template>
 

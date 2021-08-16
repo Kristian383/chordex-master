@@ -126,7 +126,7 @@ export default {
   background: rgb(194, 42, 42);
 }
 .new_song{
-  color: green;
+  color: #69B34C;
 }
 
 .sidebar.active {

@@ -14,6 +14,7 @@
       <div class="song-cards">
         <slot name="song_cards"></slot>
       </div>
+      <!-- ovdje ide poseban div za artists i poseban za favorites  -->
     </div>
   </section>
 </template>
@@ -90,7 +91,7 @@ nav .search-box #search {
   height: 40px;
   padding: 6px;
   width: 40px;
-  
+
   background: rgb(194, 42, 42);
   right: 5px;
   top: 50%;
@@ -107,13 +108,19 @@ nav .search-box #search:hover {
 /* Content under header */
 .home-section .home-content {
   position: relative;
-  padding-top: 104px;
+  padding-top: 124px;
+  /* max-width: 1400px; */
+  margin: 0 auto;
 }
 /* list of all songs - song-cards  */
 .home-section .song-cards {
-  display: flex;
-  width: 1040px;
-  justify-content: flex-start;
+  /* display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 4px; */
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, 180px);
+  justify-content: center;
 }
 </style>
