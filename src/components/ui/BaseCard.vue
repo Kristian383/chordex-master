@@ -118,6 +118,7 @@ nav .search-box #search:hover {
   justify-content: center;
   flex-wrap: wrap;
   gap: 4px; */
+  padding: 15px;
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(auto-fill, 180px);

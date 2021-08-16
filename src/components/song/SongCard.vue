@@ -12,16 +12,19 @@
       <h4>{{ songArtist }}NirvanaNirvana Nirvana</h4>
       <h6>{{ songName }}Smells like teen</h6>
     </div> -->
+  <!-- @click.capture="Ispis" -->
   <div class="card" @click="Ispis">
     <div class="card-header">
       <img :src="song.imageUrl" alt="Artist photo" />
       <div class="icons">
-        <div class="icon" @click="editQuote">
-          <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
+        <div class="icon" id="edit" @click.stop="openEditMode">
+          <!-- @click.capture="editQuote" -->
+          <font-awesome-icon icon="edit"></font-awesome-icon>
         </div>
-        <div class="icon" @click="favorteQuote">
-          <font-awesome-icon icon="heart" class="favorite"></font-awesome-icon>
+        <div class="icon" @click.stop="toggleFavorite" :class="{is_favorite:isFavorite}">
+          <font-awesome-icon icon="heart"></font-awesome-icon>
         </div>
+        <!-- @click="favorteQuote" -->
       </div>
     </div>
 
@@ -54,12 +57,22 @@ export default {
   props: ["song"],
   methods: {
     Ispis(e) {
-      // console.log("stisak", e.target);
-      if (e.target.className == "icon") {
-        console.log("nemoj");
-        return;
-      }
+      console.log("stisak", e.target);
+      // if (e.target.id == "favorite") {
+      //   console.log("favorit trebamo toggle");
+      //   //dispatch setInFavorites preko id propsa
+      //   return;
+      // } else if (e.target.id == "edit") {
+      //   console.log("Edit mode");
+      //   //route push na edit preko id propsa
+      // }
     },
+    toggleFavorite(e){
+      console.log("favorit",e.target);
+    },
+    openEditMode(e){
+      console.log("opening edit mode",e.target);
+    }
   },
   computed: {
     skillLevelClass() {
@@ -72,14 +85,15 @@ export default {
       const num = (this.song.practiced / 5) * 100;
       return num + "%";
     },
+    isFavorite(){
+      return this.song.isFavorite;
+    }
   },
 };
 </script>
 
 <style scoped>
-
 .card {
-  
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -129,7 +143,7 @@ export default {
   width: 100%;
   justify-content: space-between;
   padding: 4px;
-  z-index: 15;
+  z-index: 99;
 }
 .icons .icon {
   display: flex;
@@ -147,9 +161,12 @@ export default {
 }
 .favorite,
 .edit {
-  pointer-events: none;
+  /* pointer-events: none; */
   height: 15px;
   width: auto;
+}
+.is_favorite{
+  color: #d8323c; 
 }
 /* card body  */
 .card-body {
@@ -180,18 +197,12 @@ export default {
 }
 .easy {
   background-color: #69b34c;
-  
 }
 .medium {
   background-color: #ff4500;
-
-  
 }
 .hard {
-  
   background: rgb(194, 42, 42);
-
-  
 }
 /* overflow 
 .artist {
@@ -232,5 +243,4 @@ export default {
   flex-direction: row;
   gap: 4px;
 }
-
 </style>

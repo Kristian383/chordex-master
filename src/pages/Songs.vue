@@ -8,21 +8,18 @@
 </template>
 
 <script>
-import SongCard from "./../components/song/SongCard.vue";
 import Filters from "../components/ui/Filters.vue"
+import SongCard from "./../components/song/SongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
 export default {
   components: {
-    SongCard,
     Filters,
+    SongCard,
     BaseCard,
   },
   computed: {
-    sidebarIsActive() {
-      // console.log("otvoreno", this.$store.getters.sidebarIsActive);
-      return this.$store.getters.sidebarIsActive;
-    },
-    AllSongs(){
+   
+    AllSongs(){ //get favorite songs
       // console.log("allsongs",this.$store.getters.getAllSongs);
       return this.$store.getters.getAllSongs;
     }
