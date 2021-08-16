@@ -1,30 +1,18 @@
 <template>
-  <!-- <div class="icons">
-      <div class="icon" @click="editQuote">
-        <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
-      </div>
-      <div class="icon" @click="removeQuote">
-        <font-awesome-icon icon="heart" class="favorite"></font-awesome-icon>
-      </div>
-    </div>
-    <img src="" alt="Quote photo" />
-    <div class="info">
-      <h4>{{ songArtist }}NirvanaNirvana Nirvana</h4>
-      <h6>{{ songName }}Smells like teen</h6>
-    </div> -->
-  <!-- @click.capture="Ispis" -->
   <div class="card" @click="Ispis">
     <div class="card-header">
       <img :src="song.imageUrl" alt="Artist photo" />
       <div class="icons">
         <div class="icon" id="edit" @click.stop="openEditMode">
-          <!-- @click.capture="editQuote" -->
           <font-awesome-icon icon="edit"></font-awesome-icon>
         </div>
-        <div class="icon" @click.stop="toggleFavorite" :class="{is_favorite:isFavorite}">
+        <div
+          class="icon"
+          @click.stop="toggleFavorite"
+          :class="{ is_favorite: isFavorite }"
+        >
           <font-awesome-icon icon="heart"></font-awesome-icon>
         </div>
-        <!-- @click="favorteQuote" -->
       </div>
     </div>
 
@@ -67,12 +55,12 @@ export default {
       //   //route push na edit preko id propsa
       // }
     },
-    toggleFavorite(e){
-      console.log("favorit",e.target);
+    toggleFavorite(e) {
+      console.log("favorit", e.target);
     },
-    openEditMode(e){
-      console.log("opening edit mode",e.target);
-    }
+    openEditMode(e) {
+      console.log("opening edit mode", e.target);
+    },
   },
   computed: {
     skillLevelClass() {
@@ -85,9 +73,9 @@ export default {
       const num = (this.song.practiced / 5) * 100;
       return num + "%";
     },
-    isFavorite(){
+    isFavorite() {
       return this.song.isFavorite;
-    }
+    },
   },
 };
 </script>
@@ -165,8 +153,8 @@ export default {
   height: 15px;
   width: auto;
 }
-.is_favorite{
-  color: #d8323c; 
+.is_favorite {
+  color: #d8323c;
 }
 /* card body  */
 .card-body {

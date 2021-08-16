@@ -4,7 +4,9 @@
     :class="{ expand_home_section: !sidebarIsActive }"
   >
     <nav>
-      <slot></slot>
+      <div class="filter_categories">
+        <slot name="filters"></slot>
+      </div>
       <div class="search-box">
         <input type="text" placeholder="Search..." />
         <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
@@ -66,6 +68,17 @@ export default {
 .expand_home_section nav {
   width: calc(100% - 80px);
   left: 80px;
+}
+
+.filter_categories{
+  display: flex;
+  max-width: 800px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 4px;
+}
+.filter_categories::-webkit-scrollbar {
+  display: none;
 }
 
 .home-section nav .search-box {

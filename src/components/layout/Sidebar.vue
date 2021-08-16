@@ -325,6 +325,6 @@ export default {
 
 #logout:hover {
   cursor: pointer;
-  color: red;
+  color: #d8323c;
 }
 </style>
