@@ -173,7 +173,8 @@ export default {
   width: auto;
 }
 .is_favorite {
-  color: #d8323c;
+  /* color: #d8323c; */
+  color: #B02828;
 }
 /* card body  */
 .card-body {
