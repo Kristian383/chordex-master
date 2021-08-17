@@ -32,7 +32,7 @@
           <font-awesome-icon icon="history"></font-awesome-icon>
           <small>{{ song.lastViewed }}</small>
         </div>
-        <h5>Practiced: {{ song.practiced }}/5</h5>
+        <h5>Learned: {{practicePercentage}} </h5>
       </div>
     </div>
     <div class="progress" :style="{ width: practicePercentage }"></div>
