@@ -13,6 +13,10 @@
       </div>
     </nav>
     <div class="home-content">
+      <div>
+        <h2 class="title">{{Title}} list</h2>
+        <slot name="select_box"></slot>
+      </div>
       <div class="song-cards">
         <slot name="song_cards"></slot>
       </div>
@@ -28,7 +32,14 @@ export default {
     sidebarIsActive() {
       // console.log("otvoreno", this.$store.getters.sidebarIsActive);
       return this.$store.getters.sidebarIsActive;
-    },
+    }, Title(){
+      return this.$route.name
+    }
+  },
+  data(){
+    return{
+      title:"Song list"
+    }
   },
   // components:{
   //   SongCard
@@ -124,6 +135,16 @@ nav .search-box #search:hover {
   padding-top: 124px;
   /* max-width: 1400px; */
   margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.title{
+  position: absolute;
+   top: 104px;
+   transform: translateX(-50%);
+
+  left: 50%;
 }
 /* list of all songs - song-cards  */
 .home-section .song-cards {
@@ -131,7 +152,7 @@ nav .search-box #search:hover {
   justify-content: center;
   flex-wrap: wrap;
   gap: 4px; */
-  padding: 15px;
+  padding-top: 20px;
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(auto-fill, 180px);

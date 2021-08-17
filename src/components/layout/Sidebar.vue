@@ -262,6 +262,7 @@ export default {
   transition: 0s;
   opacity: 0;
   pointer-events: none;
+ 
 }
 
 .sidebar.active ul li .tooltip {
@@ -271,6 +272,7 @@ export default {
   top: 50%;
   opacity: 1;
   transition: all 0.5s ease;
+  
 }
 
 .sidebar .profile_content {

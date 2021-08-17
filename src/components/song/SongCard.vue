@@ -131,7 +131,7 @@ export default {
   width: 100%;
   justify-content: space-between;
   padding: 4px;
-  z-index: 99;
+  z-index: 14;
 }
 .icons .icon {
   display: flex;
