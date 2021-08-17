@@ -1,5 +1,8 @@
 <template>
   <base-card>
+    <template v-slot:select_box>
+      <sort-by></sort-by>
+    </template>
     <template v-slot:song_cards>
       <song-card
         v-for="song in AllSongs"
@@ -13,10 +16,11 @@
 <script>
 import SongCard from "./../components/song/SongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
+import SortBy from "../components/ui/SortBy.vue";
 export default {
   components: {
     SongCard,
-    BaseCard,
+    BaseCard,SortBy
   },
   computed: {
     

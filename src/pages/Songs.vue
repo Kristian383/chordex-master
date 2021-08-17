@@ -1,59 +1,7 @@
 <template>
   <base-card>
     <template v-slot:select_box>
-      <div class="select-box">
-        <div class="options-container" :class="{ active: sortIsActive }">
-          <div class="option"  @click="changeSortOption('newest')">
-            <input type="radio" id="recently" class="radio" name="category" />
-            <label for="recently">Newest Added</label>
-            <!-- <label for="recently">Recently added</label> -->
-          </div>
-          <div class="option" @click="changeSortOption('oldest')">
-            <input type="radio" id="oldest" class="radio" name="category" />
-            <label for="oldest">Oldest Added</label>
-          </div>
-          <div class="option" @click="changeSortOption('alphabet')">
-            <input type="radio" id="alphabet" class="radio" name="category" />
-            <label for="alphabet">A - Z</label>
-          </div>
-          <div class="option" @click="changeSortOption('reverse')">
-            <input
-              type="radio"
-              id="reverse"
-              class="radio"
-              name="category"
-            />
-            <label for="alphabet_reverse">Z - A</label>
-          </div>
-        </div>
-        <div class="selected"  @click="toggleSort" >Sort by: {{selectedSort}}</div>
-      </div>
-      <!-- <div class="select_wrap" :class="{ active: sortIsActive }">
-        <ul class="default_option" @click="toggleSort">
-          <li @click="changeSortOption('newest')">
-            <div class="option newest">
-              <p>Newest</p>
-            </div>
-          </li>
-        </ul>
-        <ul class="select_ul">
-          <li @click="changeSortOption('oldest')" >
-            <div class="option oldest">
-              <p>Oldest</p>
-            </div>
-          </li>
-          <li @click="changeSortOption('alphabet')">
-            <div class="option burger">
-              <p>A - Z</p>
-            </div>
-          </li>
-          <li @click="changeSortOption('reverse')">
-            <div class="option reverse">
-              <p>Z - A</p>
-            </div>
-          </li>
-        </ul>
-      </div> -->
+      <sort-by></sort-by>
     </template>
     <template v-slot:filters>
       <filters
@@ -78,11 +26,12 @@
 import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
+import SortBy from "../components/ui/SortBy.vue";
 export default {
   components: {
     Filters,
     SongCard,
-    BaseCard,
+    BaseCard,SortBy
   },
   computed: {
     AllSongs() {
@@ -108,22 +57,14 @@ export default {
         medium: false,
         hard: false,
       },
-      sortIsActive: false,
-      selectedSort: "newest",
+      
     };
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    toggleSort() {
-      this.sortIsActive = !this.sortIsActive;
-    },
-    changeSortOption(option) {
-      // console.log("changeSortOption", option);
-      this.selectedSort = option;
-      this.sortIsActive= false
-    },
+    
     
   },
 };
@@ -204,86 +145,5 @@ export default {
 } */
 
 /*  */
-.select-box {
-  display: flex;
-  width: 180px;
-  flex-direction: column;
-  position: absolute;
-  z-index: 20;
-  top: 90px;
-  right: 15px;
-}
-.select-box .options-container {
-  background: #11101d;
-  color: #f1f1f1;
-  max-height: 0;
-  width: 100%;
-  opacity: 0;
-  transition: all 0.4s;
-  border-radius: 4px;
 
-  overflow: hidden;
-  order: 1;
-}
-.selected {
-  background: #11101d;
-  margin-bottom: 8px;
-  color: #f1f1f1;
-  position: relative;
-  order: 0;
-  border-radius: 4px;
-  text-transform: capitalize;
-}
-.selected:before {
-  content: "";
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  width: 6px;
-  height: 6px;
-  border: 2px solid;
-  border-color: transparent transparent #fff #fff;
-  transform: rotate(-45deg);
-  transition: all 0.3s ease;
-}
-
-.select-box .options-container.active {
-  opacity: 1;
-  max-height: 240px;
-  /* overflow-y: scroll; */
-  
-}
-.select-box .options-container.active + .selected:before {
-  top: 18px;
-  transform: rotate(-225deg);
-}
-/* .select-box .options-container::-webkit-scrollbar {
-  width: 8px;
-  background: #0d141f;
-  border-radius: 0 8px 8px 0;
-}
-
-.select-box .options-container::-webkit-scrollbar-thumb {
-  background: #525861;
-  border-radius: 0 8px 8px 0;
-} */
-.select-box .option,
-.selected {
-  padding: 12px 24px;
-  cursor: pointer;
-  transition: all 0.5s ease;
-}
-.select-box .option:hover {
-  color: #11101d;
-  background: #f1f1f1;
-}
-
-.select-box label {
-  cursor: pointer;
-  /*display: block;  ovo sam dodao ako neradi click */
-}
-
-.select-box .option .radio {
-  display: none;
-}
 </style>
