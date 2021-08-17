@@ -71,11 +71,27 @@ export default {
     },
     practicePercentage() {
       const num = (this.song.practiced / 5) * 100;
+
       return num + "%";
     },
     isFavorite() {
       return this.song.isFavorite;
     },
+    barColor() {
+      if(this.barPrctg<=40) return "rgb(194, 42, 42)"
+      else if(this.barPrctg>34 && this.barPrctg <=80) return "#ff4500"
+
+      return "#69b34c";
+    },
+  },
+  data() {
+    return {
+      barPrctg: null,
+    };
+  },
+  mounted() {
+    this.barPrctg = (this.song.practiced / 5) * 100;
+    
   },
 };
 </script>
@@ -114,7 +130,7 @@ export default {
 }
 .progress:before {
   animation: slideIn 2s ease-out;
-  background-color: #11101d;
+  background-color: v-bind(barColor);
   bottom: 0;
   left: 0;
   content: "";
@@ -122,6 +138,9 @@ export default {
   width: 100%;
   height: 6px;
   border-radius: 0 0 2px 2px;
+}
+.prgoress.low:before {
+  background-color: yellw;
 }
 /*  ikonice*/
 .icons {
