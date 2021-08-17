@@ -18,6 +18,14 @@
         <input type="radio" id="reverse" class="radio" name="category" />
         <label for="alphabet_reverse">Z - A</label>
       </div>
+      <div class="option" @click="changeSortOption('best')">
+        <input type="radio" id="best" class="radio" name="best" />
+        <label for="best">Best learned</label>
+      </div>
+      <div class="option" @click="changeSortOption('least')">
+        <input type="radio" id="least" class="radio" name="least" />
+        <label for="least">Least learned</label>
+      </div>
     </div>
     <div class="selected" @click="toggleSort">Sort by: {{ selectedSort }}</div>
   </div>
@@ -90,24 +98,25 @@ export default {
 
 .select-box .options-container.active {
   opacity: 1;
-  max-height: 240px;
-  /* overflow-y: scroll; */
+  max-height: 210px;
+  overflow-y: scroll;
   
 }
 .select-box .options-container.active + .selected:before {
   top: 18px;
   transform: rotate(-225deg);
 }
-/* .select-box .options-container::-webkit-scrollbar {
+.select-box .options-container::-webkit-scrollbar {
   width: 8px;
-  background: #0d141f;
+  background: #363453;
   border-radius: 0 8px 8px 0;
 }
 
 .select-box .options-container::-webkit-scrollbar-thumb {
-  background: #525861;
+  background: #c22a2a; 
   border-radius: 0 8px 8px 0;
-} */
+  
+}
 .select-box .option,
 .selected {
   padding: 12px 24px;
