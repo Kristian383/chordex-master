@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Songs from "./pages/Songs.vue"
-import Favorites from "./pages/Favorites.vue"
+// import Songs from "./pages/Songs.vue"
+// import Favorites from "./pages/Favorites.vue"
+
+const Favorites=()=>import("./pages/Favorites.vue")
+const Songs=()=>import("./pages/Songs.vue")
 
 const router = createRouter({
     history: createWebHistory(),

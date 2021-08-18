@@ -12,9 +12,9 @@
         <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
       </div>
     </nav>
-    <div class="home-content">
-      <div>
-        <h2 class="title">{{Title}} list</h2>
+    <div class="home-content" >
+      <div class="sort-section">
+        <h2 class="title">{{ Title }} list</h2>
         <slot name="select_box"></slot>
       </div>
       <div class="song-cards">
@@ -32,18 +32,16 @@ export default {
     sidebarIsActive() {
       // console.log("otvoreno", this.$store.getters.sidebarIsActive);
       return this.$store.getters.sidebarIsActive;
-    }, Title(){
-      return this.$route.name
-    }
+    },
+    Title() {
+      return this.$route.name;
+    },
   },
-  data(){
-    return{
-      title:"Song list"
-    }
+  data() {
+    return {
+      title: "Song list",
+    };
   },
-  // components:{
-  //   SongCard
-  // }
 };
 </script>
 
@@ -81,7 +79,7 @@ export default {
   left: 80px;
 }
 
-.filter_categories{
+.filter_categories {
   display: flex;
   max-width: 800px;
   overflow-x: auto;
@@ -132,20 +130,27 @@ nav .search-box #search:hover {
 /* Content under header */
 .home-section .home-content {
   position: relative;
-  padding-top: 124px;
+  /* padding-top: 124px; */
+  padding-top: 100px;
+
   /* max-width: 1400px; */
   margin: 0 auto;
   padding-left: 15px;
   padding-right: 15px;
 }
 
-.title{
-  position: absolute;
-   top: 104px;
-   transform: translateX(-50%);
+.sort-section {
+  /* position: absolute;
+  top: 104px;
+  transform: translateX(-50%);
 
-  left: 50%;
+  left: 50%; */
+  display: flex;
+  justify-content: space-around;
+  gap: 14px;
+  align-items: center;
 }
+
 /* list of all songs - song-cards  */
 .home-section .song-cards {
   /* display: flex;

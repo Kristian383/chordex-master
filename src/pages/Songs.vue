@@ -57,16 +57,36 @@ export default {
         medium: false,
         hard: false,
       },
-      
+      page:1
     };
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    
-    
+    loadMoreSongs(){
+      //fetch more songs
+      // let response=await axios("htp://www.wdasd.com/+this.page")
+      console.log("load more songs");
+    }
   },
+  mounted(){
+    window.addEventListener("scroll",()=>{
+      let scrollTop=document.documentElement.scrollTop;
+      let scrollHeight=document.documentElement.scrollHeight;  //koliiko smo scrollali
+      let clientHeight=document.documentElement.clientHeight;
+
+      if(scrollTop+clientHeight>=scrollHeight-10){
+        //time to load more song cards
+        this.page++;
+        this.loadMoreSongs;
+      }
+      // console.log("top",scrollTop);
+      // console.log("scrol height",scrollHeight);
+      // console.log("height",clientHeight);
+    })
+  },
+  
 };
 </script>
 

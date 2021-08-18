@@ -57,10 +57,8 @@ export default {
   display: flex;
   width: 180px;
   flex-direction: column;
-  position: absolute;
+  position: relative;
   z-index: 20;
-  top: 90px;
-  right: 55px;
 }
 .select-box .options-container {
   background: #11101d;
@@ -70,9 +68,12 @@ export default {
   opacity: 0;
   transition: all 0.4s;
   border-radius: 4px;
-
   overflow: hidden;
   order: 1;
+  
+  
+  position: absolute;
+
 }
 .selected {
   background: #11101d;
@@ -100,7 +101,9 @@ export default {
   opacity: 1;
   max-height: 210px;
   overflow-y: scroll;
-  
+
+  position: absolute;
+  top: 50px;
 }
 .select-box .options-container.active + .selected:before {
   top: 18px;
@@ -113,9 +116,8 @@ export default {
 }
 
 .select-box .options-container::-webkit-scrollbar-thumb {
-  background: #c22a2a; 
+  background: #c22a2a;
   border-radius: 0 8px 8px 0;
-  
 }
 .select-box .option,
 .selected {
