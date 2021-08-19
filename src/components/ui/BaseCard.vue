@@ -2,6 +2,7 @@
   <section
     class="home-section"
     :class="{ expand_home_section: !sidebarIsActive }"
+    ref="home"
   >
     <nav>
       <div class="filter_categories">
@@ -51,6 +52,8 @@ export default {
 .home-section {
   position: relative;
   background: #f5f5f5;
+  /* background: #161B22; */
+  
   min-height: 100vh;
   transition: all 0.5s ease;
   width: calc(100% - 240px);
@@ -67,6 +70,7 @@ export default {
   justify-content: space-between;
   height: 80px;
   background: #fff;
+  /* background: #161B22; */
   align-items: center;
   position: fixed;
   width: calc(100% - 240px);

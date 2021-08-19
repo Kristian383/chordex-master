@@ -152,9 +152,11 @@ export default {
 <style scoped>
 .song-detail {
   /* min-height: 95vh; */
+  
   background-color: #fff;
-  /* border: solid 2px black;
-  position: relative;  */
+  color: rgba(0, 0, 0, 0.85);
+  /* background-color: #0D1117; 
+  color: #c9d1d9; */
   padding: 8px;
   display: grid;
   gap: 10px;
@@ -164,10 +166,13 @@ export default {
   border-radius: 6px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  font-size: 21px;
+  font-family:  Arial, sans-serif !important;
+  font-size: 18px;
 
-  color: rgba(0, 0, 0, 0.85);
-  font-family: proxima-nova, Helvetica Neue, Arial, sans-serif !important;
+  /* border: solid 2px black;
+  position: relative;  */
+  /* font-size: 21px; */
+
 }
 
 .song-detail svg {
@@ -182,8 +187,7 @@ export default {
 }
 .box.notebook {
   grid-column: 1/3;
-  /* background-color: #11101d;
-  color: #f1f1f1; */
+  
   font-weight: 400;
   line-height: 1.5em;
 }

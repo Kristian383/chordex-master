@@ -1,6 +1,6 @@
 <template>
-  <div  class="sidebar" v-bind:class="isOpen ? 'active' : ''">
-    <div class="logo_content" >
+  <div class="sidebar" v-bind:class="isOpen ? 'active' : ''">
+    <div class="logo_content">
       <div class="logo">
         <img src="./../../assets/music.png" alt="" />
         <div class="logo_name">Chodex</div>
@@ -20,29 +20,35 @@
         <input type="text" placeholder="Search..." v-model="searchText" />
         <span class="tooltip">Search</span>
       </li>-->
-      <li> 
-        <router-link to="/songs" v-bind:class="{ 'active_item': $route.path == '/songs' }" >
+      <li>
+        <router-link
+          to="/songs"
+          v-bind:class="{ active_item: $route.path == '/songs' }"
+        >
           <font-awesome-icon id="ikona" icon="music"></font-awesome-icon>
           <span class="links_name">Songs</span>
           <span class="tooltip">Songs</span>
         </router-link>
       </li>
       <li>
-        <router-link to="/favorites" v-bind:class="{ 'active_item': $route.path == '/favorites' }">
+        <router-link
+          to="/favorites"
+          v-bind:class="{ active_item: $route.path == '/favorites' }"
+        >
           <font-awesome-icon id="ikona" icon="heart"></font-awesome-icon>
           <span class="links_name">Favorites</span>
           <span class="tooltip">Favorites</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
+        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
           <span class="links_name">Artists</span>
           <span class="tooltip">Artists</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
+        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="guitar"></font-awesome-icon>
           <span class="links_name">Guitar Type</span>
           <span class="tooltip">Guitar Type</span>
@@ -50,46 +56,59 @@
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }" >
-          <font-awesome-icon id="ikona" class="new_song"  icon="plus-square"></font-awesome-icon>
+        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+          <font-awesome-icon
+            id="ikona"
+            class="new_song"
+            icon="plus-square"
+          ></font-awesome-icon>
           <span class="links_name">Add New Song</span>
           <span class="tooltip">Add New Song</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
+        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="thumbtack"></font-awesome-icon>
           <span class="links_name">Songs To Learn</span>
           <span class="tooltip">Songs To Learn</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="clipboard-list"></font-awesome-icon>
+        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+          <font-awesome-icon
+            id="ikona"
+            icon="clipboard-list"
+          ></font-awesome-icon>
           <span class="links_name">My Songs</span>
           <span class="tooltip">My Songs</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
+        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="headphones"></font-awesome-icon>
           <span class="links_name">Backing tracks</span>
           <span class="tooltip">Backing tracks</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="question-circle"></font-awesome-icon>
+        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+          <font-awesome-icon
+            id="ikona"
+            icon="question-circle"
+          ></font-awesome-icon>
           <span class="links_name">Find chords </span>
           <span class="tooltip">Find chords</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="question-circle"></font-awesome-icon>
-          <span class="links_name">Dark mode toggle </span>
-          <span class="tooltip">Find chords</span>
-        </router-link>
+        <div class="toggle-mode">
+          <input type="checkbox" @click="toggleMode" class="checkbox" id="chk" />
+          <label class="label" for="chk">
+            <font-awesome-icon  icon="moon"></font-awesome-icon>
+            <font-awesome-icon icon="sun"></font-awesome-icon>
+            <div class="ball"></div>
+          </label>
+        </div>
       </li>
     </ul>
     <div class="profile_content">
@@ -112,6 +131,7 @@ export default {
     return {
       searchText: "",
       isOpen: true,
+      bckgMode:"light"
     };
   },
   methods: {
@@ -120,11 +140,20 @@ export default {
         return;
       }
       this.isOpen = !this.isOpen;
-      this.$store.commit("toggleSidebar")
+      this.$store.commit("toggleSidebar");
     },
+    toggleMode(){
+      this.bckgMode=!this.bckgMode;
+      console.log(this.$refs);
+    }
   },
   created() {
     dom.watch();
+  },
+  computed: {
+    backgroundMode() {
+      return this.bckgMode 
+    }
   },
 };
 </script>
@@ -134,6 +163,8 @@ export default {
   height: 100%;
   width: 80px;
   background: #11101d;
+  background: #161B22; 
+  background: #0D1117; /*tamnija*/
   position: fixed;
   top: 0;
   left: 0;
@@ -142,12 +173,12 @@ export default {
   z-index: 15;
 }
 
-.active_item{
+.active_item {
   /* background-color: #e73213; */
   background: rgb(194, 42, 42);
 }
-.new_song{
-  color: #69B34C;
+.new_song {
+  color: #69b34c;
 }
 
 .sidebar.active {
@@ -201,8 +232,10 @@ export default {
   margin: 5px 0;
   /* line-height: 50px; */
 }
-.sidebar ul li a {
+.sidebar ul li a{
   color: #f1f1f1;
+
+  color: #c9d1d9;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -212,6 +245,66 @@ export default {
   padding-left: 16px;
   white-space: nowrap;
 }
+/* dark mode */
+
+.sidebar ul li .toggle-mode 
+{
+  transition: all .3s ease;
+  margin-top: 10px;
+}
+
+.sidebar.active ul li .toggle-mode {
+  display: flex;
+	align-items: center;
+  padding-top: 10px;
+  position: absolute;
+  left: 25px;
+}
+
+.sidebar ul li .toggle-mode .checkbox {
+	opacity: 0;
+	position: absolute;
+}
+
+.sidebar ul li .toggle-mode .label {
+	background-color: #292C35;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px;
+	position: relative;
+	height: 26px;
+	width: 50px;
+	transform: scale(1.5);
+}
+
+.sidebar ul li .toggle-mode .label .ball {
+	background-color: #fff;
+	border-radius: 50%;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	height: 22px;
+	width: 22px;
+	transform: translateX(0px);
+	transition: transform 0.2s linear;
+}
+
+.sidebar ul li .toggle-mode .checkbox:checked + .label .ball {
+	transform: translateX(24px);
+}
+
+.fa-moon {
+	color: #f1c40f;
+}
+
+.fa-sun {
+	color: #f39c12;
+}
+
+/*  */
 .sidebar ul li a:hover {
   color: #11101d;
   background: #f1f1f1;
@@ -283,7 +376,6 @@ export default {
   transition: 0s;
   opacity: 0;
   pointer-events: none;
- 
 }
 
 .sidebar.active ul li .tooltip {
@@ -293,7 +385,6 @@ export default {
   top: 50%;
   opacity: 1;
   transition: all 0.5s ease;
-  
 }
 
 .sidebar .profile_content {
@@ -307,7 +398,7 @@ export default {
   position: relative;
   padding: 14px 6px;
   height: 70px;
-  background-color: #1d1b31;
+  background-color: #161b22;
 }
 
 .sidebar.active .profile .profile_details {
