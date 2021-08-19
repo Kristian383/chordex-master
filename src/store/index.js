@@ -4,6 +4,7 @@ const store = createStore({
     state() {
         return {
             sidebarActive: true,
+            darkMode:false,
             allFilters: ["all", "favorites", "acoustic", "electric", "easy", "medium", "hard"],
             songs: [{ artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "easy", lastViewed: "2d ago", songId: "1" },
             { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practiced: 1, difficulty: "easy", lastViewed: "2d ago" },
@@ -26,6 +27,9 @@ const store = createStore({
         getAllFilters(state) {
             return state.allFilters;
         },
+        isDarkMode(state){
+            return state.darkMode;
+        }
 
 
     },
@@ -40,6 +44,9 @@ const store = createStore({
         //     //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
         //     //poslati kao prop
         // }
+        toggleDarkMode(state){
+            state.darkMode=!state.darkMode;
+        }
         
     }
 

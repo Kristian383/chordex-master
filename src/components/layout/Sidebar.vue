@@ -131,7 +131,6 @@ export default {
     return {
       searchText: "",
       isOpen: true,
-      bckgMode:"light"
     };
   },
   methods: {
@@ -143,18 +142,17 @@ export default {
       this.$store.commit("toggleSidebar");
     },
     toggleMode(){
-      this.bckgMode=!this.bckgMode;
-      console.log(this.$refs);
+      this.$store.commit("toggleDarkMode")
     }
   },
   created() {
     dom.watch();
   },
-  computed: {
-    backgroundMode() {
-      return this.bckgMode 
-    }
-  },
+  // computed: {
+  //   isDarkMode() {
+  //     return this.$store.isDarkMode; 
+  //   }
+  // },
 };
 </script>
 

@@ -2,7 +2,7 @@
   <section
     class="home-section"
     :class="{ expand_home_section: !sidebarIsActive }"
-    ref="home"
+    
   >
     <nav>
       <div class="filter_categories">
