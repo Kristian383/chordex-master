@@ -15,39 +15,53 @@
       </div>
       
     </div> -->
+
     <div class="song-detail">
       <div class="box song-info">
-        <div>
+        <div class="top-icons">
           <div class="go-back">
-            <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+            <font-awesome-icon  icon="arrow-left"></font-awesome-icon>
           </div>
           <div class="middle-icons">
             <font-awesome-icon
               :icon="iconName"
               :class="{ 'is-favorite': isFavorite }"
               @click="Change"
+              class="top-icon"
             ></font-awesome-icon>
-            <font-awesome-icon icon="trash-alt"></font-awesome-icon>
+            <font-awesome-icon class="top-icon" icon="trash-alt"></font-awesome-icon>
           </div>
         </div>
         <!--  -->
         <div>
-          <label for="artist">Artist</label>
-          <input type="text" />
-          <stars></stars>
+          <div>Artist: RHCP</div>
+          <!-- <label for="artist">Artist:</label>
+            <span>RHCP</span> -->
+
+          <!-- <input type="text" /> -->
+          <div class="song-info-box">
+            Learned:
+            <stars></stars>
+          </div>
         </div>
         <!--  -->
         <div>
-          <label for="song">Song</label>
-          <input type="text" />
-          <font-awesome-icon icon="search"></font-awesome-icon>
-          <font-awesome-icon icon="trash-alt"></font-awesome-icon>
+          <div>Song: Californication</div>
+          <!-- <label for="song">Song:</label> -->
+          <!-- <input type="text" /> -->
+
+          <div class="song-info-box">
+            Metronome
+            <font-awesome-icon icon="search"></font-awesome-icon>
+            <font-awesome-icon icon="trash-alt"></font-awesome-icon>
+          </div>
         </div>
-        <!--  -->
+        <!-- ovdje mora ici vfor ako ima 2 keya -->
         <div>
           <div class="key">Key: Am</div>
           <div class="chords">Chords in scale: A B C D E F G H</div>
-          <div class="tuning">Tuning:</div>
+
+          <div class="tuning">Tuning: Standard</div>
         </div>
         <!--  -->
         <div>
@@ -75,6 +89,8 @@
 
       <div class="box notebook">
         <hr />
+        <br />
+
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis nulla
         magni vel aut at rem laudantium facere harum debitis ratione, vero ipsam
         deserunt minima. Qui laborum libero repellat corrupti magni iusto
@@ -152,7 +168,7 @@ export default {
 <style scoped>
 .song-detail {
   /* min-height: 95vh; */
-  
+
   background-color: #fff;
   color: rgba(0, 0, 0, 0.85);
   /* background-color: #0D1117; 
@@ -160,76 +176,85 @@ export default {
   padding: 8px;
   display: grid;
   gap: 10px;
-  grid-template-columns: 1fr 1fr;
+  position: relative;
+  grid-template-columns: 1fr;
+
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  font-family:  Arial, sans-serif !important;
+  font-family: Arial, sans-serif !important;
   font-size: 18px;
 
   /* border: solid 2px black;
   position: relative;  */
   /* font-size: 21px; */
-
-}
-
-.song-detail svg {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.box {
-  /* color: #000; */
-  border-radius: 0 0 6px 6px;
-  padding: 15px;
-  /* background-color: #ccc; */
 }
 .box.notebook {
-  grid-column: 1/3;
-  
   font-weight: 400;
   line-height: 1.5em;
+  order: 3;
 }
-@media (max-width: 1200px) {
+.song-info {
+  width: 600px;
+  margin: auto;
+  order: 2;
+}
+
+@media (min-width: 1400px) {
   .song-detail {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
   .box.notebook {
-    grid-column: 1;
+    grid-column: 1/3;
+  }
+  .song-info {
+    margin: auto;
+    order: 1;
+  }
+  .box.video {
+    order: 2;
   }
 }
+.box {
+  border-radius: 0 0 6px 6px;
+  padding: 15px;
 
+  /* background-color: #ccc; */
+}
+.box.video {
+  text-align: center;
+  order: 1;
+}
+.song-info-box {
+  display: flex;
+  gap: 15px;
+}
 .song-info > div {
-  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  gap: 25px;
+  margin: 0 auto;
   padding-bottom: 20px;
-  height: 60px;
 }
 
-.box.video iframe {
-  height: 100%;
-}
-svg {
-  font-size: 24px;
-}
-/*  */
-.top-section {
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-}
-.top-section svg {
+ svg {
   cursor: pointer;
+  transition: all 0.3s ease;font-size: 28px;
 }
+
+ 
+
+/* .go-back {
+  position: absolute;
+  left: 10px;
+  top: -40px;
+} */
+
 
 .is-favorite {
   color: #c22a2a;
 }
-.middle-icons {
-  display: flex;
-  gap: 15px;
-}
+
 </style>
