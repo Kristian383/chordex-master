@@ -13,13 +13,14 @@
       </div>
     </nav>
     <div class="home-content" >
-      <div class="sort-section">
-        <h2 class="title">{{ Title }} list</h2>
+      <div class="sort-section-title">
+        <h2 class="title">{{ Title }} </h2>
         <slot name="select_box"></slot>
       </div>
-      <div class="song-cards" >
+      <slot></slot>
+      <!-- <div class="song-cards" >
         <slot name="song_cards" ></slot>
-      </div>
+      </div> -->
       <!-- ovdje ide poseban div za artists i poseban za favorites  -->
     </div>
   </section>
@@ -34,12 +35,13 @@ export default {
       return this.$store.getters.sidebarIsActive;
     },
     Title() {
+      //staviti if route name zavrsava na /songs/broj onda dohvatiti iz vuexa song name
       return this.$route.name;
     },
   },
   data() {
     return {
-      title: "Song list",
+      title: "",
     };
   },
 };
@@ -139,7 +141,7 @@ nav .search-box #search:hover {
   padding-right: 15px;
 }
 
-.sort-section {
+.sort-section-title {
   /* position: absolute;
   top: 104px;
   transform: translateX(-50%);
@@ -149,8 +151,11 @@ nav .search-box #search:hover {
   justify-content: space-around;
   gap: 14px;
   align-items: center;
+  margin-bottom: 8px;
 }
-
+.sort-section-title h2{
+  padding-top: 8px;
+}
 /* list of all songs - song-cards  */
 .home-section .song-cards {
   /* display: flex;

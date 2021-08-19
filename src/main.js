@@ -3,8 +3,10 @@ import App from './App.vue'
 import router from "./router.js"
 import store from "./store/index.js"
 
+import { faHeart as HeartRegular } from "@fortawesome/free-regular-svg-icons"
+
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBars, faPenSquare, faEye, faSearch, faMusic, faSignOutAlt,faHeart,faUserAlt,faGuitar,faPlusSquare,faEdit,faStar, faHistory,faClipboard ,faClipboardList, faQuestionCircle, faThumbtack, faPlayCircle, faHeadphones,  faVolumeUp} from '@fortawesome/free-solid-svg-icons'
+import { faBars, faPenSquare, faEye, faSearch, faMusic, faSignOutAlt, faUserAlt, faGuitar, faPlusSquare, faEdit, faStar, faHistory, faClipboard, faClipboardList, faQuestionCircle, faThumbtack, faPlayCircle, faHeadphones, faHeart, faVolumeUp, faArrowLeft, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // import {  } from '@fortawesome/free-solid-svg-icons'
 
@@ -13,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 //library.add(fas)
 
 
-library.add(faBars, faEye, faSearch, faPenSquare, faMusic, faSignOutAlt,faHeart,faUserAlt,faGuitar,faPlusSquare,faEdit,faStar,faHistory,faClipboard,faClipboardList,faQuestionCircle,faThumbtack,faPlayCircle,faHeadphones,faVolumeUp)
+library.add(faBars, faEye, faSearch, faPenSquare, faMusic, faSignOutAlt, faHeart, faUserAlt, faGuitar, faPlusSquare, faEdit, faStar, faHistory, faClipboard, faClipboardList, faQuestionCircle, faThumbtack, faPlayCircle, faHeadphones, faVolumeUp, faArrowLeft, faTrashAlt, HeartRegular)
 //zasad nekoristim play, volume up
 const app = createApp(App);
 

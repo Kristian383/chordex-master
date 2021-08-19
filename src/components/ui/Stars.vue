@@ -20,7 +20,8 @@ export default {};
 
 <style scoped>
 .rating {
-  width: 100%;
+  
+  /* width: 100%; */
   text-align: center;
   font-size: 25px;
   overflow: hidden;

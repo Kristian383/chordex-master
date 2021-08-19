@@ -12,14 +12,22 @@
         :activeFilters="getActiveFilters"
       ></filters>
     </template>
-    <template v-slot:song_cards>
+    <!-- saong list -->
+    <div class="song-cards">
       <song-card 
         v-for="song in AllSongs"
         :key="song.id"
         :song="song"
       ></song-card>
-      <div class="cover">&nbsp;</div>
-    </template>
+    </div>
+    <!-- <template v-slot:song_cards>
+      <song-card 
+        v-for="song in AllSongs"
+        :key="song.id"
+        :song="song"
+      ></song-card>
+    </template> -->
+      <!-- <div class="cover">&nbsp;</div> -->
   </base-card>
 </template>
 
@@ -77,7 +85,7 @@ export default {
         {
           //fetch call
           // loadMoreSongs()
-          console.log("intersecting");
+          // console.log("intersecting");
           entry.target.classList.add("active");
           // observer.unobserve(entry.target)
         }
@@ -106,6 +114,17 @@ export default {
 </script>
 
 <style scoped>
+.song-cards {
+  /* display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px; */
+  padding-top: 10px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, 180px);
+  justify-content: center;
+}
 /* .cover{
   position: fixed;
   top: 100px;

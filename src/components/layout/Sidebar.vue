@@ -84,6 +84,13 @@
           <span class="tooltip">Find chords</span>
         </router-link>
       </li>
+      <li>
+        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
+          <font-awesome-icon id="ikona" icon="question-circle"></font-awesome-icon>
+          <span class="links_name">Dark mode toggle </span>
+          <span class="tooltip">Find chords</span>
+        </router-link>
+      </li>
     </ul>
     <div class="profile_content">
       <div class="profile">
