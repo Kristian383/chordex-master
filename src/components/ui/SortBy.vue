@@ -1,5 +1,5 @@
 <template>
-  <div class="select-box">
+  <div class="select-box" >
     <div class="options-container" :class="{ active: sortIsActive }">
       <div class="option" @click="changeSortOption('newest')">
         <input type="radio" id="recently" class="radio" name="category" />

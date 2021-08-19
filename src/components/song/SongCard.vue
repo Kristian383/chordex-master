@@ -1,6 +1,6 @@
 <template>
-  <div class="card" @click="Ispis">
-    <div class="card-header">
+  <div class="card" @click="Ispis" >
+    <div class="card-header" >
       <img :src="song.imageUrl" alt="Artist photo" />
       <div class="icons">
         <div class="icon" id="edit" @click.stop="openEditMode">
@@ -44,8 +44,10 @@ export default {
   name: "SongCard",
   props: ["song"],
   methods: {
-    Ispis(e) {
-      console.log("stisak", e.target);
+    Ispis() {
+      // console.log("stisak", e.target);
+      this.$router.push("/songs/"+this.song.songId)
+
       // if (e.target.id == "favorite") {
       //   console.log("favorit trebamo toggle");
       //   //dispatch setInFavorites preko id propsa
@@ -110,12 +112,16 @@ export default {
   /* color: #303030; */
   color: #29264c;
   transition: 0.5s ease all;
+  transform: translateY(10%);
 }
 .card:hover {
   cursor: pointer;
   transform: rotateZ(-1deg) scale(1.01);
 }
-
+.card.active{
+  opacity: 1;
+  transform: translateY(0);
+}
 .card-header img {
   width: 100%;
   height: 100px;
@@ -251,4 +257,6 @@ export default {
   flex-direction: row;
   gap: 4px;
 }
+
+
 </style>

@@ -4,7 +4,7 @@ import router from "./router.js"
 import store from "./store/index.js"
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBars, faPenSquare, faEye, faSearch, faMusic, faSignOutAlt,faHeart,faUserAlt,faGuitar,faPlusSquare,faEdit,faStar, faHistory } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faPenSquare, faEye, faSearch, faMusic, faSignOutAlt,faHeart,faUserAlt,faGuitar,faPlusSquare,faEdit,faStar, faHistory,faClipboard ,faClipboardList, faQuestionCircle, faThumbtack, faPlayCircle, faHeadphones,  faVolumeUp} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // import {  } from '@fortawesome/free-solid-svg-icons'
 
@@ -13,8 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 //library.add(fas)
 
 
-library.add(faBars, faEye, faSearch, faPenSquare, faMusic, faSignOutAlt,faHeart,faUserAlt,faGuitar,faPlusSquare,faEdit,faStar,faHistory)
-
+library.add(faBars, faEye, faSearch, faPenSquare, faMusic, faSignOutAlt,faHeart,faUserAlt,faGuitar,faPlusSquare,faEdit,faStar,faHistory,faClipboard,faClipboardList,faQuestionCircle,faThumbtack,faPlayCircle,faHeadphones,faVolumeUp)
+//zasad nekoristim play, volume up
 const app = createApp(App);
 
 app.component('font-awesome-icon', FontAwesomeIcon)

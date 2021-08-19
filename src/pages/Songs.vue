@@ -13,11 +13,12 @@
       ></filters>
     </template>
     <template v-slot:song_cards>
-      <song-card
+      <song-card 
         v-for="song in AllSongs"
         :key="song.id"
         :song="song"
       ></song-card>
+      <div class="cover">&nbsp;</div>
     </template>
   </base-card>
 </template>
@@ -31,7 +32,8 @@ export default {
   components: {
     Filters,
     SongCard,
-    BaseCard,SortBy
+    BaseCard,
+    SortBy,
   },
   computed: {
     AllSongs() {
@@ -57,40 +59,61 @@ export default {
         medium: false,
         hard: false,
       },
-      page:1
+      // page: 1,
     };
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    loadMoreSongs(){
-      //fetch more songs
-      // let response=await axios("htp://www.wdasd.com/+this.page")
-      console.log("load more songs");
+    // loadMoreSongs() {
+    //   //fetch more songs
+    //   // let response=await axios("htp://www.wdasd.com/+this.page")
+    //   console.log("load more songs");
+    // },
+    beTouching(entries) {
+      entries.forEach(entry => {
+        if(entry.isIntersecting)
+        {
+          //fetch call
+          // loadMoreSongs()
+          console.log("intersecting");
+          entry.target.classList.add("active");
+          // observer.unobserve(entry.target)
+        }
+        // else{
+        //   entry.target.classList.remove("active")
+        // }
+      });
     }
   },
-  mounted(){
-    window.addEventListener("scroll",()=>{
-      let scrollTop=document.documentElement.scrollTop;
-      let scrollHeight=document.documentElement.scrollHeight;  //koliiko smo scrollali
-      let clientHeight=document.documentElement.clientHeight;
-
-      if(scrollTop+clientHeight>=scrollHeight-10){
-        //time to load more song cards
-        this.page++;
-        this.loadMoreSongs;
-      }
-      // console.log("top",scrollTop);
-      // console.log("scrol height",scrollHeight);
-      // console.log("height",clientHeight);
+  mounted() {
+    let options = {
+      root: null,
+      rootMargin: "-100px 0px",
+      threshold: 0.05,
+    };
+    let observer = new IntersectionObserver(this.beTouching, options);
+    
+    document.querySelectorAll(".card").forEach(c=>{
+      observer.observe(c)
+      // console.log("card",c);
     })
+    //initial load of data
+    // loadMoreSongs()
   },
-  
 };
 </script>
 
 <style scoped>
+/* .cover{
+  position: fixed;
+  top: 100px;
+  right: 0;
+  bottom: 100px;
+  left: 0;
+  background-color: rgba(240, 216, 176, 0.5);
+} */
 /* .select_wrap {
   display: flex;
   width: 200px;
@@ -165,5 +188,4 @@ export default {
 } */
 
 /*  */
-
 </style>

@@ -34,6 +34,12 @@ const store = createStore({
         toggleSidebar(state) {
             state.sidebarActive = !state.sidebarActive;
         },
+        // loadMoreSongs(state,payload){
+        //     //dohvatiti podatke carda i pushati u songs array
+        //posto imamo u songs computed za getAllSongs mozda netreba nista dalje
+        //     //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
+        //     //poslati kao prop
+        // }
         
     }
 

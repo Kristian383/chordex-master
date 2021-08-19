@@ -7,7 +7,7 @@
       <div class="filter_categories">
         <slot name="filters"></slot>
       </div>
-      <div class="search-box">
+      <div class="search-box" >
         <input type="text" placeholder="Search..." />
         <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
       </div>
@@ -17,8 +17,8 @@
         <h2 class="title">{{ Title }} list</h2>
         <slot name="select_box"></slot>
       </div>
-      <div class="song-cards">
-        <slot name="song_cards"></slot>
+      <div class="song-cards" >
+        <slot name="song_cards" ></slot>
       </div>
       <!-- ovdje ide poseban div za artists i poseban za favorites  -->
     </div>

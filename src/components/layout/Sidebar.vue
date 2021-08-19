@@ -1,6 +1,6 @@
 <template>
-  <div class="sidebar" v-bind:class="isOpen ? 'active' : ''">
-    <div class="logo_content">
+  <div  class="sidebar" v-bind:class="isOpen ? 'active' : ''">
+    <div class="logo_content" >
       <div class="logo">
         <img src="./../../assets/music.png" alt="" />
         <div class="logo_name">Chodex</div>
@@ -58,16 +58,30 @@
       </li>
       <li>
         <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="eye"></font-awesome-icon>
+          <font-awesome-icon id="ikona" icon="thumbtack"></font-awesome-icon>
           <span class="links_name">Songs To Learn</span>
           <span class="tooltip">Songs To Learn</span>
         </router-link>
       </li>
       <li>
         <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="eye"></font-awesome-icon>
+          <font-awesome-icon id="ikona" icon="clipboard-list"></font-awesome-icon>
           <span class="links_name">My Songs</span>
           <span class="tooltip">My Songs</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
+          <font-awesome-icon id="ikona" icon="headphones"></font-awesome-icon>
+          <span class="links_name">Backing tracks</span>
+          <span class="tooltip">Backing tracks</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="#" v-bind:class="{ 'active_item': $route.path == '/' }">
+          <font-awesome-icon id="ikona" icon="question-circle"></font-awesome-icon>
+          <span class="links_name">Find chords </span>
+          <span class="tooltip">Find chords</span>
         </router-link>
       </li>
     </ul>
