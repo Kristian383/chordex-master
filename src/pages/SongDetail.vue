@@ -62,11 +62,46 @@
         </div>
       </div>
       <div class="box video">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/9YffrCViTVk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/9YffrCViTVk"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
+
       <div class="box notebook">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis nulla magni vel aut at rem laudantium facere harum debitis ratione, vero ipsam deserunt minima. Qui laborum libero repellat corrupti magni iusto voluptatibus voluptatem aliquid perspiciatis neque culpa a, vero, fuga, praesentium cupiditate enim eius molestiae sed maiores veritatis! Eligendi, qui iusto distinctio aperiam corrupti voluptate deleniti similique dignissimos doloribus illum. Tenetur dolor odit at provident nihil culpa voluptate reprehenderit obcaecati vitae numquam laborum enim, molestiae, eligendi voluptates dicta praesentium corrupti est deleniti, perferendis recusandae? Praesentium velit magni cum dolorum similiq
-        nrue, itaque, odit quibusdam quidem saepe eum consequuntur. Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem excepturi eligendi fuga earum iure! Hic tempora consequuntur deleniti officiis id atque recusandae repellat dicta laboriosam quibusdam, illum nobis odit voluptatibus. Eaque eligendi soluta sint assumenda ullam fuga cupiditate veniam vitae alias. Error quis reiciendis nihil optio quo, voluptas magnam labore repellendus, ducimus ipsum culpa fugit sapiente placeat vel harum, corporis consequatur amet alias enim fuga nam cumque non nisi delectus. Iusto a saepe esse quos pariatur odio non magnam nobis unde debitis aperiam sequi error ex adipisci vitae exercitationem maxime tempora, aut officia? Enim odio cumque voluptatem atque totam praesentium, officia soluta ea temporibus, at expedita excepturi architecto perspiciatis amet porro error cum repellendus numquam velit esse debitis repudiandae aperiam ut laborum? Doloremque neque deleniti sunt odit quos ea nisi accusantium quasi mollitia quaerat sint impedit asperiores recusandae cum excepturi assumenda magni repudiandae, laborum facilis saepe. Facere quis aspernatur aut officia dolore.
+        <hr />
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis nulla
+        magni vel aut at rem laudantium facere harum debitis ratione, vero ipsam
+        deserunt minima. Qui laborum libero repellat corrupti magni iusto
+        voluptatibus voluptatem aliquid perspiciatis neque culpa a, vero, fuga,
+        praesentium cupiditate enim eius molestiae sed maiores veritatis!
+        Eligendi, qui iusto distinctio aperiam corrupti voluptate deleniti
+        similique dignissimos doloribus illum. Tenetur dolor odit at provident
+        nihil culpa voluptate reprehenderit obcaecati vitae numquam laborum
+        enim, molestiae, eligendi voluptates dicta praesentium corrupti est
+        deleniti, perferendis recusandae? Praesentium velit magni cum dolorum
+        similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
+        Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
+        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleniti
+        officiis id atque recusandae repellat dicta laboriosam quibusdam, illum
+        nobis odit voluptatibus. Eaque eligendi soluta sint assumenda ullam fuga
+        cupiditate veniam vitae alias. Error quis reiciendis nihil optio quo,
+        voluptas magnam labore repellendus, ducimus ipsum culpa fugit sapiente
+        placeat vel harum, corporis consequatur amet alias enim fuga nam cumque
+        non nisi delectus. Iusto a saepe esse quos pariatur odio non magnam
+        nobis unde debitis aperiam sequi error ex adipisci vitae exercitationem
+        maxime tempora, aut officia? Enim odio cumque voluptatem atque totam
+        praesentium, officia soluta ea temporibus, at expedita excepturi
+        architecto perspiciatis amet porro error cum repellendus numquam velit
+        esse debitis repudiandae aperiam ut laborum? Doloremque neque deleniti
+        sunt odit quos ea nisi accusantium quasi mollitia quaerat sint impedit
+        asperiores recusandae cum excepturi assumenda magni repudiandae, laborum
+        facilis saepe. Facere quis aspernatur aut officia dolore.
       </div>
     </div>
   </base-card>
@@ -117,7 +152,7 @@ export default {
 <style scoped>
 .song-detail {
   /* min-height: 95vh; */
-   background-color: #fff;
+  background-color: #fff;
   /* border: solid 2px black;
   position: relative;  */
   padding: 8px;
@@ -129,26 +164,28 @@ export default {
   border-radius: 6px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    font-size: 18px;
+  font-size: 21px;
+
+  color: rgba(0, 0, 0, 0.85);
+  font-family: proxima-nova, Helvetica Neue, Arial, sans-serif !important;
 }
 
-.song-detail svg{
+.song-detail svg {
   cursor: pointer;
-  transition: all .3s ease ;
+  transition: all 0.3s ease;
 }
 .box {
-  color: #000;
+  /* color: #000; */
   border-radius: 0 0 6px 6px;
   padding: 15px;
-  background-color: #ccc;
+  /* background-color: #ccc; */
 }
 .box.notebook {
   grid-column: 1/3;
   /* background-color: #11101d;
   color: #f1f1f1; */
-  font-weight: 500;
-  line-height: 28px;
-  
+  font-weight: 400;
+  line-height: 1.5em;
 }
 @media (max-width: 1200px) {
   .song-detail {
@@ -168,10 +205,10 @@ export default {
   height: 60px;
 }
 
-.box.video iframe{
- height: 100%;
+.box.video iframe {
+  height: 100%;
 }
-svg{
+svg {
   font-size: 24px;
 }
 /*  */
