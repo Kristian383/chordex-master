@@ -20,7 +20,7 @@
       <div class="box song-info">
         <div class="top-icons">
           <div class="go-back">
-            <font-awesome-icon  icon="arrow-left"></font-awesome-icon>
+            <font-awesome-icon icon="arrow-left"></font-awesome-icon>
           </div>
           <div class="middle-icons">
             <font-awesome-icon
@@ -29,7 +29,10 @@
               @click="Change"
               class="top-icon"
             ></font-awesome-icon>
-            <font-awesome-icon class="top-icon" icon="trash-alt"></font-awesome-icon>
+            <font-awesome-icon
+              class="top-icon"
+              icon="trash-alt"
+            ></font-awesome-icon>
           </div>
         </div>
         <!--  -->
@@ -239,22 +242,38 @@ export default {
   padding-bottom: 20px;
 }
 
- svg {
+svg {
   cursor: pointer;
-  transition: all 0.3s ease;font-size: 28px;
+  transition: all 0.3s ease;
+  font-size: 28px;
 }
 
- 
-
-/* .go-back {
+.go-back {
   position: absolute;
-  left: 10px;
-  top: -40px;
-} */
-
+  left: 5px;
+  top: -45px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.go-back:hover {
+  background-color: #f1f1f1;
+}
 
 .is-favorite {
   color: #c22a2a;
+}
+
+.middle-icons {
+  position: relative;
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
 }
 
 </style>
