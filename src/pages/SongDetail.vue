@@ -78,6 +78,7 @@
         </div>
         <!--  -->
         <div>
+          <div class="genre">Genre: Rock</div>
           <div class="link">Link: <a href="#">www.google.com</a></div>
           <div class="upload"><button>Upload pdf</button></div>
         </div>
@@ -132,25 +133,28 @@ export default {
     return {
       id: null,
       title: "",
-      isFavorite: false,
+      isFavorite: null,
+      songData: null,
     };
   },
   mounted() {
     // this.id = this.$route.params.songId;
     this.id = this.songId;
-   
+
     const songData = this.$store.getters.getAllSongs.find(
       (song) => song.songId == this.id
     );
     if (songData) {
       this.songData = songData;
-    }else{
-      this.$router.push('notFound')
+      this.isFavorite=songData.isFavorite;
+    } else {
+      this.$router.push("notFound");
     }
   },
   methods: {
     ToggleFavorite() {
-      this.isFavorite = !this.isFavorite;
+       this.isFavorite = !this.isFavorite;
+      this.$store.commit("toggleFavorite", this.id);
     },
   },
   computed: {
@@ -160,6 +164,7 @@ export default {
       }
       return "heart";
     },
+    
   },
 };
 </script>

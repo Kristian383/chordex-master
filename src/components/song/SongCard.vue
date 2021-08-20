@@ -58,6 +58,7 @@ export default {
       // }
     },
     toggleFavorite(e) {
+      this.$store.commit("toggleFavorite",this.song.songId)
       console.log("favorit", e.target);
     },
     openEditMode(e) {
@@ -112,7 +113,7 @@ export default {
   /* color: #303030; */
   color: #29264c;
   transition: 0.5s ease all;
-  transform: translateY(10%);
+  /* transform: translateY(10%); */
 }
 .card:hover {
   cursor: pointer;

@@ -35,7 +35,7 @@
           to="/favorites"
           v-bind:class="{ active_item: $route.path == '/favorites' }"
         >
-          <font-awesome-icon id="ikona" icon="heart"></font-awesome-icon>
+          <font-awesome-icon class="favorite" id="ikona" icon="heart"></font-awesome-icon>
           <span class="links_name">Favorites</span>
           <span class="tooltip">Favorites</span>
         </router-link>
@@ -52,7 +52,7 @@
           <font-awesome-icon id="ikona" icon="guitar"></font-awesome-icon>
           <span class="links_name">Guitar Type</span>
           <span class="tooltip">Guitar Type</span>
-          <!-- Neka ovo bude mali dropdown -->
+          <!-- Neka ovo bude mali dropdown  sa acoustic i electric-->
         </router-link>
       </li>
       <li>
@@ -157,6 +157,9 @@ export default {
 </script>
 
 <style scoped>
+.favorite{
+  color: #c22a2a;
+}
 .sidebar {
   height: 100%;
   width: 80px;
