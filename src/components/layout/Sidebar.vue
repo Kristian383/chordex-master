@@ -3,7 +3,7 @@
     <div class="logo_content">
       <div class="logo">
         <img src="./../../assets/music.png" alt="" />
-        <div class="logo_name">Chodex</div>
+        <div class="logo_name">Chordex</div>
       </div>
       <div @click="toggleSidebar">
         <i class="fas fa-bars" id="btn"></i>
@@ -41,14 +41,14 @@
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+        <router-link to="/artists" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
           <span class="links_name">Artists</span>
           <span class="tooltip">Artists</span>
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+        <router-link to="/" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="guitar"></font-awesome-icon>
           <span class="links_name">Guitar Type</span>
           <span class="tooltip">Guitar Type</span>

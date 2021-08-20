@@ -23,13 +23,12 @@
             <router-link to="/songs">
               <font-awesome-icon icon="arrow-left"></font-awesome-icon>
             </router-link>
-              
           </div>
           <div class="middle-icons">
             <font-awesome-icon
               :icon="iconName"
               :class="{ 'is-favorite': isFavorite }"
-              @click="Change"
+              @click="ToggleFavorite"
               class="top-icon"
             ></font-awesome-icon>
             <font-awesome-icon
@@ -52,13 +51,16 @@
         </div>
         <!--  -->
         <div>
-          <div class="song-name">Song: Californication </div>
+          <div class="song-name">Song: Californication</div>
           <!-- <label for="song">Song:</label> -->
           <!-- <input type="text" /> -->
 
           <div class="song-info-box">
             BPM: 84
-            <font-awesome-icon class="metronome" icon="play-circle"></font-awesome-icon>
+            <font-awesome-icon
+              class="metronome"
+              icon="play-circle"
+            ></font-awesome-icon>
           </div>
         </div>
         <!-- ovdje mora ici vfor ako ima 2 keya -->
@@ -71,7 +73,7 @@
         <!--  -->
         <div>
           <div class="capo">Capo: Yes</div>
-          <div class="guitar">Chord progression: 1 4 5 </div>
+          <div class="guitar">Chord progression: 1 4 5</div>
           <div class="guitar">Guitar type: Electric</div>
         </div>
         <!--  -->
@@ -95,34 +97,21 @@
       <div class="box notebook">
         <hr />
         <br />
+        <pre>
+ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis 
 
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis nulla
-        magni vel aut at rem laudantium facere harum debitis ratione, vero ipsam
-        deserunt minima. Qui laborum libero repellat corrupti magni iusto
-        voluptatibus voluptatem aliquid perspiciatis neque culpa a, vero, fuga,
-        praesentium cupiditate enim eius molestiae sed maiores veritatis!
         Eligendi, qui iusto distinctio aperiam corrupti voluptate deleniti
-        similique dignissimos doloribus illum. Tenetur dolor odit at provident
+        similique dignissimos doloribus illum. Tenetur dolor odit at providentddddddddddddddddddddddddddddddddddddddd dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
         nihil culpa voluptate reprehenderit obcaecati vitae numquam laborum
         enim, molestiae, eligendi voluptates dicta praesentium corrupti est
-        deleniti, perferendis recusandae? Praesentium velit magni cum dolorum
+        deleniti, perferendis recusandae
+        
+        
+        ? Praesentium velit magni cum dolorum
         similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
         Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
-        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleniti
-        officiis id atque recusandae repellat dicta laboriosam quibusdam, illum
-        nobis odit voluptatibus. Eaque eligendi soluta sint assumenda ullam fuga
-        cupiditate veniam vitae alias. Error quis reiciendis nihil optio quo,
-        voluptas magnam labore repellendus, ducimus ipsum culpa fugit sapiente
-        placeat vel harum, corporis consequatur amet alias enim fuga nam cumque
-        non nisi delectus. Iusto a saepe esse quos pariatur odio non magnam
-        nobis unde debitis aperiam sequi error ex adipisci vitae exercitationem
-        maxime tempora, aut officia? Enim odio cumque voluptatem atque totam
-        praesentium, officia soluta ea temporibus, at expedita excepturi
-        architecto perspiciatis amet porro error cum repellendus numquam velit
-        esse debitis repudiandae aperiam ut laborum? Doloremque neque deleniti
-        sunt odit quos ea nisi accusantium quasi mollitia quaerat sint impedit
-        asperiores recusandae cum excepturi assumenda magni repudiandae, laborum
-        facilis saepe. Facere quis aspernatur aut officia dolore.
+        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleni
+        </pre>
       </div>
     </div>
   </base-card>
@@ -131,12 +120,14 @@
 <script>
 import Stars from "./../components/ui/Stars.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
+
 export default {
   name: "SongDetail",
   components: {
     BaseCard,
     Stars,
   },
+  props: ["songId"],
   data() {
     return {
       id: null,
@@ -145,17 +136,20 @@ export default {
     };
   },
   mounted() {
-    this.id = this.$route.params.songId;
-
+    // this.id = this.$route.params.songId;
+    this.id = this.songId;
+   
     const songData = this.$store.getters.getAllSongs.find(
-      (song) => song.id == this.id
+      (song) => song.songId == this.id
     );
     if (songData) {
       this.songData = songData;
+    }else{
+      this.$router.push('notFound')
     }
   },
   methods: {
-    Change() {
+    ToggleFavorite() {
       this.isFavorite = !this.isFavorite;
     },
   },
@@ -183,7 +177,7 @@ export default {
   gap: 10px;
   position: relative;
   grid-template-columns: 1fr;
-  
+
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
@@ -201,11 +195,19 @@ export default {
   line-height: 1.5em;
   order: 3;
 }
+pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
+}
+
 .song-info {
   width: 600px;
   margin: auto;
   order: 2;
- overflow: hidden; 
+  overflow: hidden;
 }
 
 @media (min-width: 1400px) {
@@ -266,9 +268,8 @@ svg {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  
 }
-.go-back a{
+.go-back a {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.85);
 }
@@ -285,8 +286,5 @@ svg {
   display: flex;
   width: 600px;
   justify-content: space-between;
-}
-
-.metronome{
 }
 </style>
