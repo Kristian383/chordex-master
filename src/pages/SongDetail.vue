@@ -20,7 +20,10 @@
       <div class="box song-info">
         <div class="top-icons">
           <div class="go-back">
-            <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+            <router-link to="/songs">
+              <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+            </router-link>
+              
           </div>
           <div class="middle-icons">
             <font-awesome-icon
@@ -49,14 +52,13 @@
         </div>
         <!--  -->
         <div>
-          <div>Song: Californication</div>
+          <div class="song-name">Song: Californication </div>
           <!-- <label for="song">Song:</label> -->
           <!-- <input type="text" /> -->
 
           <div class="song-info-box">
-            Metronome
-            <font-awesome-icon icon="search"></font-awesome-icon>
-            <font-awesome-icon icon="trash-alt"></font-awesome-icon>
+            BPM: 84
+            <font-awesome-icon class="metronome" icon="play-circle"></font-awesome-icon>
           </div>
         </div>
         <!-- ovdje mora ici vfor ako ima 2 keya -->
@@ -69,12 +71,12 @@
         <!--  -->
         <div>
           <div class="capo">Capo: Yes</div>
-          <div class="guitar">Chord progression: 1 4 5</div>
+          <div class="guitar">Chord progression: 1 4 5 </div>
           <div class="guitar">Guitar type: Electric</div>
         </div>
         <!--  -->
         <div>
-          <div class="link">Link: www.google.com</div>
+          <div class="link">Link: <a href="#">www.google.com</a></div>
           <div class="upload"><button>Upload pdf</button></div>
         </div>
       </div>
@@ -181,7 +183,7 @@ export default {
   gap: 10px;
   position: relative;
   grid-template-columns: 1fr;
-
+  
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
@@ -203,6 +205,7 @@ export default {
   width: 600px;
   margin: auto;
   order: 2;
+ overflow: hidden; 
 }
 
 @media (min-width: 1400px) {
@@ -233,6 +236,7 @@ export default {
 .song-info-box {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 .song-info > div {
   display: flex;
@@ -240,6 +244,8 @@ export default {
   gap: 25px;
   margin: 0 auto;
   padding-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 svg {
@@ -260,6 +266,11 @@ svg {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  
+}
+.go-back a{
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
 }
 .go-back:hover {
   background-color: #f1f1f1;
@@ -276,4 +287,6 @@ svg {
   justify-content: space-between;
 }
 
+.metronome{
+}
 </style>
