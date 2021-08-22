@@ -41,7 +41,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/artists" v-bind:class="{ active_item: $route.path == '/' }">
+        <router-link to="/artists" v-bind:class="{ active_item: $route.path == '/artists' }">
           <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
           <span class="links_name">Artists</span>
           <span class="tooltip">Artists</span>
@@ -96,8 +96,8 @@
             id="ikona"
             icon="question-circle"
           ></font-awesome-icon>
-          <span class="links_name">Find chords </span>
-          <span class="tooltip">Find chords</span>
+          <span class="links_name">Find a key </span>
+          <span class="tooltip">Find a key</span>
         </router-link>
       </li>
       <li>
@@ -177,6 +177,10 @@ export default {
 .active_item {
   /* background-color: #e73213; */
   background: rgb(194, 42, 42);
+ 
+}
+.active_item svg{
+   color: #f1f1f1;
 }
 .new_song {
   color: #69b34c;
@@ -236,7 +240,7 @@ export default {
 .sidebar ul li a{
   color: #f1f1f1;
 
-  color: #c9d1d9;
+  /* color: #c9d1d9; */
   text-decoration: none;
   display: flex;
   align-items: center;

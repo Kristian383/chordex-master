@@ -2,20 +2,30 @@
   <section
     class="home-section"
     :class="{ expand_home_section: !sidebarIsActive }"
-    
   >
     <nav>
       <div class="filter_categories">
         <slot name="filters"></slot>
       </div>
-      <div class="search-box" >
-        <input type="text" placeholder="Search..." />
+      <div class="search-box" :class="searchMatch.length ? 'active' : ''">
+        <input
+          type="text"
+          placeholder="Search song or artist"
+          @input="searchTextBox"
+        />
+        <div class="match-list">
+          <li v-for="match in searchMatch" :key="match">
+            <router-link :to="'/songs/'+match.songId"
+              >{{ match.artist }} {{ match.songName }}</router-link
+            >
+          </li>
+        </div>
         <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
       </div>
     </nav>
-    <div class="home-content" >
+    <div class="home-content">
       <div class="sort-section-title">
-        <h2 class="title">{{ Title }} </h2>
+        <h2 class="title">{{ Title }}</h2>
         <slot name="select_box"></slot>
       </div>
       <slot></slot>
@@ -43,7 +53,23 @@ export default {
   data() {
     return {
       title: "",
+      searchMatch: [],
     };
+  },
+  methods: {
+    searchTextBox(e) {
+      let textValue = e.target.value;
+
+      let foundData = this.$store.getters.getAllSongs.filter((song) => {
+        const regex = new RegExp(`${textValue}`, "gi");
+        return song.songName.match(regex) || song.artist.match(regex);
+      });
+      if (textValue.length === 0) {
+        foundData = [];
+      }
+      console.log(foundData);
+      this.searchMatch = foundData;
+    },
   },
 };
 </script>
@@ -53,7 +79,7 @@ export default {
   position: relative;
   background: #f5f5f5;
   /* background: #161B22; */
-  
+
   min-height: 100vh;
   transition: all 0.5s ease;
   width: calc(100% - 240px);
@@ -103,6 +129,7 @@ export default {
   /* min-width: 200px; */
   width: 100%;
   margin: 0 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 nav .search-box input {
   height: 100%;
@@ -144,7 +171,44 @@ nav .search-box #search:hover {
   padding-left: 15px;
   padding-right: 15px;
 }
+/* Search */
+.search-box .match-list {
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  max-height: 280px;
+  overflow-y: auto;
+  z-index: 26;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
 
+.search-box.active .match-list {
+  padding: 10px 8px;
+  opacity: 1;
+  pointer-events: auto;
+}
+.match-list li {
+  list-style: none;
+  padding: 10px 12px;
+  display: none;
+  width: 100%;
+  border-radius: 3px;
+}
+.search-box.active .match-list li {
+  display: block;
+}
+.match-list li:hover {
+  background: #f2f2f2;
+  cursor: pointer;
+}
+.match-list li a{
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  width: 100%;
+}
+/*  */
 .sort-section-title {
   /* position: absolute;
   top: 104px;
@@ -157,7 +221,7 @@ nav .search-box #search:hover {
   align-items: center;
   margin-bottom: 8px;
 }
-.sort-section-title h2{
+.sort-section-title h2 {
   padding-top: 8px;
 }
 /* list of all songs - song-cards  */

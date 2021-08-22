@@ -29,11 +29,15 @@
               :icon="iconName"
               :class="{ 'is-favorite': isFavorite }"
               @click="ToggleFavorite"
-              class="top-icon"
+              
             ></font-awesome-icon>
             <font-awesome-icon
-              class="top-icon"
+              icon="edit"
+              class="edit"
+            ></font-awesome-icon>
+            <font-awesome-icon
               icon="trash-alt"
+              class="delete"
             ></font-awesome-icon>
           </div>
         </div>
@@ -79,8 +83,11 @@
         <!--  -->
         <div>
           <div class="genre">Genre: Rock</div>
-          <div class="link">Link: <a href="#">www.google.com</a></div>
+          <div class="link">Link: <a href="#">www.yt-lesson-orbacking track.com</a></div>
           <div class="upload"><button>Upload pdf</button></div>
+        </div>
+        <div>
+          <div>Difficulty: Hard</div>
         </div>
       </div>
       <div class="box video">
@@ -170,6 +177,7 @@ export default {
 </script>
 
 <style scoped>
+
 .song-detail {
   /* min-height: 95vh; */
 
@@ -289,7 +297,21 @@ svg {
 .middle-icons {
   position: relative;
   display: flex;
+  justify-content: flex-start;
   width: 600px;
-  justify-content: space-between;
+  outline: none;
+  color: rgb(66, 65, 65);
+}
+.middle-icons .delete{
+  position: absolute;
+  right: 0;
+}
+.middle-icons .edit{
+  position: absolute;
+  right: 40px;
+}
+.middle-icons .delete:hover,
+.middle-icons .edit:hover{
+  color: black;
 }
 </style>
