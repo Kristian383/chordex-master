@@ -29,12 +29,8 @@
               :icon="iconName"
               :class="{ 'is-favorite': isFavorite }"
               @click="ToggleFavorite"
-              
             ></font-awesome-icon>
-            <font-awesome-icon
-              icon="edit"
-              class="edit"
-            ></font-awesome-icon>
+            <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
             <font-awesome-icon
               icon="trash-alt"
               class="delete"
@@ -82,8 +78,10 @@
         </div>
         <!--  -->
         <div>
-          <div class="genre">Genre: Rock</div>
-          <div class="link">Link: <a href="#">www.yt-lesson-orbacking track.com</a></div>
+          <!-- <div class="genre">Genre: Rock</div> -->
+          <div class="link">
+            Link: <a href="#">www.yt-lesson-orbacking track.com</a>
+          </div>
           <div class="upload"><button>Upload pdf</button></div>
         </div>
         <div>
@@ -92,8 +90,6 @@
       </div>
       <div class="box video">
         <iframe
-          width="560"
-          height="315"
           src="https://www.youtube.com/embed/9YffrCViTVk"
           title="YouTube video player"
           frameborder="0"
@@ -115,6 +111,14 @@
         deleniti, perferendis recusandae
         
         
+        ? Praesentium velit magni cum dolorum
+        similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
+        Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
+        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleni? Praesentium velit magni cum dolorum
+        similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
+        Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
+        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleni
+
         ? Praesentium velit magni cum dolorum
         similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
         Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
@@ -153,14 +157,14 @@ export default {
     );
     if (songData) {
       this.songData = songData;
-      this.isFavorite=songData.isFavorite;
+      this.isFavorite = songData.isFavorite;
     } else {
       this.$router.push("notFound");
     }
   },
   methods: {
     ToggleFavorite() {
-       this.isFavorite = !this.isFavorite;
+      this.isFavorite = !this.isFavorite;
       this.$store.commit("toggleFavorite", this.id);
     },
   },
@@ -171,26 +175,24 @@ export default {
       }
       return "heart";
     },
-    
   },
 };
 </script>
 
 <style scoped>
-
 .song-detail {
   /* min-height: 95vh; */
-
   background-color: #fff;
   color: rgba(0, 0, 0, 0.85);
   /* background-color: #0D1117; 
   color: #c9d1d9; */
-  padding: 8px;
+  /* padding: 8px; */
+   padding: 12px 15px;
   display: grid;
   gap: 10px;
   position: relative;
   grid-template-columns: 1fr;
-
+  justify-content: center;
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
@@ -198,31 +200,62 @@ export default {
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   font-family: Arial, sans-serif !important;
   font-size: 18px;
-
+  border-top: 6px solid rgb(194, 42, 42);
   /* border: solid 2px black;
   position: relative;  */
   /* font-size: 21px; */
+}
+
+.box {
+  border-radius: 0 0 6px 6px;
+ 
+  width: 240px;
+  /* margin: auto; */
+  justify-self: center;
+  /* background-color: #ccc; */
 }
 .box.notebook {
   font-weight: 400;
   line-height: 1.5em;
   order: 3;
 }
-pre {
-  white-space: pre-wrap; /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  word-wrap: break-word;
+.box.video {
+  text-align: center;
+  order: 1;
+}
+.box.video iframe {
+  width: 230px;
+
 }
 
-.song-info {
-  width: 600px;
-  margin: auto;
-  order: 2;
-  overflow: hidden;
+@media (min-width: 600px){
+  .box{
+    width: 400px;
+  }
+  .box.video iframe{
+    width: 100%;
+    height: 300px;
+  }
 }
-
+@media (min-width: 770px) {
+  .song-info {
+    /* width: 600px; */
+    /* margin: auto; */
+    order: 2;
+    overflow: hidden;
+  }
+  .box.song-info, .box.video{
+    width: 600px;
+    /* margin: auto; */
+  }
+  .box.video iframe {
+    height: 315px;
+    /* width: 560px; */
+  }
+  .box.notebook{
+    width: 100%;
+  }
+}
 @media (min-width: 1400px) {
   .song-detail {
     grid-template-columns: 1fr 1fr;
@@ -238,16 +271,8 @@ pre {
     order: 2;
   }
 }
-.box {
-  border-radius: 0 0 6px 6px;
-  padding: 15px;
 
-  /* background-color: #ccc; */
-}
-.box.video {
-  text-align: center;
-  order: 1;
-}
+
 .song-info-box {
   display: flex;
   gap: 15px;
@@ -263,6 +288,15 @@ pre {
   flex-wrap: wrap;
 }
 
+
+
+pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
+}
 svg {
   cursor: pointer;
   transition: all 0.3s ease;
@@ -272,7 +306,7 @@ svg {
 .go-back {
   position: absolute;
   left: 5px;
-  top: -45px;
+  top: -60px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   width: 40px;
@@ -302,16 +336,16 @@ svg {
   outline: none;
   color: rgb(66, 65, 65);
 }
-.middle-icons .delete{
+.middle-icons .delete {
   position: absolute;
   right: 0;
 }
-.middle-icons .edit{
+.middle-icons .edit {
   position: absolute;
   right: 40px;
 }
 .middle-icons .delete:hover,
-.middle-icons .edit:hover{
+.middle-icons .edit:hover {
   color: black;
 }
 </style>

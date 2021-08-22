@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar" v-bind:class="isOpen ? 'active' : ''">
+  <div class="sidebar " v-bind:class="isOpen ? 'active' : ''">
     <div class="logo_content">
       <div class="logo">
         <img src="./../../assets/music.png" alt="" />
@@ -56,7 +56,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+        <router-link to="/new" v-bind:class="{ active_item: $route.path == '/new' }">
           <font-awesome-icon
             id="ikona"
             class="new_song"
@@ -189,6 +189,7 @@ export default {
 .sidebar.active {
   width: 240px;
 }
+
 .sidebar .logo_content .logo {
   display: flex;
   width: 100%;
@@ -226,6 +227,20 @@ export default {
 .sidebar.active #btn {
   left: 90%;
 }
+/* pokusaj mobile resposive */
+/* .sidebar.mobile .profile_content{
+  display: none;
+}
+.sidebar.mobile{
+  height: 75px;
+}
+.sidebar.mobile ul{
+  display: none;
+} */
+/*  */
+
+
+
 .sidebar ul {
   margin-top: 20px;
 }
@@ -237,6 +252,8 @@ export default {
   margin: 5px 0;
   /* line-height: 50px; */
 }
+
+
 .sidebar ul li a{
   color: #f1f1f1;
 
@@ -251,6 +268,7 @@ export default {
   white-space: nowrap;
 }
 /* dark mode */
+
 
 .sidebar ul li .toggle-mode 
 {
@@ -280,8 +298,8 @@ export default {
 	justify-content: space-between;
 	padding: 5px;
 	position: relative;
-	height: 26px;
-	width: 50px;
+	height: 24px;
+	width: 48px;
 	transform: scale(1.5);
 }
 
@@ -291,12 +309,15 @@ export default {
 	position: absolute;
 	top: 2px;
 	left: 2px;
-	height: 22px;
-	width: 22px;
+	height: 20px;
+	width: 20px;
 	transform: translateX(0px);
 	transition: transform 0.2s linear;
 }
-
+.sidebar ul li .toggle-mode svg{
+  
+   font-size: 14px;
+}
 .sidebar ul li .toggle-mode .checkbox:checked + .label .ball {
 	transform: translateX(24px);
 }

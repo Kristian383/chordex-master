@@ -91,7 +91,7 @@ export default {
   position: relative;
   background: #f5f5f5;
   /* background: #161B22; */
-
+  
   min-height: 100vh;
   transition: all 0.5s ease;
   width: calc(100% - 240px);
@@ -230,7 +230,7 @@ nav .search-box #search:hover {
   display: flex;
   justify-content: space-around;
   gap: 14px;
-  align-items: center;
+  /* align-items: center; */
   margin-bottom: 8px;
 }
 .sort-section-title h2 {

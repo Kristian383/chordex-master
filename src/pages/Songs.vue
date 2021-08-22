@@ -120,6 +120,8 @@ export default {
   flex-wrap: wrap;
   gap: 4px; */
   padding-top: 10px;
+  max-width: 1700px;
+  margin: auto;
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(auto-fill, 180px);

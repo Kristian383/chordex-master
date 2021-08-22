@@ -1,12 +1,18 @@
 <template>
+ <base-card>
   <div>
-      Add
+    home content
   </div>
+ </base-card>
 </template>
 
 <script>
-export default {
 
+import BaseCard from "../components/ui/BaseCard.vue";
+export default {
+  components: {
+    BaseCard,
+  },
 }
 </script>
 
