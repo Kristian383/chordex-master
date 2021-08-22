@@ -7,7 +7,7 @@
       <div class="filter_categories">
         <slot name="filters"></slot>
       </div>
-      <div class="search-box" :class="searchMatch.length ? 'active' : ''">
+      <div class="search-box" id="search_box" :class="searchIsActive">
         <input
           type="text"
           placeholder="Search song or artist"
@@ -15,7 +15,7 @@
         />
         <div class="match-list">
           <li v-for="match in searchMatch" :key="match">
-            <router-link :to="'/songs/'+match.songId"
+            <router-link :to="'/songs/' + match.songId"
               >{{ match.artist }} {{ match.songName }}</router-link
             >
           </li>
@@ -38,7 +38,8 @@
 </template>
 
 <script>
-// import SongCard from "../../components/song/SongCard.vue"
+import { onClickOutside } from "@vueuse/core";
+
 export default {
   computed: {
     sidebarIsActive() {
@@ -48,6 +49,9 @@ export default {
     Title() {
       //staviti if route name zavrsava na /songs/broj onda dohvatiti iz vuexa song name
       return this.$route.name;
+    },
+    searchIsActive() {
+      return this.searchMatch.length ? "active" : "";
     },
   },
   data() {
@@ -70,6 +74,14 @@ export default {
       console.log(foundData);
       this.searchMatch = foundData;
     },
+  },
+  mounted() {
+    let target = document.getElementById("search_box");
+    onClickOutside(target, () => {
+      target.classList.remove("active");
+      this.searchMatch = [];
+      target.firstElementChild.value = "";
+    });
   },
 };
 </script>
@@ -202,7 +214,7 @@ nav .search-box #search:hover {
   background: #f2f2f2;
   cursor: pointer;
 }
-.match-list li a{
+.match-list li a {
   text-decoration: none;
   color: inherit;
   display: inline-block;

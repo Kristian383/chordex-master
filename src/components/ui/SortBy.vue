@@ -49,6 +49,7 @@ export default {
       this.sortIsActive = false;
     },
   },
+ 
 };
 </script>
 
@@ -59,6 +60,7 @@ export default {
   flex-direction: column;
   position: relative;
   z-index: 20;
+  user-select: none;
 }
 .select-box .options-container {
   background: #11101d;

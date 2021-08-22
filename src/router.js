@@ -32,6 +32,8 @@ router.beforeEach((to, _, next) => {
 
     document.title = `${to.meta.title} | Quotex`;
     next();
+
+    //ruta add new song before its saved, ako nije ondapronpt
 })
 
 
