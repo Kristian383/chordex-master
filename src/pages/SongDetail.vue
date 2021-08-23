@@ -1,21 +1,5 @@
 <template>
   <base-card>
-    <!-- <div class="song-detail">
-      <div class="top-section">
-        <div class="go-back">
-          <font-awesome-icon icon="arrow-left"></font-awesome-icon>
-        </div>
-        <div class="middle-icons">
-          <font-awesome-icon :icon="iconName" :class="{'is-favorite':isFavorite}" @click="Change"></font-awesome-icon>
-          <font-awesome-icon icon="trash-alt"></font-awesome-icon>
-        </div>
-        <div class="go-back">
-          <font-awesome-icon icon="edit"></font-awesome-icon>
-        </div>
-      </div>
-      
-    </div> -->
-
     <div class="song-detail">
       <div class="box song-info">
         <div class="top-icons">
@@ -198,9 +182,9 @@ export default {
   border-radius: 6px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  font-family: Arial, sans-serif !important;
+  
   font-size: 18px;
-  border-top: 6px solid rgb(194, 42, 42);
+  border-right: 6px solid rgb(194, 42, 42);
   /* border: solid 2px black;
   position: relative;  */
   /* font-size: 21px; */

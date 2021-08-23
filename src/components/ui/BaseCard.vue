@@ -90,6 +90,7 @@ export default {
 .home-section {
   position: relative;
   background: #f5f5f5;
+  
   /* background: #161B22; */
   
   min-height: 100vh;

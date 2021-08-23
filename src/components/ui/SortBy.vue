@@ -72,10 +72,7 @@ export default {
   border-radius: 4px;
   overflow: hidden;
   order: 1;
-  
-  
   position: absolute;
-
 }
 .selected {
   background: #11101d;
