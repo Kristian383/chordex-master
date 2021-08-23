@@ -13,7 +13,9 @@
       </div>
     </div>
     <div class="selected" @click="toggleChoose">
-      Song key: {{ selectedKey }}
+      <span v-if="name=='secondKey'">
+        Key change:</span>
+        <span v-else>Song key:</span> {{ selectedKey }}
     </div>
   </div>
 </template>
@@ -75,7 +77,7 @@ export default {
 <style scoped>
 .select-box {
   display: flex;
-  width: 160px;
+  width: 180px;
   flex-direction: column;
   position: relative;
   z-index: 20;

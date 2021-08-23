@@ -22,23 +22,15 @@
           <input type="text" id="chips" placeholder="chips" />
           <input type="number" id="c" placeholder="chips" />
           <!--  -->
-          <select-box-key :songKeys="songKeys" name="firstKey" ></select-box-key>
-
-          drugi dio za ispois chords in key
+          <div class="grid-2">
+            <select-box-key :songKeys="songKeys" name="firstKey" ></select-box-key>
+            A B C D E F H
+          </div>
           <!--  -->
           <div class="grid-2">
-            <div class="secondOption">
-              <label for="secondSelectOption">Another key:</label>
-              <input
-                type="checkbox"
-                v-model="needSecondKey"
-                name="secondOption"
-                id="secondSelectOption"
-              />
-            </div>
             <select-box-key :songKeys="songKeys" name="secondKey"  v-if="needSecondKey && getSelectedKeys.first"></select-box-key>
+          A B C D E F H
           </div>
-          drugi dio za ispois chords in key
         </div>
       </form>
     </div>
@@ -75,7 +67,7 @@ export default {
       ],
       // selectedKey: null,
       // chooseKeyIsActive: false,
-      needSecondKey: false,
+      needSecondKey: true,
     };
   },
 
@@ -129,6 +121,8 @@ svg {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
+  margin-top: 18px;
+  align-items: center;
 }
 .grid-3 {
   display: grid;
