@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 const store = createStore({
     state() {
         return {
-            sidebarActive: true,
+            sidebarActive: true, firstKey: null, secondKey: null,
             darkMode: false,
             allFilters: ["all", "acoustic", "electric", "easy", "medium", "hard"],
             songs: [{ artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "easy", lastViewed: "2d ago", songId: "1" },
@@ -38,7 +38,13 @@ const store = createStore({
             return favorites;
         },
 
-
+        selectedKeys(state) {
+            const selected = {
+                first: state.firstKey,
+                second: state.secondKey
+            }
+            return selected
+        }
 
     },
 
@@ -57,8 +63,15 @@ const store = createStore({
         },
         toggleFavorite(state, payload) {
             const index = state.songs.findIndex(song => song.songId == payload);
-            console.log(index);
             state.songs[index].isFavorite = !state.songs[index].isFavorite;
+        },
+        selectKey(state, payload) {
+            // console.log("tu",payload);
+            if (payload.name == "firstKey") {
+                state.firstKey = payload.key;
+            } else {
+                state.secondKey = payload.key;
+            }
         }
 
     }

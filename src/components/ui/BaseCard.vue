@@ -233,6 +233,7 @@ nav .search-box #search:hover {
   gap: 14px;
   /* align-items: center; */
   margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.85);
 }
 .sort-section-title h2 {
   padding-top: 8px;
