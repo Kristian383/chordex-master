@@ -177,12 +177,9 @@ nav .search-box #search:hover {
 .home-section .home-content {
   position: relative;
   /* padding-top: 124px; */
-  padding-top: 100px;
-
+  padding: 100px 15px 15px 15px;
   /* max-width: 1400px; */
   margin: 0 auto;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 /* Search */
 .search-box .match-list {

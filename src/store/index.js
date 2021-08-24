@@ -72,6 +72,8 @@ const store = createStore({
             } else {
                 state.secondKey = payload.key;
             }
+        },removeSecondKey(state){
+            state.secondKey=null;
         }
 
     }

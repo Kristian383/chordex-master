@@ -58,7 +58,9 @@ export default {
         key: this.selectedKey,
       };
       this.$store.commit("selectKey", payload);
-      console.log(payload);
+      // console.log(payload);
+      this.$emit("checkStore")
+      
     },
   },
   computed: {

@@ -1,14 +1,17 @@
 <template>
   <base-card>
     <div class="form-container">
-      <form>
+      <form @submit.prevent>
         <div class="top-section">
           Searching...
           <font-awesome-icon
             :icon="iconName"
             :class="{ 'is-favorite': isFavorite }"
-            @click="toggleFavorite"
+            @click.prevent="toggleFavorite"
           ></font-awesome-icon>
+          <button id="save" alt="Save" title="Save" @click="saveButon">
+            Save
+          </button>
         </div>
         <div class="grid-2">
           <input type="text" id="input-artist" placeholder="Artist name" />
@@ -23,14 +26,54 @@
           <input type="number" id="c" placeholder="chips" />
           <!--  -->
           <div class="grid-2">
-            <select-box-key :songKeys="songKeys" name="firstKey" ></select-box-key>
+            <select-box-key
+              @checkStore="needSecondKey = true"
+              :songKeys="songKeys"
+              name="firstKey"
+            ></select-box-key>
             A B C D E F H
           </div>
           <!--  -->
           <div class="grid-2">
-            <select-box-key :songKeys="songKeys" name="secondKey"  v-if="needSecondKey && getSelectedKeys.first"></select-box-key>
-          A B C D E F H
+            <select-box-key
+              :songKeys="songKeys"
+              name="secondKey"
+              v-if="needSecondKey && getSelectedKeys.first"
+            ></select-box-key>
+            <div class="secondOption" v-if="needSecondKey">
+              A B C D E F H
+              <font-awesome-icon
+                @click="removeKeySelect"
+                :icon="['far', 'times-circle']"
+              ></font-awesome-icon>
+            </div>
           </div>
+          <!--  -->
+          <input type="text" placeholder="Chord progression" />
+          <div>
+            <input
+              type="text"
+              v-if="needSecondKey"
+              placeholder="Chord progression"
+            />
+          </div>
+          <!--  -->
+          <input type="url" placeholder="YouTube Link" />
+          <input type="url" placeholder="Chords Link" />
+          <!--  -->
+        </div>
+        <!--  -->
+        slider za learned
+        <!--  -->
+        <div class="notebook">
+          <textarea
+            v-model="songText"
+            @keydown.tab.prevent="tabber($event)"
+            id="txt_area"
+            name=""
+            rows="10"
+            placeholder="Song notes..."
+          ></textarea>
         </div>
       </form>
     </div>
@@ -65,9 +108,8 @@ export default {
         "Gb",
         "Cb",
       ],
-      // selectedKey: null,
-      // chooseKeyIsActive: false,
-      needSecondKey: true,
+      needSecondKey: false,
+      songText: "",
     };
   },
 
@@ -78,15 +120,40 @@ export default {
       }
       return "heart";
     },
-    getSelectedKeys(){
+    getSelectedKeys() {
       return this.$store.getters.selectedKeys;
-    }
+    },
   },
   methods: {
     toggleFavorite() {
       this.isFavorite = !this.isFavorite;
       console.log(this.getSelectedKeys);
-    }
+    },
+    removeKeySelect() {
+      this.$store.commit("removeSecondKey");
+      this.needSecondKey = false;
+    },
+    tabber(event) {
+      let text = this.songText,
+        originalSelectionStart = event.target.selectionStart,
+        textStart = text.slice(0, originalSelectionStart),
+        textEnd = text.slice(originalSelectionStart);
+
+      this.songText = `${textStart}\t${textEnd}`;
+      event.target.value = this.songText;
+      event.target.selectionEnd = event.target.selectionStart =
+        originalSelectionStart + 1;
+    },
+    saveButon(event) {
+      event.target.innerHTML = 'Saving <span class="spinner"></span>';
+      event.target.disabled = true;
+
+      // Simulate successful AJAX call
+      setTimeout(function () {
+        event.target.innerHTML = "Saved";
+        event.target.className = "done";
+      }, 3000);
+    },
   },
 };
 </script>
@@ -97,14 +164,15 @@ export default {
 
   color: rgba(0, 0, 0, 0.85);
   padding: 12px 15px;
-  max-width: 1400px;
+  max-width: 1100px;
   margin: 0 auto;
   border-radius: 6px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   font-family: Arial, sans-serif !important;
   font-size: 18px;
-  border-right: 6px solid rgb(194, 42, 42);
+
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-left: 6px solid rgb(194, 42, 42);
   position: relative;
 }
 .top-section {
@@ -115,7 +183,12 @@ svg {
 }
 .top-section svg {
   position: absolute;
-  right: 50px;
+  left: 25px;
+
+  top: 25px;
+}
+.is-favorite {
+  color: #c22a2a;
 }
 .grid-2 {
   display: grid;
@@ -139,6 +212,10 @@ svg {
 }
 .grid-2 .find-data:hover {
   color: rgba(0, 0, 0, 0.85);
+}
+.grid-2 > input,
+.grid-2 > div {
+  max-width: 500px;
 }
 form textarea,
 form input {
@@ -164,25 +241,16 @@ form input {
 }
 
 /* selectbox za key */
-
-
 .secondOption {
-  /* background-color: red; */
-  /* justify-self: center; */
   position: relative;
-  /* width: 100%; */
   display: flex;
-  width: 160px;
+  width: 100%;
   padding: 12px 6px;
-  /* align-items: center;
-  justify-content: center; */
-  gap: 2px;
+  align-items: center;
+  justify-content: space-evenly;
 }
-.secondOption #secondSelectOption {
-  display: inline-block;
-  width: 20px;
-  /* margin-left: 4px; */
-  margin-top: 0;
-  height: 18px;
+.secondOption svg {
+  cursor: pointer;
 }
+/* notebook */
 </style>
