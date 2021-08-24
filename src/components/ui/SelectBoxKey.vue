@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  props: ["name", "songKeys"],
+  props: ["name"],
   data() {
     return {
       //     songKeys: [
@@ -44,6 +44,23 @@ export default {
       //   ],
       selectedKey: null,
       chooseKeyIsActive: false,
+      songKeys: [
+        "C",
+        "G",
+        "D",
+        "A",
+        "E",
+        "B",
+        "F#",
+        "C#",
+        "F",
+        "Bb",
+        "Eb",
+        "Ab",
+        "Db",
+        "Gb",
+        "Cb",
+      ],
     };
   },
   methods: {
