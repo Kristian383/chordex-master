@@ -1,10 +1,15 @@
 <template>
-  <span class="filter-option" :class="{ active: isActive }">
+  <span
+    class="filter-option"
+    :class="{ active: filters[filter] }"
+    v-for="filter in allFilters"
+    :key="filter"
+  >
     <input
-      :checked="isActive"
       type="checkbox"
       :id="filter"
       @change="setFilter"
+      v-model="filters[filter]"
     />
     <label :for="filter">{{ filter }}</label>
   </span>
@@ -36,26 +41,31 @@
 
 <script>
 export default {
-  props: ["filter", "activeFilters"],
+  emits:["filters-changed"],
   data() {
-    return {};
+    return {
+      filters: {
+        all: true,
+        acoustic: false,
+        electric: false,
+        easy: false,
+        medium: false,
+        hard: false,
+      },
+    };
   },
   computed: {
-    isActive() {
-      if (this.activeFilters[this.filter]) {
-        return true;
-      }
-      return false;
+    allFilters() {
+      return this.$store.getters.getAllFilters;
     },
   },
   methods: {
     setFilter(e) {
-      const isActive = e.target.checked;
-      let updatedFilters;
-      if (this.filter == "all" && isActive) {
-        updatedFilters = {
+      const item = e.target.id;
+
+      if (item == "all") {
+        this.filters = {
           all: true,
-          favorites: false,
           acoustic: false,
           electric: false,
           easy: false,
@@ -63,13 +73,10 @@ export default {
           hard: false,
         };
       } else {
-        updatedFilters = {
-          ...this.activeFilters,
-          [this.filter]: isActive,
-          all: false,
-        };
+        this.filters["all"] = false;
       }
-      this.$emit("change-filter", updatedFilters);
+      this.$store.commit("setActiveFilters",this.filters)
+      this.$emit("filters-changed")
     },
   },
 };

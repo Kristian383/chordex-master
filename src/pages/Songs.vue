@@ -5,18 +5,13 @@
     </template>
     <template v-slot:filters>
       <filters
-        v-for="filter in allFilters"
-        :key="filter"
-        :filter="filter"
-        @change-filter="setFilters"
-        :activeFilters="getActiveFilters"
-      ></filters>
+      @filters-changed="filterSongs"></filters>
     </template>
     <!-- saong list -->
     <div class="song-cards">
-      <song-card 
+      <song-card
         v-for="song in AllSongs"
-        :key="song.id"
+        :key="song.songId"
         :song="song"
       ></song-card>
     </div>
@@ -27,7 +22,7 @@
         :song="song"
       ></song-card>
     </template> -->
-      <!-- <div class="cover">&nbsp;</div> -->
+    <!-- <div class="cover">&nbsp;</div> -->
   </base-card>
 </template>
 
@@ -45,44 +40,55 @@ export default {
   },
   computed: {
     AllSongs() {
-      //get favorite songs
-      // console.log("allsongs",this.$store.getters.getAllSongs);
-      return this.$store.getters.getAllSongs;
-    },
-    allFilters() {
-      return this.$store.getters.getAllFilters;
+      return this.filteredSongs;
     },
     getActiveFilters() {
-      return this.activeFilters;
+      return this.$store.getters.getActiveFilters;
     },
+    // getFilteredSongs(){
+
+    // }
   },
   data() {
     return {
-      activeFilters: {
-        all: true,
-        favorites: false,
-        acoustic: false,
-        electric: false,
-        easy: false,
-        medium: false,
-        hard: false,
-      },
-      // page: 1,
+      filteredSongs: [],
     };
   },
   methods: {
-    setFilters(updatedFilters) {
-      this.activeFilters = updatedFilters;
+    filterSongs(){
+      // console.log("ej filtirraj",this.filteredSongs);
+      let activeFilters=this.getActiveFilters;
+      
+      if(activeFilters.all)
+      {
+        this.filteredSongs=this.$store.getters.getAllSongs;
+      }else{
+        for (let i = 0; i < activeFilters.length; i++) {
+          const element = activeFilters[i];
+          console.log(element);
+        }
+        activeFilters=activeFilters.filter(filter=>filter==true)
+      }
+      
+
+      console.log(activeFilters);
+      this.filteredSongs.filter(song=>{
+          console.log(song);
+      })
+    },
+    initialLoad() {
+      this.filteredSongs = this.$store.getters.getAllSongs;
     },
     // loadMoreSongs() {
     //   //fetch more songs
     //   // let response=await axios("htp://www.wdasd.com/+this.page")
     //   console.log("load more songs");
     // },
+
+    // observer
     beTouching(entries) {
-      entries.forEach(entry => {
-        if(entry.isIntersecting)
-        {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
           //fetch call
           // loadMoreSongs()
           // console.log("intersecting");
@@ -93,20 +99,22 @@ export default {
         //   entry.target.classList.remove("active")
         // }
       });
-    }
+    },
   },
   mounted() {
+    this.initialLoad();
+    this.getActiveFilters;
     let options = {
       root: null,
       rootMargin: "-100px 0px",
       threshold: 0.05,
     };
     let observer = new IntersectionObserver(this.beTouching, options);
-    
-    document.querySelectorAll(".card").forEach(c=>{
-      observer.observe(c)
+
+    document.querySelectorAll(".card").forEach((c) => {
+      observer.observe(c);
       // console.log("card",c);
-    })
+    });
     //initial load of data
     // loadMoreSongs()
   },

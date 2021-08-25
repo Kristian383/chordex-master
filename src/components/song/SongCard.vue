@@ -1,7 +1,7 @@
 <template>
   <div class="card" @click="Ispis" >
     <div class="card-header" >
-      <div class="image"><img :src="song.imageUrl" alt="Artist photo" /></div>
+      <div class="image"><img v-if="song.imageUrl" :src="song.imageUrl" alt="Artist photo" /></div>
       <div class="icons">
         <div class="icon" id="edit" @click.stop="openEditMode">
           <font-awesome-icon icon="edit"></font-awesome-icon>
@@ -18,7 +18,7 @@
 
     <div class="card-body">
       <div class="tags">
-        <span class="tag tag-teal"> Capo</span>
+        <span class="tag tag-teal" v-if="song.capo"> Capo</span>
         <span class="tag tag-teal" :class="skillLevelClass">{{
           song.difficulty
         }}</span>
@@ -26,7 +26,7 @@
       <h3 class="artist">
         <router-link to="/"> {{ song.artist }} </router-link>
       </h3>
-      <h4 class="song_name">{{ song.songName }}</h4>
+      <h4 class="song_name">{{ song.song }}</h4>
       <div class="info">
         <div class="history-info">
           <font-awesome-icon icon="history"></font-awesome-icon>
@@ -57,9 +57,8 @@ export default {
       //   //route push na edit preko id propsa
       // }
     },
-    toggleFavorite(e) {
+    toggleFavorite() {
       this.$store.commit("toggleFavorite",this.song.songId)
-      console.log("favorit", e.target);
     },
     openEditMode(e) {
       console.log("opening edit mode", e.target);
@@ -67,15 +66,10 @@ export default {
   },
   computed: {
     skillLevelClass() {
-      return this.song.difficulty.toLowerCase();
-    },
-    songName() {
-      return null;
+      return this.song.difficulty;
     },
     practicePercentage() {
-      const num = (this.song.practiced / 5) * 100;
-
-      return num + "%";
+      return this.song.practicedPrcntg + "%";
     },
     isFavorite() {
       return this.song.isFavorite;
@@ -93,7 +87,7 @@ export default {
     };
   },
   mounted() {
-    this.barPrctg = (this.song.practiced / 5) * 100;
+    this.barPrctg = this.song.practicedPrcntg;
     
   },
 };
@@ -132,6 +126,8 @@ export default {
   width: 100%;
   height: 100px;
   text-align: center;
+  /* background-color: #242424; */
+  background-color: rgb(194, 42, 42);
 }
 .progress {
   bottom: 0;

@@ -342,6 +342,7 @@ export default {
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-left: 6px solid rgb(194, 42, 42);
   position: relative;
+  
 }
 .top-section {
   display: flex;

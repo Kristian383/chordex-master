@@ -181,6 +181,7 @@ nav .search-box #search:hover {
   /* max-width: 1400px; */
   margin: 0 auto;
   background-color: #fff;
+  height: 100vh;
 }
 /* Search */
 .search-box .match-list {
