@@ -1,7 +1,7 @@
 <template>
   <div class="card" @click="Ispis" >
     <div class="card-header" >
-      <img :src="song.imageUrl" alt="Artist photo" />
+      <div class="image"><img :src="song.imageUrl" alt="Artist photo" /></div>
       <div class="icons">
         <div class="icon" id="edit" @click.stop="openEditMode">
           <font-awesome-icon icon="edit"></font-awesome-icon>
@@ -125,10 +125,14 @@ export default {
 }
 .card-header img {
   width: 100%;
-  height: 100px;
+  height: 100%;
   object-fit: cover;
 }
-
+.image{
+  width: 100%;
+  height: 100px;
+  text-align: center;
+}
 .progress {
   bottom: 0;
   left: 0;
@@ -212,6 +216,7 @@ export default {
 }
 .easy {
   background-color: #69b34c;
+  /* background-color: #41a592; */
 }
 .medium {
   background-color: #ff4500;

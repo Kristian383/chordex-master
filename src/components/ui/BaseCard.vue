@@ -180,6 +180,7 @@ nav .search-box #search:hover {
   padding: 100px 15px 15px 15px;
   /* max-width: 1400px; */
   margin: 0 auto;
+  background-color: #fff;
 }
 /* Search */
 .search-box .match-list {
@@ -230,7 +231,7 @@ nav .search-box #search:hover {
   gap: 14px;
   /* align-items: center; */
   margin-bottom: 8px;
-  color: rgba(0, 0, 0, 0.85);
+  color: RGB(16, 17, 20);
 }
 .sort-section-title h2 {
   padding-top: 8px;

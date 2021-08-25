@@ -1,21 +1,14 @@
 <template>
-  <!-- <parallax></parallax> -->
   <sidebar></sidebar>
   <router-view></router-view>
 </template>
 
 <script>
 import Sidebar from "./components/layout/Sidebar.vue";
-// import TheHeader from "./components/layout/TheHeader.vue";
-// import Parallax from "./components/ui/Parallax.vue";
-// import Filters from "./components/ui/Filters.vue";
 export default {
   name: "App",
   components: {
     Sidebar,
-    // TheHeader,
-    // Filters,
-    // Parallax
   },
   
 };
@@ -30,5 +23,26 @@ export default {
   /* font-family: "Arimo", sans-serif; */
   font-family: Arial, sans-serif ;
 }
+
+/* route tranisition */
+
+/* 
+.route-enter-from{
+  opacity: 0;
+}
+.route-enter-active{
+  transition: opacity 0.3s ease-out;
+}
+
+.route-leave-to{
+  opacity: 0;
+}
+.route-leave-active{
+  transition: opacity .3s ease-in;
+}
+.route-enter-to,
+.route-leave-from{
+  opacity: 1;
+} */
 
 </style>

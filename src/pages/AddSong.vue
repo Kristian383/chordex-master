@@ -15,16 +15,8 @@
             icon="trash-alt"
           ></font-awesome-icon>
           <div class="button-container">
-            <button class="btn" @click="saveButton"></button>
+            <button class="btn" @click="submitSong"></button>
           </div>
-          <!-- <div class="container">
-            <div class="button">
-              <div class="icon">
-                <font-awesome-icon icon="save"></font-awesome-icon>
-              </div>
-            </div>
-            <p>Save</p>
-          </div> -->
         </div>
         <div class="grid-2">
           <input
@@ -32,6 +24,9 @@
             type="text"
             id="input-artist"
             placeholder="Artist name"
+            v-model.trim="artist.val"
+            :class="{ 'error-msg': !artist.isValid }"
+            @focus="clearValidity('artist')"
           />
           <div class="grid-2">
             <div class="find-data">
@@ -41,6 +36,7 @@
             </div>
             <!--  -->
             <input
+              v-model="songInfo.bpm"
               class="input-field"
               type="number"
               id="input-bpm"
@@ -52,6 +48,9 @@
             type="text"
             id="input-song"
             placeholder="Song name"
+            :class="{ 'error-msg': !song.isValid }"
+            @focus="clearValidity('song')"
+            v-model.trim="song.val"
           />
           <!-- easy hard -->
           <div>
@@ -59,20 +58,19 @@
               type="radio"
               name="radio"
               id="easy"
-              v-model="songInfo.difficulty"
+              v-model="easy"
             /><label for="easy">Easy</label>
             <input
               type="radio"
               name="radio"
               id="medium"
-              checked
-              v-model="songInfo.difficulty"
+              v-model="medium"
             /><label for="medium">Medium</label>
             <input
               type="radio"
               name="radio"
               id="hard"
-              v-model="songInfo.difficulty"
+              v-model="hard"
             /><label for="hard">Hard</label>
           </div>
           <!--  -->
@@ -84,23 +82,28 @@
             A B C D E F H
           </div>
           <div class="grid-2">
-            <select-box-key
-              name="secondKey"
-              v-if="needSecondKey && getSelectedKeys.first"
-            ></select-box-key>
-            <div class="secondOption" v-if="needSecondKey">
-              A B C D E F H
-              <font-awesome-icon
-                @click="removeKeySelect"
-                :icon="['far', 'times-circle']"
-              ></font-awesome-icon>
-            </div>
+            <transition name="fade">
+              <select-box-key
+                name="secondKey"
+                v-if="needSecondKey && getSelectedKeys.first"
+              ></select-box-key>
+            </transition>
+            <transition name="fade">
+              <div class="secondOption" v-if="needSecondKey">
+                Second opetion keys
+                <font-awesome-icon
+                  @click="removeKeySelect"
+                  :icon="['far', 'times-circle']"
+                ></font-awesome-icon>
+              </div>
+            </transition>
           </div>
           <!--  -->
           <input
             class="input-field"
             type="text"
             placeholder="Chord progression"
+            v-model.trim="songInfo.firstProgression"
           />
           <transition name="fade">
             <input
@@ -108,6 +111,7 @@
               type="text"
               v-if="needSecondKey"
               placeholder="Chord progression"
+              v-model.trim="songInfo.secondProgression"
             />
           </transition>
           <!--  -->
@@ -145,20 +149,31 @@
           <!-- slider -->
           slider
           <!--  -->
-          <input class="input-field" type="url" placeholder="YouTube Link" />
-          <input class="input-field" type="url" placeholder="Chords Link" />
+          <input
+            v-model.trim="songInfo.yt_link"
+            class="input-field"
+            type="text"
+            placeholder="YouTube Link"
+          />
+          <input
+            v-model.trim="songInfo.chords_link"
+            class="input-field"
+            type="text"
+            placeholder="Chords Link"
+          />
           <!--  -->
         </div>
         <!--  -->
         <div class="notebook">
           <textarea
             v-model="songInfo.songText"
-            @keydown.tab.prevent="tabber($event)"
             id="txt_area"
             name=""
             rows="10"
             placeholder="Song notes..."
           ></textarea>
+
+          <!-- @keydown.tab.prevent="tabber($event)" -->
         </div>
       </form>
     </div>
@@ -179,20 +194,35 @@ export default {
       needSecondKey: false,
       formIsValid: false,
       songInfo: {
+        // artist: "",
+        // songName: "",
+        // firstKey: null,
+        // secondKey:null,
         songText: "",
-        artist: "",
-        songName: "",
-        firstKey: null,
-        secondKey: null,
-        ytLink: "",
-        chordsLink: "",
-        learnedPrcntg: 0,
+        practicedPrcntg: 0,
         bpm: null,
         capo: null,
-        difficulty: "easy",
-        guitarType: null,
+        electric: false,
+        acoustic: null,
+        firstProgression: null,
+        secondProgression: null,
+        chords_link: null,
+        yt_link: null,
+        firstKeyNotes:null,
+        secondKeyNotes:null,
       },
       haveCapo: null,
+      easy: null,
+      medium: null,
+      hard: null,
+      artist: {
+        val: null,
+        isValid: true,
+      },
+      song: {
+        val: null,
+        isValid: true,
+      },
     };
   },
 
@@ -210,24 +240,28 @@ export default {
   methods: {
     toggleFavorite() {
       this.isFavorite = !this.isFavorite;
-      console.log(this.getSelectedKeys);
     },
     removeKeySelect() {
       this.$store.commit("removeSecondKey");
       this.needSecondKey = false;
     },
     tabber(event) {
-      let text = this.songText,
+      let text = this.songInfo.songText,
         originalSelectionStart = event.target.selectionStart,
         textStart = text.slice(0, originalSelectionStart),
         textEnd = text.slice(originalSelectionStart);
 
-      this.songText = `${textStart}\t${textEnd}`;
-      event.target.value = this.songText;
+      this.songInfo.songText = `${textStart}\t${textEnd}`;
+      event.target.value = this.songInfo.songText;
       event.target.selectionEnd = event.target.selectionStart =
         originalSelectionStart + 1;
     },
-    saveButton(event) {
+    submitSong(event) {
+      this.validateForm();
+      if (!this.formIsValid) {
+        return;
+      }
+
       event.target.classList.toggle("loading");
       setTimeout(() => {
         event.target.classList.remove("loading");
@@ -238,9 +272,54 @@ export default {
       setTimeout(() => {
         event.target.classList.remove("success");
       }, 3500);
+
+      const keys = this.getSelectedKeys;
+
+      let difficulty;
+      if (this.songInfo.easy == "on") {
+        difficulty = "easy";
+      } else if (this.songInfo.medium == "on") {
+        difficulty = "medium";
+      } else {
+        difficulty = "hard";
+      }
+      const formData = {
+        ...this.songInfo,
+        artist: this.artist.val,
+        song: this.song.val,
+        firstKey: keys.first,
+        secondKey: keys.second,
+        difficulty: difficulty,
+        isFavorite:this.isFavorite
+      };
+      console.log(formData);
+
+      //dispatch action from store addNewSong
+      this.$store.dispatch("addNewSong", formData);
     },
     checkCapo() {
       this.songInfo.capo = null;
+    },
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+
+      // if(!keys.first){
+      //   this.formIsValid=false;
+      //   this.firstKey.isValid=false;
+      // }
+
+      if (!this.artist.val || this.artist.val.length > 25) {
+        this.formIsValid = false;
+        this.artist.isValid = false;
+      }
+
+      if (!this.song.val || this.song.val.length > 25) {
+        this.formIsValid = false;
+        this.song.isValid = false;
+      }
     },
   },
 };
@@ -249,8 +328,9 @@ export default {
 <style scoped>
 .form-container {
   /* background-color: #fff; */
-
-  color: rgba(0, 0, 0, 0.85);
+  background-color: #f5f6fa;
+  background-color: #eaebea;
+  color: RGB(16, 17, 20);
   padding: 12px 15px;
   max-width: 1100px;
   margin: 0 auto;
@@ -279,7 +359,9 @@ svg {
   position: absolute;
   left: 25px;
   top: 33px;
+  cursor: pointer;
 }
+
 .top-section .delete {
   cursor: pointer;
   color: rgb(136, 136, 136);
@@ -301,12 +383,13 @@ svg {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  color: rgb(136, 136, 136);
+  /* color: rgb(136, 136, 136); */
+  color: RGB(16, 17, 20);
   border-radius: 3px;
   outline: none;
   border: none;
   background-color: #fff;
-  border: 2px solid rgb(136, 136, 136);
+  border: 2px solid RGB(16, 17, 20);
   border-radius: 100px;
 }
 .button-container button:before {
@@ -422,11 +505,11 @@ svg {
 .grid-2:nth-child(-n + 2) {
   margin-top: 0;
 }
-.grid-3 {
+/* .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-}
+} */
 .grid-2 .find-data {
   /* width: 50px; */
   color: rgb(136, 136, 136);
@@ -436,7 +519,7 @@ svg {
   cursor: pointer;
 }
 .grid-2 .find-data:hover {
-  color: rgba(0, 0, 0, 0.85);
+  color: RGB(16, 17, 20);
 }
 .grid-2 > input,
 .grid-2 > div {
@@ -462,14 +545,16 @@ form .input-field {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   resize: none;
-  color: rgba(0, 0, 0, 0.85);
+  color: RGB(16, 17, 20);
 }
 
 #input-bpm {
   width: 100px;
   justify-self: center;
 }
-
+.error-msg {
+  border: #c22a2a solid 2px !important;
+}
 /* selectbox za key */
 .secondOption {
   position: relative;
@@ -493,7 +578,7 @@ input[type="radio"] + label {
   transition: all 500ms ease;
   cursor: pointer;
   border-radius: 50px;
-  background-color: #e7e7e7;
+  background-color: #fff;
   padding: 10px 16px;
   margin-right: 7px;
   border: none;
@@ -507,18 +592,23 @@ input[type="radio"] + label {
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
   transition: all 500ms ease;
-  background-color: #313131;
-  color: white;
+  background-color: #c22a2a;
+  color: #fff;
 }
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+form input:-internal-autofill-selected {
+  background-color: #fff !important;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-to,
+.fade-enter-from {
   opacity: 0;
 }
 
-
-
-
+/* .fade-leave-from,
+.fade-enter-to {
+  opacity: 1
+} */
 </style>

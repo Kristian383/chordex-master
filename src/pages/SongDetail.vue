@@ -167,7 +167,7 @@ export default {
 .song-detail {
   /* min-height: 95vh; */
   background-color: #fff;
-  color: rgba(0, 0, 0, 0.85);
+  color: RGB(16, 17, 20);
   /* background-color: #0D1117; 
   color: #c9d1d9; */
   /* padding: 8px; */
@@ -302,7 +302,7 @@ svg {
 }
 .go-back a {
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.85);
+  color: RGB(16, 17, 20);
 }
 .go-back:hover {
   background-color: #f1f1f1;

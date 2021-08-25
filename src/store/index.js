@@ -6,17 +6,17 @@ const store = createStore({
             sidebarActive: true, firstKey: null, secondKey: null,
             darkMode: false,
             allFilters: ["all", "acoustic", "electric", "easy", "medium", "hard"],
-            songs: [{ artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "easy", lastViewed: "2d ago", songId: "1" },
-            { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practiced: 1, difficulty: "easy", lastViewed: "2d ago", songId: "2" },
-            { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practiced: 4, difficulty: "hard", lastViewed: "2d ago", songId: "6" },
-            { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practiced: 5, difficulty: "medium", lastViewed: "2d ago", songId: "3" },
-            { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago", songId: "4" },
-            { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "hard", lastViewed: "2d ago", songId: "5" },
-            { artist: "RHCP", songName: "Californication", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "easy", lastViewed: "2d ago" },
-            { artist: "RHCP", songName: "Californication", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "easy", lastViewed: "2d ago" },
-            { artist: "RHCP", songName: "Zephyr Song", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "easy", lastViewed: "2d ago" },
-            { artist: "Nirvana", songName: "Smells like teen spirit", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practiced: 2, difficulty: "easy", lastViewed: "2d ago" },
-            { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" }, { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" }, { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" }, { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" }, { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" }, { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" }, { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" }, { artist: "Nirvana", songName: "Lithium", key: "Am", bpm: 102, progression: "I V vi ", notes: "", capo: "", isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practiced: 2, difficulty: "medium", lastViewed: "2d ago" },]
+            songs: [{ artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ",secondProgression:"5 4 1",songText:"", firstKeyNotes: "", secondKeyNotes: "",acoustic:true,electric:false, capo: null, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 2, difficulty: "easy", lastViewed: "2d ago", songId: "1",yt_link:"",chords_link:"" },
+
+
+
+
+
+            { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ",secondProgression:"5 4 1",songText:"", firstKeyNotes: "", secondKeyNotes: "",acoustic:true,electric:true, capo: 1, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 1, difficulty: "easy", lastViewed: "2d ago", songId: "2",yt_link:"",chords_link:"" },
+            { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ",secondProgression:"5 4 1",songText:"", firstKeyNotes: "", secondKeyNotes: "",acoustic:false,electric:false, capo: null, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 4, difficulty: "hard", lastViewed: "2d ago", songId: "6",yt_link:"",chords_link:"" },
+            { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ",secondProgression:"5 4 1",songText:"", firstKeyNotes: "", secondKeyNotes: "",acoustic:true,electric:true, capo: 2, isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 5, difficulty: "medium", lastViewed: "2d ago", songId: "3",yt_link:"",chords_link:"" },
+            { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ",secondProgression:"5 4 1",songText:"", firstKeyNotes: "", secondKeyNotes: "",acoustic:false,electric:true, capo: null, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 2, difficulty: "medium", lastViewed: "2d ago", songId: "4",yt_link:"",chords_link:"" },
+            { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ",secondProgression:"5 4 1",songText:"", firstKeyNotes: "", secondKeyNotes: "",acoustic:true,electric:false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 2, difficulty: "hard", lastViewed: "2d ago", songId: "5",yt_link:"",chords_link:"" }]
         }
     },
     getters: {
@@ -72,10 +72,32 @@ const store = createStore({
             } else {
                 state.secondKey = payload.key;
             }
-        },removeSecondKey(state){
-            state.secondKey=null;
+        }, removeSecondKey(state) {
+            state.secondKey = null;
+        },
+        addSong(state, payload) {
+            var today = new Date();
+            var dateCreated = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+            const songId = Date.now();
+
+            const song = {
+                ...payload,
+                dateCreated,
+                songId,
+            }
+            state.songs.unshift(song)
         }
 
+    },
+    actions: {
+        addNewSong(context, payload) {
+
+            //http
+            //pronaci image url
+
+            context.commit("addSong", payload)
+        }
     }
 
 
