@@ -68,6 +68,13 @@
               for="hard"
               >Hard</label
             >
+            <input
+              v-model="songInfo.tuning"
+              class="input-field"
+              type="text"
+              id="input-tuning"
+              placeholder="Tuning: Standard"
+            />
           </div>
           <!--  -->
           <div class="grid-2">
@@ -198,15 +205,11 @@ export default {
       needSecondKey: false,
       formIsValid: false,
       songInfo: {
-        // artist: "",
-        // songName: "",
-        // firstKey: null,
-        // secondKey:null,
         songText: "",
         practicedPrcntg: 50,
         bpm: null,
         capo: null,
-        electric: false,
+        electric: null,
         acoustic: null,
         firstProgression: null,
         secondProgression: null,
@@ -214,6 +217,7 @@ export default {
         yt_link: null,
         firstKeyNotes: null,
         secondKeyNotes: null,
+        tuning:null
       },
       haveCapo: null,
       easy: null,
@@ -288,6 +292,9 @@ export default {
       } else {
         difficulty = "hard";
       }
+
+      this.songInfo.yt_link= this.handleYTLink("https://www.youtube.com/32GZ3suxRn4");
+
       const formData = {
         ...this.songInfo,
         artist: this.artist.val,
@@ -327,6 +334,13 @@ export default {
         this.song.isValid = false;
       }
     },
+    handleYTLink(link){
+      //https://www.youtube.com/embed/32GZ3suxRn4
+      //https://www.youtube.com/32GZ3suxRn4
+      let id=link.split("https://www.youtube.com/")[1];
+      return `https://www.youtube.com/embed/${id}`
+      
+    }
   },
 };
 </script>
@@ -343,9 +357,9 @@ export default {
   border-radius: 6px;
   font-family: Arial, sans-serif !important;
   font-size: 18px;
-
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  
   border-left: 6px solid rgb(194, 42, 42);
   position: relative;
 }
@@ -370,7 +384,7 @@ svg {
 
 .top-section .delete {
   cursor: pointer;
-  color: rgb(136, 136, 136);
+  color: RGB(16, 17, 20);
   /* margin-bottom: 28px; */
 }
 .top-section .delete:hover {
@@ -557,6 +571,11 @@ form .input-field {
 #input-bpm {
   width: 100px;
   justify-self: center;
+}
+#input-tuning {
+  width: 200px;
+  justify-self: center;
+  padding: 14px;
 }
 .error-msg {
   border: #c22a2a solid 2px !important;

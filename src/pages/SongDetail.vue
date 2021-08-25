@@ -1,6 +1,6 @@
 <template>
   <base-card>
-    <div class="song-detail">
+    <div class="song-detail" v-if="songData">
       <div class="box song-info">
         <div class="top-icons">
           <div class="go-back">
@@ -22,15 +22,14 @@
           </div>
         </div>
         <!--  -->
-        <div>
-          <div>Artist: RHCP</div>
+        <div >
+          <div>Artist: {{songData.artist}}</div>
           <!-- <label for="artist">Artist:</label>
             <span>RHCP</span> -->
 
           <!-- <input type="text" /> -->
           <div class="song-info-box">
-            Learned:
-            <stars></stars>
+            Learned: {{songData.practicedPrcntg}}%
           </div>
         </div>
         <!--  -->
@@ -40,7 +39,7 @@
           <!-- <input type="text" /> -->
 
           <div class="song-info-box">
-            BPM: 84
+            BPM: {{songData.bpm}}
             <font-awesome-icon
               class="metronome"
               icon="play-circle"
@@ -49,92 +48,77 @@
         </div>
         <!-- ovdje mora ici vfor ako ima 2 keya -->
         <div>
-          <div class="key">Key: Am</div>
-          <div class="chords">Chords in scale: A B C D E F G H</div>
-
-          <div class="tuning">Tuning: Standard</div>
+          <div class="key">Key: {{songData.firstKey}}</div>
+          <div class="chords">Chords in scale: {{songData.firstKeyNotes}}</div>
+          <div class="guitar">Chord progression: {{songData.firstProgression}}</div>
+          
+        </div>
+        <div v-if="songData.secondKey">
+          <div class="key">Key: {{songData.secondKey}}</div>
+          <div class="chords">Chords in scale: {{songData.secondKeyNotes}}</div>
+          <div class="guitar">Chord progression: {{songData.secondProgression}}</div>
         </div>
         <!--  -->
         <div>
-          <div class="capo">Capo: Yes</div>
-          <div class="guitar">Chord progression: 1 4 5</div>
-          <div class="guitar">Guitar type: Electric</div>
+          <div class="capo">Capo: {{songData.capo ? songData.capo:"No"}}</div>
+          <div class="tuning">Tuning: {{songData.tuning ? songData.tuning:"Standard"}}</div>
+          
+          <div class="guitar" >Guitar type: {{songData.acoustic ? "Acoustic":""}} {{songData.electric ? "Eletric":""}}</div>
         </div>
         <!--  -->
         <div>
           <!-- <div class="genre">Genre: Rock</div> -->
-          <div class="link">
-            Link: <a href="#">www.yt-lesson-orbacking track.com</a>
+          <div class="link" v-if="songData.yt_link">
+            Link: <a :href="songData.yt_link" target="_blank">{{songData.yt_link}} </a>
           </div>
-          <div class="upload"><button>Upload pdf</button></div>
+          <div class="link" v-if="songData.yt_link">
+            Link: <a :href="songData.chords_link" target="_blank">{{songData.chords_link}} </a>
+          </div>
         </div>
         <div>
-          <div>Difficulty: Hard</div>
+          <div>Difficulty: {{songData.difficulty}} </div>
         </div>
       </div>
-      <div class="box video">
+      <div class="box video" v-if="songData">
         <iframe
-          src="https://www.youtube.com/embed/9YffrCViTVk"
+          :src="songData.yt_link"
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+          allowfullscreen 
         ></iframe>
       </div>
 
       <div class="box notebook">
         <hr />
         <br />
-        <pre>
- Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis 
-
-        Eligendi, qui iusto distinctio aperiam corrupti voluptate deleniti
-        similique dignissimos doloribus illum. Tenetur dolor odit at providentddddddddddddddddddddddddddddddddddddddd dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-        nihil culpa voluptate reprehenderit obcaecati vitae numquam laborum
-        enim, molestiae, eligendi voluptates dicta praesentium corrupti est
-        deleniti, perferendis recusandae
+        <pre>{{songData.songText}}</pre>
         
-        
-        ? Praesentium velit magni cum dolorum
-        similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
-        Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
-        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleni? Praesentium velit magni cum dolorum
-        similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
-        Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
-        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleni
-
-        ? Praesentium velit magni cum dolorum
-        similiq nrue, itaque, odit quibusdam quidem saepe eum consequuntur.
-        Explicabo dolores similique, qui nemo ex molestiae quae, nostrum autem
-        excepturi eligendi fuga earum iure! Hic tempora consequuntur deleni
-        </pre>
       </div>
     </div>
   </base-card>
 </template>
 
 <script>
-import Stars from "./../components/ui/Stars.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
 
 export default {
   name: "SongDetail",
   components: {
     BaseCard,
-    Stars,
   },
   props: ["songId"],
   data() {
     return {
       id: null,
-      title: "",
       isFavorite: null,
       songData: null,
     };
   },
   mounted() {
     // this.id = this.$route.params.songId;
-    this.id = this.songId;
+    //iz rutera prop
+    this.id = this.songId; 
 
     const songData = this.$store.getters.getAllSongs.find(
       (song) => song.songId == this.id
@@ -180,8 +164,7 @@ export default {
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   
   font-size: 18px;
   border-right: 6px solid rgb(194, 42, 42);
