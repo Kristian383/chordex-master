@@ -54,24 +54,20 @@
           />
           <!-- easy hard -->
           <div>
-            <input
-              type="radio"
-              name="radio"
-              id="easy"
-              v-model="easy"
-            /><label for="easy">Easy</label>
+            <input type="radio" name="radio" id="easy" v-model="easy" /><label
+              for="easy"
+              >Easy</label
+            >
             <input
               type="radio"
               name="radio"
               id="medium"
               v-model="medium"
             /><label for="medium">Medium</label>
-            <input
-              type="radio"
-              name="radio"
-              id="hard"
-              v-model="hard"
-            /><label for="hard">Hard</label>
+            <input type="radio" name="radio" id="hard" v-model="hard" /><label
+              for="hard"
+              >Hard</label
+            >
           </div>
           <!--  -->
           <div class="grid-2">
@@ -114,8 +110,7 @@
               v-model.trim="songInfo.secondProgression"
             />
           </transition>
-          <!--  -->
-
+          <!-- guitar type -->
           <div>
             <input
               type="checkbox"
@@ -145,9 +140,18 @@
               placeholder="Fret"
             />
           </div>
-
           <!-- slider -->
-          slider
+          
+          <div class="range-slider">
+            <input
+              class="range-slider__range"
+              type="range"
+              min="0"
+              max="100"
+              v-model="songInfo.practicedPrcntg"
+            />
+            <span class="range-slider__value">{{songInfo.practicedPrcntg}}%</span>
+          </div>
           <!--  -->
           <input
             v-model.trim="songInfo.yt_link"
@@ -199,7 +203,7 @@ export default {
         // firstKey: null,
         // secondKey:null,
         songText: "",
-        practicedPrcntg: 0,
+        practicedPrcntg: 50,
         bpm: null,
         capo: null,
         electric: false,
@@ -208,8 +212,8 @@ export default {
         secondProgression: null,
         chords_link: null,
         yt_link: null,
-        firstKeyNotes:null,
-        secondKeyNotes:null,
+        firstKeyNotes: null,
+        secondKeyNotes: null,
       },
       haveCapo: null,
       easy: null,
@@ -271,6 +275,7 @@ export default {
 
       setTimeout(() => {
         event.target.classList.remove("success");
+        this.$router.push("/songs")
       }, 3500);
 
       const keys = this.getSelectedKeys;
@@ -290,12 +295,13 @@ export default {
         firstKey: keys.first,
         secondKey: keys.second,
         difficulty: difficulty,
-        isFavorite:this.isFavorite
+        isFavorite: this.isFavorite,
       };
       console.log(formData);
 
       //dispatch action from store addNewSong
       this.$store.dispatch("addNewSong", formData);
+      //router push
     },
     checkCapo() {
       this.songInfo.capo = null;
@@ -342,7 +348,6 @@ export default {
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-left: 6px solid rgb(194, 42, 42);
   position: relative;
-  
 }
 .top-section {
   display: flex;
@@ -612,4 +617,89 @@ form input:-internal-autofill-selected {
 .fade-enter-to {
   opacity: 1
 } */
+
+.range-slider {
+  width: 100%;
+  text-align: center;
+}
+
+.range-slider__range {
+  -webkit-appearance: none;
+  width: calc(100% - (73px));
+  height: 10px;
+  border-radius: 5px;
+  background: #fff;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: RGB(16, 17, 20);
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background 0.15s ease-in-out;
+  transition: background 0.15s ease-in-out;
+}
+
+.range-slider__range::-webkit-slider-thumb:hover {
+  background: rgb(194, 42, 42);
+}
+.range-slider__range:active::-webkit-slider-thumb {
+  background: rgb(194, 42, 42);
+}
+.range-slider__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -moz-transition: background 0.15s ease-in-out;
+  transition: background 0.15s ease-in-out;
+}
+.range-slider__range::-moz-range-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-moz-range-thumb {
+  background: #1abc9c;
+}
+
+.range-slider__value {
+  display: inline-block;
+  position: relative;
+  width: 60px;
+  color: #fff;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  background: #2c3e50;
+  padding: 5px 10px;
+  margin-left: 8px;
+}
+.range-slider__value:after {
+  position: absolute;
+  top: 8px;
+  left: -7px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-right: 7px solid #2c3e50;
+  border-bottom: 7px solid transparent;
+  content: "";
+}
+
+::-moz-range-track {
+  background: #d7dcdf;
+  border: 0;
+}
+
+input::-moz-focus-inner,
+input::-moz-focus-outer {
+  border: 0;
+}
 </style>
