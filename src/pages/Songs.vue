@@ -4,16 +4,19 @@
       <sort-by></sort-by>
     </template>
     <template v-slot:filters>
-      <filters
-      @filters-changed="filterSongs"></filters>
+      <filters @filters-changed="filterSongs"></filters>
     </template>
     <!-- saong list -->
     <div class="song-cards">
-      <song-card
+      <!-- ovdje u for skeleton load? -->
+      <template v-if="isLoaded">
+        <song-card
         v-for="song in AllSongs"
         :key="song.songId"
         :song="song"
       ></song-card>
+      </template>
+      <skeleton-song-card v-for="skeleton in 6" :key="skeleton" v-else></skeleton-song-card>
     </div>
     <!-- <template v-slot:song_cards>
       <song-card 
@@ -29,6 +32,7 @@
 <script>
 import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
+import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
 export default {
@@ -37,6 +41,13 @@ export default {
     SongCard,
     BaseCard,
     SortBy,
+    SkeletonSongCard,
+  },
+  data() {
+    return {
+      filteredSongs: [],
+      isLoaded: false,
+    };
   },
   computed: {
     AllSongs() {
@@ -49,35 +60,29 @@ export default {
 
     // }
   },
-  data() {
-    return {
-      filteredSongs: [],
-    };
-  },
   methods: {
-    filterSongs(){
+    filterSongs() {
       // console.log("ej filtirraj",this.filteredSongs);
-      let activeFilters=this.getActiveFilters;
-      
-      if(activeFilters.all)
-      {
-        this.filteredSongs=this.$store.getters.getAllSongs;
-      }else{
+      let activeFilters = this.getActiveFilters;
+      if (activeFilters.all) {
+        this.filteredSongs = this.$store.getters.getAllSongs;
+        
+      } else {
         for (let i = 0; i < activeFilters.length; i++) {
           const element = activeFilters[i];
           console.log(element);
         }
-        activeFilters=activeFilters.filter(filter=>filter==true)
+        activeFilters = activeFilters.filter((filter) => filter == true);
       }
-      
 
       console.log(activeFilters);
-      this.filteredSongs.filter(song=>{
-          console.log(song);
-      })
+      this.filteredSongs.filter((song) => {
+        console.log(song);
+      });
     },
     initialLoad() {
       this.filteredSongs = this.$store.getters.getAllSongs;
+      this.isLoaded=true;
     },
     // loadMoreSongs() {
     //   //fetch more songs
@@ -135,6 +140,7 @@ export default {
   grid-template-columns: repeat(auto-fill, 180px);
   justify-content: center;
 }
+
 /* .cover{
   position: fixed;
   top: 100px;

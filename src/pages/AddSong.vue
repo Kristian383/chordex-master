@@ -79,7 +79,7 @@
           <!--  -->
           <div class="grid-2">
             <select-box-key
-              @checkStore="needSecondKey = true"
+              @check-store="needSecondKey = true"
               name="firstKey"
             ></select-box-key>
             A B C D E F H

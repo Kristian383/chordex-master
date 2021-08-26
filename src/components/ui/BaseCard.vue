@@ -2,6 +2,7 @@
   <section
     class="home-section"
     :class="{ expand_home_section: !sidebarIsActive }"
+    
   >
     <nav>
       <div class="filter_categories">
@@ -23,12 +24,12 @@
         <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
       </div>
     </nav>
-    <div class="home-content">
+    <div class="home-content" >
       <div class="sort-section-title">
         <h2 class="title">{{ Title }}</h2>
         <slot name="select_box"></slot>
       </div>
-      <slot></slot>
+      <slot ></slot>
       <!-- <div class="song-cards" >
         <slot name="song_cards" ></slot>
       </div> -->
@@ -48,7 +49,12 @@ export default {
     },
     Title() {
       //staviti if route name zavrsava na /songs/broj onda dohvatiti iz vuexa song name
-      return this.$route.name;
+      const route=this.$route.name;
+      if(route=="SongDetail")
+      {
+        return this.$store.getters.getSongDetailTitle
+      }
+      return route;
     },
     searchIsActive() {
       return this.searchMatch.length ? "active" : "";

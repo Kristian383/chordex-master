@@ -1,7 +1,9 @@
 <template>
-  <div class="card" @click="Ispis" >
-    <div class="card-header" >
-      <div class="image"><img v-if="song.imageUrl" :src="song.imageUrl" alt="Artist photo" /></div>
+  <div class="card" @click="Ispis">
+    <div class="card-header">
+      <div class="image">
+        <img v-if="song.imageUrl" :src="song.imageUrl" alt="Artist photo" />
+      </div>
       <div class="icons">
         <div class="icon" id="edit" @click.stop="openEditMode">
           <font-awesome-icon icon="edit"></font-awesome-icon>
@@ -19,6 +21,7 @@
     <div class="card-body">
       <div class="tags">
         <span class="tag tag-teal" v-if="song.capo"> Capo</span>
+
         <span class="tag tag-teal" :class="skillLevelClass">{{
           song.difficulty
         }}</span>
@@ -32,7 +35,7 @@
           <font-awesome-icon icon="history"></font-awesome-icon>
           <small>{{ song.lastViewed }}</small>
         </div>
-        <h5>Learned: {{practicePercentage}} </h5>
+        <h5>Learned: {{ practicePercentage }}</h5>
       </div>
     </div>
     <div class="progress" :style="{ width: practicePercentage }"></div>
@@ -46,7 +49,7 @@ export default {
   methods: {
     Ispis() {
       // console.log("stisak", e.target);
-      this.$router.push("/songs/"+this.song.songId)
+      this.$router.push("/songs/" + this.song.songId);
 
       // if (e.target.id == "favorite") {
       //   console.log("favorit trebamo toggle");
@@ -58,7 +61,7 @@ export default {
       // }
     },
     toggleFavorite() {
-      this.$store.commit("toggleFavorite",this.song.songId)
+      this.$store.commit("toggleFavorite", this.song.songId);
     },
     openEditMode(e) {
       console.log("opening edit mode", e.target);
@@ -75,8 +78,8 @@ export default {
       return this.song.isFavorite;
     },
     barColor() {
-      if(this.barPrctg<=40) return "rgb(194, 42, 42)"
-      else if(this.barPrctg>34 && this.barPrctg <=80) return "#ff4500"
+      if (this.barPrctg <= 40) return "rgb(194, 42, 42)";
+      else if (this.barPrctg > 34 && this.barPrctg <= 80) return "#ff4500";
 
       return "#69b34c";
     },
@@ -88,7 +91,6 @@ export default {
   },
   mounted() {
     this.barPrctg = this.song.practicedPrcntg;
-    
   },
 };
 </script>
@@ -97,9 +99,10 @@ export default {
 .card {
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  /* box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2); */
+  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06); */
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
   overflow: hidden;
   width: 180px;
   position: relative; /*moj */
@@ -113,7 +116,7 @@ export default {
   cursor: pointer;
   transform: rotateZ(-1deg) scale(1.01);
 }
-.card.active{
+.card.active {
   opacity: 1;
   transform: translateY(0);
 }
@@ -122,12 +125,12 @@ export default {
   height: 100%;
   object-fit: cover;
 }
-.image{
+.image {
   width: 100%;
   height: 100px;
   text-align: center;
   /* background-color: #242424; */
-  background-color: rgb(194, 42, 42);
+  /* background-color: rgb(194, 42, 42); */
 }
 .progress {
   bottom: 0;
@@ -181,7 +184,7 @@ export default {
 }
 .is_favorite {
   /* color: #d8323c; */
-  color: #B02828;
+  color: #b02828;
 }
 /* card body  */
 .card-body {
@@ -260,5 +263,30 @@ export default {
   gap: 4px;
 }
 
+/* skeleton */
+/* skeleton load */
+.skeleton {
+  /* opacity: .7; */
+  animation: skeleton-loading 1s linear infinite alternate;
+}
 
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+.skeleton-text {
+  width: 100%;
+  height: 0.5rem;
+  margin-bottom: 0.25rem;
+  border-radius: 0.125rem;
+}
+
+.skeleton-text:last-child {
+  width: 80%;
+  margin-bottom: 0;
+}
 </style>

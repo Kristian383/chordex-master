@@ -126,6 +126,9 @@ export default {
     if (songData) {
       this.songData = songData;
       this.isFavorite = songData.isFavorite;
+      //pass song name for title of page
+      this.$store.commit("setSongDetailTitle",songData.song)
+      
     } else {
       this.$router.push("notFound");
     }
@@ -192,7 +195,7 @@ export default {
 }
 .box.video iframe {
   width: 230px;
-
+  
 }
 
 @media (min-width: 600px){
@@ -214,9 +217,10 @@ export default {
   .box.song-info, .box.video{
     width: 600px;
     /* margin: auto; */
+    min-height: 400px;
   }
   .box.video iframe {
-    height: 315px;
+    height: 100%;
     /* width: 560px; */
   }
   .box.notebook{
@@ -315,4 +319,6 @@ svg {
 .middle-icons .edit:hover {
   color: black;
 }
+
+
 </style>
