@@ -3,8 +3,6 @@ import App from './App.vue'
 import router from "./router.js"
 import store from "./store/index.js"
 
-import 'vue-skeletor/dist/vue-skeletor.css';
-import { Skeletor } from 'vue-skeletor';
 
 import { faHeart as HeartRegular, faTimesCircle } from "@fortawesome/free-regular-svg-icons"
 
@@ -23,7 +21,6 @@ library.add(faBars, faEye, faSearch, faPenSquare, faMusic, faSignOutAlt, faHeart
 const app = createApp(App);
 
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.component(Skeletor.name, Skeletor)
 
 app.use(router);
 app.use(store);

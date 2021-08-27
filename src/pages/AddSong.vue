@@ -9,7 +9,17 @@
             :class="{ 'is-favorite': isFavorite }"
             @click.prevent="toggleFavorite"
           ></font-awesome-icon>
-
+          <!-- my song checkbox  clipboard-list  -->
+          <!-- <div class="my-song">
+            
+            <input
+              type="checkbox"
+              name="choice"
+              id="my-song"
+              v-model="songInfo.mySong"
+            /><label for="my-song">My song</label>
+          </div> -->
+          <!--  -->
           <font-awesome-icon
             class="delete"
             icon="trash-alt"
@@ -29,7 +39,7 @@
             @focus="clearValidity('artist')"
           />
           <div class="grid-2">
-            <div class="find-data">
+            <div class="find-data" @click="searchSongInfo">
               <!-- Not found anything -->
               Try to get song info
               <font-awesome-icon icon="question-circle"></font-awesome-icon>
@@ -79,7 +89,7 @@
           <!--  -->
           <div class="grid-2">
             <select-box-key
-              @check-store="needSecondKey = true"
+              @checkStore="needSecondKey = true"
               name="firstKey"
             ></select-box-key>
             A B C D E F H
@@ -148,7 +158,7 @@
             />
           </div>
           <!-- slider -->
-          
+
           <div class="range-slider">
             <input
               class="range-slider__range"
@@ -157,14 +167,16 @@
               max="100"
               v-model="songInfo.practicedPrcntg"
             />
-            <span class="range-slider__value">{{songInfo.practicedPrcntg}}%</span>
+            <span class="range-slider__value"
+              >{{ songInfo.practicedPrcntg }}%</span
+            >
           </div>
           <!--  -->
           <input
             v-model.trim="songInfo.yt_link"
             class="input-field"
             type="text"
-            placeholder="YouTube Link"
+            placeholder="YouTube Link: https://www.youtube.com/watch?v="
           />
           <input
             v-model.trim="songInfo.chords_link"
@@ -217,7 +229,7 @@ export default {
         yt_link: null,
         firstKeyNotes: null,
         secondKeyNotes: null,
-        tuning:null
+        tuning: null,
       },
       haveCapo: null,
       easy: null,
@@ -279,7 +291,7 @@ export default {
 
       setTimeout(() => {
         event.target.classList.remove("success");
-        this.$router.push("/songs")
+        this.$router.push("/songs");
       }, 3500);
 
       const keys = this.getSelectedKeys;
@@ -293,7 +305,7 @@ export default {
         difficulty = "hard";
       }
 
-      this.songInfo.yt_link= this.handleYTLink("https://www.youtube.com/32GZ3suxRn4");
+      this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
 
       const formData = {
         ...this.songInfo,
@@ -334,13 +346,19 @@ export default {
         this.song.isValid = false;
       }
     },
-    handleYTLink(link){
+    handleYTLink(link) {
       //https://www.youtube.com/embed/32GZ3suxRn4
       //https://www.youtube.com/32GZ3suxRn4
-      let id=link.split("https://www.youtube.com/")[1];
-      return `https://www.youtube.com/embed/${id}`
-      
-    }
+      let id = link.split("https://www.youtube.com/watch?v=")[1];
+      return `https://www.youtube.com/embed/${id}`;
+    },
+    searchSongInfo() {
+      console.log("art", this.artist.val);
+      console.log("song", this.song.val);
+
+      //api call to spotify
+      this.$store.dispatch("apiForSongInfo", this.song.val);
+    },
   },
 };
 </script>
@@ -357,9 +375,9 @@ export default {
   border-radius: 6px;
   font-family: Arial, sans-serif !important;
   font-size: 18px;
-  
-box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
   border-left: 6px solid rgb(194, 42, 42);
   position: relative;
 }
@@ -378,6 +396,12 @@ svg {
 .top-section .heart {
   position: absolute;
   left: 25px;
+  top: 33px;
+  cursor: pointer;
+}
+.top-section .my-song {
+  position: absolute;
+  left: 75px;
   top: 33px;
   cursor: pointer;
 }
@@ -404,12 +428,14 @@ svg {
   height: 100%;
   margin: 0 auto;
   /* color: rgb(136, 136, 136); */
-  color: RGB(16, 17, 20);
+  /* color: RGB(16, 17, 20); */
+  color: #fff;
   border-radius: 3px;
   outline: none;
   border: none;
-  background-color: #fff;
-  border: 2px solid RGB(16, 17, 20);
+  background-color: #fa8e44;
+  background-color: #6fc982;
+  border: 2px #1abc9c;
   border-radius: 100px;
 }
 .button-container button:before {
@@ -440,7 +466,7 @@ svg {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(45);
-  border-top: 3px solid rgb(136, 136, 136);
+  border-top: 3px solid #fff;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -620,6 +646,7 @@ input[type="radio"]:checked + label {
   background-color: #c22a2a;
   color: #fff;
 }
+
 form input:-internal-autofill-selected {
   background-color: #fff !important;
 }
@@ -654,7 +681,7 @@ form input:-internal-autofill-selected {
 }
 .range-slider__range::-webkit-slider-thumb {
   -webkit-appearance: none;
-          appearance: none;
+  appearance: none;
   width: 20px;
   height: 20px;
   border-radius: 50%;

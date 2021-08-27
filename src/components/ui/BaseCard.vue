@@ -69,10 +69,10 @@ export default {
   methods: {
     searchTextBox(e) {
       let textValue = e.target.value;
-
+      
       let foundData = this.$store.getters.getAllSongs.filter((song) => {
         const regex = new RegExp(`${textValue}`, "gi");
-        return song.songName.match(regex) || song.artist.match(regex);
+        return song.song.match(regex) || song.artist.match(regex);
       });
       if (textValue.length === 0) {
         foundData = [];

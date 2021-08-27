@@ -1,28 +1,28 @@
 <template>
   <div class="select-box" >
     <div class="options-container" :class="{ active: sortIsActive }">
-      <div class="option" @click="changeSortOption('newest')">
+      <div class="option" @click.prevent="changeSortOption('newest')">
         <input type="radio" id="recently" class="radio" name="category" />
         <label for="recently">Newest Added</label>
         <!-- <label for="recently">Recently added</label> -->
       </div>
-      <div class="option" @click="changeSortOption('oldest')">
+      <div class="option" @click.prevent="changeSortOption('oldest')">
         <input type="radio" id="oldest" class="radio" name="category" />
         <label for="oldest">Oldest Added</label>
       </div>
-      <div class="option" @click="changeSortOption('alphabet')">
+      <div class="option" @click.prevent="changeSortOption('A-Z')">
         <input type="radio" id="alphabet" class="radio" name="category" />
         <label for="alphabet">A - Z</label>
       </div>
-      <div class="option" @click="changeSortOption('reverse')">
+      <div class="option" @click.prevent="changeSortOption('Z-A')">
         <input type="radio" id="reverse" class="radio" name="category" />
-        <label for="alphabet_reverse">Z - A</label>
+        <label for="reverse">Z - A</label>
       </div>
-      <div class="option" @click="changeSortOption('best')">
+      <div class="option" @click.prevent="changeSortOption('best')">
         <input type="radio" id="best" class="radio" name="best" />
         <label for="best">Best learned</label>
       </div>
-      <div class="option" @click="changeSortOption('least')">
+      <div class="option" @click.prevent="changeSortOption('least')">
         <input type="radio" id="least" class="radio" name="least" />
         <label for="least">Least learned</label>
       </div>
@@ -33,6 +33,7 @@
 
 <script>
 export default {
+  emits:["changeSort"],
   data() {
     return {
       sortIsActive: false,
@@ -44,9 +45,11 @@ export default {
       this.sortIsActive = !this.sortIsActive;
     },
     changeSortOption(option) {
-      // console.log("changeSortOption", option);
       this.selectedSort = option;
       this.sortIsActive = false;
+      
+      // this.$store.commit("sortSongsOption",option);
+     this.$emit("changeSort",option)
     },
   },
  

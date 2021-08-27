@@ -1,7 +1,7 @@
 <template>
   <base-card>
     <template v-slot:select_box>
-      <sort-by></sort-by>
+      <sort-by @change-sort="sortSongs"></sort-by>
     </template>
     <template v-slot:filters>
       <filters @filters-changed="filterSongs"></filters>
@@ -17,6 +17,7 @@
       ></song-card>
       </template>
       <skeleton-song-card v-for="skeleton in 6" :key="skeleton" v-else></skeleton-song-card>
+      <!-- staviti for  skeleton in count  -->
     </div>
     <!-- <template v-slot:song_cards>
       <song-card 
@@ -105,6 +106,10 @@ export default {
         // }
       });
     },
+    sortSongs(option)
+    {
+      this.$store.commit("sortSongs",option)
+    }
   },
   mounted() {
     this.initialLoad();
