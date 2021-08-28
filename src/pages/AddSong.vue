@@ -10,15 +10,16 @@
             @click.prevent="toggleFavorite"
           ></font-awesome-icon>
           <!-- my song checkbox  clipboard-list  -->
-          <!-- <div class="my-song">
-            
+          <div class="my-song">
+            <label for="my-song" class="my-label">My song:</label>
             <input
               type="checkbox"
               name="choice"
               id="my-song"
               v-model="songInfo.mySong"
-            /><label for="my-song">My song</label>
-          </div> -->
+            />
+            <!-- <label for="my-song">My Song</label> -->
+          </div>
           <!--  -->
           <font-awesome-icon
             class="delete"
@@ -230,6 +231,7 @@ export default {
         firstKeyNotes: null,
         secondKeyNotes: null,
         tuning: null,
+        mySong: false,
       },
       haveCapo: null,
       easy: null,
@@ -304,8 +306,9 @@ export default {
       } else {
         difficulty = "hard";
       }
-
-      this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
+      if (this.songInfo.yt_link) {
+        this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
+      }
 
       const formData = {
         ...this.songInfo,
@@ -646,7 +649,25 @@ input[type="radio"]:checked + label {
   background-color: #c22a2a;
   color: #fff;
 }
+.my-song {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  margin-top: 6px;
+  position: relative;
+}
+.my-song label:hover,
+#my-song:hover {
+  cursor: pointer;
+}
 
+#my-song {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 2px;
+  margin-top: 0;
+}
 form input:-internal-autofill-selected {
   background-color: #fff !important;
 }

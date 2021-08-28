@@ -108,7 +108,7 @@ export default {
   position: relative; /*moj */
   height: 260px;
   /* color: #303030; */
-  color: #29264c;
+  color:#101114;
   transition: 0.5s ease all;
   /* transform: translateY(10%); */
 }
