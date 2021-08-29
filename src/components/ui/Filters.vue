@@ -41,13 +41,13 @@
 
 <script>
 export default {
-  // emits:["filters-changed"],
+  emits:["filters-changed"],
   props:["active"],
   data() {
     return {
       allFilters: ["all","favorites", "acoustic", "electric", "easy", "medium", "hard"],
       filters: {
-        all: null,
+        all: true,
         acoustic: false,
         electric: false,
         easy: false,
@@ -55,7 +55,6 @@ export default {
         hard: false,
         favorites:false
       },
-      activeFilter:this.active
     };
   },
   
@@ -76,45 +75,22 @@ export default {
         this.filters["all"] = false;
       }
 
-      this.activeFilters=[];
+      let activeFilters=[];
       for(const item in this.filters){
         
         if(this.filters[item]){
-          this.activeFilters.push(item)
+          activeFilters.push(item)
         }
       }
-      console.log("aktivni",this.activeFilters);
-      // console.log(this.activeFilters);
-      this.$router.replace({query:{filter:this.activeFilters.join(" ")}})
-      // this.$store.commit("setActiveFilters",this.filters)
-      // this.$emit("filters-changed")
+      if(!activeFilters.length)
+      {
+        this.filters["all"] = true;
+      }
+      this.$emit("filters-changed",activeFilters)
     },
   },
-  // mounted(){
-  //   if(this.active=="all"){
-  //     this.filters.all =true 
-  //   }else{
-  //     console.log(this.active.split(" "));
-  //     const activeInUrl=this.active.split(" ");
-  //     activeInUrl.forEach(element => {
-  //         this.filters[element]=true;
-  //     });
-  //     // for(const item in activeInUrl){
-  //     //   console.log("item",item);
-  //     //   this.filters[item]=true;
-  //     // }
-  //     console.log(this.filters);
-  //   }
-  // },
-  watch:{
-    $route(){
-      if(this.$route.query.filter){
-        
-        console.log("tu u wtach");
-      }
-      console.log("promjena");
-    }
-  }
+  
+  
   
 };
 </script>

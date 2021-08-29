@@ -1,14 +1,13 @@
 <template>
   <base-card>
     <template v-slot:filters>
-      <filters :active="getActiveFilters"></filters>
+      <filters  @filters-changed="setFilters"></filters>
     </template>
     <template v-slot:select_box>
       <sort-by @changeSort="sortSongs"></sort-by>
     </template>
     <!-- saong list -->
     <div class="song-cards">
-      <!-- ovdje u for skeleton load? -->
       <template v-if="isLoaded">
         <song-card
         v-for="song in AllSongs"
@@ -46,33 +45,24 @@ export default {
   },
   data() {
     return {
-      filteredSongs: [],
       isLoaded: true,
+      filters:[]
     };
   },
   computed: {
     AllSongs() {
-      return this.$store.getters.getAllSongs;
+      return this.filterSongs();
     },
-    getActiveFilters() {
-      if(!this.$route.query.filter){
-        return "all"
-      }
-      const filters=this.$route.query.filter;
-      console.log("mountedu se prosljeduje",filters);
-      return filters;
-    },
-    // getFilteredSongs(){
-
-    // }
   },
   methods: {
-    filterSongs(filters) {
-      console.log("filteri u filtersongs",filters);
+    filterSongs() {
+      return this.$store.getters.filterSongs(this.filters);
       
     },
+    setFilters(filters){
+      this.filters=filters;
+    },
     // initialLoad() {
-    //   this.filteredSongs = this.$store.getters.getAllSongs;
     //   this.isLoaded=true;
     // },
     // loadMoreSongs() {
@@ -118,15 +108,6 @@ export default {
     //initial load of data
     // loadMoreSongs()
   },
-  // watch:{
-  //   $route(){
-  //     if(this.$route.query.sort){
-  //       this.sortSongs(this.$route.query.sort)
-  //     }
-
-      
-  //   }
-  // }
 };
 </script>
 

@@ -79,7 +79,7 @@
           <div>Difficulty: {{songData.difficulty}} </div>
         </div>
       </div>
-      <div class="box video" v-if="songData">
+      <div class="box video" v-if="songData && songData.yt_link">
         <iframe
           :src="songData.yt_link"
           title="YouTube video player"
