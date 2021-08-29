@@ -1,17 +1,10 @@
 <template>
   <base-card>
     <template v-slot:select_box>
-      <sort-by></sort-by>
+      <sort-by @change-sort="sortSongs"></sort-by>
     </template>
-    <!-- <template v-slot:song_cards>
-      <song-card
-        v-for="song in AllSongs"
-        :key="song.id"
-        :song="song"
-      ></song-card>
-    </template> -->
     <div class="song-cards">
-      <song-card 
+      <song-card
         v-for="song in FavoriteSongs"
         :key="song.id"
         :song="song"
@@ -29,12 +22,18 @@ export default {
   components: {
     // SongCard,
     BaseCard,
-    SortBy,SongCard
+    SortBy,
+    SongCard,
   },
   computed: {
     FavoriteSongs() {
       // console.log("allsongs",this.$store.getters.getAllSongs);
       return this.$store.getters.getFavoriteSongs;
+    },
+  },
+  methods: {
+    sortSongs(option) {
+      this.$store.commit("sortSongs", option);
     },
   },
 };

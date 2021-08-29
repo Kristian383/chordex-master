@@ -21,6 +21,13 @@
         <span class="tooltip">Search</span>
       </li>-->
       <li>
+        <router-link to="/profile" v-bind:class="{ active_item: $route.path == '/profile' }">
+          <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
+          <span class="links_name">My Profile</span>
+          <span class="tooltip">My Profile</span>
+        </router-link>
+      </li>
+      <li>
         <router-link
           to="/songs"
           v-bind:class="{ active_item: $route.path == '/songs' }"
@@ -30,7 +37,7 @@
           <span class="tooltip">Songs</span>
         </router-link>
       </li>
-      <li>
+      <!-- <li>
         <router-link
           to="/favorites"
           v-bind:class="{ active_item: $route.path == '/favorites' }"
@@ -39,7 +46,7 @@
           <span class="links_name">Favorites</span>
           <span class="tooltip">Favorites</span>
         </router-link>
-      </li>
+      </li> -->
       <li>
         <router-link to="/artists" v-bind:class="{ active_item: $route.path == '/artists' }">
           <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
@@ -47,14 +54,14 @@
           <span class="tooltip">Artists</span>
         </router-link>
       </li>
-      <li>
+      <!-- <li>
         <router-link to="/" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="guitar"></font-awesome-icon>
           <span class="links_name">Guitar Type</span>
           <span class="tooltip">Guitar Type</span>
-          <!-- Neka ovo bude mali dropdown  sa acoustic i electric-->
+         
         </router-link>
-      </li>
+      </li> -->
       <li>
         <router-link to="/new" v-bind:class="{ active_item: $route.path == '/new' }">
           <font-awesome-icon
@@ -66,13 +73,13 @@
           <span class="tooltip">Add New Song</span>
         </router-link>
       </li>
-      <li>
+      <!-- <li>
         <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="thumbtack"></font-awesome-icon>
           <span class="links_name">Songs To Learn</span>
           <span class="tooltip">Songs To Learn</span>
         </router-link>
-      </li>
+      </li> -->
       <li>
         <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon

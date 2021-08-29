@@ -78,20 +78,20 @@ export default {
       return this.song.isFavorite;
     },
     barColor() {
-      if (this.barPrctg <= 40) return "rgb(194, 42, 42)";
-      else if (this.barPrctg > 34 && this.barPrctg <= 80) return "#ff4500";
+      if (this.song.practicedPrcntg <= 40) return "rgb(194, 42, 42)";
+      else if (this.song.practicedPrcntg > 34 && this.song.practicedPrcntg <= 80) return "#ff4500";
 
       return "#69b34c";
     },
   },
-  data() {
-    return {
-      barPrctg: null,
-    };
-  },
-  mounted() {
-    this.barPrctg = this.song.practicedPrcntg;
-  },
+  // data() {
+  //   return {
+  //     barPrctg: null,
+  //   };
+  // },
+  // mounted() {
+  //   this.barPrctg = this.song.practicedPrcntg;
+  // },
 };
 </script>
 

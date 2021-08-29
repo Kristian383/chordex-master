@@ -1,10 +1,10 @@
 <template>
   <base-card>
-    <template v-slot:select_box>
-      <sort-by @change-sort="sortSongs"></sort-by>
-    </template>
     <template v-slot:filters>
-      <filters @filters-changed="filterSongs"></filters>
+      <filters :active="getActiveFilters"></filters>
+    </template>
+    <template v-slot:select_box>
+      <sort-by @changeSort="sortSongs"></sort-by>
     </template>
     <!-- saong list -->
     <div class="song-cards">
@@ -47,44 +47,34 @@ export default {
   data() {
     return {
       filteredSongs: [],
-      isLoaded: false,
+      isLoaded: true,
     };
   },
   computed: {
     AllSongs() {
-      return this.filteredSongs;
+      return this.$store.getters.getAllSongs;
     },
     getActiveFilters() {
-      return this.$store.getters.getActiveFilters;
+      if(!this.$route.query.filter){
+        return "all"
+      }
+      const filters=this.$route.query.filter;
+      console.log("mountedu se prosljeduje",filters);
+      return filters;
     },
     // getFilteredSongs(){
 
     // }
   },
   methods: {
-    filterSongs() {
-      // console.log("ej filtirraj",this.filteredSongs);
-      let activeFilters = this.getActiveFilters;
-      if (activeFilters.all) {
-        this.filteredSongs = this.$store.getters.getAllSongs;
-        
-      } else {
-        for (let i = 0; i < activeFilters.length; i++) {
-          const element = activeFilters[i];
-          console.log(element);
-        }
-        activeFilters = activeFilters.filter((filter) => filter == true);
-      }
-
-      console.log(activeFilters);
-      this.filteredSongs.filter((song) => {
-        console.log(song);
-      });
+    filterSongs(filters) {
+      console.log("filteri u filtersongs",filters);
+      
     },
-    initialLoad() {
-      this.filteredSongs = this.$store.getters.getAllSongs;
-      this.isLoaded=true;
-    },
+    // initialLoad() {
+    //   this.filteredSongs = this.$store.getters.getAllSongs;
+    //   this.isLoaded=true;
+    // },
     // loadMoreSongs() {
     //   //fetch more songs
     //   // let response=await axios("htp://www.wdasd.com/+this.page")
@@ -112,8 +102,8 @@ export default {
     }
   },
   mounted() {
-    this.initialLoad();
-    this.getActiveFilters;
+    // this.initialLoad();
+    // console.log(this.$route);
     let options = {
       root: null,
       rootMargin: "-100px 0px",
@@ -128,6 +118,15 @@ export default {
     //initial load of data
     // loadMoreSongs()
   },
+  // watch:{
+  //   $route(){
+  //     if(this.$route.query.sort){
+  //       this.sortSongs(this.$route.query.sort)
+  //     }
+
+      
+  //   }
+  // }
 };
 </script>
 

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Songs from "./pages/Songs.vue"
-import Favorites from "./pages/Favorites.vue"
+import UserProfile from "./pages/UserProfile.vue"
 import SongDetail from "./pages/SongDetail.vue"
 import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
@@ -22,7 +22,7 @@ const router = createRouter({
             // ]
         },
 
-        { path: "/favorites", component: Favorites, name: "Favorites", meta: { title: "Favorites | Chordex" } },
+        { path: "/profile", component: UserProfile, name: "MyProfile", meta: { title: "My Profile | Chordex" } },
         { path: "/artists", component: Artists, name: "Artists", meta: { title: "Artists | Chordex" } },
         { path: "/new", component: AddSong, name: "AddSong", meta: { title: "AddSong | Chordex" } },
         { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },

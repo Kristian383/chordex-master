@@ -1,5 +1,9 @@
 <template>
   <base-card>
+    <template v-slot:select_box>
+      <sort-by></sort-by>
+      <!-- @change-sort="sortSongs" -->
+    </template>
     <div class="artists">
       <draggable
         class="list-group"
@@ -25,9 +29,11 @@
             </div>
             <div class="details">
               <h2>
-                <router-link :to="'/songs/'+element.order">{{ element.name }}</router-link>
+                <router-link :to="'/artist/' + element.name">{{
+                  element.name
+                }}</router-link>
               </h2>
-                {{element}}
+              {{ element }}
               <p>Songs: 20</p>
             </div>
             <!-- <div class="btn flex-center" @click="ToggleFavorite">
@@ -45,9 +51,9 @@
 </template>
 
 <script>
-
 import draggable from "vuedraggable";
 import BaseCard from "./../components/ui/BaseCard.vue";
+import SortBy from "../components/ui/SortBy.vue";
 const message = [
   "Ed Sheeran",
   "Nirvana",
@@ -62,6 +68,7 @@ export default {
   components: {
     draggable,
     BaseCard,
+    SortBy,
   },
   data() {
     return {
@@ -86,6 +93,9 @@ export default {
         ghostClass: "ghost",
       };
     },
+    getElement(element){
+      return element
+    }
   },
 };
 </script>
@@ -160,9 +170,8 @@ export default {
   font-size: 18px;
   color: #111;
   padding: 0px 5px 3px;
-  
 }
-.list-group .list-group-item .details h2 a{
+.list-group .list-group-item .details h2 a {
   text-decoration: none;
   color: inherit;
 }

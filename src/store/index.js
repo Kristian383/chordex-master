@@ -4,10 +4,10 @@ import { createStore } from "vuex";
 const store = createStore({
     state() {
         return {
-            sidebarActive: true, firstKey: null, secondKey: null, songDetailTitle: null, sortSongsOption: "newest", apiData: null,
+            sidebarActive: true, firstKey: null, secondKey: null, songDetailTitle: null,  apiData: null,
             darkMode: false,
-            allFilters: ["all", "acoustic", "electric", "easy", "medium", "hard"],
-            activeFilters: { all: true },
+            // sortSongsOption: "newest",
+            
             songs: [{ artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD",mySong:true },
 
 
@@ -26,23 +26,24 @@ const store = createStore({
             return state.sidebarActive;
         },
         getAllSongs(state) {
-            return state.songs.filter(song=>song.mySong==false);
+            return state.songs;
+            // .filter(song=>song.mySong==false)
         },
         getAllFilters(state) {
             return state.allFilters;
         },
 
-        getActiveFilters(state) {
+        // getActiveFilters(state) {
 
-            return state.activeFilters;
-        },
+        //     return state.activeFilters;
+        // },
         isDarkMode(state) {
             return state.darkMode;
         },
         getFavoriteSongs(state) {
-
-            const favorites = state.songs.filter(song => song.isFavorite);
-            return favorites;
+            console.log(state.songs);
+            return state.songs.filter(song => song.isFavorite);
+             
         },
 
         selectedKeys(state) {
@@ -125,7 +126,7 @@ const store = createStore({
             // }else{
 
             // }
-
+            // console.log(state.songs);
 
         },
         addApiData(state,payload){

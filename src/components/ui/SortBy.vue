@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       sortIsActive: false,
-      selectedSort: "newest",
+      selectedSort: null,
     };
   },
   methods: {
@@ -47,11 +47,11 @@ export default {
     changeSortOption(option) {
       this.selectedSort = option;
       this.sortIsActive = false;
-      
-      // this.$store.commit("sortSongsOption",option);
+      // this.$router.replace({query:{sort:option}})
      this.$emit("changeSort",option)
     },
   },
+  
  
 };
 </script>

@@ -41,28 +41,27 @@
 
 <script>
 export default {
-  emits:["filters-changed"],
+  // emits:["filters-changed"],
+  props:["active"],
   data() {
     return {
+      allFilters: ["all","favorites", "acoustic", "electric", "easy", "medium", "hard"],
       filters: {
-        all: true,
+        all: null,
         acoustic: false,
         electric: false,
         easy: false,
         medium: false,
         hard: false,
+        favorites:false
       },
+      activeFilter:this.active
     };
   },
-  computed: {
-    allFilters() {
-      return this.$store.getters.getAllFilters;
-    },
-  },
+  
   methods: {
     setFilter(e) {
       const item = e.target.id;
-
       if (item == "all") {
         this.filters = {
           all: true,
@@ -71,14 +70,52 @@ export default {
           easy: false,
           medium: false,
           hard: false,
+          favorites:false
         };
       } else {
         this.filters["all"] = false;
       }
-      this.$store.commit("setActiveFilters",this.filters)
-      this.$emit("filters-changed")
+
+      this.activeFilters=[];
+      for(const item in this.filters){
+        
+        if(this.filters[item]){
+          this.activeFilters.push(item)
+        }
+      }
+      console.log("aktivni",this.activeFilters);
+      // console.log(this.activeFilters);
+      this.$router.replace({query:{filter:this.activeFilters.join(" ")}})
+      // this.$store.commit("setActiveFilters",this.filters)
+      // this.$emit("filters-changed")
     },
   },
+  // mounted(){
+  //   if(this.active=="all"){
+  //     this.filters.all =true 
+  //   }else{
+  //     console.log(this.active.split(" "));
+  //     const activeInUrl=this.active.split(" ");
+  //     activeInUrl.forEach(element => {
+  //         this.filters[element]=true;
+  //     });
+  //     // for(const item in activeInUrl){
+  //     //   console.log("item",item);
+  //     //   this.filters[item]=true;
+  //     // }
+  //     console.log(this.filters);
+  //   }
+  // },
+  watch:{
+    $route(){
+      if(this.$route.query.filter){
+        
+        console.log("tu u wtach");
+      }
+      console.log("promjena");
+    }
+  }
+  
 };
 </script>
 

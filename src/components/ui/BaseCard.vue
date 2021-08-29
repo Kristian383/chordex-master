@@ -95,7 +95,7 @@ export default {
 <style scoped>
 .home-section {
   position: relative;
-  background: #f5f5f5;
+  background: #eaebea;
   
   /* background: #161B22; */
   
@@ -154,7 +154,7 @@ nav .search-box input {
   height: 100%;
   width: 100%;
   outline: none;
-  background: #f5f6fa;
+  background: #eaebea;
   border: 2px solid #efeef1;
   border-radius: 6px;
   font-size: 18px;
