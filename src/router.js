@@ -5,6 +5,7 @@ import UserProfile from "./pages/UserProfile.vue"
 import SongDetail from "./pages/SongDetail.vue"
 import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
+import MySongs from "./pages/MySongs.vue"
 import NotFound from "./pages/NotFound.vue"
 
 // const Favorites=()=>import("./pages/Favorites.vue")
@@ -25,6 +26,8 @@ const router = createRouter({
         { path: "/profile", component: UserProfile, name: "MyProfile", meta: { title: "My Profile | Chordex" } },
         { path: "/artists", component: Artists, name: "Artists", meta: { title: "Artists | Chordex" } },
         { path: "/new", component: AddSong, name: "AddSong", meta: { title: "AddSong | Chordex" } },
+        { path: "/my-songs", component: MySongs, name: "MySongs", meta: { title: "MySongs | Chordex" } },
+        { path: "/my-songs/:songId(\\d+)", component: SongDetail, name: "MySongDetail", meta: { title: "SongDetail | Chordex" }, props: true },
         { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
     ]
 });

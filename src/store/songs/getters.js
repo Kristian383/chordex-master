@@ -17,11 +17,11 @@ export default {
     isDarkMode(state) {
         return state.darkMode;
     },
-    getFavoriteSongs(state) {
-        console.log(state.songs);
-        return state.songs.filter(song => song.isFavorite);
+    // getFavoriteSongs(state) {
+    //     console.log(state.songs);
+    //     return state.songs.filter(song => song.isFavorite);
 
-    },
+    // },
 
     selectedKeys(state) {
         const selected = {
@@ -72,7 +72,7 @@ export default {
 
     },
     getAllMySongs(state){
-        return state.mySongs;
+        return state.songs.filter(song=>song.isMySong);
     }
 
 

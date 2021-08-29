@@ -1,5 +1,5 @@
 <template>
-  <div class="card" @click="Ispis">
+  <div class="card" @click="openSongDetail">
     <div class="card-header">
       <div class="image">
         <img v-if="song.imageUrl" :src="song.imageUrl" alt="Artist photo" />
@@ -47,21 +47,20 @@ export default {
   name: "SongCard",
   props: ["song"],
   methods: {
-    Ispis() {
+    openSongDetail() {
       // console.log("stisak", e.target);
-      this.$router.push("/songs/" + this.song.songId);
-
-      // if (e.target.id == "favorite") {
-      //   console.log("favorit trebamo toggle");
-      //   //dispatch setInFavorites preko id propsa
-      //   return;
-      // } else if (e.target.id == "edit") {
+      if(this.song.isMySong){
+        this.$router.push("/my-songs/" + this.song.songId);
+      }else{
+        this.$router.push("/songs/" + this.song.songId);
+      }
+      //if (e.target.id == "edit") {
       //   console.log("Edit mode");
       //   //route push na edit preko id propsa
       // }
     },
     toggleFavorite() {
-      this.$store.commit("toggleFavorite", this.song.songId);
+      this.$store.commit("toggleFavorite", {songId:this.song.songId,isMySong:this.song.isMySong});
     },
     openEditMode(e) {
       console.log("opening edit mode", e.target);

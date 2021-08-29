@@ -16,7 +16,7 @@
               type="checkbox"
               name="choice"
               id="my-song"
-              v-model="songInfo.mySong"
+              v-model="songInfo.isMySong"
             />
             <!-- <label for="my-song">My Song</label> -->
           </div>
@@ -231,7 +231,7 @@ export default {
         firstKeyNotes: null,
         secondKeyNotes: null,
         tuning: null,
-        mySong: false,
+        isMySong: false,
       },
       haveCapo: null,
       easy: null,

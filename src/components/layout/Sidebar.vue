@@ -1,14 +1,25 @@
 <template>
-  <div class="sidebar " v-bind:class="isOpen ? 'active' : ''">
-    <div class="logo_content">
+  <div
+    class="mobile-bar"
+    @click="toggleSidebar"
+    v-bind:style="{ color: activeColor }"
+  >
+  <!-- v-bind:style="{ color: activeColor }" -->
+    <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
+    
+  </div>
+  <transition name="fade">
+  <div class="sidebar" v-if="!mobile">
+    <!-- v-bind:class="isOpen ? 'active' : ''"  -->
+    <!-- <div class="logo_content">
       <div class="logo">
         <img src="./../../assets/music.png" alt="" />
         <div class="logo_name">Chordex</div>
-      </div>
-      <div @click="toggleSidebar">
-        <i class="fas fa-bars" id="btn"></i>
-      </div>
-    </div>
+      </div> -->
+      <!-- <div @click="toggleSidebar" class="menu">
+        <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
+      </div> -->
+    <!-- </div> -->
     <ul class="nav_list">
       <!-- <li @click="toggleSidebar">
         <font-awesome-icon
@@ -21,10 +32,13 @@
         <span class="tooltip">Search</span>
       </li>-->
       <li>
-        <router-link to="/profile" v-bind:class="{ active_item: $route.path == '/profile' }">
+        <router-link
+          to="/profile"
+          v-bind:class="{ active_item: $route.path == '/profile' }"
+        >
           <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
-          <span class="links_name">My Profile</span>
-          <span class="tooltip">My Profile</span>
+          <span class="links_name">Account</span>
+          <!-- <span class="tooltip">My Profile</span> -->
         </router-link>
       </li>
       <li>
@@ -34,7 +48,7 @@
         >
           <font-awesome-icon id="ikona" icon="music"></font-awesome-icon>
           <span class="links_name">Songs</span>
-          <span class="tooltip">Songs</span>
+          <!-- <span class="tooltip">Songs</span> -->
         </router-link>
       </li>
       <!-- <li>
@@ -48,10 +62,13 @@
         </router-link>
       </li> -->
       <li>
-        <router-link to="/artists" v-bind:class="{ active_item: $route.path == '/artists' }">
+        <router-link
+          to="/artists"
+          v-bind:class="{ active_item: $route.path == '/artists' }"
+        >
           <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
           <span class="links_name">Artists</span>
-          <span class="tooltip">Artists</span>
+          <!-- <span class="tooltip">Artists</span> -->
         </router-link>
       </li>
       <!-- <li>
@@ -63,14 +80,17 @@
         </router-link>
       </li> -->
       <li>
-        <router-link to="/new" v-bind:class="{ active_item: $route.path == '/new' }">
+        <router-link
+          to="/new"
+          v-bind:class="{ active_item: $route.path == '/new' }"
+        >
           <font-awesome-icon
             id="ikona"
             class="new_song"
             icon="plus-square"
           ></font-awesome-icon>
           <span class="links_name">Add New Song</span>
-          <span class="tooltip">Add New Song</span>
+          <!-- <span class="tooltip">Add New Song</span> -->
         </router-link>
       </li>
       <!-- <li>
@@ -81,37 +101,61 @@
         </router-link>
       </li> -->
       <li>
-        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+        <router-link
+          to="/my-songs"
+          v-bind:class="{ active_item: $route.path == '/my-songs' }"
+        >
           <font-awesome-icon
             id="ikona"
             icon="clipboard-list"
           ></font-awesome-icon>
           <span class="links_name">My Songs</span>
-          <span class="tooltip">My Songs</span>
+          <!-- <span class="tooltip">My Songs</span> -->
         </router-link>
       </li>
       <li>
         <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="headphones"></font-awesome-icon>
           <span class="links_name">Backing tracks</span>
-          <span class="tooltip">Backing tracks</span>
+          <!-- <span class="tooltip">Backing tracks</span> -->
         </router-link>
       </li>
       <li>
-        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
+        <router-link
+          to="/find-key"
+          v-bind:class="{ active_item: $route.path == '/find-key' }"
+        >
           <font-awesome-icon
             id="ikona"
             icon="question-circle"
           ></font-awesome-icon>
           <span class="links_name">Find a key </span>
-          <span class="tooltip">Find a key</span>
+          <!-- <span class="tooltip">Find a key</span> -->
+        </router-link>
+      </li>
+       <li>
+        <router-link
+          to="/"
+          v-bind:class="{ active_item: $route.path == '/' }"
+        >
+          <font-awesome-icon
+            id="ikona"
+            icon="sign-out-alt"
+          ></font-awesome-icon>
+          <span class="links_name">Logout </span>
+          <!-- <span class="tooltip">Find a key</span> -->
         </router-link>
       </li>
       <li>
         <div class="toggle-mode">
-          <input type="checkbox" @click="toggleMode" class="checkbox" id="chk" />
+          <input
+            type="checkbox"
+            @click="toggleMode"
+            class="checkbox"
+            id="chk"
+          />
           <label class="label" for="chk">
-            <font-awesome-icon  icon="moon"></font-awesome-icon>
+            <font-awesome-icon icon="moon"></font-awesome-icon>
             <font-awesome-icon icon="sun"></font-awesome-icon>
             <div class="ball"></div>
           </label>
@@ -128,6 +172,7 @@
       </div>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -138,6 +183,9 @@ export default {
     return {
       searchText: "",
       isOpen: true,
+      mobile: false,
+      mobileNav: null,
+      windowWidth: null,
     };
   },
   methods: {
@@ -146,74 +194,111 @@ export default {
         return;
       }
       this.isOpen = !this.isOpen;
+      this.mobile = !this.mobile;
       this.$store.commit("toggleSidebar");
     },
-    toggleMode(){
-      this.$store.commit("toggleDarkMode")
-    }
+    toggleMode() {
+      this.$store.commit("toggleDarkMode");
+    },
   },
   created() {
     dom.watch();
   },
+  computed: {
+    appWidth() {
+      return "100%";
+    },
+    activeColor() {
+      if (this.mobile) {
+        console.log("object",this.mobile);
+        return "black";
+      } else {
+        return "#fff";
+      }
+    },
+  },
   // computed: {
   //   isDarkMode() {
-  //     return this.$store.isDarkMode; 
+  //     return this.$store.isDarkMode;
   //   }
   // },
 };
 </script>
 
 <style scoped>
-.favorite{
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+  transform: translateX(-100%)
+}
+.fade-leave-to,
+.fade-enter-from {
+  opacity: 0;
+}
+.favorite {
   color: #c22a2a;
 }
 .sidebar {
   height: 100%;
-  width: 80px;
+  width: 240px;
+  /* width: 80px;
   background: #11101d;
-  background: #161B22; 
-  background: #0D1117; /*tamnija*/
+  background: #161b22; */
+  background: #0d1117; /*tamnija*/
   position: fixed;
   top: 0;
   left: 0;
-  padding: 6px 14px;
-  transition: all 0.5s ease;
+  padding: 54px 14px;
+  transition: all 0.3s ease;
   z-index: 15;
+  /* visibility: hidden; */
+}
+/* .sidebar.active {
+  width: 240px;
+} */
+/* pokusaj mobile resposive */
+
+.mobile-bar {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  font-size: 24px;
+  z-index: 60;
+  cursor: pointer;
+  
 }
 
+/*  */
 .active_item {
   /* background-color: #e73213; */
   background: rgb(194, 42, 42);
- 
 }
-.active_item svg{
-   color: #f1f1f1;
+.active_item svg {
+  color: #f1f1f1;
 }
 .new_song {
   color: #69b34c;
 }
 
-.sidebar.active {
-  width: 240px;
-}
 
-.sidebar .logo_content .logo {
+
+/* .sidebar .logo_content .logo {
   display: flex;
   width: 100%;
   align-items: center;
   color: #fff;
   opacity: 0;
   pointer-events: none;
-}
-
-.sidebar.active .logo_content .logo {
+} */
+/* .sidebar.active .logo_content .logo  */
+/* .sidebar .logo_content .logo {
   opacity: 1;
 }
 .logo_content .logo img {
   height: 100%;
 
   margin-right: 5px;
-}
+} */
 
 .logo .logo_name {
   font-size: 20px;
@@ -223,7 +308,8 @@ export default {
 .sidebar #btn {
   color: #f1f1f1;
   position: absolute;
-  left: 50%;
+  /* left: 50%; */
+  left: 90%;
   top: 26px;
   font-size: 24px;
   text-align: center;
@@ -231,22 +317,9 @@ export default {
   cursor: pointer;
   transition: 0.8s ease all;
 }
-.sidebar.active #btn {
+/* .sidebar.active #btn {
   left: 90%;
-}
-/* pokusaj mobile resposive */
-/* .sidebar.mobile .profile_content{
-  display: none;
-}
-.sidebar.mobile{
-  height: 75px;
-}
-.sidebar.mobile ul{
-  display: none;
 } */
-/*  */
-
-
 
 .sidebar ul {
   margin-top: 20px;
@@ -260,8 +333,7 @@ export default {
   /* line-height: 50px; */
 }
 
-
-.sidebar ul li a{
+.sidebar ul li a {
   color: #f1f1f1;
 
   /* color: #c9d1d9; */
@@ -276,65 +348,59 @@ export default {
 }
 /* dark mode */
 
-
-.sidebar ul li .toggle-mode 
-{
-  transition: all .3s ease;
+.sidebar ul li .toggle-mode {
+  transition: all 0.3s ease;
   margin-top: 10px;
-}
-
-.sidebar.active ul li .toggle-mode {
   display: flex;
-	align-items: center;
+  align-items: center;
   padding-top: 10px;
   position: absolute;
   left: 25px;
 }
 
 .sidebar ul li .toggle-mode .checkbox {
-	opacity: 0;
-	position: absolute;
+  opacity: 0;
+  position: absolute;
 }
 
 .sidebar ul li .toggle-mode .label {
-	background-color: #292C35;
-	border-radius: 50px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 5px;
-	position: relative;
-	height: 24px;
-	width: 48px;
-	transform: scale(1.5);
+  background-color: #292c35;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  position: relative;
+  height: 24px;
+  width: 48px;
+  transform: scale(1.5);
 }
 
 .sidebar ul li .toggle-mode .label .ball {
-	background-color: #fff;
-	border-radius: 50%;
-	position: absolute;
-	top: 2px;
-	left: 2px;
-	height: 20px;
-	width: 20px;
-	transform: translateX(0px);
-	transition: transform 0.2s linear;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 20px;
+  width: 20px;
+  transform: translateX(0px);
+  transition: transform 0.2s linear;
 }
-.sidebar ul li .toggle-mode svg{
-  
-   font-size: 14px;
+.sidebar ul li .toggle-mode svg {
+  font-size: 14px;
 }
 .sidebar ul li .toggle-mode .checkbox:checked + .label .ball {
-	transform: translateX(24px);
+  transform: translateX(24px);
 }
 
 .fa-moon {
-	color: #f1c40f;
+  color: #f1c40f;
 }
 
 .fa-sun {
-	color: #f39c12;
+  color: #f39c12;
 }
 
 /*  */
@@ -347,21 +413,21 @@ export default {
   text-align: center;
 }
 
-.sidebar.active .links_name {
+.sidebar .links_name {
   opacity: 1;
   pointer-events: auto;
 }
-.sidebar .links_name {
+/* .sidebar .links_name {
   opacity: 0;
   pointer-events: auto;
-}
+} */
 .sidebar input {
-  opacity: 0;
+  opacity: 1;
 }
 
-.sidebar.active input {
+/* .sidebar.active input {
   opacity: 1;
-}
+} */
 
 .sidebar ul li input {
   position: absolute;
@@ -392,7 +458,7 @@ export default {
   /* color: #11101d; */
 }
 
-.sidebar ul li .tooltip {
+/* .sidebar ul li .tooltip {
   position: absolute;
   height: 35px;
   width: 122px;
@@ -413,18 +479,18 @@ export default {
 
 .sidebar.active ul li .tooltip {
   display: none;
-}
+} 
 .sidebar ul li:hover .tooltip {
   top: 50%;
   opacity: 1;
   transition: all 0.5s ease;
-}
+} */
 
 .sidebar .profile_content {
   position: absolute;
   color: #f1f1f1;
-  bottom: 0;
   left: 0;
+  bottom: 0;
   width: 100%;
 }
 .sidebar .profile_content .profile {
@@ -434,14 +500,14 @@ export default {
   background-color: #161b22;
 }
 
-.sidebar.active .profile .profile_details {
+.sidebar .profile .profile_details {
   opacity: 1;
   pointer-events: auto;
 }
-.sidebar .profile .profile_details {
+/* .sidebar .profile .profile_details {
   opacity: 0;
   pointer-events: none;
-}
+} */
 .profile_details {
   display: flex;
   align-items: center;
@@ -453,7 +519,7 @@ export default {
 .profile_details .name {
   font-weight: 400;
 }
-.sidebar.active #logout {
+.sidebar #logout {
   position: absolute;
   left: 80%;
   bottom: 16px;
@@ -461,14 +527,14 @@ export default {
   transform: rotate(180deg);
 }
 
-.sidebar #logout {
+/* .sidebar #logout {
   position: absolute;
   left: 35%;
   bottom: 16px;
   font-size: 24px;
   transform: rotate(180deg);
   transition: all 0.3s ease-in;
-}
+} */
 
 #logout:hover {
   cursor: pointer;

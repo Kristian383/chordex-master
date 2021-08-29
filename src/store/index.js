@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import getters from "./songs/getters"
+import getters from "./songs/getters.js"
 // import router from './../router.js'
 
 const store = createStore({
@@ -8,18 +8,19 @@ const store = createStore({
             sidebarActive: true, firstKey: null, secondKey: null, songDetailTitle: null, apiData: null,
             darkMode: false,
             // sortSongsOption: "newest",
-            mySongs:[],
-            songs: [{ artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", mySong: true },
+            // mySongs: [],
+
+            songs: [{ artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "12", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: false }, { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: true },
 
 
 
 
 
-            { artist: "RHCP", song: "californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 1, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 71, difficulty: "easy", lastViewed: "2d ago", songId: "2", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "", tuning: null, mySong: true },
-            { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: false, capo: null, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 84, difficulty: "hard", lastViewed: "2d ago", songId: "6", yt_link: "", chords_link: "", tuning: null, mySong: false },
-            { artist: "Nirvana", song: "Californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 2, isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 65, difficulty: "medium", lastViewed: "2d ago", songId: "3", yt_link: "", chords_link: "", tuning: null, mySong: false },
-            { artist: "RHCP", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: true, capo: null, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 32, difficulty: "medium", lastViewed: "2d ago", songId: "4", yt_link: "", chords_link: "", tuning: null, mySong: true },
-            { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, mySong: false }]
+            { artist: "RHCP", song: "californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 1, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 71, difficulty: "easy", lastViewed: "2d ago", songId: "2", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "", tuning: null, isMySong: true },
+            { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: false, capo: null, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 84, difficulty: "hard", lastViewed: "2d ago", songId: "6", yt_link: "", chords_link: "", tuning: null, isMySong: true },
+            { artist: "Nirvana", song: "Californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 2, isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 65, difficulty: "medium", lastViewed: "2d ago", songId: "3", yt_link: "", chords_link: "", tuning: null, isMySong: false },
+            { artist: "RHCP", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: true, capo: null, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 32, difficulty: "medium", lastViewed: "2d ago", songId: "4", yt_link: "", chords_link: "", tuning: null, isMySong: true },
+            { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, isMySong: false }]
         }
     },
     getters,
@@ -38,8 +39,9 @@ const store = createStore({
             state.darkMode = !state.darkMode;
         },
         toggleFavorite(state, payload) {
-            const index = state.songs.findIndex(song => song.songId == payload);
+            let index = state.songs.findIndex(song => song.songId == payload.songId);
             state.songs[index].isFavorite = !state.songs[index].isFavorite;
+
         },
         selectKey(state, payload) {
             // console.log("tu",payload);
@@ -64,14 +66,9 @@ const store = createStore({
             }
             //ubaciti notes in keys i napraviti provjeru jeli second key null
 
-            if(song.isMySong){
-                state.mySongs.unshift(song)
-            }else
+
             state.songs.unshift(song)
         },
-        // setActiveFilters(state, payload) {
-        //     state.activeFilters = payload;
-        // },
         setSongDetailTitle(state, payload) {
             state.songDetailTitle = payload;
         },

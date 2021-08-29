@@ -77,7 +77,7 @@ export default {
       if (textValue.length === 0) {
         foundData = [];
       }
-      console.log(foundData);
+      // console.log(foundData);
       this.searchMatch = foundData;
     },
   },
@@ -95,7 +95,8 @@ export default {
 <style scoped>
 .home-section {
   position: relative;
-  background: #eaebea;
+  /* background: #eaebea; */
+  background: #fff;
   
   /* background: #161B22; */
   
@@ -106,8 +107,10 @@ export default {
 }
 
 .expand_home_section {
-  width: calc(100% - 80px);
-  left: 80px;
+  /* width: calc(100% - 80px);
+  left: 80px; */
+  width: 100%;
+  left: 0;
 }
 
 .home-section nav {
@@ -120,14 +123,18 @@ export default {
   position: fixed;
   width: calc(100% - 240px);
   left: 240px;
-  z-index: 100;
+  z-index: 30;
   padding: 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   transition: all 0.5s ease;
 }
 .expand_home_section nav {
-  width: calc(100% - 80px);
-  left: 80px;
+  /* width: calc(100% - 80px);
+  left: 80px; */
+  width: 100%;
+  /* left: 50px; */
+  padding-left: 80px;
+  left: 0;
 }
 
 .filter_categories {
@@ -147,6 +154,7 @@ export default {
   max-width: 350px;
   /* min-width: 200px; */
   width: 100%;
+  
   margin: 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -187,7 +195,8 @@ nav .search-box #search:hover {
   /* max-width: 1400px; */
   margin: 0 auto;
   background-color: #fff;
-  height: 100vh;
+  height: 100%;
+  max-width: 1700px;
 }
 /* Search */
 .search-box .match-list {

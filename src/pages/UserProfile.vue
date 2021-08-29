@@ -4,29 +4,27 @@
 
     <main>
       <div class="row">
-      <div class="left">
+      <div class="user-info">
         <div class="photo">
-          <!-- <img class="profile-photo" src="https://images.pexels.com/photos/1804796/pexels-photo-1804796.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/> -->
-          <div class="active"></div>
+          <img class="profile-photo" src="https://images.pexels.com/photos/1804796/pexels-photo-1804796.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"/>
         </div>
         <h4 class="name">Jane Doe</h4>
-        <p class="info">UI/UX Designer</p>
-        <p class="info">jane.doe@gmail.com</p>
+        <p class="mail">jane.doe@gmail.com</p>
         <div class="stats row">
-          <div class="stat col-xs-4" style="padding-right: 50px;">
-            <p class="number-stat">3,619</p>
-            <p class="desc-stat">Followers</p>
+          <div class="stat">
+            <p class="number-stat">70</p>
+            <p class="desc-stat">Songs</p>
           </div>
-          <div class="stat col-xs-4">
+          <div class="stat">
             <p class="number-stat">42</p>
-            <p class="desc-stat">Following</p>
+            <p class="desc-stat">Artists</p>
           </div>
-          <div class="stat col-xs-4" style="padding-left: 50px;">
+          <div class="stat">
             <p class="number-stat">38</p>
-            <p class="desc-stat">Uploads</p>
-          </div>
+            <p class="desc-stat">My Songs</p>
+          </div> 
         </div>
-        <p class="desc">Hi ! My name is Jane Doe. I'm a UI/UX Designer from Paris, in France. I really enjoy photography and mountains.</p>
+        <p class="desc">Settings</p>
         
       </div>
       <div class="right">
@@ -38,18 +36,21 @@
         </ul> -->
         <span class="edit">Toggle edit ikona</span>
         <div class="container grid-2">
+          <label class="form-control-label" for="input-username">Username</label>
           <input
             class="input-field"
             type="text"
             id="input-username"
             placeholder="John"
           />
+          <label class="form-control-label" for="input-email">Email</label>
           <input
             class="input-field"
             type="text"
-            id="input-username"
+            id="input-email"
             placeholder="John"
           />
+          <div>Change password</div>
           <div>Password</div>
           <div>New Password (v-if)</div>
           <!-- <div class="col-md-4">
@@ -90,4 +91,69 @@ export default {
 </script>
 
 <style scoped>
+header {
+  background: #eee;
+  background-image: url("https://images.pexels.com/photos/1731427/pexels-photo-1731427.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: red;
+  
+  height: 150px;
+}
+
+@media (min-width:800px) {
+  header {
+    height: 250px;
+  } 
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+.profile-photo {
+  width: 200px;
+  height: 200px;
+  margin-top: -120px;
+  border-radius: 100px;
+  border: 4px solid #fff;
+}
+.name {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18pt;
+}
+.mail {
+  margin-bottom: 5px;
+  font-size: 11pt;
+  color: #aaa;
+}
+.stats {
+  margin-top: 25px;
+  text-align: center;
+  display: flex;
+  widows: 100%;
+ gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ededed;
+}
+.number-stat {
+  padding: 0px;
+  font-size: 14pt;
+  font-weight: bold;
+  color: #aaa;
+}
+.desc-stat {
+  color: #bbb;
+}
+.desc{
+   padding-bottom: 25px;
+  border-bottom: 1px solid #ededed;
+}
+
 </style>
