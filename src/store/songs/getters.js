@@ -73,6 +73,9 @@ export default {
     },
     getAllMySongs(state){
         return state.songs.filter(song=>song.isMySong);
+    },
+    getArtists(state){
+        return state.artists;
     }
 
 

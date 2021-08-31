@@ -1,12 +1,12 @@
 <template>
   <div class="select-box" >
     <div class="options-container" :class="{ active: sortIsActive }">
-      <div class="option" @click.prevent="changeSortOption('newest')">
-        <input type="radio" id="recently" class="radio" name="category" />
-        <label for="recently">Newest Added</label>
+      <div class="option" @click.prevent="changeSortOption(options)" v-for="options in options" :key="options">
+        <input type="radio" :id="options" class="radio" name="category" />
+        <label :for="options">{{options}} </label>
       </div>
 
-      <div class="option" @click.prevent="changeSortOption('oldest')">
+      <!-- <div class="option" @click.prevent="changeSortOption('oldest')">
         <input type="radio" id="oldest" class="radio" name="category" />
         <label for="oldest">Oldest Added</label>
       </div>
@@ -25,7 +25,7 @@
       <div class="option" @click.prevent="changeSortOption('least')">
         <input type="radio" id="least" class="radio" name="least" />
         <label for="least">Least learned</label>
-      </div>
+      </div> -->
       
     </div>
     <div class="selected" @click="toggleSort">Sort by: {{ selectedSort }}</div>
@@ -34,6 +34,7 @@
 
 <script>
 export default {
+  props:["options"],
   emits:["changeSort"],
   data() {
     return {
@@ -52,7 +53,6 @@ export default {
      this.$emit("changeSort",option)
     },
   },
-  
  
 };
 </script>
@@ -136,6 +136,7 @@ export default {
 .select-box label {
   cursor: pointer;
   /*display: block;  ovo sam dodao ako neradi click */
+  text-transform: capitalize;
 }
 
 .select-box .option .radio {

@@ -1,6 +1,7 @@
 <template>
   <base-card>
     <div class="form-container">
+      <!-- <div class="modal" id="modal"></div> -->
       <form @submit.prevent>
         <div class="top-section">
           <font-awesome-icon
@@ -25,9 +26,11 @@
             class="delete"
             icon="trash-alt"
           ></font-awesome-icon>
-          <div class="button-container">
+          <!-- <div class="button-container">
             <button class="btn" @click="submitSong"></button>
-          </div>
+          </div> -->
+          <!-- @click="submitSong" -->
+          <button-save @click="submitSong"></button-save>
         </div>
         <div class="grid-2">
           <input
@@ -206,11 +209,12 @@
 
 <script>
 import BaseCard from "../components/ui/BaseCard.vue";
+import ButtonSave from "../components/ui/ButtonSave.vue";
 import SelectBoxKey from "../components/ui/SelectBoxKey.vue";
 export default {
   components: {
     BaseCard,
-    SelectBoxKey,
+    SelectBoxKey,ButtonSave
   },
   data() {
     return {
@@ -363,6 +367,14 @@ export default {
       this.$store.dispatch("apiForSongInfo", this.song.val);
     },
   },
+  beforeRouteLeave(_, _2, next) {
+    if (this.song.val || this.artist.val) {
+      if (!window.confirm("Leave without saving?")) {
+        return;
+      }
+    }
+    next();
+  },
 };
 </script>
 
@@ -418,7 +430,7 @@ svg {
   color: black;
 }
 /* button */
-.button-container {
+/* .button-container {
   position: relative;
   width: 100px;
   height: 50px;
@@ -430,8 +442,6 @@ svg {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  /* color: rgb(136, 136, 136); */
-  /* color: RGB(16, 17, 20); */
   color: #fff;
   border-radius: 3px;
   outline: none;
@@ -539,7 +549,7 @@ svg {
     transform: scale(1);
     box-shadow: none;
   }
-}
+} */
 
 .is-favorite {
   color: #c22a2a;

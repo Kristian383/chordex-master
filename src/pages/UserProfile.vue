@@ -29,6 +29,7 @@
             </div>
           </div>
           <!-- <p class="desc">Settings</p> -->
+          <button-save @click="saveChanges"></button-save>
         </div>
         <div class="right">
           <!-- <ul class="nav">
@@ -98,9 +99,10 @@
 
 <script>
 import BaseCard from "./../components/ui/BaseCard.vue";
+import ButtonSave from "./../components/ui/ButtonSave.vue";
 export default {
   components: {
-    BaseCard,
+    BaseCard,ButtonSave
   },
   data() {
     return {
@@ -110,7 +112,22 @@ export default {
   methods: {
     togglePasswordChange() {
       this.changePassword=!this.changePassword
+    },
+    saveChanges(event){
+      event.target.classList.toggle("loading");
+
+      setTimeout(() => {
+        event.target.classList.remove("loading");
+        // api call
+        event.target.classList.add("success");
+      }, 1000);
+
+      setTimeout(() => {
+        event.target.classList.remove("success");
+      }, 2500);
     }
+
+    
   },
 };
 </script>
@@ -122,7 +139,6 @@ header {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-color: red;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   height: 150px;
@@ -161,6 +177,7 @@ section{
   width: 100%;
   margin: 0 auto;
   max-width: 500px;
+  padding: 8px;
 }
 
 .profile-photo {
@@ -187,6 +204,7 @@ section{
   widows: 100%;
   gap: 20px;
   padding-bottom: 20px;
+  margin-bottom: 8px;
   border-bottom: 1px solid #ededed;
 }
 .number-stat {
@@ -203,6 +221,8 @@ section{
   padding-bottom: 25px;
   border-bottom: 1px solid #ededed;
 }
+
+
 /* irght */
 .right {
   padding: 14px;

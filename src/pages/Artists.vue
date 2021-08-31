@@ -1,10 +1,10 @@
 <template>
   <base-card>
     <template v-slot:select_box>
-      <sort-by></sort-by>
-      <!-- @change-sort="sortSongs" -->
+      <!-- <sort-by @changeSort="sortArtists"></sort-by> -->
+      <sort-by-optimized @changeSort="sortArtists" :options="getOptions"></sort-by-optimized>
     </template>
-    <div class="artists">
+    <div class="artists" >
       <draggable
         class="list-group"
         tag="transition-group"
@@ -53,36 +53,30 @@
 <script>
 import draggable from "vuedraggable";
 import BaseCard from "./../components/ui/BaseCard.vue";
-import SortBy from "../components/ui/SortBy.vue";
-const message = [
-  "Ed Sheeran",
-  "Nirvana",
-  "RHCP",
-  "Aerosmith",
-  "Led Zeppelin",
-  "John Frusciante",
-  "on",
-  "Sortablejs",
-];
+// import SortBy from "../components/ui/SortBy.vue";
+ import SortByOptimized from "../components/ui/SortByOptimized.vue";
+
 export default {
   components: {
     draggable,
     BaseCard,
-    SortBy,
+    SortByOptimized,
   },
   data() {
     return {
-      list: message.map((name, index) => {
-        return { name, order: index + 1 };
-      }),
       drag: false,
       selectedArtist: null,
+      list:null,
+      
     };
   },
   methods: {
-    // sort() {
-    //   this.list = this.list.sort((a, b) => a.order - b.order);
-    // },
+    sortArtists(option) {
+      this.$store.commit("sortArtists",option)
+      
+      // console.log(this.list);
+      // this.list = this.list.sort((a, b) => a.order - b.order);
+    },
   },
   computed: {
     dragOptions() {
@@ -95,8 +89,24 @@ export default {
     },
     getElement(element){
       return element
+    },
+    getArtists(){
+      return this.$store.getters.getArtists;
+    },
+    getOptions(){
+      return ["A-Z","Z-A"]
     }
+
   },
+  mounted(){
+    this.list=this.$store.getters.getArtists.map((name, index) => {
+        return { name, order: index + 1 };
+      });
+    // this.artists=this.$store.getters.getArtists.map((name, index) => {
+    //     return { name, order: index + 1 };
+    //   }),
+    // console.log(this.artists);
+  }
 };
 </script>
 

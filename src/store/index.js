@@ -8,7 +8,7 @@ const store = createStore({
             sidebarActive: true, firstKey: null, secondKey: null, songDetailTitle: null, apiData: null,
             darkMode: false,
             // sortSongsOption: "newest",
-            // mySongs: [],
+            artists: ["John Frusciante", "Ed Sheeran", "Nirvana", "RHCP", "Aerosmith", "Led Zeppelin",],
 
             songs: [{ artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "12", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: false }, { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: true },
 
@@ -65,7 +65,9 @@ const store = createStore({
                 songId,
             }
             //ubaciti notes in keys i napraviti provjeru jeli second key null
-
+            if (!state.artists.includes(song.artist)) {
+                state.artists.unshift(song.artist)
+            }
 
             state.songs.unshift(song)
         },
@@ -95,6 +97,13 @@ const store = createStore({
             // console.log(state.songs);
 
         },
+        sortArtists(state,option){
+            if (option == "A-Z") {
+                state.artists.sort((a, b) => a.localeCompare(b))
+            } else if (option == "Z-A") {
+                state.artists.sort((a, b) => b.localeCompare(a))
+            }
+        }
 
 
     },

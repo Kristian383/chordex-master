@@ -1,5 +1,5 @@
 <template>
-  <sidebar></sidebar>
+  <the-sidebar></the-sidebar>
 
   <!-- <router-view></router-view> -->
 
@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import Sidebar from "./components/layout/Sidebar.vue";
+import TheSidebar from "./components/layout/TheSidebar.vue";
 export default {
   name: "App",
   components: {
-    Sidebar,
+    TheSidebar,
   },
   
 };
