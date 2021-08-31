@@ -62,8 +62,10 @@ export default {
     toggleFavorite() {
       this.$store.commit("toggleFavorite", {songId:this.song.songId,isMySong:this.song.isMySong});
     },
-    openEditMode(e) {
-      console.log("opening edit mode", e.target);
+    openEditMode() {
+      
+      // console.log("opening edit mode", e.target);
+      this.$router.push("/new/"+this.song.songId)
     },
   },
   computed: {

@@ -23,25 +23,9 @@
 <script>
 export default {
   props: ["name"],
+  emits:["checkStore"],
   data() {
     return {
-      //     songKeys: [
-      //     "C",
-      //     "G",
-      //     "D",
-      //     "A",
-      //     "E",
-      //     "B",
-      //     "F#",
-      //     "C#",
-      //     "F",
-      //     "Bb",
-      //     "Eb",
-      //     "Ab",
-      //     "Db",
-      //     "Gb",
-      //     "Cb",
-      //   ],
       selectedKey: null,
       chooseKeyIsActive: false,
       songKeys: [

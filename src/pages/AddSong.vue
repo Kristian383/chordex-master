@@ -68,20 +68,24 @@
           />
           <!-- easy hard -->
           <div>
-            <input type="radio" name="radio" id="easy" v-model="easy" /><label
-              for="easy"
+            <input value="easy" type="radio" name="radio" id="easy" v-model="songInfo.difficulty" /><label
+              for="easy" 
               >Easy</label
             >
             <input
               type="radio"
               name="radio"
               id="medium"
-              v-model="medium"
-            /><label for="medium">Medium</label>
-            <input type="radio" name="radio" id="hard" v-model="hard" /><label
-              for="hard"
-              >Hard</label
-            >
+              value="medium"
+              v-model="songInfo.difficulty"
+            /><label for="medium" >Medium</label>
+            <input
+              type="radio"
+              name="radio"
+              id="hard"
+              value="hard"
+              v-model="songInfo.difficulty"
+            /><label for="hard" >Hard</label>
             <input
               v-model="songInfo.tuning"
               class="input-field"
@@ -93,7 +97,7 @@
           <!--  -->
           <div class="grid-2">
             <select-box-key
-              @checkStore="needSecondKey = true"
+              @check-store="needSecondKey = true"
               name="firstKey"
             ></select-box-key>
             A B C D E F H
@@ -214,10 +218,12 @@ import SelectBoxKey from "../components/ui/SelectBoxKey.vue";
 export default {
   components: {
     BaseCard,
-    SelectBoxKey,ButtonSave
+    SelectBoxKey,
+    ButtonSave,
   },
   data() {
     return {
+      songId:null,
       isFavorite: null,
       needSecondKey: false,
       formIsValid: false,
@@ -236,11 +242,9 @@ export default {
         secondKeyNotes: null,
         tuning: null,
         isMySong: false,
+        difficulty:null
       },
       haveCapo: null,
-      easy: null,
-      medium: null,
-      hard: null,
       artist: {
         val: null,
         isValid: true,
@@ -301,15 +305,6 @@ export default {
       }, 3500);
 
       const keys = this.getSelectedKeys;
-
-      let difficulty;
-      if (this.songInfo.easy == "on") {
-        difficulty = "easy";
-      } else if (this.songInfo.medium == "on") {
-        difficulty = "medium";
-      } else {
-        difficulty = "hard";
-      }
       if (this.songInfo.yt_link) {
         this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
       }
@@ -320,14 +315,14 @@ export default {
         song: this.song.val,
         firstKey: keys.first,
         secondKey: keys.second,
-        difficulty: difficulty,
+        songId:this.songId,
         isFavorite: this.isFavorite,
       };
-      console.log(formData);
+      // console.log(formData);
 
       //dispatch action from store addNewSong
       this.$store.dispatch("addNewSong", formData);
-      //router push
+      //router push koji je u timeoutu
     },
     checkCapo() {
       this.songInfo.capo = null;
@@ -348,7 +343,7 @@ export default {
         this.artist.isValid = false;
       }
 
-      if (!this.song.val || this.song.val.length > 25) {
+      if (!this.song.val || this.song.val.length > 45) {
         this.formIsValid = false;
         this.song.isValid = false;
       }
@@ -368,12 +363,48 @@ export default {
     },
   },
   beforeRouteLeave(_, _2, next) {
-    if (this.song.val || this.artist.val) {
+    if ((this.song.val || this.artist.val) && this.songId==null ) {
       if (!window.confirm("Leave without saving?")) {
         return;
       }
     }
     next();
+  },
+  mounted() {
+    const songId = this.$route.params.songId;
+    this.songId=songId;
+    // console.log(this.songId);
+    // console.log(songId);
+    if (songId) {
+      const songData = this.$store.getters.getAllSongs.find((song) => {
+        return song.songId == songId;
+      });
+      
+
+      this.songInfo.songText = songData.songText;
+      this.songInfo.practicedPrcntg = songData.practicedPrcntg;
+      this.songInfo.bpm = songData.bpm;
+      this.songInfo.capo = songData.capo;
+      this.songInfo.electric = songData.electric;
+      this.songInfo.acoustic = songData.acoustic;
+      this.songInfo.firstProgression = songData.firstProgression;
+      this.songInfo.secondProgression = songData.secondProgression;
+      this.songInfo.chords_link = songData.chords_link;
+      this.songInfo.yt_link = songData.yt_link;
+      this.songInfo.firstKeyNotes = songData.firstKeyNotes;
+      this.songInfo.secondKeyNotes = songData.secondKeyNotes;
+      this.songInfo.tuning = songData.tuning;
+      this.songInfo.isMySong = songData.isMySong;
+      this.isFavorite = songData.isFavorite;
+      this.haveCapo = !!songData.capo;
+
+      this.artist.val = songData.artist;
+      this.song.val = songData.song;
+      this.songInfo.difficulty = songData.difficulty;
+      if(songData.secondKey){
+        this.needSecondKey=true;
+      }
+    }
   },
 };
 </script>
