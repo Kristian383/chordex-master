@@ -4,7 +4,7 @@
       <div class="box song-info">
         <div class="top-icons">
           <div class="go-back">
-            <router-link :to="isMy ? '/my-songs':'/songs'">
+            <router-link :to="songData.isMySong ? '/my-songs':'/songs'">
               <font-awesome-icon icon="arrow-left"></font-awesome-icon>
             </router-link>
           </div>
@@ -141,7 +141,7 @@ export default {
     this.id = this.songId; 
     let songData = this.$store.getters.getAllSongs.find(
       (song) => {
-        console.log("tu",song);
+        
         return song.songId == this.id
       }
     );
