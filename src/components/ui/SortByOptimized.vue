@@ -1,9 +1,14 @@
 <template>
-  <div class="select-box" >
+  <div class="select-box">
     <div class="options-container" :class="{ active: sortIsActive }">
-      <div class="option" @click.prevent="changeSortOption(options)" v-for="options in options" :key="options">
-        <input type="radio" :id="options" class="radio" name="category" />
-        <label :for="options">{{options}} </label>
+      <div
+        class="option"
+        @click.prevent="changeSortOption(option)"
+        v-for="option in options"
+        :key="option"
+      >
+        <input type="radio" :id="option" class="radio" name="category" />
+        <label :for="option">{{ option }} </label>
       </div>
 
       <!-- <div class="option" @click.prevent="changeSortOption('oldest')">
@@ -26,7 +31,6 @@
         <input type="radio" id="least" class="radio" name="least" />
         <label for="least">Least learned</label>
       </div> -->
-      
     </div>
     <div class="selected" @click="toggleSort">Sort by: {{ selectedSort }}</div>
   </div>
@@ -34,8 +38,8 @@
 
 <script>
 export default {
-  props:["options"],
-  emits:["changeSort"],
+  props: ["options"],
+  emits: ["changeSort"],
   data() {
     return {
       sortIsActive: false,
@@ -50,10 +54,19 @@ export default {
       this.selectedSort = option;
       this.sortIsActive = false;
       // this.$router.replace({query:{sort:option}})
-     this.$emit("changeSort",option)
+      this.$emit("changeSort", option);
     },
   },
- 
+  computed:{
+  //   uniqueId() {
+  //   const newKeys = [];
+  //   this.options.forEach(option => {
+  //     const id= Math.random().toString(36).substring(2);
+  //     newKeys.push({option,id})
+  //   });
+  //   return newKeys;
+  // },
+  },
 };
 </script>
 

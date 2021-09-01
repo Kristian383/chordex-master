@@ -1,5 +1,15 @@
 <template>
   <base-card>
+    <template v-slot:filters>
+      <filters @filters-changed="setFilters"></filters>
+    </template>
+    <template v-slot:select_box>
+      <sort-by-optimized
+        @changeSort="sortSongs"
+        :options="sortOptions"
+      ></sort-by-optimized>
+    </template>
+    <!-- song list -->
     <div class="song-cards">
       <template v-if="isLoaded">
         <song-card
@@ -22,21 +32,48 @@
 import BaseCard from "./../components/ui/BaseCard.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
+import SortByOptimized from "../components/ui/SortByOptimized.vue";
+import Filters from "../components/ui/Filters.vue";
 export default {
   components: {
     BaseCard,
     SongCard,
     SkeletonSongCard,
+    SortByOptimized,
+    Filters,
   },
   data() {
     return {
       isLoaded: true,
+      filters: [],
     };
   },
   computed: {
     allMySongs() {
       //   console.log(this.$store.getters.getAllMySongs);
-      return this.$store.getters.getAllMySongs;
+      // return this.$store.getters.getAllMySongs;
+       return this.filterSongs();
+    },
+    sortOptions() {
+      return [
+        "Newest Added",
+        "Oldest Added",
+        "A-Z",
+        "Z-A",
+        "Best learned",
+        "Least learned",
+      ];
+    },
+  },
+  methods: {
+    filterSongs() {
+      return this.$store.getters.filterSongs(this.filters);
+    },
+    setFilters(filters) {
+      this.filters = filters;
+    },
+    sortSongs(option) {
+      this.$store.commit("sortSongs", option);
     },
   },
 };

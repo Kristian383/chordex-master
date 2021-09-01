@@ -72,7 +72,10 @@ const store = createStore({
             if (!state.artists.includes(song.artist)) {
                 state.artists.unshift(song.artist)
             }
-            state.songs.unshift(song)
+            if(!song.songId){
+
+                state.songs.unshift(song)
+            }
         },
         setSongDetailTitle(state, payload) {
             state.songDetailTitle = payload;
@@ -82,17 +85,17 @@ const store = createStore({
         //     state.sortSongsOption=option;
         // }
         sortSongs(state, option) {
-            console.log("opcija", option);
+            // console.log("opcija", option);
             if (option == "A-Z") {
                 state.songs.sort((a, b) => a.song.localeCompare(b.song))
             } else if (option == "Z-A") {
                 state.songs.sort((a, b) => b.song.localeCompare(a.song))
-            } else if (option == "least") {
+            } else if (option == "Least learned") {
                 state.songs.sort((a, b) => a.practicedPrcntg - b.practicedPrcntg)
-            } else if (option == "best") {
+            } else if (option == "Best learned") {
                 state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
             }
-            // else if (option == "oldest") {
+            // else if (option == "Newest Added") {
             //     state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
             // }else{
 

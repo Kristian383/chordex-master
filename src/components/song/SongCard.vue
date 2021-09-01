@@ -60,7 +60,7 @@ export default {
       // }
     },
     toggleFavorite() {
-      this.$store.commit("toggleFavorite", {songId:this.song.songId,isMySong:this.song.isMySong});
+      this.$store.commit("toggleFavorite", {songId:this.song.songId});
     },
     openEditMode() {
       

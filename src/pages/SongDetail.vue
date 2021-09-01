@@ -160,7 +160,7 @@ export default {
   methods: {
     ToggleFavorite() {
       this.isFavorite = !this.isFavorite;
-      this.$store.commit("toggleFavorite", this.id);
+      this.$store.commit("toggleFavorite",{songId:this.id} );
     },
   },
   computed: {

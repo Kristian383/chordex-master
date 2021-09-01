@@ -2,6 +2,11 @@
   <base-card>
     <div class="form-container">
       <!-- <div class="modal" id="modal"></div> -->
+      <div class="go-back">
+            <router-link :to="songInfo.isMySong ? '/my-songs':'/songs'">
+              <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+            </router-link>
+          </div>
       <form @submit.prevent>
         <div class="top-section">
           <font-awesome-icon
@@ -301,7 +306,8 @@ export default {
 
       setTimeout(() => {
         event.target.classList.remove("success");
-        this.$router.push("/songs");
+        const pushRoute=this.songInfo.isMySong ? '/my-songs':'/songs';
+        this.$router.push(pushRoute);
       }, 3500);
 
       const keys = this.getSelectedKeys;
@@ -809,5 +815,27 @@ form input:-internal-autofill-selected {
 input::-moz-focus-inner,
 input::-moz-focus-outer {
   border: 0;
+}
+
+
+.go-back {
+  position: absolute;
+  left: 5px;
+  top: -60px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.go-back a {
+  text-decoration: none;
+  color: RGB(16, 17, 20);
+}
+.go-back:hover {
+  background-color: #f1f1f1;
 }
 </style>

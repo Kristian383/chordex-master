@@ -4,7 +4,7 @@
       <filters  @filters-changed="setFilters"></filters>
     </template>
     <template v-slot:select_box>
-      <sort-by @changeSort="sortSongs"></sort-by>
+      <sort-by-optimized @changeSort="sortSongs" :options="sortOptions"></sort-by-optimized>
     </template>
     <!-- saong list -->
     <div class="song-cards">
@@ -34,14 +34,16 @@ import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
-import SortBy from "../components/ui/SortBy.vue";
+// import SortBy from "../components/ui/SortBy.vue";
+import SortByOptimized from '../components/ui/SortByOptimized.vue';
 export default {
   components: {
     Filters,
     SongCard,
     BaseCard,
-    SortBy,
+    // SortBy,
     SkeletonSongCard,
+    SortByOptimized,
   },
   data() {
     return {
@@ -53,6 +55,9 @@ export default {
     AllSongs() {
       return this.filterSongs();
     },
+    sortOptions(){
+      return ["Newest Added","Oldest Added","A-Z","Z-A","Best learned","Least learned"]
+    }
   },
   methods: {
     filterSongs() {
