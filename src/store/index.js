@@ -5,7 +5,8 @@ import getters from "./songs/getters.js"
 const store = createStore({
     state() {
         return {
-            sidebarActive: true, firstKey: null, secondKey: null, songDetailTitle: null, apiData: null,
+            sidebarActive: true, 
+            songDetailTitle: null, apiData: null,
             darkMode: false,
             // sortSongsOption: "newest",
             artists: ["John Frusciante", "Ed Sheeran", "Nirvana", "RHCP", "Aerosmith", "Led Zeppelin",],
@@ -43,31 +44,27 @@ const store = createStore({
             state.songs[index].isFavorite = !state.songs[index].isFavorite;
 
         },
-        selectKey(state, payload) {
-            // console.log("tu",payload);
-            if (payload.name == "firstKey") {
-                state.firstKey = payload.key;
-            } else {
-                state.secondKey = payload.key;
-            }
-        }, removeSecondKey(state) {
-            state.secondKey = null;
-        },
         addSong(state, payload) {
             var today = new Date();
             var dateCreated = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
             let songId;
+            // console.log("prije",payload.songId);
+            // console.log("nakon",songId);
             if(!payload.songId){
 
                  songId = Date.now();
+            }else{
+
+                songId=payload.songId;
             }
-            songId=payload.songId;
             const song = {
                 ...payload,
                 dateCreated,
                 songId,
             }
+            
+            
             //ubaciti notes in keys i napraviti provjeru jeli second key null
             if (!state.artists.includes(song.artist)) {
                 state.artists.unshift(song.artist)
@@ -75,6 +72,10 @@ const store = createStore({
             if(!song.songId){
 
                 state.songs.unshift(song)
+            }else{
+                let index = state.songs.findIndex(song => song.songId == payload.songId);
+                state.songs.splice(index,1)
+                state.songs.unshift(song);
             }
         },
         setSongDetailTitle(state, payload) {

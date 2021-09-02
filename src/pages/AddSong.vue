@@ -102,7 +102,7 @@
           <!--  -->
           <div class="grid-2">
             <select-box-key
-              @check-store="needSecondKey = true"
+              @check-store="insertKey"
               name="firstKey"
             ></select-box-key>
             A B C D E F H
@@ -111,14 +111,15 @@
             <transition name="fade">
               <select-box-key
                 name="secondKey"
-                v-if="needSecondKey && getSelectedKeys.first"
+                 @check-store="insertKey"
+                v-if="openSecond"
               ></select-box-key>
             </transition>
             <transition name="fade">
-              <div class="secondOption" v-if="needSecondKey">
+              <div class="secondOption" v-if="openSecond">
                 Second opetion keys
                 <font-awesome-icon
-                  @click="removeKeySelect"
+                  @click="removeSecondKeySelect"
                   :icon="['far', 'times-circle']"
                 ></font-awesome-icon>
               </div>
@@ -135,7 +136,7 @@
             <input
               class="input-field"
               type="text"
-              v-if="needSecondKey"
+              v-if="openSecond"
               placeholder="Chord progression"
               v-model.trim="songInfo.secondProgression"
             />
@@ -230,7 +231,7 @@ export default {
     return {
       songId:null,
       isFavorite: null,
-      needSecondKey: false,
+      openSecond: false,
       formIsValid: false,
       songInfo: {
         songText: "",
@@ -247,7 +248,9 @@ export default {
         secondKeyNotes: null,
         tuning: null,
         isMySong: false,
-        difficulty:null
+        difficulty:null,
+        firstKey:null,
+        secondKey:null,
       },
       haveCapo: null,
       artist: {
@@ -276,9 +279,18 @@ export default {
     toggleFavorite() {
       this.isFavorite = !this.isFavorite;
     },
-    removeKeySelect() {
-      this.$store.commit("removeSecondKey");
-      this.needSecondKey = false;
+    insertKey(data){
+      if(data.name=="firstKey"){
+        //TO DO: get appropriate keys from store
+        this.openSecond=true;
+        this.songInfo.firstKey=data.key;
+      }else{
+        this.songInfo.secondKey=data.key;
+      }
+    }
+    ,
+    removeSecondKeySelect() {
+      this.openSecond = false;
     },
     tabber(event) {
       let text = this.songInfo.songText,
@@ -302,15 +314,14 @@ export default {
         event.target.classList.remove("loading");
         // api call
         event.target.classList.add("success");
-      }, 2500);
+      }, 1000);
 
       setTimeout(() => {
         event.target.classList.remove("success");
         const pushRoute=this.songInfo.isMySong ? '/my-songs':'/songs';
         this.$router.push(pushRoute);
-      }, 3500);
+      }, 2500);
 
-      const keys = this.getSelectedKeys;
       if (this.songInfo.yt_link) {
         this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
       }
@@ -319,8 +330,6 @@ export default {
         ...this.songInfo,
         artist: this.artist.val,
         song: this.song.val,
-        firstKey: keys.first,
-        secondKey: keys.second,
         songId:this.songId,
         isFavorite: this.isFavorite,
       };
@@ -369,7 +378,7 @@ export default {
     },
   },
   beforeRouteLeave(_, _2, next) {
-    if ((this.song.val || this.artist.val) && this.songId==null ) {
+    if ((!this.song.val || !this.artist.val) ) {
       if (!window.confirm("Leave without saving?")) {
         return;
       }

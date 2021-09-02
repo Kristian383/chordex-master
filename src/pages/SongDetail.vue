@@ -14,7 +14,7 @@
               :class="{ 'is-favorite': isFavorite }"
               @click="ToggleFavorite"
             ></font-awesome-icon>
-            <font-awesome-icon icon="edit" class="edit"></font-awesome-icon>
+            <font-awesome-icon icon="edit" @click="openEdit" class="edit"></font-awesome-icon>
             <font-awesome-icon
               icon="trash-alt"
               class="delete"
@@ -162,6 +162,10 @@ export default {
       this.isFavorite = !this.isFavorite;
       this.$store.commit("toggleFavorite",{songId:this.id} );
     },
+    openEdit(){
+      this.$router.push("/new/"+this.songId)
+      
+    }
   },
   computed: {
     iconName() {
