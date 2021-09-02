@@ -416,8 +416,10 @@ export default {
       this.artist.val = songData.artist;
       this.song.val = songData.song;
       this.songInfo.difficulty = songData.difficulty;
+      this.songInfo.firstKey=songData.firstKey;
+
       if(songData.secondKey){
-        this.needSecondKey=true;
+        this.openSecond=true;
       }
     }
   },
