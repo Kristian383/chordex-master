@@ -4,7 +4,7 @@
       <div class="box song-info">
         <div class="top-icons">
           <div class="go-back">
-            <router-link :to="songData.isMySong ? '/my-songs':'/songs'">
+            <router-link :to="songData.isMySong ? '/my-songs' : '/songs'">
               <font-awesome-icon icon="arrow-left"></font-awesome-icon>
             </router-link>
           </div>
@@ -14,10 +14,15 @@
               :class="{ 'is-favorite': isFavorite }"
               @click="ToggleFavorite"
             ></font-awesome-icon>
-            <font-awesome-icon icon="edit" @click="openEdit" class="edit"></font-awesome-icon>
+            <font-awesome-icon
+              icon="edit"
+              @click="openEdit"
+              class="edit"
+            ></font-awesome-icon>
             <font-awesome-icon
               icon="trash-alt"
               class="delete"
+              @click="deleteSong"
             ></font-awesome-icon>
           </div>
         </div>
@@ -132,27 +137,22 @@ export default {
       id: null,
       isFavorite: null,
       songData: null,
-      isMy:null
+      isMy: null,
     };
   },
   mounted() {
     // this.id = this.$route.params.songId;
     //iz rutera prop
-    this.id = this.songId; 
-    let songData = this.$store.getters.getAllSongs.find(
-      (song) => {
-        
-        return song.songId == this.id
-      }
-    );
-    
-    
+    this.id = this.songId;
+    let songData = this.$store.getters.getAllSongs.find((song) => {
+      return song.songId == this.id;
+    });
+
     if (songData) {
       this.songData = songData;
       this.isFavorite = songData.isFavorite;
       //pass song name for title of page
-      this.$store.commit("setSongDetailTitle",songData.song)
-      
+      this.$store.commit("setSongDetailTitle", songData.song);
     } else {
       this.$router.push("notFound");
     }
@@ -160,12 +160,17 @@ export default {
   methods: {
     ToggleFavorite() {
       this.isFavorite = !this.isFavorite;
-      this.$store.commit("toggleFavorite",{songId:this.id} );
+      this.$store.commit("toggleFavorite", { songId: this.id });
     },
-    openEdit(){
-      this.$router.push("/new/"+this.songId)
-      
-    }
+    openEdit() {
+      this.$router.push("/new/" + this.songId);
+    },
+    deleteSong() {
+      if (window.confirm("Are you sure?")) {
+        this.$store.commit("deleteSong", this.songId);
+        this.$router.push(this.songData.isMySong ? "/my-songs" : "/songs");
+      }
+    },
   },
   computed: {
     iconName() {

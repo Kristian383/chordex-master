@@ -64,7 +64,6 @@ const store = createStore({
                 songId,
             }
             
-            
             //ubaciti notes in keys i napraviti provjeru jeli second key null
             if (!state.artists.includes(song.artist)) {
                 state.artists.unshift(song.artist)
@@ -81,10 +80,6 @@ const store = createStore({
         setSongDetailTitle(state, payload) {
             state.songDetailTitle = payload;
         },
-        // sortSongsOption(state,option)
-        // {
-        //     state.sortSongsOption=option;
-        // }
         sortSongs(state, option) {
             // console.log("opcija", option);
             if (option == "A-Z") {
@@ -110,6 +105,10 @@ const store = createStore({
             } else if (option == "Z-A") {
                 state.artists.sort((a, b) => b.localeCompare(a))
             }
+        },
+        deleteSong(state,id){
+            let index = state.songs.findIndex(song => song.songId == id);
+            state.songs.splice(index,1)
         }
 
 

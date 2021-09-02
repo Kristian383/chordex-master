@@ -388,8 +388,7 @@ export default {
   mounted() {
     const songId = this.$route.params.songId;
     this.songId=songId;
-    // console.log(this.songId);
-    // console.log(songId);
+    
     if (songId) {
       const songData = this.$store.getters.getAllSongs.find((song) => {
         return song.songId == songId;
@@ -403,16 +402,13 @@ export default {
       this.songInfo.electric = songData.electric;
       this.songInfo.acoustic = songData.acoustic;
       this.songInfo.firstProgression = songData.firstProgression;
-      this.songInfo.secondProgression = songData.secondProgression;
       this.songInfo.chords_link = songData.chords_link;
       this.songInfo.yt_link = songData.yt_link;
       this.songInfo.firstKeyNotes = songData.firstKeyNotes;
-      this.songInfo.secondKeyNotes = songData.secondKeyNotes;
       this.songInfo.tuning = songData.tuning;
       this.songInfo.isMySong = songData.isMySong;
       this.isFavorite = songData.isFavorite;
       this.haveCapo = !!songData.capo;
-
       this.artist.val = songData.artist;
       this.song.val = songData.song;
       this.songInfo.difficulty = songData.difficulty;
@@ -420,6 +416,9 @@ export default {
 
       if(songData.secondKey){
         this.openSecond=true;
+        this.songInfo.secondKey=songData.secondKey;
+        this.songInfo.secondKeyNotes = songData.secondKeyNotes;
+        this.songInfo.secondProgression = songData.secondProgression;
       }
     }
   },
