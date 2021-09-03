@@ -5,11 +5,18 @@ import getters from "./songs/getters.js"
 const store = createStore({
     state() {
         return {
-            sidebarActive: true, 
+            sidebarActive: true,
             songDetailTitle: null, apiData: null,
             darkMode: false,
             // sortSongsOption: "newest",
-            artists: ["John Frusciante", "Ed Sheeran", "Nirvana", "RHCP", "Aerosmith", "Led Zeppelin",],
+
+            artists: [{ name: "John Frusciante", order: 1,totalSongs:1 },
+            { name: "Ed Sheeran", order: 2,totalSongs:1 },
+            { name: "Nirvana", order: 3 ,totalSongs:1},
+            { name: "RHCP", order: 4,totalSongs:1 },
+            { name: "Aerosmith", order: 5,totalSongs:1 },
+            { name: "Led Zeppelin", order: 6 ,totalSongs:1},
+            ],
 
             songs: [{ artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "12", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: false }, { artist: "Rhcp", song: "dani californi", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: true },
 
@@ -51,29 +58,29 @@ const store = createStore({
             let songId;
             // console.log("prije",payload.songId);
             // console.log("nakon",songId);
-            if(!payload.songId){
+            if (!payload.songId) {
 
-                 songId = Date.now();
-            }else{
+                songId = Date.now();
+            } else {
 
-                songId=payload.songId;
+                songId = payload.songId;
             }
             const song = {
                 ...payload,
                 dateCreated,
                 songId,
             }
-            
+
             //ubaciti notes in keys i napraviti provjeru jeli second key null
             if (!state.artists.includes(song.artist)) {
                 state.artists.unshift(song.artist)
             }
-            if(!song.songId){
+            if (!song.songId) {
 
                 state.songs.unshift(song)
-            }else{
+            } else {
                 let index = state.songs.findIndex(song => song.songId == payload.songId);
-                state.songs.splice(index,1)
+                state.songs.splice(index, 1)
                 state.songs.unshift(song);
             }
         },
@@ -99,16 +106,20 @@ const store = createStore({
             // console.log(state.songs);
 
         },
-        sortArtists(state,option){
+        sortArtists(state, option) {
             if (option == "A-Z") {
-                state.artists.sort((a, b) => a.localeCompare(b))
+                state.artists.sort((a, b) => a.name.localeCompare(b.name))
             } else if (option == "Z-A") {
-                state.artists.sort((a, b) => b.localeCompare(a))
+                state.artists.sort((a, b) => b.name.localeCompare(a.name))
             }
         },
-        deleteSong(state,id){
+        deleteSong(state, id) {
             let index = state.songs.findIndex(song => song.songId == id);
-            state.songs.splice(index,1)
+            state.songs.splice(index, 1)
+        },
+        updateArtistsList(state,payload)
+        {
+            state.artist=payload
         }
 
 

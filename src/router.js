@@ -6,6 +6,7 @@ import SongDetail from "./pages/SongDetail.vue"
 import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
 import MySongs from "./pages/MySongs.vue"
+import UserAuth from "./pages/auth/UserAuth.vue"
 import NotFound from "./pages/NotFound.vue"
 
 // const Favorites=()=>import("./pages/Favorites.vue")
@@ -23,6 +24,7 @@ const router = createRouter({
             // ]
         },
 
+        { path: "/auth", component: UserAuth, name: "Authentication", meta: { title: "Authentication | Chordex" } },
         { path: "/profile", component: UserProfile, name: "Account Settings", meta: { title: "My Profile | Chordex" } },
         { path: "/artists", component: Artists, name: "Artists", meta: { title: "Artists | Chordex" } },
         { path: "/new", component: AddSong, name: "AddSong", meta: { title: "AddSong | Chordex" } },
@@ -36,7 +38,7 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
 
-    document.title = `${to.meta.title} | Quotex`;
+    document.title = `${to.meta.title}` || "Quotex";
     next();
 
     //ruta add new song before its saved, ako nije ondapronpt

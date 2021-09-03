@@ -1,5 +1,5 @@
 <template>
-  <the-sidebar></the-sidebar>
+  <the-sidebar v-if="isLogged"></the-sidebar>
 
   <!-- <router-view></router-view> -->
 
@@ -16,6 +16,11 @@ export default {
   name: "App",
   components: {
     TheSidebar,
+  },
+  data() {
+    return {
+      isLogged: false
+    }
   },
   
 };

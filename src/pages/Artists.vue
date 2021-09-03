@@ -13,7 +13,7 @@
           type: 'transition-group',
           name: !drag ? 'flip-list' : null,
         }"
-        v-model="list"
+        v-model="sortList"
         v-bind="dragOptions"
         @start="drag = true"
         @end="drag = false"
@@ -66,7 +66,7 @@ export default {
     return {
       drag: false,
       selectedArtist: null,
-      list:null,
+      list:this.sortList,
       
     };
   },
@@ -91,17 +91,26 @@ export default {
       return element
     },
     getArtists(){
-      return this.$store.getters.getArtists;
+      // return this.$store.getters.getArtists;
+      console.log(this.list);
+      return this.list;
     },
     getOptions(){
       return ["A-Z","Z-A"]
+    },
+    sortList:{
+      get:function(){
+        return this.$store.getters.getArtists
+      },
+      set:function(newList){
+        this.$store.commit("updateArtistsList",newList)
+      }
     }
 
   },
   mounted(){
-    this.list=this.$store.getters.getArtists.map((name, index) => {
-        return { name, order: index + 1 };
-      });
+    // this.list=this.$store.getters.getArtists;
+    // this.list=this.$store.getters.getArtists;
     // this.artists=this.$store.getters.getArtists.map((name, index) => {
     //     return { name, order: index + 1 };
     //   }),
