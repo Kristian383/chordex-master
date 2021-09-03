@@ -6,6 +6,7 @@ const store = createStore({
     state() {
         return {
             sidebarActive: true,
+            isLogged:false,
             songDetailTitle: null, apiData: null,
             darkMode: false,
             // sortSongsOption: "newest",
@@ -43,6 +44,7 @@ const store = createStore({
         //     //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
         //     //poslati kao prop
         // }
+        
         toggleDarkMode(state) {
             state.darkMode = !state.darkMode;
         },
@@ -119,7 +121,9 @@ const store = createStore({
         },
         updateArtistsList(state,payload)
         {
-            state.artist=payload
+            // console.log("state",payload);
+            state.artists=payload
+            console.log("stateeee akon",state.artists);
         }
 
 

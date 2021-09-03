@@ -2,9 +2,12 @@
   <base-card>
     <template v-slot:select_box>
       <!-- <sort-by @changeSort="sortArtists"></sort-by> -->
-      <sort-by-optimized @changeSort="sortArtists" :options="getOptions"></sort-by-optimized>
+      <sort-by-optimized
+        @changeSort="sortArtists"
+        :options="getOptions"
+      ></sort-by-optimized>
     </template>
-    <div class="artists" >
+    <div class="artists">
       <draggable
         class="list-group"
         tag="transition-group"
@@ -33,8 +36,8 @@
                   element.name
                 }}</router-link>
               </h2>
-              {{ element }}
-              <p>Songs: 20</p>
+              <!-- {{ element }} -->
+              <p>Songs: {{ element.totalSongs }}</p>
             </div>
             <!-- <div class="btn flex-center" @click="ToggleFavorite">
               <i
@@ -53,8 +56,7 @@
 <script>
 import draggable from "vuedraggable";
 import BaseCard from "./../components/ui/BaseCard.vue";
-// import SortBy from "../components/ui/SortBy.vue";
- import SortByOptimized from "../components/ui/SortByOptimized.vue";
+import SortByOptimized from "../components/ui/SortByOptimized.vue";
 
 export default {
   components: {
@@ -66,16 +68,12 @@ export default {
     return {
       drag: false,
       selectedArtist: null,
-      list:this.sortList,
-      
+      list: this.sortList,
     };
   },
   methods: {
     sortArtists(option) {
-      this.$store.commit("sortArtists",option)
-      
-      // console.log(this.list);
-      // this.list = this.list.sort((a, b) => a.order - b.order);
+      this.$store.commit("sortArtists", option);
     },
   },
   computed: {
@@ -87,35 +85,21 @@ export default {
         ghostClass: "ghost",
       };
     },
-    getElement(element){
-      return element
+    getElement(element) {
+      return element;
     },
-    getArtists(){
-      // return this.$store.getters.getArtists;
-      console.log(this.list);
-      return this.list;
+    getOptions() {
+      return ["A-Z", "Z-A"];
     },
-    getOptions(){
-      return ["A-Z","Z-A"]
-    },
-    sortList:{
-      get:function(){
-        return this.$store.getters.getArtists
+    sortList: {
+      get: function () {
+        return this.$store.getters.getArtists;
       },
-      set:function(newList){
-        this.$store.commit("updateArtistsList",newList)
-      }
-    }
-
+      set: function (newList) {
+        this.$store.commit("updateArtistsList", newList);
+      },
+    },
   },
-  mounted(){
-    // this.list=this.$store.getters.getArtists;
-    // this.list=this.$store.getters.getArtists;
-    // this.artists=this.$store.getters.getArtists.map((name, index) => {
-    //     return { name, order: index + 1 };
-    //   }),
-    // console.log(this.artists);
-  }
 };
 </script>
 

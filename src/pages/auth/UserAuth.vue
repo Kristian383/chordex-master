@@ -2,11 +2,11 @@
   <div class="form-wrapper">
     <div class="form-header">
       <ul class="tab-group">
-        <li class="tab" @click="toggleForm" :class="{ active: login }">
-          <a href="#songs">Log In</a>
+        <li class="tab" @click.prevent="toggleForm" :class="{ active: login }">
+          <a href="">Log In</a>
         </li>
-        <li class="tab" @click="toggleForm" :class="{ active: !login }">
-          <a href="#signup">Sign Up</a>
+        <li class="tab" @click.prevent="toggleForm" :class="{ active: !login }">
+          <a href="">Sign Up</a>
         </li>
       </ul>
     </div>
