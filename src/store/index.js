@@ -6,17 +6,17 @@ const store = createStore({
     state() {
         return {
             sidebarActive: true,
-            isLogged:false,
+            isLogged: false,
             songDetailTitle: null, apiData: null,
             darkMode: false,
             // sortSongsOption: "newest",
 
-            artists: [{ name: "John Frusciante", order: 1,totalSongs:1 },
-            { name: "Ed Sheeran", order: 2,totalSongs:1 },
-            { name: "Nirvana", order: 3 ,totalSongs:1},
-            { name: "RHCP", order: 4,totalSongs:1 },
-            { name: "Aerosmith", order: 5,totalSongs:1 },
-            { name: "Led Zeppelin", order: 6 ,totalSongs:1},
+            artists: [{ name: "John Frusciante", order: 1, totalSongs: 1 },
+            { name: "Ed Sheeran", order: 2, totalSongs: 1 },
+            { name: "Nirvana", order: 3, totalSongs: 1 },
+            { name: "RHCP", order: 4, totalSongs: 1 },
+            { name: "Aerosmith", order: 5, totalSongs: 1 },
+            { name: "Led Zeppelin", order: 6, totalSongs: 1 },
             ],
 
             songs: [{ artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "12", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: false }, { artist: "Rhcp", song: "dani californi", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: true },
@@ -44,7 +44,7 @@ const store = createStore({
         //     //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
         //     //poslati kao prop
         // }
-        
+
         toggleDarkMode(state) {
             state.darkMode = !state.darkMode;
         },
@@ -119,11 +119,8 @@ const store = createStore({
             let index = state.songs.findIndex(song => song.songId == id);
             state.songs.splice(index, 1)
         },
-        updateArtistsList(state,payload)
-        {
-            // console.log("state",payload);
-            state.artists=payload
-            console.log("stateeee akon",state.artists);
+        updateArtistsList(state, payload) {
+            state.artists = payload
         }
 
 
