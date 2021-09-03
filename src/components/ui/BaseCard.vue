@@ -8,7 +8,8 @@
       <div class="filter_categories">
         <slot name="filters"></slot>
       </div>
-      <div class="search-box" id="search_box" :class="searchIsActive">
+      <the-search></the-search>
+      <!-- <div class="search-box" id="search_box" :class="searchIsActive">
         <input
           type="text"
           placeholder="Search song or artist"
@@ -22,7 +23,7 @@
           </li>
         </div>
         <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
-      </div>
+      </div> -->
     </nav>
     <div class="home-content" >
       <div class="sort-section-title">
@@ -39,9 +40,13 @@
 </template>
 
 <script>
-import { onClickOutside } from "@vueuse/core";
+// import { onClickOutside } from "@vueuse/core";
+import TheSearch from "./../ui/TheSearch.vue"
 
 export default {
+  components: {
+    TheSearch,
+  },
   computed: {
     sidebarIsActive() {
       // console.log("otvoreno", this.$store.getters.sidebarIsActive);
@@ -56,39 +61,39 @@ export default {
       }
       return route;
     },
-    searchIsActive() {
-      return this.searchMatch.length ? "active" : "";
-    },
+    // searchIsActive() {
+    //   return this.searchMatch.length ? "active" : "";
+    // },
   },
   data() {
     return {
       title: "",
-      searchMatch: [],
+      // searchMatch: [],
     };
   },
-  methods: {
-    searchTextBox(e) {
-      let textValue = e.target.value;
+  // methods: {
+  //   searchTextBox(e) {
+  //     let textValue = e.target.value;
       
-      let foundData = this.$store.getters.getAllSongs.filter((song) => {
-        const regex = new RegExp(`${textValue}`, "gi");
-        return song.song.match(regex) || song.artist.match(regex);
-      });
-      if (textValue.length === 0) {
-        foundData = [];
-      }
-      // console.log(foundData);
-      this.searchMatch = foundData;
-    },
-  },
-  mounted() {
-    let target = document.getElementById("search_box");
-    onClickOutside(target, () => {
-      target.classList.remove("active");
-      this.searchMatch = [];
-      target.firstElementChild.value = "";
-    });
-  },
+  //     let foundData = this.$store.getters.getAllSongs.filter((song) => {
+  //       const regex = new RegExp(`${textValue}`, "gi");
+  //       return song.song.match(regex) || song.artist.match(regex);
+  //     });
+  //     if (textValue.length === 0) {
+  //       foundData = [];
+  //     }
+  //     // console.log(foundData);
+  //     this.searchMatch = foundData;
+  //   },
+  // },
+  // mounted() {
+  //   let target = document.getElementById("search_box");
+  //   onClickOutside(target, () => {
+  //     target.classList.remove("active");
+  //     this.searchMatch = [];
+  //     target.firstElementChild.value = "";
+  //   });
+  // },
 };
 </script>
 
@@ -147,7 +152,7 @@ export default {
 .filter_categories::-webkit-scrollbar {
   display: none;
 }
-
+/* search */
 .home-section nav .search-box {
   position: relative;
   height: 50px;
