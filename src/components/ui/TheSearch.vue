@@ -6,11 +6,13 @@
       @input="searchTextBox"
     />
     <div class="match-list">
-      <li v-for="match in searchMatch" :key="match">
-        <router-link :to="'/songs/' + match.songId"
-          > <b>{{ match.artist }} - {{ match.song }}</b></router-link
-        >
-      </li>
+      <transition-group name="list">
+        <li v-for="match in searchMatch" :key="match">
+          <router-link :to="'/songs/' + match.songId">
+            <b>{{ match.artist }} - {{ match.song }}</b></router-link
+          >
+        </li>
+      </transition-group>
     </div>
     <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
   </div>
@@ -26,15 +28,14 @@ export default {
     };
   },
   computed: {
-      searchIsActive() {
+    searchIsActive() {
       return this.searchMatch.length ? "active" : "";
     },
   },
   methods: {
-    
     searchTextBox(e) {
       let textValue = e.target.value;
-    
+
       let foundData = this.$store.getters.getAllSongs.filter((song) => {
         const regex = new RegExp(`${textValue}`, "gi");
         return song.song.match(regex) || song.artist.match(regex);
@@ -42,7 +43,7 @@ export default {
       if (textValue.length === 0) {
         foundData = [];
       }
-    //   console.log(foundData);
+      //   console.log(foundData);
       this.searchMatch = foundData;
     },
   },
@@ -58,13 +59,35 @@ export default {
 </script>
 
 <style scoped>
+
+.list-enter-from{
+  opacity: 0;
+}
+.list-enter-to{
+  opacity: 1;
+}
+.list-enter-active{
+transition: all .4s ease;
+}
+
+.list-leave-from{
+  opacity: 1;
+}
+.list-leave-to{
+  opacity: 0;
+}
+.list-leave-active{
+transition: all .3s ease;
+}
+
+
 .home-section nav .search-box {
   position: relative;
   height: 50px;
   max-width: 350px;
   /* min-width: 200px; */
   width: 100%;
-  
+
   margin: 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
