@@ -26,7 +26,7 @@
           song.difficulty
         }}</span>
       </div>
-      <h3 class="artist">
+      <h3 class="artist" @click.stop="chooseArtist">
         <router-link to="/"> {{ song.artist }} </router-link>
       </h3>
       <h4 class="song_name">{{ song.song }}</h4>
@@ -67,6 +67,10 @@ export default {
       // console.log("opening edit mode", e.target);
       this.$router.push("/new/"+this.song.songId)
     },
+    chooseArtist(){
+      // console.log("artist");
+      this.$router.push("/artists/"+this.song.artist)
+    }
   },
   computed: {
     skillLevelClass() {
@@ -238,11 +242,17 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-transform: capitalize;
+   z-index: 32;
 }
 /*  */
 .artist a {
   text-decoration: none;
   color: inherit;
+  transition: all .3s ease;
+}
+.artist:hover{
+  color: rgb(194, 42, 42);
+  
 }
 /* .artist a:hover {
   color: rgb(73, 70, 70);

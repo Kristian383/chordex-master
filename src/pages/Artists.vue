@@ -32,7 +32,7 @@
             </div>
             <div class="details">
               <h2>
-                <router-link :to="'/artist/' + element.name">{{
+                <router-link :to="'/artists/' + element.name">{{
                   element.name
                 }}</router-link>
               </h2>

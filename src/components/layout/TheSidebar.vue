@@ -4,14 +4,13 @@
     @click="toggleSidebar"
     v-bind:style="{ color: activeColor }"
   >
-  <!-- v-bind:style="{ color: activeColor }" -->
+    <!-- v-bind:style="{ color: activeColor }" -->
     <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
-    
   </div>
   <transition name="fade">
-  <div class="sidebar" v-if="!mobile">
-    <!-- v-bind:class="isOpen ? 'active' : ''"  -->
-    <!-- <div class="logo_content">
+    <div class="sidebar" v-if="!mobile">
+      <!-- v-bind:class="isOpen ? 'active' : ''"  -->
+      <!-- <div class="logo_content">
       <div class="logo">
         <img src="./../../assets/music.png" alt="" />
         <div class="logo_name">Chordex</div>
@@ -19,9 +18,9 @@
       <!-- <div @click="toggleSidebar" class="menu">
         <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
       </div> -->
-    <!-- </div> -->
-    <ul class="nav_list">
-      <!-- <li @click="toggleSidebar">
+      <!-- </div> -->
+      <ul class="nav_list">
+        <!-- <li @click="toggleSidebar">
         <font-awesome-icon
           id="ikona"
           class="search"
@@ -31,27 +30,27 @@
         <input type="text" placeholder="Search..." v-model="searchText" />
         <span class="tooltip">Search</span>
       </li>-->
-      <li>
-        <router-link
-          to="/profile"
-          v-bind:class="{ active_item: $route.path == '/profile' }"
-        >
-          <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
-          <span class="links_name">Account</span>
-          <!-- <span class="tooltip">My Profile</span> -->
-        </router-link>
-      </li>
-      <li>
-        <router-link
-          to="/songs"
-          v-bind:class="{ active_item: $route.path == '/songs' }"
-        >
-          <font-awesome-icon id="ikona" icon="music"></font-awesome-icon>
-          <span class="links_name">Songs</span>
-          <!-- <span class="tooltip">Songs</span> -->
-        </router-link>
-      </li>
-      <!-- <li>
+        <li>
+          <router-link
+            to="/profile"
+            v-bind:class="{ active_item: $route.path == '/profile' }"
+          >
+            <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
+            <span class="links_name">Account</span>
+            <!-- <span class="tooltip">My Profile</span> -->
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/songs"
+            v-bind:class="{ active_item: $route.path == '/songs' }"
+          >
+            <font-awesome-icon id="ikona" icon="music"></font-awesome-icon>
+            <span class="links_name">Songs</span>
+            <!-- <span class="tooltip">Songs</span> -->
+          </router-link>
+        </li>
+        <!-- <li>
         <router-link
           to="/favorites"
           v-bind:class="{ active_item: $route.path == '/favorites' }"
@@ -61,17 +60,17 @@
           <span class="tooltip">Favorites</span>
         </router-link>
       </li> -->
-      <li>
-        <router-link
-          to="/artists"
-          v-bind:class="{ active_item: $route.path == '/artists' }"
-        >
-          <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
-          <span class="links_name">Artists</span>
-          <!-- <span class="tooltip">Artists</span> -->
-        </router-link>
-      </li>
-      <!-- <li>
+        <li>
+          <router-link
+            to="/artists"
+            v-bind:class="{ active_item: $route.path == '/artists' }"
+          >
+            <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
+            <span class="links_name">Artists</span>
+            <!-- <span class="tooltip">Artists</span> -->
+          </router-link>
+        </li>
+        <!-- <li>
         <router-link to="/" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="guitar"></font-awesome-icon>
           <span class="links_name">Guitar Type</span>
@@ -79,99 +78,103 @@
          
         </router-link>
       </li> -->
-      <li>
-        <router-link
-          to="/new"
-          v-bind:class="{ active_item: $route.path == '/new' }"
-        >
-          <font-awesome-icon
-            id="ikona"
-            class="new_song"
-            icon="plus-square"
-          ></font-awesome-icon>
-          <span class="links_name">Add New Song</span>
-          <!-- <span class="tooltip">Add New Song</span> -->
-        </router-link>
-      </li>
-      <!-- <li>
+        <li>
+          <router-link
+            to="/new"
+            v-bind:class="{ active_item: $route.path == '/new' }"
+          >
+            <font-awesome-icon
+              id="ikona"
+              class="new_song"
+              icon="plus-square"
+            ></font-awesome-icon>
+            <span class="links_name">Add New Song</span>
+            <!-- <span class="tooltip">Add New Song</span> -->
+          </router-link>
+        </li>
+        <!-- <li>
         <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
           <font-awesome-icon id="ikona" icon="thumbtack"></font-awesome-icon>
           <span class="links_name">Songs To Learn</span>
           <span class="tooltip">Songs To Learn</span>
         </router-link>
       </li> -->
-      <li>
-        <router-link
-          to="/my-songs"
-          v-bind:class="{ active_item: $route.path == '/my-songs' }"
-        >
-          <font-awesome-icon
-            id="ikona"
-            icon="clipboard-list"
-          ></font-awesome-icon>
-          <span class="links_name">My Songs</span>
-          <!-- <span class="tooltip">My Songs</span> -->
-        </router-link>
-      </li>
-      <li>
-        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="headphones"></font-awesome-icon>
-          <span class="links_name">Backing tracks</span>
-          <!-- <span class="tooltip">Backing tracks</span> -->
-        </router-link>
-      </li>
-      <li>
-        <router-link
-          to="/find-key"
-          v-bind:class="{ active_item: $route.path == '/find-key' }"
-        >
-          <font-awesome-icon
-            id="ikona"
-            icon="question-circle"
-          ></font-awesome-icon>
-          <span class="links_name">Find a key </span>
-          <!-- <span class="tooltip">Find a key</span> -->
-        </router-link>
-      </li>
-       <li>
-        <router-link
-          to="/"
-          v-bind:class="{ active_item: $route.path == '/' }"
-        >
-          <font-awesome-icon
-            id="ikona"
+        <li>
+          <router-link
+            to="/my-songs"
+            v-bind:class="{ active_item: $route.path == '/my-songs' }"
+          >
+            <font-awesome-icon
+              id="ikona"
+              icon="clipboard-list"
+            ></font-awesome-icon>
+            <span class="links_name">My Songs</span>
+            <!-- <span class="tooltip">My Songs</span> -->
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="#"
+            v-bind:class="{ active_item: $route.path == '/' }"
+          >
+            <font-awesome-icon id="ikona" icon="headphones"></font-awesome-icon>
+            <span class="links_name">Backing tracks</span>
+            <!-- <span class="tooltip">Backing tracks</span> -->
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/find-key"
+            v-bind:class="{ active_item: $route.path == '/find-key' }"
+          >
+            <font-awesome-icon
+              id="ikona"
+              icon="question-circle"
+            ></font-awesome-icon>
+            <span class="links_name">Find a key </span>
+            <!-- <span class="tooltip">Find a key</span> -->
+          </router-link>
+        </li>
+        <li @click="logOutUser">
+          <router-link to="/auth" >
+            <!-- v-bind:class="{ active_item: $route.path == '/' }" -->
+            <font-awesome-icon
+              id="ikona"
+              icon="sign-out-alt"
+            ></font-awesome-icon>
+            <span class="links_name">Logout </span>
+            <!-- <span class="tooltip">Find a key</span> -->
+          </router-link>
+        </li>
+        <li>
+          <div class="toggle-mode">
+            <input
+              type="checkbox"
+              @click="toggleMode"
+              class="checkbox"
+              id="chk"
+            />
+            <label class="label" for="chk">
+              <font-awesome-icon icon="moon"></font-awesome-icon>
+              <font-awesome-icon icon="sun"></font-awesome-icon>
+              <div class="ball"></div>
+            </label>
+          </div>
+        </li>
+      </ul>
+      <div class="profile_content">
+        <div class="profile">
+          <div class="profile_details">
+            <img src="./../../assets/music.png" alt="" />
+            <div class="name">Kristian</div>
+          </div>
+          <font-awesome-icon @click="logOutUser" 
+            id="logout"
             icon="sign-out-alt"
           ></font-awesome-icon>
-          <span class="links_name">Logout </span>
-          <!-- <span class="tooltip">Find a key</span> -->
-        </router-link>
-      </li>
-      <li>
-        <div class="toggle-mode">
-          <input
-            type="checkbox"
-            @click="toggleMode"
-            class="checkbox"
-            id="chk"
-          />
-          <label class="label" for="chk">
-            <font-awesome-icon icon="moon"></font-awesome-icon>
-            <font-awesome-icon icon="sun"></font-awesome-icon>
-            <div class="ball"></div>
-          </label>
         </div>
-      </li>
-    </ul>
-    <div class="profile_content">
-      <div class="profile">
-        <div class="profile_details">
-          <img src="./../../assets/music.png" alt="" />
-          <div class="name">Kristian</div>
-        </div>
-        <font-awesome-icon id="logout" icon="sign-out-alt"></font-awesome-icon>
       </div>
     </div>
-  </div>
   </transition>
 </template>
 
@@ -200,6 +203,9 @@ export default {
     toggleMode() {
       this.$store.commit("toggleDarkMode");
     },
+    logOutUser(){
+      console.log("udje");
+    }
   },
   created() {
     dom.watch();
@@ -210,7 +216,7 @@ export default {
     },
     activeColor() {
       if (this.mobile) {
-        console.log("object",this.mobile);
+        console.log("object", this.mobile);
         return "black";
       } else {
         return "#fff";
@@ -229,7 +235,7 @@ export default {
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
-  transform: translateX(-100%)
+  transform: translateX(-100%);
 }
 .fade-leave-to,
 .fade-enter-from {
@@ -265,22 +271,21 @@ export default {
   font-size: 24px;
   z-index: 60;
   cursor: pointer;
-  
 }
 
 /*  */
 .active_item {
   /* background-color: #e73213; */
   background: rgb(194, 42, 42);
+  
 }
 .active_item svg {
   color: #f1f1f1;
+  
 }
 .new_song {
   color: #69b34c;
 }
-
-
 
 /* .sidebar .logo_content .logo {
   display: flex;

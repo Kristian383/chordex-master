@@ -61,6 +61,9 @@ export default {
   },
   methods: {
     filterSongs() {
+      if(this.$route.params.name){
+        return this.$store.getters.filterSongs(this.filters,this.$route.params.name);
+      }
       return this.$store.getters.filterSongs(this.filters);
       
     },

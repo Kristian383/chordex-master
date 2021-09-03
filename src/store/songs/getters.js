@@ -35,7 +35,11 @@ export default {
         return state.songDetailTitle;
     },
     filterSongs(state) {
-        return (filters) => {
+        return (filters,artist=null) => {
+
+            if(artist){
+                return state.songs.filter(song=>song.artist.toLowerCase()==artist.toLowerCase())
+            }
 
             if (!filters.length || filters == "all") {
                 // console.log("prazno udje, vracam sve pjesme");
