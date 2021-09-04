@@ -146,7 +146,7 @@ export default {
 }
 
 .form-wrapper .form-header {
-  background: #252934;
+  background: #0D1117;
   border-radius: 8px 8px 0px 0px;
   padding: 10px 17px;
 }
@@ -228,7 +228,7 @@ export default {
 
 .form-footer button {
   display: inline-block;
-  background: #252934;
+  background: #0D1117;
   border-radius: 4px;
   padding: 10px 20px;
   border: none;

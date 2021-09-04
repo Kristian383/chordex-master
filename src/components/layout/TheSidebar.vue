@@ -1,24 +1,13 @@
 <template>
   <div
-    class="mobile-bar"
+    class="hamburger"
     @click="toggleSidebar"
     v-bind:style="{ color: activeColor }"
   >
-    <!-- v-bind:style="{ color: activeColor }" -->
     <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
   </div>
   <transition name="fade">
     <div class="sidebar" v-if="!mobile">
-      <!-- v-bind:class="isOpen ? 'active' : ''"  -->
-      <!-- <div class="logo_content">
-      <div class="logo">
-        <img src="./../../assets/music.png" alt="" />
-        <div class="logo_name">Chordex</div>
-      </div> -->
-      <!-- <div @click="toggleSidebar" class="menu">
-        <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
-      </div> -->
-      <!-- </div> -->
       <ul class="nav_list">
         <!-- <li @click="toggleSidebar">
         <font-awesome-icon
@@ -136,7 +125,7 @@
           </router-link>
         </li>
         <li @click="logOutUser">
-          <router-link to="/auth" >
+          <router-link to="/auth">
             <!-- v-bind:class="{ active_item: $route.path == '/' }" -->
             <font-awesome-icon
               id="ikona"
@@ -168,7 +157,8 @@
             <img src="./../../assets/music.png" alt="" />
             <div class="name">Kristian</div>
           </div>
-          <font-awesome-icon @click="logOutUser" 
+          <font-awesome-icon
+            @click="logOutUser"
             id="logout"
             icon="sign-out-alt"
           ></font-awesome-icon>
@@ -203,9 +193,9 @@ export default {
     toggleMode() {
       this.$store.commit("toggleDarkMode");
     },
-    logOutUser(){
+    logOutUser() {
       console.log("udje");
-    }
+    },
   },
   created() {
     dom.watch();
@@ -219,7 +209,7 @@ export default {
         console.log("object", this.mobile);
         return "black";
       } else {
-        return "#fff";
+        return "black";
       }
     },
   },
@@ -232,15 +222,6 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-  transform: translateX(-100%);
-}
-.fade-leave-to,
-.fade-enter-from {
-  opacity: 0;
-}
 .favorite {
   color: #c22a2a;
 }
@@ -254,9 +235,9 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 54px 14px;
+  padding: 90px 14px;
   transition: all 0.3s ease;
-  z-index: 15;
+  z-index: 33;
   /* visibility: hidden; */
 }
 /* .sidebar.active {
@@ -264,12 +245,12 @@ export default {
 } */
 /* pokusaj mobile resposive */
 
-.mobile-bar {
+.hamburger {
   position: fixed;
   top: 24px;
   left: 24px;
   font-size: 24px;
-  z-index: 60;
+  z-index: 102;
   cursor: pointer;
 }
 
@@ -277,11 +258,9 @@ export default {
 .active_item {
   /* background-color: #e73213; */
   background: rgb(194, 42, 42);
-  
 }
 .active_item svg {
   color: #f1f1f1;
-  
 }
 .new_song {
   color: #69b34c;
@@ -384,6 +363,7 @@ export default {
 
 .sidebar ul li .toggle-mode .label .ball {
   background-color: #fff;
+
   border-radius: 50%;
   position: absolute;
   top: 2px;
@@ -544,5 +524,15 @@ export default {
 #logout:hover {
   cursor: pointer;
   color: #d8323c;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+  transform: translateX(-100%);
+}
+.fade-leave-to,
+.fade-enter-from {
+  opacity: 0;
 }
 </style>

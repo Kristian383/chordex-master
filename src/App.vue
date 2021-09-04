@@ -1,39 +1,44 @@
 <template>
-  <the-sidebar v-if="isLogged"></the-sidebar>
+  <the-header></the-header>
+  <section v-if="!isLogged"></section>
 
-  <!-- <router-view></router-view> -->
-
-  <router-view :key="$route.path" v-slot="{ Component }">
-  <keep-alive>
-    <component :is="Component"  />
-  </keep-alive>
-</router-view>
+  <section v-else>
+    <the-sidebar></the-sidebar>
+    <router-view :key="$route.path" v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+  </section>
 </template>
 
 <script>
 import TheSidebar from "./components/layout/TheSidebar.vue";
+import TheHeader from "./components/layout/TheHeader.vue";
 export default {
   name: "App",
   components: {
     TheSidebar,
+    TheHeader,
   },
   data() {
     return {
-      isLogged: true
-    }
+      isLogged: true,
+    };
   },
-  
 };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Arimo&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Arimo&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   /* font-family: "Arimo", sans-serif; */
-  font-family: Arial, sans-serif ;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* route tranisition */
@@ -56,5 +61,4 @@ export default {
 .route-leave-from{
   opacity: 1;
 } */
-
 </style>
