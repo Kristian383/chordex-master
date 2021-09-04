@@ -474,6 +474,15 @@ svg {
   color: RGB(16, 17, 20);
   /* margin-bottom: 28px; */
 }
+
+@media (max-width:380px){
+  .delete{
+    position: absolute;
+    top: -40px;
+
+  }
+}
+
 .top-section .delete:hover {
   color: black;
 }
