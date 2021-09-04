@@ -457,15 +457,16 @@ svg {
 }
 .top-section .heart {
   position: absolute;
-  left: 25px;
+  left: 20px;
   top: 33px;
   cursor: pointer;
 }
 .top-section .my-song {
   position: absolute;
-  left: 75px;
+  left: 65px;
   top: 33px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .top-section .delete {
@@ -598,18 +599,26 @@ svg {
   }
 } */
 
+
+
+
 .is-favorite {
   color: #c22a2a;
 }
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 8px;
   margin-top: 18px;
   align-items: center;
 }
 .grid-2:nth-child(-n + 2) {
   margin-top: 0;
+}
+@media (min-width: 640px) {
+  .grid-2{
+grid-template-columns: repeat(2, 1fr);
+  }
 }
 /* .grid-3 {
   display: grid;
