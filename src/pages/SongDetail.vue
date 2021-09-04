@@ -349,4 +349,8 @@ svg {
 .middle-icons .edit:hover {
   color: black;
 }
+
+.link{
+  word-break: break-all;
+}
 </style>
