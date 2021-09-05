@@ -84,9 +84,10 @@ transition: all .3s ease;
 .home-section nav .search-box {
   position: relative;
   height: 50px;
+  min-width: 250px;
   max-width: 350px;
   /* min-width: 200px; */
-  width: 100%;
+  /* width: 100%; */
 
   margin: 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);

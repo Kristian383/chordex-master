@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Songs from "./pages/Songs.vue"
+import TheHome from "./pages/TheHome.vue"
 import UserProfile from "./pages/UserProfile.vue"
 import SongDetail from "./pages/SongDetail.vue"
 import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
 import MySongs from "./pages/MySongs.vue"
-import UserAuth from "./pages/auth/UserAuth.vue"
+import UserAuth from "./components/ui/auth/UserAuth.vue"
 import NotFound from "./pages/NotFound.vue"
 
 // const Favorites=()=>import("./pages/Favorites.vue")
@@ -16,6 +17,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: "/", redirect: "/songs" },
+        { path: "/home", component: TheHome, name: "Home", meta: { title: "Home | Chordex" } },
         { path: "/songs", component: Songs, name: "Songs", meta: { title: "Songs | Chordex" } },
         {
             path: "/songs/:songId(\\d+)", component: SongDetail, name: "SongDetail", meta: { title: "Song Detail | Chordex" }, props: true,

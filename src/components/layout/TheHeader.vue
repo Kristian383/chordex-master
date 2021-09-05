@@ -10,7 +10,7 @@
       <div class="title"><h2>Chordex</h2></div>
       <ul  class="navigation" >
         <li>
-          <router-link class="link active" to="/">Home</router-link>
+          <router-link class="link active" to="/home">Home</router-link>
         </li>
         <li>
           <router-link class="link" to="/">About</router-link>

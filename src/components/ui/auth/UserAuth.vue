@@ -49,7 +49,7 @@
         <!-- </transition> -->
 
         <!-- <transition name="fade"  > -->
-          <!-- ="!login" -->
+        <!-- ="!login" -->
         <div id="signup" key="signup" v-else>
           <form action="/" method="post">
             <div class="form-container">
@@ -102,7 +102,7 @@
 export default {
   data() {
     return {
-      login: !true,
+      login: true,
     };
   },
   methods: {
@@ -114,39 +114,22 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: scale(0.6);
-   /* transform: translateX(-60px);  */
-}
-
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 1;
-  transform: scale(1);
-  /* transform: translateX(0);  */
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.3s ease;
-}
-
-
 .form-wrapper {
-  padding: 16px;
   width: 100%;
   max-width: 400px;
   position: absolute;
   left: 50%;
   top: 50%;
   color: #424242;
+  padding: 8px 16px;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 8px 8px 0px 0px;
 }
 
 .form-wrapper .form-header {
-  background: #0D1117;
+  background: #0d1117;
   border-radius: 8px 8px 0px 0px;
   padding: 10px 17px;
 }
@@ -228,7 +211,7 @@ export default {
 
 .form-footer button {
   display: inline-block;
-  background: #0D1117;
+  background: #0d1117;
   border-radius: 4px;
   padding: 10px 20px;
   border: none;
@@ -246,79 +229,21 @@ export default {
   text-decoration: none;
 }
 
-@-webkit-keyframes bounceInDown {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateY(-2000px);
-  }
-  60% {
-    opacity: 1;
-    -webkit-transform: translateY(30px);
-  }
-  80% {
-    -webkit-transform: translateY(-10px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-  }
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
+  /* transform: translateX(-60px);  */
 }
 
-@-moz-keyframes bounceInDown {
-  0% {
-    opacity: 0;
-    -moz-transform: translateY(-2000px);
-  }
-  60% {
-    opacity: 1;
-    -moz-transform: translateY(30px);
-  }
-  80% {
-    -moz-transform: translateY(-10px);
-  }
-  100% {
-    -moz-transform: translateY(0);
-  }
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: scale(1);
+  /* transform: translateX(0);  */
 }
-
-@-o-keyframes bounceInDown {
-  0% {
-    opacity: 0;
-    -o-transform: translateY(-2000px);
-  }
-  60% {
-    opacity: 1;
-    -o-transform: translateY(30px);
-  }
-  80% {
-    -o-transform: translateY(-10px);
-  }
-  100% {
-    -o-transform: translateY(0);
-  }
-}
-
-@keyframes bounceInDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-2000px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(30px);
-  }
-  80% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.bounceInDown {
-  -webkit-animation-name: bounceInDown;
-  -moz-animation-name: bounceInDown;
-  -o-animation-name: bounceInDown;
-  animation-name: bounceInDown;
-  list-style: none;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
 }
 </style>
