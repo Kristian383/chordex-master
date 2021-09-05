@@ -44,13 +44,16 @@ export default {
   max-width: 1700px;
   margin: 0 auto;
   height: 100%;
+
+  row-gap: 56px;
 }
 @media (min-width: 1000px) {
   .home {
     grid-template-columns: repeat(3, 1fr);
   }
   .third {
-    grid-column: 2/4;padding-top: 26px;
+    grid-column: 2/4;
+    padding-top: 26px;
   }
   #songs {
     grid-column: 1 / 3;
@@ -69,6 +72,10 @@ export default {
 .home-content {
   text-align: center;
 }
+.home-content h2 {
+  font-size: 30px;
+  padding: 0 16px;
+}
 
 .home-content img {
   /* display: block; */
@@ -86,10 +93,10 @@ export default {
   padding: 16px;
   display: block;
   width: 260px;
-  text-align: start;
   margin: 0 auto;
 }
+
 .smaller h2 {
-  padding: 32px 16px;
+  padding: 32px 16px;text-align: center;
 }
 </style>
