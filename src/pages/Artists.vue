@@ -109,9 +109,10 @@ export default {
   justify-content:center;
   align-items:center; */
   /* background-color: #ccc; */
-
+  
+  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   max-width: 800px;
-  margin: 0 auto;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  margin: 0 auto;
 }
 @media (min-width: 720px) {
   .artists {
@@ -123,7 +124,6 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 24px;
-  
 }
 
 .flip-list-move {
@@ -145,7 +145,6 @@ export default {
   border-bottom: 1px solid #ccc;
   list-style: none;
   height: 80px;
-   
 }
 .list-group .list-group-item > div {
   padding: 15px 0px;
