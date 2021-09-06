@@ -107,18 +107,19 @@ export default {
   /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06); */
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-
   overflow: hidden;
   width: 180px;
   position: relative; /*moj */
   height: 260px;
   /* color: #303030; */
   color:#101114;
+  
   transition: 0.5s ease all;
+  cursor: pointer;
   /* transform: translateY(10%); */
 }
 .card:hover {
-  cursor: pointer;
+  
   transform: rotateZ(-1deg) scale(1.01);
 }
 .card.active {
@@ -243,6 +244,7 @@ export default {
   overflow: hidden;
   text-transform: capitalize;
    z-index: 32;
+   font-size: 16px;
 }
 /*  */
 .artist a {

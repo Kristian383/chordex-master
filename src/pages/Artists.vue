@@ -109,15 +109,21 @@ export default {
   justify-content:center;
   align-items:center; */
   /* background-color: #ccc; */
-  padding: 25px;
+
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+@media (min-width: 720px) {
+  .artists {
+    padding: 25px;
+  }
 }
 .flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
+  
 }
 
 .flip-list-move {
@@ -139,20 +145,27 @@ export default {
   border-bottom: 1px solid #ccc;
   list-style: none;
   height: 80px;
+   
 }
 .list-group .list-group-item > div {
   padding: 15px 0px;
 }
 .list-group .list-group-item .handle {
   width: 50px;
-  background: #eee;
+  background: #0d1117;
   border: 1px solid #ddd;
   cursor: pointer;
-  color: #555;
+  color: #fff;
 }
-.list-group .list-group-item .handle:hover {
+
+/* @media (min-width: 720px) {
+  .list-group .list-group-item  {
+   
+  }
+} */
+/* .list-group .list-group-item .handle:hover {
   color: #111;
-}
+} */
 
 .list-group .list-group-item .thumbnail {
   padding: 0px 10px;

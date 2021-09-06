@@ -3,10 +3,10 @@
     <div class="form-container">
       <!-- <div class="modal" id="modal"></div> -->
       <div class="go-back">
-            <router-link :to="songInfo.isMySong ? '/my-songs':'/songs'">
-              <font-awesome-icon icon="arrow-left"></font-awesome-icon>
-            </router-link>
-          </div>
+        <router-link :to="songInfo.isMySong ? '/my-songs' : '/songs'">
+          <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+        </router-link>
+      </div>
       <form @submit.prevent>
         <div class="top-section">
           <font-awesome-icon
@@ -73,24 +73,27 @@
           />
           <!-- easy hard -->
           <div>
-            <input value="easy" type="radio" name="radio" id="easy" v-model="songInfo.difficulty" /><label
-              for="easy" 
-              >Easy</label
-            >
+            <input
+              value="easy"
+              type="radio"
+              name="radio"
+              id="easy"
+              v-model="songInfo.difficulty"
+            /><label for="easy">Easy</label>
             <input
               type="radio"
               name="radio"
               id="medium"
               value="medium"
               v-model="songInfo.difficulty"
-            /><label for="medium" >Medium</label>
+            /><label for="medium">Medium</label>
             <input
               type="radio"
               name="radio"
               id="hard"
               value="hard"
               v-model="songInfo.difficulty"
-            /><label for="hard" >Hard</label>
+            /><label for="hard">Hard</label>
             <input
               v-model="songInfo.tuning"
               class="input-field"
@@ -105,19 +108,19 @@
               @check-store="insertKey"
               name="firstKey"
             ></select-box-key>
-            {{songInfo.firstKeyNotes}}
+            {{ songInfo.firstKeyNotes }}
           </div>
           <div class="grid-2">
             <transition name="fade">
               <select-box-key
                 name="secondKey"
-                 @check-store="insertKey"
+                @check-store="insertKey"
                 v-if="openSecond"
               ></select-box-key>
             </transition>
             <transition name="fade">
               <div class="secondOption" v-if="openSecond">
-                {{songInfo.secondKeyNotes}}
+                {{ songInfo.secondKeyNotes }}
                 <font-awesome-icon
                   @click="removeSecondKeySelect"
                   :icon="['far', 'times-circle']"
@@ -229,7 +232,7 @@ export default {
   },
   data() {
     return {
-      songId:null,
+      songId: null,
       isFavorite: null,
       openSecond: false,
       formIsValid: false,
@@ -248,9 +251,9 @@ export default {
         secondKeyNotes: null,
         tuning: null,
         isMySong: false,
-        difficulty:null,
-        firstKey:null,
-        secondKey:null,
+        difficulty: null,
+        firstKey: null,
+        secondKey: null,
       },
       haveCapo: null,
       artist: {
@@ -261,7 +264,7 @@ export default {
         val: null,
         isValid: true,
       },
-      isSaved:null
+      isSaved: null,
     };
   },
 
@@ -272,24 +275,22 @@ export default {
       }
       return "heart";
     },
-    
   },
   methods: {
     toggleFavorite() {
       this.isFavorite = !this.isFavorite;
     },
-    insertKey(data){
-      if(data.name=="firstKey"){
-        this.openSecond=true;
-        this.songInfo.firstKey=data.key;
-        this.songInfo.firstKeyNotes=data.notes;
-      }else{
-        this.songInfo.secondKey=data.key;
-        this.songInfo.secondKeyNotes=data.notes;
+    insertKey(data) {
+      if (data.name == "firstKey") {
+        this.openSecond = true;
+        this.songInfo.firstKey = data.key;
+        this.songInfo.firstKeyNotes = data.notes;
+      } else {
+        this.songInfo.secondKey = data.key;
+        this.songInfo.secondKeyNotes = data.notes;
       }
       // console.log(data);
-    }
-    ,
+    },
     removeSecondKeySelect() {
       this.openSecond = false;
     },
@@ -319,7 +320,7 @@ export default {
 
       setTimeout(() => {
         event.target.classList.remove("success");
-        const pushRoute=this.songInfo.isMySong ? '/my-songs':'/songs';
+        const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
         this.$router.push(pushRoute);
       }, 2500);
 
@@ -331,14 +332,14 @@ export default {
         ...this.songInfo,
         artist: this.artist.val,
         song: this.song.val,
-        songId:this.songId,
+        songId: this.songId,
         isFavorite: this.isFavorite,
       };
       // console.log(formData);
 
       //dispatch action from store addNewSong
       this.$store.dispatch("addNewSong", formData);
-      this.isSaved=true;
+      this.isSaved = true;
       //router push koji je u timeoutu
     },
     checkCapo() {
@@ -377,7 +378,7 @@ export default {
     },
   },
   beforeRouteLeave(_, _2, next) {
-    if ((this.song.val || this.artist.val ) && !this.isSaved) {
+    if ((this.song.val || this.artist.val) && !this.isSaved) {
       if (!window.confirm("Leave without saving?")) {
         return;
       }
@@ -386,13 +387,12 @@ export default {
   },
   mounted() {
     const songId = this.$route.params.songId;
-    this.songId=songId;
-    
+    this.songId = songId;
+
     if (songId) {
       const songData = this.$store.getters.getAllSongs.find((song) => {
         return song.songId == songId;
       });
-      
 
       this.songInfo.songText = songData.songText;
       this.songInfo.practicedPrcntg = songData.practicedPrcntg;
@@ -411,11 +411,11 @@ export default {
       this.artist.val = songData.artist;
       this.song.val = songData.song;
       this.songInfo.difficulty = songData.difficulty;
-      this.songInfo.firstKey=songData.firstKey;
+      this.songInfo.firstKey = songData.firstKey;
 
-      if(songData.secondKey){
-        this.openSecond=true;
-        this.songInfo.secondKey=songData.secondKey;
+      if (songData.secondKey) {
+        this.openSecond = true;
+        this.songInfo.secondKey = songData.secondKey;
         this.songInfo.secondKeyNotes = songData.secondKeyNotes;
         this.songInfo.secondProgression = songData.secondProgression;
       }
@@ -437,8 +437,8 @@ export default {
   font-family: Arial, sans-serif !important;
   font-size: 18px;
 
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   border-left: 6px solid rgb(194, 42, 42);
   position: relative;
 }
@@ -474,18 +474,16 @@ svg {
   /* margin-bottom: 28px; */
 }
 
-@media (max-width:380px){
-  .delete{
+@media (max-width: 380px) {
+  .delete {
     position: absolute;
     top: -40px;
-
   }
 }
 
 .top-section .delete:hover {
   color: black;
 }
-
 
 .is-favorite {
   color: #c22a2a;
@@ -501,8 +499,8 @@ svg {
   margin-top: 0;
 }
 @media (min-width: 640px) {
-  .grid-2{
-grid-template-columns: repeat(2, 1fr);
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 /* .grid-3 {
@@ -544,9 +542,9 @@ form .input-field {
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
   resize: none;
   color: RGB(16, 17, 20);
- 
 }
 
 #input-bpm {
@@ -594,6 +592,7 @@ input[type="radio"] + label {
   word-wrap: none;
   white-space: nowrap;
   margin-top: 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
@@ -722,13 +721,11 @@ input::-moz-focus-outer {
   border: 0;
 }
 
-
 .go-back {
   position: absolute;
   left: 5px;
   top: -50px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   width: 40px;
   height: 40px;
   display: flex;

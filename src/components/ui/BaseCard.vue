@@ -109,6 +109,7 @@ export default {
   transition: all 0.5s ease;
   width: calc(100% - 240px);
   left: 240px;
+  
 }
 
 .expand_home_section {
@@ -132,6 +133,7 @@ export default {
   z-index: 30;
   padding: 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  
   transition: all 0.5s ease;
 }
 .expand_home_section nav {

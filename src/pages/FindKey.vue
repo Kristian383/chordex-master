@@ -54,6 +54,7 @@ export default {
 <style scoped>
 table {
   margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 table th {
   font-size: 20px;

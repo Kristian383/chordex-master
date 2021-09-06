@@ -125,6 +125,7 @@ export default {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  
   border-radius: 8px 8px 0px 0px;
 }
 

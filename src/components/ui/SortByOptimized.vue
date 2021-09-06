@@ -78,6 +78,9 @@ export default {
   position: relative;
   z-index: 20;
   user-select: none;
+  
+  font-size: 16px;
+  
 }
 .select-box .options-container {
   background: #11101d;
