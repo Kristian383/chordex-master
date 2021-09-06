@@ -7,29 +7,12 @@ export default {
         return state.songs;
         // .filter(song=>song.mySong==false)
     },
-    // getAllFilters(state) {
-    //     return state.allFilters;
-    // },
-
-    // getActiveFilters(state) {
-
-    //     return state.activeFilters;
-    // },
     isDarkMode(state) {
         return state.darkMode;
     },
-    // getFavoriteSongs(state) {
-    //     console.log(state.songs);
-    //     return state.songs.filter(song => song.isFavorite);
-
-    // },
-
-    selectedKeys(state) {
-        const selected = {
-            first: state.firstKey,
-            second: state.secondKey
-        }
-        return selected
+    getMusicKeys(state)
+    {
+        return state.musicKeys;
     },
     getSongDetailTitle(state) {
         return state.songDetailTitle;

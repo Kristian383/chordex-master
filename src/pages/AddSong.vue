@@ -105,7 +105,7 @@
               @check-store="insertKey"
               name="firstKey"
             ></select-box-key>
-            A B C D E F H
+            {{songInfo.firstKeyNotes}}
           </div>
           <div class="grid-2">
             <transition name="fade">
@@ -117,7 +117,7 @@
             </transition>
             <transition name="fade">
               <div class="secondOption" v-if="openSecond">
-                Second opetion keys
+                {{songInfo.secondKeyNotes}}
                 <font-awesome-icon
                   @click="removeSecondKeySelect"
                   :icon="['far', 'times-circle']"
@@ -272,9 +272,7 @@ export default {
       }
       return "heart";
     },
-    getSelectedKeys() {
-      return this.$store.getters.selectedKeys;
-    },
+    
   },
   methods: {
     toggleFavorite() {
@@ -282,12 +280,14 @@ export default {
     },
     insertKey(data){
       if(data.name=="firstKey"){
-        //TO DO: get appropriate keys from store
         this.openSecond=true;
         this.songInfo.firstKey=data.key;
+        this.songInfo.firstKeyNotes=data.notes;
       }else{
         this.songInfo.secondKey=data.key;
+        this.songInfo.secondKeyNotes=data.notes;
       }
+      // console.log(data);
     }
     ,
     removeSecondKeySelect() {

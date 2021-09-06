@@ -6,16 +6,15 @@
         v-for="songKey in songKeysWithUniqueId"
         :key="songKey.id"
         :name="name"
-        @click="chooseKey(songKey.key)"
+        @click="chooseKey(songKey)"
       >
-        <input type="radio" :id="songKey.id" class="radio" name="category" />
-        <label :for="songKey.id">{{ songKey.key }}</label>
+        <input type="radio" id="songKey.key" class="radio" name="category" />
+        <label :for="songKey.key">{{ songKey.key }}</label>
       </div>
     </div>
     <div class="selected" @click="toggleChoose">
-      <span v-if="name=='secondKey'">
-        Key change:</span>
-        <span v-else>Song key:</span> {{ selectedKey }}
+      <span v-if="name == 'secondKey'"> Key change:</span>
+      <span v-else>Song key:</span> {{ selectedKey }}
     </div>
   </div>
 </template>
@@ -23,55 +22,60 @@
 <script>
 export default {
   props: ["name"],
-  emits:["checkStore"],
+  emits: ["checkStore"],
   data() {
     return {
       selectedKey: null,
       chooseKeyIsActive: false,
-      songKeys: [
-        "C",
-        "G",
-        "D",
-        "A",
-        "E",
-        "B",
-        "F#",
-        "C#",
-        "F",
-        "Bb",
-        "Eb",
-        "Ab",
-        "Db",
-        "Gb",
-        "Cb",
-      ],
+      // songKeys: [
+      //   "C",
+      //   "G",
+      //   "D",
+      //   "A",
+      //   "E",
+      //   "B",
+      //   "F#",
+      //   "C#",
+      //   "F",
+      //   "Bb",
+      //   "Eb",
+      //   "Ab",
+      //   "Db",
+      //   "Gb",
+      //   "Cb",
+      // ],
     };
   },
   methods: {
     toggleChoose() {
       this.chooseKeyIsActive = !this.chooseKeyIsActive;
     },
-    chooseKey(key) {
-      this.selectedKey = key;
+    chooseKey(selected) {
+      this.selectedKey = selected.key;
       this.chooseKeyIsActive = false;
+      const notes=selected.notes.map(el=>el).join(" - ")
       const payload = {
         name: this.name,
         key: this.selectedKey,
+        notes:notes
       };
       // this.$store.commit("selectKey", payload);
       // console.log(payload);
-      this.$emit("checkStore",payload)
-      
+      this.$emit("checkStore", payload);
     },
   },
   computed: {
     songKeysWithUniqueId() {
-      const newKeys = [];
-      this.songKeys.forEach((key) => {
-        const id = Math.random().toString(36).substring(2);
-        newKeys.push({ key, id });
-      });
-      return newKeys;
+      // const newKeys = [];
+
+      const songKeysCopy = this.$store.getters.getMusicKeys.map((el) => el);
+
+      // songKeysCopy.forEach((key) => {
+      //   const id = Math.random().toString(36).substring(2);
+      //   newKeys.push({ key, id });
+      // });
+      // console.log(songKeysCopy);
+      return songKeysCopy;
     },
   },
 };

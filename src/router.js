@@ -7,6 +7,7 @@ import SongDetail from "./pages/SongDetail.vue"
 import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
 import MySongs from "./pages/MySongs.vue"
+import FindKey from "./pages/FindKey.vue"
 import UserAuth from "./components/ui/auth/UserAuth.vue"
 import NotFound from "./pages/NotFound.vue"
 
@@ -33,6 +34,7 @@ const router = createRouter({
         { path: "/new", component: AddSong, name: "Add Song", meta: { title: "Add Song | Chordex" } },
         { path: "/new/:songId(\\d+)", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex" } },
         { path: "/my-songs", component: MySongs, name: "My Songs", meta: { title: "MySongs | Chordex" } },
+        { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex" } },
         { path: "/my-songs/:songId(\\d+)", component: SongDetail, name: "MySongDetail", meta: { title: "SongDetail | Chordex" }, props: true },
         { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
     ]

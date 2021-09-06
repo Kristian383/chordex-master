@@ -22,7 +22,7 @@
       <div class="tags">
         <span class="tag tag-teal" v-if="song.capo"> Capo</span>
 
-        <span class="tag tag-teal" :class="skillLevelClass">{{
+        <span class="tag tag-teal" v-if="song.difficulty" :class="skillLevelClass">{{
           song.difficulty
         }}</span>
       </div>
