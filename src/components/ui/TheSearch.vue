@@ -118,9 +118,7 @@ nav .search-box #search {
   color: #fff;
   transition: all 0.4 ease;
 }
-nav .search-box #search:hover {
-  cursor: pointer;
-}
+
 .search-box .match-list {
   padding: 0;
   opacity: 0;
