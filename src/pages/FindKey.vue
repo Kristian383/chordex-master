@@ -59,6 +59,7 @@ table {
 table th {
   font-size: 20px;
   background: #242424;
+  background: #0d1117;
   color: #fff;
 }
 tbody td {
@@ -97,7 +98,7 @@ tr {
 }
 
 tr:hover td {
-  background: #242424;
+  background: #0d1117;
   color: #ffffff;
 }
 </style>
