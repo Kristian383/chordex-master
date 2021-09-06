@@ -261,6 +261,7 @@ export default {
         val: null,
         isValid: true,
       },
+      isSaved:null
     };
   },
 
@@ -337,6 +338,7 @@ export default {
 
       //dispatch action from store addNewSong
       this.$store.dispatch("addNewSong", formData);
+      this.isSaved=true;
       //router push koji je u timeoutu
     },
     checkCapo() {
@@ -370,15 +372,12 @@ export default {
       return `https://www.youtube.com/embed/${id}`;
     },
     searchSongInfo() {
-      console.log("art", this.artist.val);
-      console.log("song", this.song.val);
-
       //api call to spotify
       this.$store.dispatch("apiForSongInfo", this.song.val);
     },
   },
   beforeRouteLeave(_, _2, next) {
-    if ((this.song.val || this.artist.val) ) {
+    if ((this.song.val || this.artist.val ) && !this.isSaved) {
       if (!window.confirm("Leave without saving?")) {
         return;
       }
