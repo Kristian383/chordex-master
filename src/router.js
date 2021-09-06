@@ -16,7 +16,7 @@ import NotFound from "./pages/NotFound.vue"
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: "/", redirect: "/songs" },
+        { path: "/", redirect: "/home" },
         { path: "/home", component: TheHome, name: "Home", meta: { title: "Home | Chordex" } },
         { path: "/songs", component: Songs, name: "Songs", meta: { title: "Songs | Chordex" } },
         {
@@ -30,9 +30,9 @@ const router = createRouter({
         { path: "/profile", component: UserProfile, name: "Account Settings", meta: { title: "My Profile | Chordex" } },
         { path: "/artists", component: Artists, name: "Artists", meta: { title: "Artists | Chordex" } },
         { path: "/artists/:name", component: Songs, name: "Artists Songs", meta: { title: "Artists Songs | Chordex" } },
-        { path: "/new", component: AddSong, name: "AddSong", meta: { title: "AddSong | Chordex" } },
+        { path: "/new", component: AddSong, name: "Add Song", meta: { title: "Add Song | Chordex" } },
         { path: "/new/:songId(\\d+)", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex" } },
-        { path: "/my-songs", component: MySongs, name: "MySongs", meta: { title: "MySongs | Chordex" } },
+        { path: "/my-songs", component: MySongs, name: "My Songs", meta: { title: "MySongs | Chordex" } },
         { path: "/my-songs/:songId(\\d+)", component: SongDetail, name: "MySongDetail", meta: { title: "SongDetail | Chordex" }, props: true },
         { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
     ]

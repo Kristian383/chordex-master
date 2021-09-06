@@ -5,7 +5,7 @@ import getters from "./songs/getters.js"
 const store = createStore({
     state() {
         return {
-            sidebarActive: true,
+            sidebarActive: false,
             isLogged: false,
             songDetailTitle: null, apiData: null,
             darkMode: false,

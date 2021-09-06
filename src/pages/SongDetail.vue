@@ -28,23 +28,23 @@
         </div>
         <!--  -->
         <div>
-          <div>Artist: {{ songData.artist }}</div>
+          <div><b>Artist:</b> {{ songData.artist }}</div>
           <!-- <label for="artist">Artist:</label>
             <span>RHCP</span> -->
 
           <!-- <input type="text" /> -->
           <div class="song-info-box">
-            Learned: {{ songData.practicedPrcntg }}%
+            <b>Learned:</b> {{ songData.practicedPrcntg }}%
           </div>
         </div>
         <!--  -->
         <div>
-          <div class="song-name">Song: Californication</div>
+          <div class="song-name"><b>Song:</b> Californication</div>
           <!-- <label for="song">Song:</label> -->
           <!-- <input type="text" /> -->
 
           <div class="song-info-box">
-            BPM: {{ songData.bpm }}
+           <b> BPM:</b> {{ songData.bpm }}
             <font-awesome-icon
               class="metronome"
               icon="play-circle"
@@ -53,34 +53,34 @@
         </div>
         <!-- ovdje mora ici vfor ako ima 2 keya -->
         <div>
-          <div class="key">Key: {{ songData.firstKey }}</div>
+          <div class="key"><b>Key:</b> {{ songData.firstKey }}</div>
           <div class="chords">
-            Chords in scale: {{ songData.firstKeyNotes }}
+            <b>Chords in scale:</b> {{ songData.firstKeyNotes }}
           </div>
           <div class="guitar">
-            Chord progression: {{ songData.firstProgression }}
+            <b>Chord progression:</b> {{ songData.firstProgression }}
           </div>
         </div>
         <div v-if="songData.secondKey">
-          <div class="key">Key: {{ songData.secondKey }}</div>
+          <div class="key"><b>Key Change:</b> {{ songData.secondKey }}</div>
           <div class="chords">
-            Chords in scale: {{ songData.secondKeyNotes }}
+            <b>Chords in scale:</b> {{ songData.secondKeyNotes }}
           </div>
           <div class="guitar">
-            Chord progression: {{ songData.secondProgression }}
+            <b>Chord progression:</b> {{ songData.secondProgression }}
           </div>
         </div>
         <!--  -->
         <div>
           <div class="capo">
-            Capo: {{ songData.capo ? songData.capo : "No" }}
+            <b>Capo:</b> {{ songData.capo ? songData.capo : "No" }}
           </div>
           <div class="tuning">
-            Tuning: {{ songData.tuning ? songData.tuning : "Standard" }}
+            <b>Tuning:</b> {{ songData.tuning ? songData.tuning : "Standard" }}
           </div>
 
           <div class="guitar">
-            Guitar type: {{ songData.acoustic ? "Acoustic" : "" }}
+            <b>Guitar type:</b> {{ songData.acoustic ? "Acoustic" : "" }}
             {{ songData.electric ? "Eletric" : "" }}
           </div>
         </div>
@@ -88,20 +88,20 @@
         <div>
           <!-- <div class="genre">Genre: Rock</div> -->
           <div class="link" v-if="songData.yt_link">
-            Link:
+            <b>Link:</b>
             <a :href="songData.yt_link" target="_blank"
               >{{ songData.yt_link }}
             </a>
           </div>
           <div class="link" v-if="songData.yt_link">
-            Link:
+            <b>Link:</b>
             <a :href="songData.chords_link" target="_blank"
               >{{ songData.chords_link }}
             </a>
           </div>
         </div>
         <div>
-          <div>Difficulty: {{ songData.difficulty }}</div>
+          <div><b>Difficulty:</b> {{ songData.difficulty }}</div>
         </div>
       </div>
       <div class="box video" v-if="songData && songData.yt_link">

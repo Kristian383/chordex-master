@@ -174,14 +174,14 @@ export default {
   margin: 20px 0 20px 0;
   position: relative;
 }
-.input-group svg {
+.input-group span svg {
   position: absolute;
-  top: 27%;
+  top: 33%;
   left: 10px;
 }
 
 .input-group input {
-  font-size: inherit;
+  font-size: 18px;
   padding: 8px 12px 8px 32px;
   outline: 0;
   width: 100%;

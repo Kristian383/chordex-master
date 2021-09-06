@@ -121,6 +121,7 @@ export default {
 .home-section nav {
   display: flex;
   justify-content: space-between;
+  
   height: 80px;
   background: #fff;
   /* background: #161B22; */
@@ -143,15 +144,20 @@ export default {
 }
 
 .filter_categories {
-  display: flex;
-  max-width: 800px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  gap: 4px;
+  min-width: 250px;
+  max-width: 800px; 
+  /* display: flex;
+  
+  position: relative;
+    overflow-x: auto; 
+  overflow-y: hidden; 
+   padding: 0 20px; 
+   gap: 4px; */
 }
+/* 
 .filter_categories::-webkit-scrollbar {
   display: none;
-}
+} */
 /* search */
 .home-section nav .search-box {
   position: relative;

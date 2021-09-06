@@ -2,12 +2,13 @@
   <div
     class="hamburger"
     @click="toggleSidebar"
-    v-bind:style="{ color: activeColor }"
   >
+    <!-- v-bind:style="{ color: activeColor }"
+  gore     -->
     <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
   </div>
   <transition name="fade">
-    <div class="sidebar" v-if="!mobile">
+    <div class="sidebar" v-if="!isOpen">
       <ul class="nav_list">
         <!-- <li @click="toggleSidebar">
         <font-awesome-icon
@@ -176,9 +177,9 @@ export default {
     return {
       searchText: "",
       isOpen: true,
-      mobile: false,
-      mobileNav: null,
-      windowWidth: null,
+      // mobile: true,
+      // mobileNav: null,
+      // windowWidth: null,
     };
   },
   methods: {
@@ -187,7 +188,7 @@ export default {
         return;
       }
       this.isOpen = !this.isOpen;
-      this.mobile = !this.mobile;
+      // this.mobile = !this.mobile;
       this.$store.commit("toggleSidebar");
     },
     toggleMode() {
@@ -199,19 +200,20 @@ export default {
   },
   created() {
     dom.watch();
+   
   },
   computed: {
     appWidth() {
       return "100%";
     },
-    activeColor() {
-      if (this.mobile) {
-        console.log("object", this.mobile);
-        return "black";
-      } else {
-        return "black";
-      }
-    },
+    // activeColor() {
+    //   if (this.mobile) {
+    //     console.log("object", this.mobile);
+    //     return "black";
+    //   } else {
+    //     return "black";
+    //   }
+    // },
   },
   // computed: {
   //   isDarkMode() {
@@ -243,7 +245,6 @@ export default {
 /* .sidebar.active {
   width: 240px;
 } */
-/* pokusaj mobile resposive */
 
 .hamburger {
   position: fixed;
@@ -252,6 +253,9 @@ export default {
   font-size: 24px;
   z-index: 102;
   cursor: pointer;
+}
+.hamburger:hover{
+  color: #333;
 }
 
 /*  */
@@ -329,6 +333,8 @@ export default {
   border-radius: 12px;
   padding-left: 16px;
   white-space: nowrap;
+  
+  font-size: 16px;
 }
 /* dark mode */
 
@@ -528,7 +534,7 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.2s;
   transform: translateX(-100%);
 }
 .fade-leave-to,

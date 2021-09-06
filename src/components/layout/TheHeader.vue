@@ -3,24 +3,26 @@
       
     <nav class="container" >
       <span class="logo" v-if="!mobileNav">
-        <router-link  to="/"
-          ><img src="@/assets/logo.png" alt="Quote Logo"
+        <router-link  to="/home"
+          ><img src="@/assets/guitar.svg" alt="Quote Logo"
         /></router-link>
       </span>
       <div class="title"><h2>Chordex</h2></div>
       <ul  class="navigation" >
         <li>
-          <router-link class="link active" to="/home">Home</router-link>
+          <router-link class="link" active-class="active"  to="/home">Home</router-link>
         </li>
         <li>
-          <router-link class="link" to="/">About</router-link>
+          <router-link class="link" active-class="active"  to="/songs">About</router-link>
         </li>
         <li>
-          <router-link class="link" to="/">Preview</router-link>
+          <router-link class="link" active-class="active"  to="/">Features</router-link>
         </li>
       </ul>
 
-      
+      <!-- :class="{active:isActive}"
+:class="{active:isActive}"
+:class="{active:isActive}" -->
     </nav>
   </header>
 </template>
@@ -66,6 +68,16 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.updateScroll);
   },
+  computed:{
+    isActive(){
+      // if(this.$route.path=="/home"){
+      //   console.log("udje");
+      //   return true
+      // }
+      // console.log(this.$route);
+      return false
+    }
+  }
 };
 </script>
 
@@ -173,8 +185,7 @@ header nav .logo img {
 }
 .scrolled-nav nav .logo img {
   width: 40px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  
 }
 .mobile-nav-enter-active,
 .mobile-nav-leave-active {

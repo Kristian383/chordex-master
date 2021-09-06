@@ -27,7 +27,7 @@
         }}</span>
       </div>
       <h3 class="artist" @click.stop="chooseArtist">
-        <router-link to="/"> {{ song.artist }} </router-link>
+        <router-link to="/"> <h3>{{ song.artist }}</h3> </router-link>
       </h3>
       <h4 class="song_name">{{ song.song }}</h4>
       <div class="info">
