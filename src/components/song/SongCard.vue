@@ -109,23 +109,23 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   overflow: hidden;
   width: 180px;
-  position: relative; /*moj */
+  position: relative; 
   height: 260px;
   /* color: #303030; */
   color:#101114;
-  
-  transition: 0.5s ease all;
+  transition: 0.3s ease-in all;
   cursor: pointer;
+  
   /* transform: translateY(10%); */
 }
 .card:hover {
   
-  transform: rotateZ(-1deg) scale(1.01);
+  transform:  rotateZ(-1deg) scale(1.04);
 }
-.card.active {
+/* .card.active {
   opacity: 1;
   transform: translateY(0);
-}
+} */
 .card-header img {
   width: 100%;
   height: 100%;
