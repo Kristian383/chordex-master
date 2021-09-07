@@ -8,6 +8,7 @@ import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
 import MySongs from "./pages/MySongs.vue"
 import FindKey from "./pages/FindKey.vue"
+import TheAbout from "./pages/TheAbout.vue"
 import UserAuth from "./components/ui/auth/UserAuth.vue"
 import NotFound from "./pages/NotFound.vue"
 
@@ -19,6 +20,7 @@ const router = createRouter({
     routes: [
         { path: "/", redirect: "/home" },
         { path: "/home", component: TheHome, name: "Home", meta: { title: "Home | Chordex" } },
+        { path: "/about", component: TheAbout, name: "About", meta: { title: "About | Chordex" } },
         { path: "/songs", component: Songs, name: "Songs", meta: { title: "Songs | Chordex" } },
         {
             path: "/songs/:songId(\\d+)", component: SongDetail, name: "SongDetail", meta: { title: "Song Detail | Chordex" }, props: true,

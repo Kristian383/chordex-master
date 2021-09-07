@@ -13,10 +13,11 @@
           <router-link class="link" active-class="active"  to="/home">Home</router-link>
         </li>
         <li>
-          <router-link class="link" active-class="active"  to="/songs">About</router-link>
+          <router-link class="link" active-class="active"  to="/about">About</router-link>
         </li>
         <li>
-          <router-link class="link" active-class="active"  to="/">Features</router-link>
+          <router-link class="link" active-class="active"  to="/songs">App</router-link>
+          <!-- <router-link class="link" active-class="active"  to="/">Features</router-link> -->
         </li>
       </ul>
 

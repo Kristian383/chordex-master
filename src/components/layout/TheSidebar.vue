@@ -2,6 +2,7 @@
   <div
     class="hamburger"
     @click="toggleSidebar"
+    
   >
     <!-- v-bind:style="{ color: activeColor }"
   gore     -->
@@ -173,6 +174,7 @@
 import { dom } from "@fortawesome/fontawesome-svg-core";
 
 export default {
+  // props:["userLogged"],
   data() {
     return {
       searchText: "",
@@ -202,24 +204,6 @@ export default {
     dom.watch();
    
   },
-  computed: {
-    appWidth() {
-      return "100%";
-    },
-    // activeColor() {
-    //   if (this.mobile) {
-    //     console.log("object", this.mobile);
-    //     return "black";
-    //   } else {
-    //     return "black";
-    //   }
-    // },
-  },
-  // computed: {
-  //   isDarkMode() {
-  //     return this.$store.isDarkMode;
-  //   }
-  // },
 };
 </script>
 

@@ -34,6 +34,7 @@ export default {
   components: {
     UserAuth,
   },
+  methods: {},
 };
 </script>
 
@@ -78,16 +79,20 @@ export default {
 }
 
 .home-content img {
-  /* display: block; */
   width: 100%;
   height: 100%;
-
   max-height: 500px;
   object-fit: contain;
 }
 
-.smaller ul {
-  list-style: none;
+.smaller {
+  border-top: 6px solid #ff4f5a;
+}
+@media (min-width: 1000px) {
+  .smaller {
+    border-left: 6px solid #ff4f5a;
+    border-top: 0;
+  }
 }
 .smaller li {
   padding: 16px;
@@ -97,6 +102,7 @@ export default {
 }
 
 .smaller h2 {
-  padding: 32px 16px;text-align: center;
+  padding: 32px 16px;
+  text-align: center;
 }
 </style>
