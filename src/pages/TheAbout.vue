@@ -14,7 +14,7 @@
         <br />
         Having insight of key and chord progressions of each song will
         eventually help you grasp concepts of writing songs. Storing it all at
-        one place, you'll be able to recognize the patterns and thus improve
+        one place you'll be able to recognize the patterns and thus improve
         your own skills.
       </p>
       <!-- </div> -->
