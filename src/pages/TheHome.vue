@@ -45,12 +45,13 @@ export default {
   max-width: 1700px;
   margin: 0 auto;
   height: 100%;
-
   row-gap: 56px;
 }
 @media (min-width: 1000px) {
   .home {
     grid-template-columns: repeat(3, 1fr);
+
+    padding: 0 32px 32px 32px;
   }
   .third {
     grid-column: 2/4;
@@ -74,7 +75,7 @@ export default {
   text-align: center;
 }
 .home-content h2 {
-  font-size: 30px;
+  font-size: 26px;
   padding: 0 16px;
 }
 
@@ -93,6 +94,9 @@ export default {
     border-left: 6px solid #ff4f5a;
     border-top: 0;
   }
+  .home-content h2 {
+  font-size: 30px;
+}
 }
 .smaller li {
   padding: 16px;
