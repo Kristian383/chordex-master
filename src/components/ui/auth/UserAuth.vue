@@ -116,7 +116,7 @@ export default {
 <style scoped>
 .form-wrapper {
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
   max-width: 400px;
   position: absolute;
   left: 50%;
@@ -129,7 +129,12 @@ export default {
 
   border-radius: 8px 8px 0px 0px;
 }
-
+@media (min-width:1000px) {
+  .form-wrapper{
+     font-size: 18px;
+  }
+  
+}
 .form-wrapper .form-header {
   background: #0d1117;
   border-radius: 8px 8px 0px 0px;
