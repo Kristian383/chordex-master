@@ -1,23 +1,29 @@
 <template>
-  <header  :class="{ 'scrolled-nav': scrolledNav }">
-      
-    <nav class="container" >
+  <header :class="{ 'scrolled-nav': scrolledNav }">
+    <nav class="container">
       <span class="logo" v-if="!mobileNav">
-        <router-link  to="/home"
+        <router-link to="/home"
           ><img src="@/assets/guitar.svg" alt="Quote Logo"
         /></router-link>
       </span>
       <div class="title"><h2>Chordex</h2></div>
-      <ul  class="navigation" >
+      <ul class="navigation">
         <li>
-          <router-link class="link" active-class="active"  to="/home">Home</router-link>
+          <router-link class="link" active-class="active" to="/home"
+            >Home</router-link
+          >
+        </li>
+
+        <li>
+          <router-link class="link" active-class="active" to="/songs"
+            >App</router-link
+          >
+            <!-- ovdje ga preumsjerit na auth ako nije logged -->
         </li>
         <li>
-          <router-link class="link" active-class="active"  to="/about">About</router-link>
-        </li>
-        <li>
-          <router-link class="link" active-class="active"  to="/songs">App</router-link>
-          <!-- <router-link class="link" active-class="active"  to="/">Features</router-link> -->
+          <router-link class="link" active-class="active" to="/about"
+            >About</router-link
+          >
         </li>
       </ul>
 
@@ -69,16 +75,16 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.updateScroll);
   },
-  computed:{
-    isActive(){
+  computed: {
+    isActive() {
       // if(this.$route.path=="/home"){
       //   console.log("udje");
       //   return true
       // }
       // console.log(this.$route);
-      return false
-    }
-  }
+      return false;
+    },
+  },
 };
 </script>
 
@@ -130,16 +136,16 @@ header .navigation {
     width: 90%;
   }
 
-  .title{
+  .title {
     padding-left: 25px;
   }
-  header .navigation{
-      justify-content: flex-end;
+  header .navigation {
+    justify-content: flex-end;
   }
 }
- 
+
 .title {
-    align-self: center;
+  align-self: center;
 }
 
 header nav ul,
@@ -186,7 +192,6 @@ header nav .logo img {
 }
 .scrolled-nav nav .logo img {
   width: 40px;
-  
 }
 .mobile-nav-enter-active,
 .mobile-nav-leave-active {
