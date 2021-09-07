@@ -21,9 +21,10 @@
         @start="drag = true"
         @end="drag = false"
         item-key="order"
+        
       >
-        <template #item="{ element }">
-          <li class="list-group-item">
+        <template #item="{ element }" >
+          <li class="list-group-item" :key="element.name">
             <div class="handle flex-center">
               <i class="fas fa-bars"></i>
             </div>
