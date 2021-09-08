@@ -44,7 +44,7 @@
           <!-- <input type="text" /> -->
 
           <div class="song-info-box">
-           <b> BPM:</b> {{ songData.bpm }}
+            <b> BPM:</b> {{ songData.bpm }}
             <font-awesome-icon
               class="metronome"
               icon="play-circle"
@@ -200,14 +200,16 @@ export default {
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
 
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   font-size: 18px;
   border-right: 6px solid rgb(194, 42, 42);
   /* border: solid 2px black;
   position: relative;  */
   /* font-size: 21px; */
 }
+
 
 .box {
   border-radius: 0 0 6px 6px;
@@ -302,6 +304,8 @@ svg {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 28px;
+  
+  filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
 }
 
 .go-back {
@@ -328,7 +332,6 @@ svg {
 .is-favorite {
   color: #c22a2a;
 }
-
 .middle-icons {
   position: relative;
   display: flex;
@@ -350,7 +353,7 @@ svg {
   color: black;
 }
 
-.link{
+.link {
   word-break: break-all;
 }
 </style>
