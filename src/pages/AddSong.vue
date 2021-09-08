@@ -453,6 +453,7 @@ export default {
 svg {
   font-size: 24px;
   transition: all 0.2s ease-in;
+  filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
 }
 .top-section .heart {
   position: absolute;
