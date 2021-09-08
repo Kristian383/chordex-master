@@ -27,9 +27,9 @@ const store = createStore({
                 { key: "Cb", notes: ["Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"] }],
 
             artists: [{ name: "John Frusciante", order: 1, totalSongs: 1 },
-            { name: "Ed Sheeran", order: 2, totalSongs: 1 },
-            { name: "Nirvana", order: 3, totalSongs: 1 },
-            { name: "RHCP", order: 4, totalSongs: 1 },
+            { name: "Ed Sheeran", order: 2, totalSongs: 4 },
+            { name: "Nirvana", order: 3, totalSongs: 11 },
+            { name: "RHCP", order: 4, totalSongs: 12 },
             { name: "Aerosmith", order: 5, totalSongs: 1 },
             { name: "Led Zeppelin", order: 6, totalSongs: 1 },
             ],
@@ -88,14 +88,30 @@ const store = createStore({
                 songId,
             }
 
-            //ubaciti notes in keys i napraviti provjeru jeli second key null
-            if (!state.artists.includes(song.artist)) {
-                state.artists.unshift(song.artist)
+            // if its new artist in app
+            if (!state.artists.some(artist => artist.name.toLowerCase() == song.artist.toLowerCase())) {
+                const newArtist = {
+                    name: song.artist,
+                    totalSongs: 1,
+                    order: state.artists.length
+                }
+                state.artists.unshift(newArtist)
+                // console.log(newArtist);
+                // console.log(state.artists);
+            } else {
+                state.artists.forEach(artist => {
+                    if (song.artist.toLowerCase() == artist.name.toLowerCase()) {
+                        artist.totalSongs += 1
+                    }
+                });
             }
+
+            //if song doesnt  exists
             if (!song.songId) {
 
                 state.songs.unshift(song)
             } else {
+                //songs exists so delete old data and refresh with new
                 let index = state.songs.findIndex(song => song.songId == payload.songId);
                 state.songs.splice(index, 1)
                 state.songs.unshift(song);
@@ -133,6 +149,8 @@ const store = createStore({
         deleteSong(state, id) {
             let index = state.songs.findIndex(song => song.songId == id);
             state.songs.splice(index, 1)
+
+            //delete artist if theres no songs
         },
         updateArtistsList(state, payload) {
             state.artists = payload
