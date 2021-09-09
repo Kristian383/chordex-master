@@ -10,6 +10,7 @@ import MySongs from "./pages/MySongs.vue"
 import FindKey from "./pages/FindKey.vue"
 import TheAbout from "./pages/TheAbout.vue"
 import UserAuth from "./components/ui/auth/UserAuth.vue"
+import ResourcesList from "./components/ui/ResourcesList.vue"
 import NotFound from "./pages/NotFound.vue"
 
 // const Favorites=()=>import("./pages/Favorites.vue")
@@ -37,9 +38,18 @@ const router = createRouter({
         { path: "/new/:songId(\\d+)", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex" } },
         { path: "/my-songs", component: MySongs, name: "My Songs", meta: { title: "MySongs | Chordex" } },
         { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex" } },
+        { path: "/resources", component: ResourcesList, name: "Useful Resources", meta: { title: "Resources | Chordex" } },
         { path: "/my-songs/:songId(\\d+)", component: SongDetail, name: "MySongDetail", meta: { title: "SongDetail | Chordex" }, props: true },
         { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
-    ]
+    ],
+    scrollBehavior (_, _2, savedPosition) {
+        if (savedPosition) {
+          return savedPosition
+        } else {
+          return { left: 0, top: 0,behavior:"smooth" }
+        }
+      }
+      
 });
 
 
@@ -48,6 +58,7 @@ router.beforeEach((to, _, next) => {
     document.title = `${to.meta.title}` || "Quotex";
     next();
 
+    
     //ruta add new song before its saved, ako nije ondapronpt
 })
 
