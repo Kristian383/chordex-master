@@ -101,6 +101,7 @@ nav .search-box input {
   border-radius: 6px;
   font-size: 18px;
   padding: 0 15px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 nav .search-box #search {
   position: absolute;
@@ -127,7 +128,7 @@ nav .search-box #search {
   overflow-y: auto;
   z-index: 26;
   background-color: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .search-box.active .match-list {
