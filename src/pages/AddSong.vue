@@ -204,8 +204,8 @@
           <!--  -->
         </div>
         <!--  -->
-        <div class="notebook">
-          <textarea
+        <div>
+          <textarea class="notebook"
             v-model="songInfo.songText"
             id="txt_area"
             name=""
@@ -528,7 +528,7 @@ form input:nth-child(-n + 2) {
   margin-top: 10px;
 }
 
-form textarea,
+form .notebook,
 form .input-field {
   border: 0;
   outline: 0;
