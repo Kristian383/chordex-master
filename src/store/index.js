@@ -49,7 +49,7 @@ const store = createStore({
             usefulResources: {
                 notes: "navpisao",
                 resourcesLinks: [{ text: "make the rgb(194, 42, 42)bed", id: 1 },
-                { text: "play video games", id: 2 },],
+                { text: "play video games", id: 2,link:"https://www.youtube.com/watch?v=gmmrejxckWs" },],
                 txtAreaHeight: 200
             }
         }
