@@ -34,14 +34,12 @@ import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
-// import SortBy from "../components/ui/SortBy.vue";
 import SortByOptimized from '../components/ui/SortByOptimized.vue';
 export default {
   components: {
     Filters,
     SongCard,
     BaseCard,
-    // SortBy,
     SkeletonSongCard,
     SortByOptimized,
   },
