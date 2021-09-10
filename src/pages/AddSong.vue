@@ -547,7 +547,9 @@ form .input-field {
   resize: none;
   color: RGB(16, 17, 20);
 }
-
+form .notebook{
+  resize: vertical;
+}
 #input-bpm {
   width: 100px;
   justify-self: center;
