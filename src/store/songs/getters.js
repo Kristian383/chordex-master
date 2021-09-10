@@ -10,18 +10,17 @@ export default {
     isDarkMode(state) {
         return state.darkMode;
     },
-    getMusicKeys(state)
-    {
+    getMusicKeys(state) {
         return state.musicKeys;
     },
     getSongDetailTitle(state) {
         return state.songDetailTitle;
     },
     filterSongs(state) {
-        return (filters,artist=null) => {
+        return (filters, artist = null) => {
 
-            if(artist){
-                return state.songs.filter(song=>song.artist.toLowerCase()==artist.toLowerCase())
+            if (artist) {
+                return state.songs.filter(song => song.artist.toLowerCase() == artist.toLowerCase())
             }
 
             if (!filters.length || filters == "all") {
@@ -31,7 +30,7 @@ export default {
                         return true
                     } else if (song.isMySong && router.currentRoute._rawValue.path != "/my-songs") {
                         return false
-                    } else if(!song.isMySong && router.currentRoute._rawValue.path == "/songs"){
+                    } else if (!song.isMySong && router.currentRoute._rawValue.path == "/songs") {
                         return true
 
                     }
@@ -46,12 +45,12 @@ export default {
 
                 // let mySong=song.isMySong && router.currentRoute._rawValue.path == "/my-songs";
                 // console.log(mySong);
-                
+
                 let songIsValid = true;
 
                 filters.forEach(el => {
                     if (el == "favorites") {
-                        songIsValid = songIsValid && song.isFavorite 
+                        songIsValid = songIsValid && song.isFavorite
                     }
                     if (el == "easy") {
                         songIsValid = songIsValid && song.difficulty == "easy" ? true : false;
@@ -80,6 +79,21 @@ export default {
     },
     getArtists(state) {
         return state.artists;
+    },
+
+
+    // resources
+    getUserNotes(state) {
+        return state.usefulResources.notes
+    },
+    // getUserNotesHeight(state) {
+    //     return state.usefulResources.txtAreaHeight
+    // },
+     getUserResourcesList(state) {
+        return state.usefulResources.resourcesLinks
+    },
+    getTxtAreaHeight(state) {
+        return state.usefulResources.txtAreaHeight
     }
 
 
