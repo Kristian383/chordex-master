@@ -123,7 +123,18 @@
               icon="question-circle"
             ></font-awesome-icon>
             <span class="links_name">Find a key </span>
-            <!-- <span class="tooltip">Find a key</span> -->
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/resources"
+            v-bind:class="{ active_item: $route.path == '/resources' }"
+          >
+            <font-awesome-icon
+              id="ikona"
+              icon="sticky-note"
+            ></font-awesome-icon>
+            <span class="links_name">Notes & Resources </span>
           </router-link>
         </li>
         <li @click="logOutUser">
