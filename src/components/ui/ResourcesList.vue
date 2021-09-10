@@ -5,7 +5,7 @@
         <textarea
           v-model="notes"
           class="notebook"
-          placeholder="My notes..."
+          placeholder="Notes about certain ideas..."
           ref="txtHeight"
           @click="watchHeight"
           @blur="updateNotes"
@@ -13,11 +13,13 @@
         ></textarea>
       </div>
       <div class="todos">
+        <span><h2>Useful resources</h2></span>
+        <br>
         <input
           type="text"
           v-model.trim="newTodo.text"
           @keypress.enter="addTodo"
-          placeholder="Add an useful resource link..."
+          placeholder="Add name and link: https://...."
           :class="{ error: badInput }"
           @blur="badInput = false"
         />
@@ -38,7 +40,7 @@
           </transition-group>
         </div>
         <div v-else>
-          Type name of website and its link e.g. :
+          Type name of website and its link e.g. 
           <i>Chord finder www.chordex.com </i><br />
         </div>
       </div>
@@ -71,10 +73,17 @@ export default {
         let data = this.newTodo.text.split(" ");
 
         console.log(data);
-        if(data.length<2 ){
+        
+        // if(data.length<2 ){
+        //   return
+        // }
+        let link;
+
+        try{
+          link = new URL(data[data.length - 1]);
+        }catch(error){
           return
         }
-        let link = new URL(data[data.length - 1]);
         
         console.log("tu",link);
 
