@@ -9,6 +9,7 @@ const store = createStore({
             isLogged: false,
             songDetailTitle: null, apiData: null,
             darkMode: false,
+
             musicKeys: [
                 { key: "C", notes: ["C", "D", "E", "F", "G", "A", "B"] },
                 { key: "G", notes: ["G", "A", "B", "C", "D", "E", "F#"] },
@@ -44,7 +45,13 @@ const store = createStore({
             { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: false, capo: null, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 84, difficulty: "hard", lastViewed: "2d ago", songId: "6", yt_link: "", chords_link: "", tuning: null, isMySong: true },
             { artist: "Nirvana", song: "Californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 2, isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 65, difficulty: "medium", lastViewed: "2d ago", songId: "3", yt_link: "", chords_link: "", tuning: null, isMySong: false },
             { artist: "RHCP", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: true, capo: null, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 32, difficulty: "medium", lastViewed: "2d ago", songId: "4", yt_link: "", chords_link: "", tuning: null, isMySong: true },
-            { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, isMySong: false }]
+            { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, isMySong: false }],
+            usefulResources: {
+                notes: "navpisao",
+                resourcesLinks: [{ text: "make the rgb(194, 42, 42)bed", id: 1 },
+                { text: "play video games", id: 2 },],
+                txtAreaHeight: 200
+            }
         }
     },
     getters,
@@ -154,6 +161,23 @@ const store = createStore({
         },
         updateArtistsList(state, payload) {
             state.artists = payload
+        },
+
+
+        // resources
+        updateUserNotes(state, payload) {
+            state.usefulResources.notes = payload;
+
+        },
+        addUserResourcesList(state, payload) {
+            state.usefulResources.resourcesLinks.unshift(payload)
+        },
+        deleteUserResourcesList(state, id) {
+            let index = state.usefulResources.resourcesLinks.findIndex(link => link.id == id);
+            state.usefulResources.resourcesLinks.splice(index, 1)
+        },
+        updateTxtAreaHeight(state, payload) {
+            state.usefulResources.txtAreaHeight = payload;
         }
 
 
