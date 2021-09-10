@@ -1,15 +1,15 @@
 <template>
   <the-header></the-header>
-  <section v-if="!isLogged"></section>
+  <!-- <section v-if="!isLogged"></section> -->
 
-  <section v-else>
-    <the-sidebar></the-sidebar>
+  <!-- <section v-else> -->
+    <the-sidebar ></the-sidebar>
     <router-view :key="$route.path" v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" />
       </keep-alive>
     </router-view>
-  </section>
+  <!-- </section> -->
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export default {
   },
   data() {
     return {
-      isLogged: true,
+      isLogged: false,
     };
   },
 };
@@ -36,9 +36,13 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  
   box-sizing: border-box;
   /* font-family: "Arimo", sans-serif; */
   font-family: "Montserrat", Arial, sans-serif;
+}
+html{
+  height: 100vh;
 }
 
 /* route tranisition */
