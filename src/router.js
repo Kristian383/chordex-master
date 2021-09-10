@@ -38,7 +38,7 @@ const router = createRouter({
         { path: "/new/:songId(\\d+)", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex" } },
         { path: "/my-songs", component: MySongs, name: "My Songs", meta: { title: "MySongs | Chordex" } },
         { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex" } },
-        { path: "/resources", component: ResourcesList, name: "Useful Resources", meta: { title: "Resources | Chordex" } },
+        { path: "/resources", component: ResourcesList, name: "Notes", meta: { title: "Resources | Chordex" } },
         { path: "/my-songs/:songId(\\d+)", component: SongDetail, name: "MySongDetail", meta: { title: "SongDetail | Chordex" }, props: true },
         { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
     ],
