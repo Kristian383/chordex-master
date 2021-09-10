@@ -18,8 +18,8 @@
           v-model.trim="newTodo.text"
           @keypress.enter="addTodo"
           placeholder="Add an useful resource link..."
-          :class="{error:badInput}"
-          @blur="badInput=false"
+          :class="{ error: badInput }"
+          @blur="badInput = false"
         />
         <div v-if="getResources.length">
           <transition-group tag="ul" name="list">
@@ -29,6 +29,7 @@
               class="resource-element"
             >
               {{ todo.text }}
+              <a :href="todo.link" target="_blank">Click Link</a>
               <font-awesome-icon
                 @click="deleteTodo(todo.id)"
                 :icon="['far', 'times-circle']"
@@ -36,7 +37,10 @@
             </li>
           </transition-group>
         </div>
-        <div v-else>Useful resources are empty.</div>
+        <div v-else>
+          Type name of website and its link e.g. :
+          <i>Chord finder www.chordex.com </i><br />
+        </div>
       </div>
     </div>
   </base-card>
@@ -56,7 +60,7 @@ export default {
       },
       notes: null,
       txtAreaHeight: null,
-      badInput:false
+      badInput: false,
     };
   },
 
@@ -64,15 +68,30 @@ export default {
     addTodo() {
       if (this.newTodo.text) {
         const id = Math.random().toString(36).substring(2);
+        let data = this.newTodo.text.split(" ");
 
+        console.log(data);
+        if(data.length<2 ){
+          return
+        }
+        let link = new URL(data[data.length - 1]);
+        
+        console.log("tu",link);
+
+      
+        
+        // console.log(data[data.length - 1]);
+        let text = data.slice(0, data.length - 1).join(" ");
+        // console.log(text);
         this.$store.commit("addUserResourcesList", {
-          text: this.newTodo.text,
+          text: text,
           id,
+          link,
         });
 
         this.newTodo.text = "";
       } else {
-        this.badInput=true;
+        this.badInput = true;
         //podesiti
       }
     },
@@ -107,7 +126,7 @@ export default {
 </script>
 
 <style scoped>
-.error{
+.error {
   border-color: rgb(194, 42, 42);
 }
 .section {
@@ -128,10 +147,10 @@ input {
   padding: 14px;
   outline: 0;
   width: 100%;
+  border-radius: 8px;
   height: 100%;
   margin-bottom: 20px;
   border: 2px solid #252934;
-  border-radius: 10px;
   /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
 }
 .todos ul {
@@ -141,20 +160,33 @@ input {
 .todos .resource-element {
   list-style-type: none;
   display: flex;
-  justify-content: space-between;
+  font-weight: 500;
+  /* gap: 18px; */
   align-items: center;
   margin-bottom: 10px;
   padding: 14px;
   font-size: 18px;
+  gap: 18px;
   border: 1px solid #eaeaea;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   border-radius: 10px;
   width: 100%;
   box-sizing: border-box;
 }
+
+.todos .resource-element a {
+  color: #0d1117;
+  font-weight: 600;
+  text-decoration: none;
+}
+.todos .resource-element a:hover,
+.todos .resource-element a:focus {
+  color: #00c;
+}
 .resource-element svg {
   font-size: 24px;
   transition: 0.2s ease-in all;
+  margin-left: auto;
 }
 .resource-element svg:hover {
   color: rgb(194, 42, 42);
