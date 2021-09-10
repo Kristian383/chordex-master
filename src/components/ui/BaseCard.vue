@@ -9,21 +9,6 @@
         <slot name="filters"></slot>
       </div>
       <the-search></the-search>
-      <!-- <div class="search-box" id="search_box" :class="searchIsActive">
-        <input
-          type="text"
-          placeholder="Search song or artist"
-          @input="searchTextBox"
-        />
-        <div class="match-list">
-          <li v-for="match in searchMatch" :key="match">
-            <router-link :to="'/songs/' + match.songId"
-              >{{ match.artist }} {{ match.songName }}</router-link
-            >
-          </li>
-        </div>
-        <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
-      </div> -->
     </nav>
     <div class="home-content" >
       <div class="sort-section-title">
@@ -31,10 +16,6 @@
         <slot name="select_box"></slot>
       </div>
       <slot ></slot>
-      <!-- <div class="song-cards" >
-        <slot name="song_cards" ></slot>
-      </div> -->
-      <!-- ovdje ide poseban div za artists i poseban za favorites  -->
     </div>
   </section>
 </template>
@@ -53,11 +34,13 @@ export default {
       return this.$store.getters.sidebarIsActive;
     },
     Title() {
-      //staviti if route name zavrsava na /songs/broj onda dohvatiti iz vuexa song name
       const route=this.$route.name;
+      // console.log(this.$route);
       if(route=="SongDetail")
       {
         return this.$store.getters.getSongDetailTitle
+      }else if(route=="Artists Songs"){
+        return "Songs by: " + this.$route.params.name
       }
       return route;
     },
