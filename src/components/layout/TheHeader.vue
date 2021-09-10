@@ -61,7 +61,7 @@ export default {
     },
     updateScroll() {
       const scrollPosition = window.scrollY;
-      if (scrollPosition > 50) {
+      if (scrollPosition >= 50) {
         this.scrolledNav = true;
         return;
       }
