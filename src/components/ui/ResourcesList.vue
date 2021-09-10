@@ -4,31 +4,37 @@
       <div>
         <textarea
           v-model="notes"
-          id="txt_area"
-          name=""
           class="notebook"
           placeholder="My notes..."
+          ref="txtHeight"
+          @click="watchHeight"
+          @blur="updateNotes"
+          :style="{ height: getTxtAreaHeight + 'px' }"
         ></textarea>
-
-        <!-- @keydown.tab.prevent="tabber($event)" -->
       </div>
       <div class="todos">
         <input
           type="text"
-          v-model="newTodo.text"
+          v-model.trim="newTodo.text"
           @keypress.enter="addTodo"
           placeholder="Add an useful resource link..."
+          :class="{error:badInput}"
+          @blur="badInput=false"
         />
-        <div v-if="todos.length">
-          <ul>
-            <li v-for="todo in todos" :key="todo.id" class="resource-element">
+        <div v-if="getResources.length">
+          <transition-group tag="ul" name="list">
+            <li
+              v-for="todo in getResources"
+              :key="todo.id"
+              class="resource-element"
+            >
               {{ todo.text }}
               <font-awesome-icon
                 @click="deleteTodo(todo.id)"
                 :icon="['far', 'times-circle']"
               ></font-awesome-icon>
             </li>
-          </ul>
+          </transition-group>
         </div>
         <div v-else>Useful resources are empty.</div>
       </div>
@@ -44,15 +50,13 @@ export default {
   },
   data() {
     return {
-      todos: [
-        { text: "make the rgb(194, 42, 42)bed", id: 1 },
-        { text: "play video games", id: 2 },
-      ],
       newTodo: {
         text: null,
         id: null,
       },
       notes: null,
+      txtAreaHeight: null,
+      badInput:false
     };
   },
 
@@ -60,20 +64,52 @@ export default {
     addTodo() {
       if (this.newTodo.text) {
         const id = Math.random().toString(36).substring(2);
-        this.todos = [{ text: this.newTodo.text, id }, ...this.todos];
+
+        this.$store.commit("addUserResourcesList", {
+          text: this.newTodo.text,
+          id,
+        });
+
         this.newTodo.text = "";
       } else {
-        this.$emit("badValue");
+        this.badInput=true;
+        //podesiti
       }
     },
     deleteTodo(id) {
-      this.todos = this.todos.filter((todo) => todo.id != id);
+      this.$store.commit("deleteUserResourcesList", id);
     },
+    watchHeight() {
+      this.$store.commit(
+        "updateTxtAreaHeight",
+        this.$refs.txtHeight.offsetHeight
+      );
+    },
+    updateNotes() {
+      this.$store.commit("updateUserNotes", this.notes);
+    },
+  },
+  computed: {
+    getResources() {
+      return this.$store.getters.getUserResourcesList;
+    },
+    getTxtAreaHeight() {
+      return this.$store.getters.getTxtAreaHeight;
+    },
+    getNotes() {
+      return this.$store.getters.getUserNotes;
+    },
+  },
+  mounted() {
+    this.notes = this.$store.getters.getUserNotes;
   },
 };
 </script>
 
 <style scoped>
+.error{
+  border-color: rgb(194, 42, 42);
+}
 .section {
   display: flex;
   flex-direction: column;
@@ -94,9 +130,9 @@ input {
   width: 100%;
   height: 100%;
   margin-bottom: 20px;
-  border: 1px solid #252934;
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border: 2px solid #252934;
+  border-radius: 10px;
+  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
 }
 .todos ul {
   position: relative;
@@ -110,7 +146,7 @@ input {
   margin-bottom: 10px;
   padding: 14px;
   font-size: 18px;
-  border-bottom: 2px solid #252934;
+  border: 1px solid #eaeaea;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   border-radius: 10px;
   width: 100%;
@@ -136,7 +172,7 @@ input {
   border-radius: 8px;
   /* display: inline-block;  */
   width: 100%;
-  min-height: 250px;
+  min-height: 200px;
   margin-top: 1em;
   font-size: inherit;
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -146,5 +182,25 @@ input {
   resize: vertical;
   font-size: 18px;
   color: RGB(16, 17, 20);
+}
+
+/* list transitions */
+.list-enter-from {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.list-enter-active {
+  transition: all 0.4s ease;
+}
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.list-leave-active {
+  transition: all 0.4s ease;
+  position: absolute; /* for move transition after item leaves */
+}
+.list-move {
+  transition: all 0.3s ease;
 }
 </style>
