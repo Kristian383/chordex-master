@@ -327,7 +327,7 @@ export default {
       if (this.songInfo.yt_link) {
         this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
       }
-
+    
       const formData = {
         ...this.songInfo,
         artist: this.artist.val,
@@ -369,7 +369,12 @@ export default {
     handleYTLink(link) {
       //https://www.youtube.com/embed/32GZ3suxRn4
       //https://www.youtube.com/32GZ3suxRn4
-      let id = link.split("https://www.youtube.com/watch?v=")[1];
+
+      // https://youtu.be/eeQzWRvp68Y
+      // https://www.youtube.com/watch?v=eeQzWRvp68Y
+      let linkArr=link.split(/[/=]+/)
+      let id=linkArr[linkArr.length-1]
+      // let id = link.split("https://www.youtube.com/watch?v=")[1];
       return `https://www.youtube.com/embed/${id}`;
     },
     searchSongInfo() {
