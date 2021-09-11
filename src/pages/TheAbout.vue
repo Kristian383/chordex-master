@@ -14,16 +14,22 @@
         <br />
         Having insight of key and chord progressions of each song will
         eventually help you grasp concepts of writing songs. Storing it all at
-        one place you'll be able to recognize the patterns and thus improve
-        your own skills.
+        one place you'll be able to recognize the patterns and thus improve your
+        own skills.
       </p>
       <!-- </div> -->
     </div>
   </div>
+  <!-- <the-footer></the-footer> -->
 </template>
 
 <script>
-export default {};
+// import TheFooter from "./../components/layout/TheFooter.vue";
+export default {
+  components: {
+    // TheFooter,
+  },
+};
 </script>
 
 <style scoped>
@@ -56,7 +62,7 @@ export default {};
   width: 100%;
   line-height: 31px;
   text-align: justify;
-  border-top: 6px solid #59E4A8;
+  border-top: 6px solid #59e4a8;
   padding: 16px;
 }
 .about-text h2 {
@@ -78,12 +84,12 @@ export default {};
     text-align: start;
   }
   .about-text p {
-    margin-left:0;
+    margin-left: 0;
     padding-left: 0;
   }
-  .about-text{
-     border-left: 6px solid #59E4A8;
-     border-top: 0;
+  .about-text {
+    border-left: 6px solid #59e4a8;
+    border-top: 0;
   }
 }
 </style>
