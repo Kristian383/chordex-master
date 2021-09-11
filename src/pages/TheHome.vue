@@ -7,12 +7,12 @@
     <div class="home-content third">
       <div><h2>Keep track of your songs and store them at one place.</h2></div>
       <div class="photo-div">
-        <img src=".././assets/home.jpg" alt="" />
+        <img src=".././assets/home.jpg" alt="logo" />
       </div>
     </div>
     <!--  -->
     <div class="home-content" id="songs">
-      <img src=".././assets/Screenshot_2.png" alt="" />
+      <img src=".././assets/Screenshot_2.png" alt="logo" />
     </div>
     <div class="smaller">
       <h2>Write information about song:</h2>
@@ -26,13 +26,16 @@
       </ul>
     </div>
   </div>
+  <the-footer></the-footer>
 </template>
 
 <script>
 import UserAuth from "./../components/ui/auth/UserAuth.vue";
+import TheFooter from "./../components/layout/TheFooter.vue";
 export default {
   components: {
     UserAuth,
+    TheFooter,
   },
   methods: {},
 };
@@ -95,8 +98,8 @@ export default {
     border-top: 0;
   }
   .home-content h2 {
-  font-size: 30px;
-}
+    font-size: 30px;
+  }
 }
 .smaller li {
   padding: 16px;
