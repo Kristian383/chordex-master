@@ -14,7 +14,7 @@
       </div>
       <div class="todos">
         <span><h2>Useful resources</h2></span>
-        <br>
+        <br />
         <input
           type="text"
           v-model.trim="newTodo.text"
@@ -40,8 +40,8 @@
           </transition-group>
         </div>
         <div v-else>
-          Type name of website and its link e.g. 
-          <i>Chord finder www.chordex.com </i><br />
+          Type name of website and its link e.g.
+          <i>Chord finder https://www.chordex.com </i><br />
         </div>
       </div>
     </div>
@@ -72,36 +72,29 @@ export default {
         const id = Math.random().toString(36).substring(2);
         let data = this.newTodo.text.split(" ");
 
-        console.log(data);
-        
-        // if(data.length<2 ){
-        //   return
-        // }
-        let link;
-
-        try{
-          link = new URL(data[data.length - 1]);
-        }catch(error){
-          return
+        if (data.length < 2) {
+          this.badInput = true;
+          return;
         }
-        
-        console.log("tu",link);
 
-      
-        
-        // console.log(data[data.length - 1]);
+        let link;
+        try {
+          link = new URL(data[data.length - 1]);
+        } catch (error) {
+          this.badInput = true;
+          return;
+        }
+        // console.log("tu", link.origin);
         let text = data.slice(0, data.length - 1).join(" ");
-        // console.log(text);
         this.$store.commit("addUserResourcesList", {
           text: text,
           id,
-          link,
+          link:link.origin,
         });
 
         this.newTodo.text = "";
       } else {
         this.badInput = true;
-        //podesiti
       }
     },
     deleteTodo(id) {
