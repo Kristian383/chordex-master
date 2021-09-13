@@ -122,7 +122,7 @@ export default {
     },
   },
   mounted() {
-    this.notes = this.$store.getters.getUserNotes;
+    this.notes = this.getNotes;
   },
 };
 </script>
