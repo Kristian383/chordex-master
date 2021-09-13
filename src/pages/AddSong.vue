@@ -577,7 +577,8 @@ form .notebook{
   width: 100%;
   padding: 12px 6px;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  gap: 26px;
 }
 .secondOption svg {
   cursor: pointer;
