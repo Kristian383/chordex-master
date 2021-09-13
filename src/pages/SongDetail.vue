@@ -210,7 +210,6 @@ export default {
   /* font-size: 21px; */
 }
 
-
 .box {
   border-radius: 0 0 6px 6px;
 
@@ -304,7 +303,7 @@ svg {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 28px;
-  
+
   filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
 }
 
@@ -320,6 +319,11 @@ svg {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+@media (min-width: 720px) {
+  .go-back {
+    left: 15px;
+  }
 }
 .go-back a {
   text-decoration: none;
