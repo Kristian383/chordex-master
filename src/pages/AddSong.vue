@@ -296,6 +296,8 @@ export default {
     },
     removeSecondKeySelect() {
       this.openSecond = false;
+      this.songInfo.secondKey=null;
+      this.songInfo.secondKeyNotes=null;
     },
     tabber(event) {
       let text = this.songInfo.songText,
