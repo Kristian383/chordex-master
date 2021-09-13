@@ -2,7 +2,6 @@
   <section
     class="home-section"
     :class="{ expand_home_section: !sidebarIsActive }"
-    
   >
     <nav>
       <div class="filter_categories">
@@ -10,19 +9,19 @@
       </div>
       <the-search></the-search>
     </nav>
-    <div class="home-content" >
+    <div class="home-content">
       <div class="sort-section-title">
         <h2 class="title">{{ Title }}</h2>
         <slot name="select_box"></slot>
       </div>
-      <slot ></slot>
+      <slot></slot>
     </div>
   </section>
 </template>
 
 <script>
 // import { onClickOutside } from "@vueuse/core";
-import TheSearch from "./../ui/TheSearch.vue"
+import TheSearch from "./../ui/TheSearch.vue";
 
 export default {
   components: {
@@ -30,53 +29,24 @@ export default {
   },
   computed: {
     sidebarIsActive() {
-      // console.log("otvoreno", this.$store.getters.sidebarIsActive);
       return this.$store.getters.sidebarIsActive;
     },
     Title() {
-      const route=this.$route.name;
+      const route = this.$route.name;
       // console.log(this.$route);
-      if(route=="SongDetail")
-      {
-        return this.$store.getters.getSongDetailTitle
-      }else if(route=="Artists Songs"){
-        return "Songs by: " + this.$route.params.name
+      if (route == "SongDetail") {
+        return this.$store.getters.getSongDetailTitle;
+      } else if (route == "Artists Songs") {
+        return "Songs by: " + this.$route.params.name;
       }
       return route;
     },
-    // searchIsActive() {
-    //   return this.searchMatch.length ? "active" : "";
-    // },
   },
   data() {
     return {
       title: "",
-      // searchMatch: [],
     };
   },
-  // methods: {
-  //   searchTextBox(e) {
-  //     let textValue = e.target.value;
-      
-  //     let foundData = this.$store.getters.getAllSongs.filter((song) => {
-  //       const regex = new RegExp(`${textValue}`, "gi");
-  //       return song.song.match(regex) || song.artist.match(regex);
-  //     });
-  //     if (textValue.length === 0) {
-  //       foundData = [];
-  //     }
-  //     // console.log(foundData);
-  //     this.searchMatch = foundData;
-  //   },
-  // },
-  // mounted() {
-  //   let target = document.getElementById("search_box");
-  //   onClickOutside(target, () => {
-  //     target.classList.remove("active");
-  //     this.searchMatch = [];
-  //     target.firstElementChild.value = "";
-  //   });
-  // },
 };
 </script>
 
@@ -85,14 +55,13 @@ export default {
   position: relative;
   /* background: #eaebea; */
   background: #fff;
-  
+
   /* background: #161B22; */
-  
+
   min-height: 100vh;
   transition: all 0.5s ease;
   width: calc(100% - 240px);
   left: 240px;
-  
 }
 
 .expand_home_section {
@@ -105,132 +74,77 @@ export default {
 .home-section nav {
   display: flex;
   justify-content: space-between;
-  
-  height: 80px;
+    /* height: 100px; */
+  flex-direction:column ;
+
+  gap: 16px;
+
   background: #fff;
   /* background: #161B22; */
   align-items: center;
   position: fixed;
   width: calc(100% - 240px);
   left: 240px;
-  z-index: 30;
-  padding: 0 20px;
+  z-index: 37;
+  padding: 10px 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  
   transition: all 0.5s ease;
 }
 .expand_home_section nav {
   /* width: calc(100% - 80px);
   left: 80px; */
   width: 100%;
-  /* left: 50px; */
-  padding-left: 80px;
   left: 0;
+}
+
+@media (min-width: 1400px) {
+  .home-section nav {
+    /* padding-left: 80px; */
+    flex-direction: row;
+    height: 80px;
+  }
 }
 
 .filter_categories {
   min-width: 250px;
-  max-width: 800px; 
-  /* display: flex;
-  
+  max-width: 800px;
+  display: flex;
+  width: 100%;
+  order: 2;
   position: relative;
-    overflow-x: auto; 
-  overflow-y: hidden; 
-   padding: 0 20px; 
-   gap: 4px; */
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 20px;
+  gap: 4px;
 }
-/* 
+@media (min-width: 1400px) {
+  .filter_categories {
+    /* padding-left: 80px; */
+    order: 0;
+  }
+}
 .filter_categories::-webkit-scrollbar {
   display: none;
-} */
-/* search */
-.home-section nav .search-box {
-  position: relative;
-  height: 50px;
-  max-width: 350px;
-  /* min-width: 200px; */
-  width: 100%;
-  
-  margin: 0 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
-nav .search-box input {
-  height: 100%;
-  width: 100%;
-  outline: none;
-  background: #eaebea;
-  border: 2px solid #efeef1;
-  border-radius: 6px;
-  font-size: 18px;
-  padding: 0 15px;
-}
-nav .search-box #search {
-  position: absolute;
-  height: 40px;
-  padding: 6px;
-  width: 40px;
 
-  background: rgb(194, 42, 42);
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 4px;
-  line-height: 40px;
-  text-align: center;
-  color: #fff;
-  transition: all 0.4 ease;
-}
-nav .search-box #search:hover {
-  cursor: pointer;
-}
 /* Content under header */
 .home-section .home-content {
   position: relative;
   /* padding-top: 124px; */
-  padding: 100px 15px 15px 15px;
+  padding: 140px 15px 15px 15px;
   /* max-width: 1400px; */
   margin: 0 auto;
   background-color: #fff;
   height: 100%;
   max-width: 1700px;
 }
-/* Search */
-.search-box .match-list {
-  padding: 0;
-  opacity: 0;
-  pointer-events: none;
-  max-height: 280px;
-  overflow-y: auto;
-  z-index: 26;
-  background-color: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+@media (min-width:1400px) {
+  
+  .home-section .home-content{
+    padding: 110px 15px 15px 15px;
+  }
 }
 
-.search-box.active .match-list {
-  padding: 10px 8px;
-  opacity: 1;
-  pointer-events: auto;
-}
-.match-list li {
-  list-style: none;
-  padding: 10px 12px;
-  display: none;
-  width: 100%;
-  border-radius: 3px;
-}
-.search-box.active .match-list li {
-  display: block;
-}
-.match-list li:hover {
-  background: #f2f2f2;
-  cursor: pointer;
-}
-.match-list li a {
-  text-decoration: none;
-  color: inherit;
-  display: inline-block;
-  width: 100%;
-}
 /*  */
 .sort-section-title {
   /* position: absolute;
