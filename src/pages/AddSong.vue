@@ -28,6 +28,7 @@
           </div>
           <!--  -->
           <font-awesome-icon
+          @click="deleteSong"
             class="delete"
             icon="trash-alt"
           ></font-awesome-icon>
@@ -277,6 +278,12 @@ export default {
     },
   },
   methods: {
+    deleteSong() {
+      if (window.confirm("Are you sure?")) {
+        this.$store.commit("deleteSong", this.songId);
+        this.$router.push(this.songInfo.isMySong ? "/my-songs" : "/songs");
+      }
+    },
     goBack(){
       this.$router.go(-1)
     },
@@ -387,14 +394,14 @@ export default {
       this.$store.dispatch("apiForSongInfo", this.song.val);
     },
   },
-  beforeRouteLeave(_, _2, next) {
-    if ((this.song.val || this.artist.val) && !this.isSaved) {
-      if (!window.confirm("Leave without saving?")) {
-        return;
-      }
-    }
-    next();
-  },
+  // beforeRouteLeave(_, _2, next) {
+  //   if ((this.song.val || this.artist.val) && !this.isSaved) {
+  //     if (!window.confirm("Leave without saving?")) {
+  //       return;
+  //     }
+  //   }
+  //   next();
+  // },
   mounted() {
     const songId = this.$route.params.songId;
     this.songId = songId;
