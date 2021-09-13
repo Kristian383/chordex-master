@@ -1,13 +1,15 @@
 import { createStore } from "vuex";
 import getters from "./songs/getters.js"
 // import router from './../router.js'
+import authModule from './auth/index.js';
 
 const store = createStore({
+    modules: { auth: authModule },
     state() {
         return {
-            sidebarActive: false,
-            isLogged: false,
-            songDetailTitle: null, apiData: null,
+            sidebarIsActive: true,
+            // isLogged: false,
+            songDetailTitle: null, 
             darkMode: false,
 
             musicKeys: [
@@ -47,9 +49,9 @@ const store = createStore({
             { artist: "RHCP", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: true, capo: null, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 32, difficulty: "medium", lastViewed: "2d ago", songId: "4", yt_link: "", chords_link: "", tuning: null, isMySong: true },
             { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, isMySong: false }],
             usefulResources: {
-                notes: "navpisao",
+                notes: "",
                 resourcesLinks: [{ text: "make the rgb(194, 42, 42)bed", id: 1 },
-                { text: "play video games", id: 2,link:"https://www.youtube.com/watch?v=gmmrejxckWs" },],
+                { text: "play video games", id: 2, link: "https://www.youtube.com/watch?v=gmmrejxckWs" },],
                 txtAreaHeight: 200
             }
         }
@@ -58,7 +60,10 @@ const store = createStore({
 
     mutations: {
         toggleSidebar(state) {
-            state.sidebarActive = !state.sidebarActive;
+            state.sidebarIsActive = !state.sidebarIsActive;
+        },
+        removeSidebar(state){
+            state.sidebarIsActive = false;
         },
         // loadMoreSongs(state,payload){
         //     //dohvatiti podatke carda i pushati u songs array
