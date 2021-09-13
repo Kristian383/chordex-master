@@ -2,97 +2,100 @@
   <base-card>
     <section>
       <header></header>
-
-    <main>
-      <div class="row">
-        <div class="user-info">
-          <div class="photo">
-            <img
-              class="profile-photo"
-              src="https://images.pexels.com/photos/1804796/pexels-photo-1804796.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            />
+      <main>
+        <div class="row">
+          <div class="user-info">
+            <div class="photo">
+              <img
+                class="profile-photo"
+                src="https://images.pexels.com/photos/1804796/pexels-photo-1804796.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+              />
+            </div>
+            <h4 class="name">Jane Doe</h4>
+            <p class="mail">jane.doe@gmail.com</p>
+            <div class="stats row">
+              <div class="stat">
+                <p class="number-stat">70</p>
+                <p class="desc-stat">Songs</p>
+              </div>
+              <div class="stat">
+                <p class="number-stat">42</p>
+                <p class="desc-stat">Artists</p>
+              </div>
+              <div class="stat">
+                <p class="number-stat">38</p>
+                <p class="desc-stat">My Songs</p>
+              </div>
+            </div>
+            <!-- <p class="desc">Settings</p> -->
+            <button-save @click="saveChanges"></button-save>
           </div>
-          <h4 class="name">Jane Doe</h4>
-          <p class="mail">jane.doe@gmail.com</p>
-          <div class="stats row">
-            <div class="stat">
-              <p class="number-stat">70</p>
-              <p class="desc-stat">Songs</p>
-            </div>
-            <div class="stat">
-              <p class="number-stat">42</p>
-              <p class="desc-stat">Artists</p>
-            </div>
-            <div class="stat">
-              <p class="number-stat">38</p>
-              <p class="desc-stat">My Songs</p>
-            </div>
-          </div>
-          <!-- <p class="desc">Settings</p> -->
-          <button-save @click="saveChanges"></button-save>
-        </div>
-        <div class="right">
-          <!-- <ul class="nav">
+          <div class="right">
+            <!-- <ul class="nav">
           <li>Gallery</li>
           <li>Collections</li>
           <li>Groups</li>
           <li>About</li>
         </ul> -->
-          <!-- <span class="edit">Toggle edit </span> -->
-          <div class="container">
-            <div>
-              <label class="form-control-label" for="input-username"
-                >Username</label
-              >
-              <input
-                class="input-field"
-                type="text"
-                id="input-username"
-                placeholder="John"
-              />
-            </div>
-            <div>
-              <label class="form-control-label" for="input-email">Email</label>
-              <input
-                class="input-field"
-                type="text"
-                id="input-email"
-                placeholder="John"
-              />
-            </div>
-            <div @click="togglePasswordChange" class="change-psw">Change password</div>
-            <!-- password -->
-            <transition name="fade">
-              <div v-if="changePassword">
-                <label class="form-control-label" for="input-email"
-                  >Password</label
+            <!-- <span class="edit">Toggle edit </span> -->
+            <div class="container">
+              <div>
+                <label class="form-control-label" for="input-username"
+                  >Username</label
                 >
                 <input
                   class="input-field"
-                  type="password"
-                  id="password"
+                  type="text"
+                  id="input-username"
                   placeholder="John"
                 />
               </div>
-            </transition>
-            <transition name="fade">
-              <div v-if="changePassword">
+              <div>
                 <label class="form-control-label" for="input-email"
-                  >New Password</label
+                  >Email</label
                 >
                 <input
                   class="input-field"
-                  type="password"
-                  id="password-repeat"
+                  type="text"
+                  id="input-email"
                   placeholder="John"
                 />
               </div>
-            </transition>
-            <!--  -->
+              <div @click="togglePasswordChange" class="change-psw">
+                Change password
+              </div>
+              <!-- password -->
+              <transition name="fade">
+                <div v-if="changePassword">
+                  <label class="form-control-label" for="input-email"
+                    >Password</label
+                  >
+                  <input
+                    class="input-field"
+                    type="password"
+                    id="password"
+                    placeholder="John"
+                  />
+                </div>
+              </transition>
+              <transition name="fade">
+                <div v-if="changePassword">
+                  <label class="form-control-label" for="input-email"
+                    >New Password</label
+                  >
+                  <input
+                    class="input-field"
+                    type="password"
+                    id="password-repeat"
+                    placeholder="John"
+                  />
+                </div>
+              </transition>
+              <!--  -->
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
     </section>
   </base-card>
 </template>
@@ -102,18 +105,19 @@ import BaseCard from "./../components/ui/BaseCard.vue";
 import ButtonSave from "./../components/ui/ButtonSave.vue";
 export default {
   components: {
-    BaseCard,ButtonSave
+    BaseCard,
+    ButtonSave,
   },
   data() {
     return {
-      changePassword:false
-    }
+      changePassword: false,
+    };
   },
   methods: {
     togglePasswordChange() {
-      this.changePassword=!this.changePassword
+      this.changePassword = !this.changePassword;
     },
-    saveChanges(event){
+    saveChanges(event) {
       event.target.classList.toggle("loading");
 
       setTimeout(() => {
@@ -125,9 +129,7 @@ export default {
       setTimeout(() => {
         event.target.classList.remove("success");
       }, 2500);
-    }
-
-    
+    },
   },
 };
 </script>
@@ -143,8 +145,7 @@ header {
   border-top-right-radius: 8px;
   height: 150px;
 }
-section{
-  
+section {
   font-size: 18px;
   /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
@@ -222,13 +223,12 @@ section{
   border-bottom: 1px solid #ededed;
 }
 
-
 /* irght */
 .right {
   padding: 14px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  
+
   /* background-color: #ededed; */
 }
 .container {
@@ -263,11 +263,11 @@ section{
   cursor: pointer;
   background-color: #ededed;
 }
-.change-psw{
+.change-psw {
   cursor: pointer;
   color: rgb(194, 42, 42);
 }
-.change-psw:hover{
+.change-psw:hover {
   color: rgb(163, 24, 24);
 }
 .fade-enter-active,
