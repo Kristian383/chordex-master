@@ -25,7 +25,9 @@
         <li><h3>...</h3></li>
       </ul>
     </div>
+    <!-- <n-back-top :right="100" :bottom="500" :visibility-height="100"  /> -->
   </div>
+  
   <the-footer></the-footer>
 </template>
 
@@ -38,6 +40,11 @@ export default {
     TheFooter,
   },
   methods: {},
+  mounted(){
+    if(this.$route.path=="/home"){
+      this.$store.commit("removeSidebar")
+    }
+  }
 };
 </script>
 
