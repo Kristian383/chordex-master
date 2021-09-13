@@ -1,7 +1,7 @@
 import router from './../../router.js'
 export default {
     sidebarIsActive(state) {
-        return state.sidebarActive;
+        return state.sidebarIsActive;
     },
     getAllSongs(state) {
         return state.songs;
