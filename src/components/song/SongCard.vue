@@ -126,8 +126,6 @@ export default {
   color: #101114;
   transition: 0.3s ease-in all;
   cursor: pointer;
-  /* -webkit-tap-highlight-color: transparent; */
-
 
   /* transform: translateY(10%); */
 }
