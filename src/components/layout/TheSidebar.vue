@@ -2,14 +2,14 @@
   <div
     class="hamburger"
     @click="toggleSidebar"
-    
+    v-if="isAuthenticated"
   >
     <!-- v-bind:style="{ color: activeColor }"
   gore     -->
     <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
   </div>
   <transition name="fade">
-    <div class="sidebar" v-if="!isOpen">
+    <div class="sidebar" v-if="sidebarIsActive">
       <ul class="nav_list">
         <!-- <li @click="toggleSidebar">
         <font-awesome-icon
@@ -56,7 +56,8 @@
             to="/artists"
             v-bind:class="{ active_item: $route.path == '/artists' }"
           >
-            <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
+            <!-- <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon> -->
+            <img id="ikona" class="artist-icon" src="@/assets/mic.svg" alt="">
             <span class="links_name">Artists</span>
             <!-- <span class="tooltip">Artists</span> -->
           </router-link>
@@ -103,16 +104,15 @@
             <!-- <span class="tooltip">My Songs</span> -->
           </router-link>
         </li>
-        <li>
+        <!-- <li>
           <router-link
             to="#"
             v-bind:class="{ active_item: $route.path == '/' }"
           >
             <font-awesome-icon id="ikona" icon="headphones"></font-awesome-icon>
             <span class="links_name">Backing tracks</span>
-            <!-- <span class="tooltip">Backing tracks</span> -->
           </router-link>
-        </li>
+        </li> -->
         <li>
           <router-link
             to="/find-key"
@@ -152,7 +152,7 @@
           <div class="toggle-mode">
             <input
               type="checkbox"
-              @click="toggleMode"
+              @click="toggleDarkMode"
               class="checkbox"
               id="chk"
             />
@@ -185,35 +185,33 @@
 import { dom } from "@fortawesome/fontawesome-svg-core";
 
 export default {
-  // props:["userLogged"],
   data() {
     return {
-      searchText: "",
-      isOpen: true,
-      // mobile: true,
-      // mobileNav: null,
-      // windowWidth: null,
     };
   },
   methods: {
-    toggleSidebar(e) {
-      if (e.target.type == "text") {
-        return;
-      }
-      this.isOpen = !this.isOpen;
-      // this.mobile = !this.mobile;
+    toggleSidebar() {
       this.$store.commit("toggleSidebar");
     },
-    toggleMode() {
+    toggleDarkMode() {
+      console.log("toggleDarkMode");
       this.$store.commit("toggleDarkMode");
     },
     logOutUser() {
-      console.log("udje");
+      console.log("udje u logout");
     },
   },
   created() {
     dom.watch();
    
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated 
+    },
+    sidebarIsActive(){
+      return this.$store.getters.sidebarIsActive
+    }
   },
 };
 </script>
@@ -497,6 +495,11 @@ export default {
 .profile_details {
   display: flex;
   align-items: center;
+}
+
+.artist-icon{
+  width: 21px;
+  height: 21px;
 }
 
 .profile_details img {

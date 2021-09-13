@@ -1,7 +1,7 @@
 <template>
   <header :class="{ 'scrolled-nav': scrolledNav }">
     <nav class="container">
-      <span class="logo" v-if="!mobileNav">
+      <span class="logo" v-if="!hideLogo">
         <router-link to="/home"
           ><img src="@/assets/guitar.svg" alt="Quote Logo"
         /></router-link>
@@ -27,9 +27,6 @@
         </li>
       </ul>
 
-      <!-- :class="{active:isActive}"
-:class="{active:isActive}"
-:class="{active:isActive}" -->
     </nav>
   </header>
 </template>
@@ -40,23 +37,23 @@ export default {
     return {
       mobile: null,
       scrolledNav: null,
-      mobileNav: null,
+      hideLogo: null,
       windowWidth: null,
     };
   },
   methods: {
-    switchMobNav() {
-      this.mobileNav = !this.mobileNav;
-    },
+    // switchMobNav() {
+    //   this.hideLogo = !this.hideLogo;
+    // },
     checkScreen() {
       this.windowWidth = window.innerWidth;
-      if (this.windowWidth <= 750) {
-        this.mobile = true;
-        this.mobileNav = true;
+      if (this.windowWidth <= 950) {
+        // this.mobile = true;
+        this.hideLogo = true;
         return;
       }
-      this.mobile = false;
-      this.mobileNav = false;
+      // this.mobile = false;
+      this.hideLogo = false;
       return;
     },
     updateScroll() {
@@ -76,14 +73,7 @@ export default {
     window.addEventListener("scroll", this.updateScroll);
   },
   computed: {
-    isActive() {
-      // if(this.$route.path=="/home"){
-      //   console.log("udje");
-      //   return true
-      // }
-      // console.log(this.$route);
-      return false;
-    },
+    
   },
 };
 </script>
