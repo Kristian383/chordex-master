@@ -13,39 +13,32 @@
     />
     <label :for="filter">{{ filter }}</label>
   </span>
-  <!-- <span class="filter-option">
-        <input type="checkbox" />
-        <label for="favorites">Favorites</label>
-      </span>
-      <span class="filter-option">
-        <input type="checkbox" />
-        <label for="electric">Electric</label>
-      </span>
-      <span class="filter-option">
-        <input type="checkbox" />
-        <label for="acoustic">Acoustic</label>
-      </span>
-      <span class="filter-option">
-        <input type="checkbox" />
-        <label for="capo">Easy</label>
-      </span>
-      <span class="filter-option">
-        <input type="checkbox" />
-        <label for="capo">Medium</label>
-      </span>
-      <span class="filter-option">
-        <input type="checkbox" />
-        <label for="capo">Hard</label>
-      </span> -->
+  <!-- </n-config-provider> -->
+  <!-- <span class="arrow right" @click="moveRight">
+    <font-awesome-icon icon="angle-right"></font-awesome-icon>
+  </span> -->
 </template>
 
 <script>
+// import { NConfigProvider } from 'naive-ui'
+
 export default {
-  emits:["filters-changed"],
-  props:["active"],
+  components: {
+    // NConfigProvider ,
+  },
+  emits: ["filters-changed"],
+  props: ["active"],
   data() {
     return {
-      allFilters: ["all","favorites", "acoustic", "electric", "easy", "medium", "hard"],
+      allFilters: [
+        "all",
+        "favorites",
+        "acoustic",
+        "electric",
+        "easy",
+        "medium",
+        "hard",
+      ],
       filters: {
         all: true,
         acoustic: false,
@@ -53,11 +46,11 @@ export default {
         easy: false,
         medium: false,
         hard: false,
-        favorites:false
+        favorites: false,
       },
     };
   },
-  
+
   methods: {
     setFilter(e) {
       const item = e.target.id;
@@ -69,42 +62,55 @@ export default {
           easy: false,
           medium: false,
           hard: false,
-          favorites:false
+          favorites: false,
         };
       } else {
         this.filters["all"] = false;
       }
 
-      let activeFilters=[];
-      for(const item in this.filters){
-        
-        if(this.filters[item]){
-          activeFilters.push(item)
+      let activeFilters = [];
+      for (const item in this.filters) {
+        if (this.filters[item]) {
+          activeFilters.push(item);
         }
       }
-      if(!activeFilters.length)
-      {
+      if (!activeFilters.length) {
         this.filters["all"] = true;
       }
-      this.$emit("filters-changed",activeFilters)
+      this.$emit("filters-changed", activeFilters);
     },
   },
-  
-  
-  
 };
 </script>
 
 <style scoped>
+/* .arrow.left,
+.arrow.right {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  align-self: center;
+  cursor: pointer;
+  position: absolute;
+  font-size: 22px;
+  z-index: 56;
+}
+
+.arrow.left{
+  left: 0;
+}
+.arrow.right{
+  right: 0;
+} */
+
 .filter-option.active > label {
   background-color: #242424;
   color: white;
+  
 }
-
 input[type="checkbox"] {
   display: none;
 }
-
 input[type="checkbox"] + label {
   transition: all 500ms ease;
   font-size: 18px;
@@ -113,14 +119,14 @@ input[type="checkbox"] + label {
   background-color: #e7e7e7;
   padding: 10px 16px;
   border: none;
-  display: inline-block;
   user-select: none;
   text-transform: capitalize;
-
   word-wrap: none;
   white-space: nowrap;
+  margin-right: 4px;
+  
+  display: inline-block;
 }
-
 input[type="checkbox"]:checked + label {
   transition: all 500ms ease;
   background-color: #242424;
