@@ -126,8 +126,13 @@ export default {
   color: #101114;
   transition: 0.3s ease-in all;
   cursor: pointer;
+  /* -webkit-tap-highlight-color: transparent; */
+
 
   /* transform: translateY(10%); */
+}
+.card:focus{
+  outline: none;
 }
 .card:hover {
   transform: rotateZ(-1deg) scale(1.04);
@@ -189,9 +194,12 @@ export default {
   background-color: white;
   transition: all 0.5s ease;
 }
-.icons .icon:hover {
+
+@media (min-width:720px) {
+  .icons .icon:hover {
   background-color: #303030;
   color: white;
+}
 }
 .favorite,
 .edit {
