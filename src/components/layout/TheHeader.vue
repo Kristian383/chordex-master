@@ -88,7 +88,7 @@ export default {
 
 header {
   background-color: #f1f1f1;
-  z-index: 45;
+  z-index: 70;
   width: 100%;
   transition: 0.5s ease all;
   position: sticky;
