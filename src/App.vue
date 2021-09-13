@@ -46,6 +46,10 @@ html{
   height: 100vh;
 }
 
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 /* route tranisition */
 
 /* 
