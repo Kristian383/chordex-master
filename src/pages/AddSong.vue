@@ -2,10 +2,10 @@
   <base-card>
     <div class="form-container">
       <!-- <div class="modal" id="modal"></div> -->
-      <div class="go-back">
-        <router-link :to="songInfo.isMySong ? '/my-songs' : '/songs'">
+      <div class="go-back" @click="goBack">
+        <!-- <router-link :to="songInfo.isMySong ? '/my-songs' : '/songs'"> -->
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>
-        </router-link>
+        <!-- </router-link> -->
       </div>
       <form @submit.prevent>
         <div class="top-section">
@@ -277,6 +277,9 @@ export default {
     },
   },
   methods: {
+    goBack(){
+      this.$router.go(-1)
+    },
     toggleFavorite() {
       this.isFavorite = !this.isFavorite;
     },
@@ -740,10 +743,7 @@ input::-moz-focus-outer {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-}
-.go-back a {
-  text-decoration: none;
-  color: RGB(16, 17, 20);
+  cursor: pointer;
 }
 .go-back:hover {
   background-color: #f1f1f1;
