@@ -232,7 +232,7 @@ export default {
   left: 0;
   padding: 90px 14px;
   transition: all 0.3s ease;
-  z-index: 33;
+  z-index: 50;
   /* visibility: hidden; */
 }
 /* .sidebar.active {
