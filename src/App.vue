@@ -10,6 +10,7 @@
       </keep-alive>
     </router-view>
   <!-- </section> -->
+  <!-- staviti footer v if not app? -->
 </template>
 
 <script>
