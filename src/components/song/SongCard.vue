@@ -135,10 +135,6 @@ export default {
 .card:hover {
   transform: rotateZ(-1deg) scale(1.04);
 }
-/* .card.active {
-  opacity: 1;
-  transform: translateY(0);
-} */
 .card-header img {
   width: 100%;
   height: 100%;
@@ -148,8 +144,6 @@ export default {
   width: 100%;
   height: 100px;
   text-align: center;
-  /* background-color: #242424; */
-  /* background-color: rgb(194, 42, 42); */
 }
 
 .progress {
