@@ -8,14 +8,13 @@
       <!-- <div> -->
       <p>
         What a better way of keeping the information about the songs than having
-        it all in one place with couple of clicks. Not only can you easily
+        it all in one place just with couple of clicks. Not only can you easily
         refresh your memory, but also speed up the learning process and have
         more songs under your repertoire. <br />
         <br />
         Having insight of key and chord progressions of each song will
-        eventually help you grasp concepts of writing songs. Storing it all at
-        one place you'll be able to recognize the patterns and thus improve your
-        own skills.
+        eventually help you grasp concepts of writing a song. Keep all the main information at
+        one place and learn much quicker!
       </p>
       <!-- </div> -->
     </div>
@@ -29,6 +28,11 @@ export default {
   components: {
     // TheFooter,
   },
+  mounted(){
+    if(this.$route.path=="/about"){
+      this.$store.commit("removeSidebar")
+    }
+  }
 };
 </script>
 
