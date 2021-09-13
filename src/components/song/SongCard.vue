@@ -2,8 +2,9 @@
   <div class="card" @click="openSongDetail">
     <div class="card-header">
       <div class="image">
-        <img v-if="song.imageUrl" :src="song.imageUrl" alt="Artist photo" />
+        <img  :src="song.imageUrl" alt="Artist photo" />
       </div>
+
       <div class="icons">
         <div class="icon" id="edit" @click.stop="openEditMode">
           <font-awesome-icon icon="edit"></font-awesome-icon>
@@ -22,14 +23,21 @@
       <div class="tags">
         <span class="tag tag-teal" v-if="song.capo"> Capo</span>
 
-        <span class="tag tag-teal" v-if="song.difficulty" :class="skillLevelClass">{{
-          song.difficulty
-        }}</span>
+        <span
+          class="tag tag-teal"
+          v-if="song.difficulty"
+          :class="skillLevelClass"
+          >{{ song.difficulty }}</span
+        >
       </div>
       <h3 class="artist" @click.stop="chooseArtist">
-        <router-link to="/"> <h3>{{ song.artist }}</h3> </router-link>
+        <router-link to="/">
+          <h3>{{ song.artist }}</h3>
+        </router-link>
       </h3>
-      <h4 class="song_name">{{ song.song }}</h4>
+      <h4 class="song_name" :aria-label="song.song" :title="song.song">
+        {{ song.song }}
+      </h4>
       <div class="info">
         <div class="history-info">
           <font-awesome-icon icon="history"></font-awesome-icon>
@@ -49,9 +57,9 @@ export default {
   methods: {
     openSongDetail() {
       // console.log("stisak", e.target);
-      if(this.song.isMySong){
+      if (this.song.isMySong) {
         this.$router.push("/my-songs/" + this.song.songId);
-      }else{
+      } else {
         this.$router.push("/songs/" + this.song.songId);
       }
       //if (e.target.id == "edit") {
@@ -60,17 +68,16 @@ export default {
       // }
     },
     toggleFavorite() {
-      this.$store.commit("toggleFavorite", {songId:this.song.songId});
+      this.$store.commit("toggleFavorite", { songId: this.song.songId });
     },
     openEditMode() {
-      
       // console.log("opening edit mode", e.target);
-      this.$router.push("/new/"+this.song.songId)
+      this.$router.push("/new/" + this.song.songId);
     },
-    chooseArtist(){
+    chooseArtist() {
       // console.log("artist");
-      this.$router.push("/artists/"+this.song.artist)
-    }
+      this.$router.push("/artists/" + this.song.artist);
+    },
   },
   computed: {
     skillLevelClass() {
@@ -84,7 +91,11 @@ export default {
     },
     barColor() {
       if (this.song.practicedPrcntg <= 40) return "rgb(194, 42, 42)";
-      else if (this.song.practicedPrcntg > 34 && this.song.practicedPrcntg <= 80) return "#ff4500";
+      else if (
+        this.song.practicedPrcntg > 34 &&
+        this.song.practicedPrcntg <= 80
+      )
+        return "#ff4500";
 
       return "#69b34c";
     },
@@ -109,18 +120,17 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   overflow: hidden;
   width: 180px;
-  position: relative; 
+  position: relative;
   height: 260px;
   /* color: #303030; */
-  color:#101114;
+  color: #101114;
   transition: 0.3s ease-in all;
   cursor: pointer;
-  
+
   /* transform: translateY(10%); */
 }
 .card:hover {
-  
-  transform:  rotateZ(-1deg) scale(1.04);
+  transform: rotateZ(-1deg) scale(1.04);
 }
 /* .card.active {
   opacity: 1;
@@ -138,6 +148,7 @@ export default {
   /* background-color: #242424; */
   /* background-color: rgb(194, 42, 42); */
 }
+
 .progress {
   bottom: 0;
   left: 0;
@@ -200,6 +211,7 @@ export default {
   align-items: flex-start;
   padding: 4px 15px 15px 15px;
   gap: 10px;
+  width: 100%;
 }
 
 .tags {
@@ -238,23 +250,26 @@ export default {
 }*/
 .artist,
 .song_name {
+  text-transform: capitalize;
+  z-index: 32;
+  font-size: 16px;
+  text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-transform: capitalize;
-   z-index: 32;
-   font-size: 16px;
+  white-space: normal;
+  -webkit-line-clamp: 2;
+  width: 100%;
 }
 /*  */
 .artist a {
   text-decoration: none;
   color: inherit;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
-.artist:hover{
-  color: rgb(194, 42, 42);
-  
+.artist:hover {
+  /* color: rgb(194, 42, 42); */
+  color: #00c;
 }
 /* .artist a:hover {
   color: rgb(73, 70, 70);
