@@ -39,12 +39,12 @@
         </div>
         <!--  -->
         <div>
-          <div class="song-name"><b>Song:</b> Californication</div>
+          <div class="song-name"><b>Song:</b> {{songData.song}} </div>
           <!-- <label for="song">Song:</label> -->
           <!-- <input type="text" /> -->
 
-          <div class="song-info-box">
-            <b> BPM:</b> {{ songData.bpm }}
+          <div class="song-info-box" v-if="songData.bpm">
+            <b > BPM:</b> {{ songData.bpm }}
             <font-awesome-icon
               class="metronome"
               icon="play-circle"
@@ -52,7 +52,7 @@
           </div>
         </div>
         <!-- ovdje mora ici vfor ako ima 2 keya -->
-        <div>
+        <div v-if="songData.firstKey">
           <div class="key"><b>Key:</b> {{ songData.firstKey }}</div>
           <div class="chords">
             <b>Chords in scale:</b> {{ songData.firstKeyNotes }}
@@ -72,7 +72,7 @@
         </div>
         <!--  -->
         <div>
-          <div class="capo">
+          <div class="capo" v-if="songData.capo">
             <b>Capo:</b> {{ songData.capo ? songData.capo : "No" }}
           </div>
           <div class="tuning">
@@ -87,14 +87,14 @@
         <!--  -->
         <div>
           <!-- <div class="genre">Genre: Rock</div> -->
-          <div class="link" v-if="songData.yt_link">
-            <b>Link:</b>
+          <!-- <div class="link" v-if="songData.yt_link">
+            <b>Link: </b>
             <a :href="songData.yt_link" target="_blank"
               >{{ songData.yt_link }}
             </a>
-          </div>
-          <div class="link" v-if="songData.yt_link">
-            <b>Link:</b>
+          </div> -->
+          <div class="link" v-if="songData.chords_link">
+            <b>Resource Link: </b>
             <a :href="songData.chords_link" target="_blank"
               >{{ songData.chords_link }}
             </a>
@@ -113,6 +113,7 @@
           allowfullscreen
         ></iframe>
       </div>
+      
 
       <div class="box notebook">
         <hr />
@@ -179,11 +180,19 @@ export default {
       }
       return "heart";
     },
+    displayAccordingToYT(){
+      if(this.songData.yt_link){
+        return "1fr"
+      }else{
+        return "1fr 1fr"
+      }
+    }
   },
 };
 </script>
 
 <style scoped>
+
 .song-detail {
   /* min-height: 95vh; */
   background-color: #fff;
@@ -263,7 +272,7 @@ export default {
 }
 @media (min-width: 1400px) {
   .song-detail {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: displayAccordingToYT;
   }
   .box.notebook {
     grid-column: 1/3;
