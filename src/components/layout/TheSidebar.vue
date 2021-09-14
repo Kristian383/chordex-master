@@ -213,6 +213,7 @@ export default {
       return this.$store.getters.sidebarIsActive
     }
   },
+  
 };
 </script>
 
