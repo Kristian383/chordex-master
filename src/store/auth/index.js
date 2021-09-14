@@ -10,7 +10,14 @@ export default {
             userId: null,
             token:"null",
             tokenExpiration:null,
-            didAutoLogout:false
+            didAutoLogout:false,
+            userData: {
+                username: "Kristian",
+                email: "kristian3833@gmail.com",
+                numberOfSongs: 66,
+                numberOfArtists: 20,
+                numberOfMySongs: 5,
+            },
         };
     },
     // mutations,
