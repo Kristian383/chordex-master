@@ -13,10 +13,49 @@
         more songs under your repertoire. <br />
         <br />
         Having insight of key and chord progressions of each song will
-        eventually help you grasp concepts of writing a song. Keep all the main information at
-        one place and learn much quicker!
+        eventually help you grasp concepts of writing a song. Keep all the main
+        information at one place and learn much quicker!
       </p>
       <!-- </div> -->
+      
+    </div>
+    <div class="faq">
+      <h2>FAQ</h2>
+      <img src="@/assets/faq.jpg" class="faq-img" alt="Questionmark">
+      <div class="questions">
+        <div class="question">
+          <h3>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
+            magni?
+          </h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis sint
+            dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
+          </p>
+        </div>
+        <!--  -->
+        <div class="question">
+          <h3>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
+            magni?
+          </h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis sint
+            dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
+          </p>
+        </div>
+        <!--  -->
+        <div class="question">
+          <h3>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
+            magni?
+          </h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis sint
+            dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
+          </p>
+        </div>
+      </div>
     </div>
   </div>
   <!-- <the-footer></the-footer> -->
@@ -28,11 +67,11 @@ export default {
   components: {
     // TheFooter,
   },
-  mounted(){
-    if(this.$route.path=="/about"){
-      this.$store.commit("removeSidebar")
+  mounted() {
+    if (this.$route.path == "/about") {
+      this.$store.commit("removeSidebar");
     }
-  }
+  },
 };
 </script>
 
@@ -42,7 +81,7 @@ export default {
   grid-template-columns: 1fr;
   max-width: 1600px;
   margin: 0 auto;
-  height: 100%;
+  /* height: 100%; */
   justify-items: center;
   align-items: center;
   /* row-gap: 56px; */
@@ -50,6 +89,7 @@ export default {
 @media (min-width: 1000px) {
   .about {
     grid-template-columns: repeat(2, 1fr);
+    /* min-height: 700px ; */
   }
 }
 
@@ -95,5 +135,11 @@ export default {
     border-left: 6px solid #59e4a8;
     border-top: 0;
   }
+}
+
+/* faq */
+.faq-img{
+   max-width: 300px;
+  max-height: 300px;
 }
 </style>
