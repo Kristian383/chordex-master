@@ -3,24 +3,27 @@
   <!-- <section v-if="!isLogged"></section> -->
 
   <!-- <section v-else> -->
-    <the-sidebar ></the-sidebar>
-    <router-view :key="$route.path" v-slot="{ Component }">
-      <keep-alive>
-        <component :is="Component" />
-      </keep-alive>
-    </router-view>
+  <the-sidebar></the-sidebar>
+  <router-view :key="$route.path" v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
   <!-- </section> -->
   <!-- staviti footer v if not app? -->
+  <the-footer></the-footer>
 </template>
 
 <script>
 import TheSidebar from "./components/layout/TheSidebar.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
+import TheFooter from "./components/layout/TheFooter.vue";
 export default {
   name: "App",
   components: {
     TheSidebar,
     TheHeader,
+    TheFooter,
   },
   data() {
     return {
@@ -37,17 +40,20 @@ export default {
 * {
   margin: 0;
   padding: 0;
-  
+
   box-sizing: border-box;
   /* font-family: "Arimo", sans-serif; */
   font-family: "Montserrat", Arial, sans-serif;
 }
-html{
-  height: 100vh;
+
+body {
+  min-height: 100vh;
+  /* display: flex; */
+  /* flex-direction: column; */
 }
 
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* route tranisition */
