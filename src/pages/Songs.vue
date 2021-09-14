@@ -18,6 +18,7 @@
       <skeleton-song-card v-for="skeleton in 6" :key="skeleton" v-else></skeleton-song-card>
       <!-- staviti for  skeleton in count  -->
     </div>
+      
     <!-- <template v-slot:song_cards>
       <song-card 
         v-for="song in AllSongs"
@@ -26,6 +27,7 @@
       ></song-card>
     </template> -->
     <!-- <div class="cover">&nbsp;</div> -->
+
   </base-card>
 </template>
 
@@ -85,6 +87,7 @@ export default {
           // loadMoreSongs()
           // console.log("intersecting");
           entry.target.classList.add("active");
+          console.log("itnersecta");
           // observer.unobserve(entry.target)
         }
         // else{
@@ -94,6 +97,7 @@ export default {
     },
     sortSongs(option)
     {
+       this.$store.commit("load20MoreSongs")
       this.$store.commit("sortSongs",option)
     }
   },
@@ -107,12 +111,12 @@ export default {
     };
     let observer = new IntersectionObserver(this.beTouching, options);
 
-    document.querySelectorAll(".card").forEach((c) => {
+    document.querySelectorAll(".song-cards").forEach((c) => {
       observer.observe(c);
-      // console.log("card",c);
     });
     //initial load of data
     // loadMoreSongs()
+   
   },
 };
 </script>
