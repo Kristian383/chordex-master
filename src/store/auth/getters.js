@@ -11,5 +11,8 @@ export default {
     },
     didAutoLogout(state) {
       return state.didAutoLogout;
+    },
+    getUserData(state){
+      return state.userData
     }
   }
