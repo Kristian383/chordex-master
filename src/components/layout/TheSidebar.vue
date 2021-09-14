@@ -167,8 +167,8 @@
       <div class="profile_content">
         <div class="profile">
           <div class="profile_details">
-            <img src="./../../assets/music.png" alt="" />
-            <div class="name">Kristian</div>
+            <img src="@/assets/guitar.svg" alt="" />
+            <div class="name">{{getUserData.username}}</div>
           </div>
           <font-awesome-icon
             @click="logOutUser"
@@ -211,6 +211,9 @@ export default {
     },
     sidebarIsActive(){
       return this.$store.getters.sidebarIsActive
+    },
+    getUserData() {
+      return this.$store.getters.getUserData 
     }
   },
   
