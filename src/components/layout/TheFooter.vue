@@ -10,7 +10,7 @@
         </ul>
       </div>
       <!--  -->
-      <p>&copy; TT Ind. 2021</p>
+      <p>&copy; Ttianmaar Ind. 2021</p>
     </div>
   </footer>
 </template>
@@ -22,6 +22,8 @@ export default {};
 <style scoped>
 footer {
   background-color: #f1f1f1;
+  
+
 }
 .container {
   display: flex;
@@ -31,6 +33,7 @@ footer {
   padding: 20px;
   max-width: 1140px;
   margin: 0 auto;
+
 }
 
 .logo {
