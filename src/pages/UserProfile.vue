@@ -11,24 +11,24 @@
                 src="https://images.pexels.com/photos/1804796/pexels-photo-1804796.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
               />
             </div>
-            <h4 class="name">Jane Doe</h4>
-            <p class="mail">jane.doe@gmail.com</p>
+            <h4 class="name">{{getUserData.username}}</h4>
+            <p class="mail">{{getUserData.email}}</p>
             <div class="stats row">
               <div class="stat">
-                <p class="number-stat">70</p>
+                <p class="number-stat">{{getUserData.numberOfSongs}}</p>
                 <p class="desc-stat">Songs</p>
               </div>
               <div class="stat">
-                <p class="number-stat">42</p>
+                <p class="number-stat">{{getUserData.numberOfArtists}}</p>
                 <p class="desc-stat">Artists</p>
               </div>
               <div class="stat">
-                <p class="number-stat">38</p>
+                <p class="number-stat">{{getUserData.numberOfMySongs}}</p>
                 <p class="desc-stat">My Songs</p>
               </div>
             </div>
             <!-- <p class="desc">Settings</p> -->
-            <button-save @click="saveChanges"></button-save>
+            <button-save @click="saveChanges" v-if="passwordChanged"></button-save>
           </div>
           <div class="right">
             <!-- <ul class="nav">
@@ -111,6 +111,7 @@ export default {
   data() {
     return {
       changePassword: false,
+      passwordChanged:false
     };
   },
   methods: {
@@ -131,6 +132,11 @@ export default {
       }, 2500);
     },
   },
+  computed: {
+    getUserData() {
+      return this.$store.getters.getUserData 
+    }
+  },
 };
 </script>
 
@@ -141,8 +147,8 @@ header {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   height: 150px;
 }
 section {
