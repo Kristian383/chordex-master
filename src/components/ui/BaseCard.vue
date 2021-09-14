@@ -15,6 +15,12 @@
         <slot name="select_box"></slot>
       </div>
       <slot></slot>
+      <div class="scroll-top" aria-hidden="true" @click="scrollUp" :class="{show:showBackToTop}">
+        <div class="arrow">
+          <font-awesome-icon icon="arrow-up"></font-awesome-icon>
+        </div>
+        <!-- <div class="text">Back to top</div> -->
+      </div>
     </div>
   </section>
 </template>
@@ -26,6 +32,12 @@ import TheSearch from "./../ui/TheSearch.vue";
 export default {
   components: {
     TheSearch,
+  },
+  data() {
+    return {
+      title: "",
+      showBackToTop:false
+    };
   },
   computed: {
     sidebarIsActive() {
@@ -42,10 +54,23 @@ export default {
       return route;
     },
   },
-  data() {
-    return {
-      title: "",
-    };
+  methods: {
+    scrollUp() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    showButtonUp() {
+      if (window.scrollY > 800) {
+        this.showBackToTop = true;
+      } else if (window.scrollY < 800) {
+        this.showBackToTop = false;
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.showButtonUp);
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.resizeHandler);
   },
 };
 </script>
@@ -74,8 +99,8 @@ export default {
 .home-section nav {
   display: flex;
   justify-content: space-between;
-    /* height: 100px; */
-  flex-direction:column ;
+  /* height: 100px; */
+  flex-direction: column;
 
   gap: 16px;
 
@@ -138,9 +163,8 @@ export default {
   height: 100%;
   max-width: 1700px;
 }
-@media (min-width:1400px) {
-  
-  .home-section .home-content{
+@media (min-width: 1400px) {
+  .home-section .home-content {
     padding: 110px 15px 15px 15px;
   }
 }
@@ -173,5 +197,50 @@ export default {
   gap: 8px;
   grid-template-columns: repeat(auto-fill, 180px);
   justify-content: center;
+}
+
+/* scroll to top */
+.scroll-top {
+  display: inline-block;
+  background: #222;
+  /* width: 50px;
+  height: 50px; */
+  height: 0px;
+  width: 0px;
+  position: fixed;
+
+  bottom: 30px;
+  right: 30px;
+  text-align: center;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  cursor: pointer;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  right: 50px;
+  bottom: 75px;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+.scroll-top:hover {
+  transform: scale(1.1);
+}
+.scroll-top > div.arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  opacity: 1;
+  font-size: 24px;
+}
+.scroll-top.show {
+  opacity: 1;
+  visibility: visible;
+  width: 50px;
+  height: 50px;
 }
 </style>
