@@ -379,11 +379,6 @@ export default {
       }
     },
     handleYTLink(link) {
-      //https://www.youtube.com/embed/32GZ3suxRn4
-      //https://www.youtube.com/32GZ3suxRn4
-
-      // https://youtu.be/eeQzWRvp68Y
-      // https://www.youtube.com/watch?v=eeQzWRvp68Y
       let linkArr=link.split(/[/=]+/)
       let id=linkArr[linkArr.length-1]
       // let id = link.split("https://www.youtube.com/watch?v=")[1];
@@ -394,14 +389,6 @@ export default {
       this.$store.dispatch("apiForSongInfo", this.song.val);
     },
   },
-  // beforeRouteLeave(_, _2, next) {
-  //   if ((this.song.val || this.artist.val) && !this.isSaved) {
-  //     if (!window.confirm("Leave without saving?")) {
-  //       return;
-  //     }
-  //   }
-  //   next();
-  // },
   mounted() {
     const songId = this.$route.params.songId;
     this.songId = songId;
