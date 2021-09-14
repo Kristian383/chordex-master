@@ -28,16 +28,16 @@
     <!-- <n-back-top :right="100" :bottom="500" :visibility-height="100"  /> -->
   </div>
   
-  <the-footer></the-footer>
+  <!-- <the-footer></the-footer> -->
 </template>
 
 <script>
 import UserAuth from "./../components/ui/auth/UserAuth.vue";
-import TheFooter from "./../components/layout/TheFooter.vue";
+// import TheFooter from "./../components/layout/TheFooter.vue";
 export default {
   components: {
     UserAuth,
-    TheFooter,
+    // TheFooter,
   },
   methods: {},
   mounted(){
