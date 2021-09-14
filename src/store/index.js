@@ -9,7 +9,7 @@ const store = createStore({
         return {
             sidebarIsActive: true,
             // isLogged: false,
-            songDetailTitle: null, 
+            songDetailTitle: null,
             darkMode: false,
 
             musicKeys: [
@@ -47,7 +47,18 @@ const store = createStore({
             { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: false, capo: null, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 84, difficulty: "hard", lastViewed: "2d ago", songId: "6", yt_link: "", chords_link: "", tuning: null, isMySong: true },
             { artist: "Nirvana", song: "Californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 2, isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 65, difficulty: "medium", lastViewed: "2d ago", songId: "3", yt_link: "", chords_link: "", tuning: null, isMySong: false },
             { artist: "RHCP", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: true, capo: null, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 32, difficulty: "medium", lastViewed: "2d ago", songId: "4", yt_link: "", chords_link: "", tuning: null, isMySong: true },
-            { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, isMySong: false }],
+            { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, isMySong: false },
+
+
+            { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "52", yt_link: "", chords_link: "", tuning: null, isMySong: false }, { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false },
+
+
+
+
+
+
+
+            ],
             usefulResources: {
                 notes: "",
                 resourcesLinks: [{ text: "make the rgb(194, 42, 42)bed", id: 1 },
@@ -62,7 +73,7 @@ const store = createStore({
         toggleSidebar(state) {
             state.sidebarIsActive = !state.sidebarIsActive;
         },
-        removeSidebar(state){
+        removeSidebar(state) {
             state.sidebarIsActive = false;
         },
         // loadMoreSongs(state,payload){
@@ -183,6 +194,20 @@ const store = createStore({
         },
         updateTxtAreaHeight(state, payload) {
             state.usefulResources.txtAreaHeight = payload;
+        },
+
+        load20MoreSongs(state){
+            
+
+            
+            for (let i = 0; i < 20; i++) {
+                let song={ artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false }
+
+                song.songId= Math.random().toString(36).substring(2);
+                // console.log(song.songId);
+                state.songs.unshift(song)
+            }
+            
         }
 
 
@@ -200,26 +225,49 @@ const store = createStore({
             //     method:"GET",
 
             // });
-            console.log(process.env.VUE_APP_CLIENT_ID);
+            console.log("nebitno", context, payload);
 
-            const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.VUE_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:8080/new&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`
+            let creds = window.btoa(`${process.env.VUE_APP_CLIENT_ID}:${process.env.VUE_APP_CLIENT_SECRET}`)
+            console.log(creds);
+            const response = await fetch("https://accounts.spotify.com/api/token", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Basic ${creds}`,
+                    'Content-Type': 'application/x-www-form-urlencoded',
 
-            window.location.href = AUTH_URL
+                },
+                params: {
+                    grant_type: 'client_credentials'
+                },
 
-            // router.push(AUTH_URL)
-
-            const response = await fetch(`https://api.getsongbpm.com/song/?api_key=${process.env.VUE_APP_CLIENT_ID}&id=983pB`);
+            })
+            console.log("response", response);
             const responseData = await response.json();
+            console.log("response data", responseData);
 
-            if (!response.ok) {
-                const error = new Error(responseData.message || "failed to fetch request")
-                throw error;
-            }
-            console.log("paays", payload);
-            console.log("responseData", responseData);
-            context.commit("addApiData", responseData)
+
+
+
+
+
+
+            //     const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.VUE_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:8080/new&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`
+
+            //     window.location.href = AUTH_URL
+
+
+            //     const response = await fetch(`https://api.getsongbpm.com/song/?api_key=${process.env.VUE_APP_CLIENT_ID}&id=983pB`);
+            //     const responseData = await response.json();
+
+            //     if (!response.ok) {
+            //         const error = new Error(responseData.message || "failed to fetch request")
+            //         throw error;
+            //     }
+            //     console.log("paays", payload);
+            //     console.log("responseData", responseData);
+            //     context.commit("addApiData", responseData)
+            // }
         }
-
         //https://accounts.spotify.com/api/
 
     }
