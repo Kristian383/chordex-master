@@ -113,7 +113,7 @@ export default {
 
 <style scoped>
 .card {
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 2px;
   /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06); */
@@ -123,7 +123,7 @@ export default {
   position: relative;
   height: 260px;
   /* color: #303030; */
-  color: #101114;
+  color: var(--font_black);
   transition: 0.3s ease-in all;
   cursor: pointer;
 
@@ -163,9 +163,9 @@ export default {
   height: 6px;
   border-radius: 0 0 2px 2px;
 }
-.prgoress.low:before {
-  background-color: yellw;
-}
+/* .prgoress.low:before {
+  background-color: yellow;
+} */
 /*  ikonice*/
 .icons {
   display: flex;
@@ -183,14 +183,14 @@ export default {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background-color: white;
+  background-color: var(--white);
   transition: all 0.5s ease;
 }
 
 @media (min-width:720px) {
   .icons .icon:hover {
   background-color: #303030;
-  color: white;
+  color: var(--white);
 }
 }
 .favorite,
@@ -200,8 +200,8 @@ export default {
   width: auto;
 }
 .is_favorite {
-  /* color: #d8323c; */
-  color: #b02828;
+  
+  color: var(--burgundy);
 }
 /* card body  */
 .card-body {
@@ -219,27 +219,27 @@ export default {
   gap: 4px;
 }
 .tag {
-  background: #cccccc;
+  /* background: #cccccc; */
   border-radius: 50px;
   font-size: 12px;
   margin: 0;
-  color: #fff;
+  color: var(--white);
   padding: 4px 10px;
   text-transform: uppercase;
   cursor: pointer;
 }
 .tag-teal {
-  background-color: #11101d;
+  background-color: var(--teals);
 }
 .easy {
-  background-color: #69b34c;
+  background-color: var(--green);
   /* background-color: #41a592; */
 }
 .medium {
-  background-color: #ff4500;
+  background-color: var(--orange);
 }
 .hard {
-  background: rgb(194, 42, 42);
+  background: var(--burgundy);
 }
 /* overflow 
 .artist {

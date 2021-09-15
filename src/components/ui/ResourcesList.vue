@@ -89,7 +89,7 @@ export default {
         this.$store.commit("addUserResourcesList", {
           text: text,
           id,
-          link:link.origin,
+          link: link.origin,
         });
 
         this.newTodo.text = "";
@@ -129,8 +129,41 @@ export default {
 
 <style scoped>
 .error {
-  border-color: rgb(194, 42, 42);
+  border-color: var(--burgundy);
+  -webkit-animation: shake 0.2s ease-in-out 0s 2;
+  animation: shake 0.2s ease-in-out 0s 2;
 }
+
+@-webkit-keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
+}
+
+@keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
+}
+
 .section {
   display: flex;
   flex-direction: column;
@@ -191,7 +224,7 @@ input {
   margin-left: auto;
 }
 .resource-element svg:hover {
-  color: rgb(194, 42, 42);
+  color: var(--burgundy);
 }
 .todos .resource-element:hover {
   cursor: pointer;
@@ -212,10 +245,10 @@ input {
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  background-color: #eaebea;
+  background-color: var(--form_gray);
   resize: vertical;
   font-size: 18px;
-  color: RGB(16, 17, 20);
+  color: var(--font_black);
 }
 
 /* list transitions */

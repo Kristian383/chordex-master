@@ -4,7 +4,7 @@
       <!-- <div class="modal" id="modal"></div> -->
       <div class="go-back" @click="goBack">
         <!-- <router-link :to="songInfo.isMySong ? '/my-songs' : '/songs'"> -->
-          <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+        <font-awesome-icon icon="arrow-left"></font-awesome-icon>
         <!-- </router-link> -->
       </div>
       <form @submit.prevent>
@@ -16,19 +16,25 @@
             @click.prevent="toggleFavorite"
           ></font-awesome-icon>
           <!-- my song checkbox  clipboard-list  -->
-          <div class="my-song">
-            <label for="my-song" class="my-label">My song:</label>
+          <div class="mysong">
+            <!-- <label for="my-song" class="my-label">My song:</label>
             <input
               type="checkbox"
               name="choice"
               id="my-song"
               v-model="songInfo.isMySong"
-            />
+            /> -->
+            <input
+              type="checkbox"
+              name="my-song"
+              id="my-song"
+              v-model="songInfo.isMySong"
+            /><label for="my-song" >My song</label>
             <!-- <label for="my-song">My Song</label> -->
           </div>
           <!--  -->
           <font-awesome-icon
-          @click="deleteSong"
+            @click="deleteSong"
             class="delete"
             icon="trash-alt"
           ></font-awesome-icon>
@@ -206,7 +212,8 @@
         </div>
         <!--  -->
         <div>
-          <textarea class="notebook"
+          <textarea
+            class="notebook"
             v-model="songInfo.songText"
             id="txt_area"
             name=""
@@ -284,8 +291,8 @@ export default {
         this.$router.push(this.songInfo.isMySong ? "/my-songs" : "/songs");
       }
     },
-    goBack(){
-      this.$router.go(-1)
+    goBack() {
+      this.$router.go(-1);
     },
     toggleFavorite() {
       this.isFavorite = !this.isFavorite;
@@ -303,8 +310,8 @@ export default {
     },
     removeSecondKeySelect() {
       this.openSecond = false;
-      this.songInfo.secondKey=null;
-      this.songInfo.secondKeyNotes=null;
+      this.songInfo.secondKey = null;
+      this.songInfo.secondKeyNotes = null;
     },
     tabber(event) {
       let text = this.songInfo.songText,
@@ -339,7 +346,7 @@ export default {
       if (this.songInfo.yt_link) {
         this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
       }
-    
+
       const formData = {
         ...this.songInfo,
         artist: this.artist.val,
@@ -379,8 +386,8 @@ export default {
       }
     },
     handleYTLink(link) {
-      let linkArr=link.split(/[/=]+/)
-      let id=linkArr[linkArr.length-1]
+      let linkArr = link.split(/[/=]+/);
+      let id = linkArr[linkArr.length - 1];
       // let id = link.split("https://www.youtube.com/watch?v=")[1];
       return `https://www.youtube.com/embed/${id}`;
     },
@@ -443,7 +450,7 @@ export default {
 
   /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  border-left: 6px solid rgb(194, 42, 42);
+  border-left: 6px solid var(--burgundy);
   position: relative;
 }
 .top-section {
@@ -465,10 +472,11 @@ svg {
   top: 33px;
   cursor: pointer;
 }
-.top-section .my-song {
+.top-section .mysong {
   position: absolute;
   left: 65px;
-  top: 33px;
+  /* top: 33px; */
+  top: 2px;
   cursor: pointer;
   font-weight: 600;
 }
@@ -491,7 +499,7 @@ svg {
 }
 
 .is-favorite {
-  color: #c22a2a;
+  color: var(--burgundy);
 }
 .grid-2 {
   display: grid;
@@ -549,9 +557,9 @@ form .input-field {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 
   resize: none;
-  color: RGB(16, 17, 20);
+  color: var(--font_black);
 }
-form .notebook{
+form .notebook {
   resize: vertical;
 }
 #input-bpm {
@@ -564,7 +572,39 @@ form .notebook{
   padding: 14px;
 }
 .error-msg {
-  border: #c22a2a solid 2px !important;
+  border: var(--burgundy) solid 2px !important;
+  -webkit-animation: shake 0.2s ease-in-out 0s 2;
+  animation: shake 0.2s ease-in-out 0s 2;
+}
+
+@-webkit-keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
+}
+
+@keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
 }
 /* selectbox za key */
 .secondOption {
@@ -605,28 +645,12 @@ input[type="radio"] + label {
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
   transition: all 500ms ease;
-  background-color: #c22a2a;
+  background-color: #6fc982;
+  background-color: var(--dark_gray_font);
   color: #fff;
 }
-.my-song {
-  display: flex;
-  align-items: center;
-  user-select: none;
-  margin-top: 6px;
-  position: relative;
-}
-.my-song label:hover,
-#my-song:hover {
-  cursor: pointer;
-}
 
-#my-song {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin-left: 2px;
-  margin-top: 0;
-}
+
 form input:-internal-autofill-selected {
   background-color: #fff !important;
 }
@@ -665,34 +689,33 @@ form input:-internal-autofill-selected {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: RGB(16, 17, 20);
-  background: #2c3e50;
+  background: var(--dark_gray_font);
   cursor: pointer;
   -webkit-transition: background 0.15s ease-in-out;
   transition: background 0.15s ease-in-out;
 }
 
 .range-slider__range::-webkit-slider-thumb:hover {
-  background: rgb(194, 42, 42);
+  background: #888;
 }
 .range-slider__range:active::-webkit-slider-thumb {
-  background: rgb(194, 42, 42);
+  background: #888;
 }
 .range-slider__range::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border: 0;
   border-radius: 50%;
-  background: #2c3e50;
+  background: #888;
   cursor: pointer;
   -moz-transition: background 0.15s ease-in-out;
   transition: background 0.15s ease-in-out;
 }
 .range-slider__range::-moz-range-thumb:hover {
-  background: #1abc9c;
+  background: #888;
 }
 .range-slider__range:active::-moz-range-thumb {
-  background: #1abc9c;
+  background: #888;
 }
 
 .range-slider__value {
@@ -703,7 +726,7 @@ form input:-internal-autofill-selected {
   line-height: 20px;
   text-align: center;
   border-radius: 3px;
-  background: #2c3e50;
+  background: var(--dark_gray_font);
   padding: 5px 10px;
   margin-left: 8px;
 }
@@ -743,6 +766,6 @@ input::-moz-focus-outer {
   cursor: pointer;
 }
 .go-back:hover {
-  background-color: #f1f1f1;
+  background-color: var(--f1_gray);
 }
 </style>

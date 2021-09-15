@@ -79,7 +79,7 @@ export default {
 .home-section {
   position: relative;
   /* background: #eaebea; */
-  background: #fff;
+  background: var(--white);
 
   /* background: #161B22; */
 
@@ -104,7 +104,7 @@ export default {
 
   gap: 16px;
 
-  background: #fff;
+  background: var(--white);
   /* background: #161B22; */
   align-items: center;
   position: fixed;
@@ -159,7 +159,7 @@ export default {
   padding: 140px 15px 15px 15px;
   /* max-width: 1400px; */
   margin: 0 auto;
-  background-color: #fff;
+  background-color: var(--white);
   height: 100%;
   max-width: 1700px;
 }
@@ -181,7 +181,8 @@ export default {
   gap: 14px;
   /* align-items: center; */
   margin-bottom: 8px;
-  color: RGB(16, 17, 20);
+  
+  color: var(--font_black);
 }
 .sort-section-title h2 {
   padding-top: 8px;
@@ -219,7 +220,7 @@ export default {
   visibility: hidden;
   position: fixed;
   cursor: pointer;
-  color: #fff;
+  color: var(--white);
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   right: 50px;
   bottom: 75px;

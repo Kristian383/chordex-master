@@ -73,7 +73,7 @@ export default {};
   background-color: #6fc982;
   width: 50px;
   border-radius: 50%;
-  color: #fff;
+  color: var(--white);
   font-size: inherit;
   -webkit-animation: pop 260ms forwards 1;
   animation: pop 260ms forwards 1;

@@ -109,7 +109,7 @@ nav .search-box #search {
   padding: 6px;
   width: 40px;
 
-  background: rgb(194, 42, 42);
+  background: var(--burgundy);
   right: 5px;
   top: 50%;
   transform: translateY(-50%);

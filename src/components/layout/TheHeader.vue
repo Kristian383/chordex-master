@@ -87,7 +87,7 @@ export default {
 } */
 
 header {
-  background-color: #f1f1f1;
+  background-color: var(--f1_gray);
   z-index: 70;
   width: 100%;
   transition: 0.5s ease all;

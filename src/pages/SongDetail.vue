@@ -195,8 +195,9 @@ export default {
 
 .song-detail {
   /* min-height: 95vh; */
-  background-color: #fff;
+  background-color: var(--white);
   color: RGB(16, 17, 20);
+  
   /* background-color: #0D1117; 
   color: #c9d1d9; */
   /* padding: 8px; */
@@ -213,7 +214,7 @@ export default {
 
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   font-size: 18px;
-  border-right: 6px solid rgb(194, 42, 42);
+  border-right: 6px solid var(--burgundy);
   /* border: solid 2px black;
   position: relative;  */
   /* font-size: 21px; */

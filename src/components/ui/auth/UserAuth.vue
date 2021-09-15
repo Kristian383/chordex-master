@@ -121,7 +121,8 @@ export default {
   position: absolute;
   left: 50%;
   top: 50%;
-  color: #424242;
+  
+  color: var(--font_black);
   padding: 8px 16px;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -136,7 +137,7 @@ export default {
   
 }
 .form-wrapper .form-header {
-  background: #0d1117;
+  background: var(--dark_blue_sidebar);
   border-radius: 8px 8px 0px 0px;
   padding: 10px 17px;
 }
@@ -161,7 +162,7 @@ export default {
   padding: 15px;
   background: rgba(160, 179, 176, 0.25);
 
-  color: #fff;
+  color: var(--white);
   float: left;
   width: 50%;
   text-align: center;
@@ -173,7 +174,7 @@ export default {
   background: #b62730;
 }
 .tab-group .active a {
-  background: #d8323c;
+  background: var(--burgundy);
 }
 
 .input-group {
@@ -209,7 +210,7 @@ export default {
   text-decoration: none;
 }
 .form-footer {
-  background: #f4f4f4;
+  background: var(--f1_gray);
   border-radius: 0px 0px 8px 8px;
   padding: 15px;
   text-align: center;
@@ -218,11 +219,11 @@ export default {
 
 .form-footer button {
   display: inline-block;
-  background: #0d1117;
+  background: var(--dark_blue_sidebar);
   border-radius: 4px;
   padding: 10px 20px;
   border: none;
-  color: #fff;
+  color: var(--white);
   font-size: inherit;
   cursor: pointer;
   outline: none;

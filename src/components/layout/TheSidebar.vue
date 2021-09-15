@@ -171,9 +171,9 @@
             <div class="name">{{getUserData.username}}</div>
           </div>
           <font-awesome-icon
-            @click="logOutUser"
             id="logout"
             icon="sign-out-alt"
+            @click="closeSidebar"
           ></font-awesome-icon>
         </div>
       </div>
@@ -197,8 +197,8 @@ export default {
       console.log("toggleDarkMode");
       this.$store.commit("toggleDarkMode");
     },
-    logOutUser() {
-      console.log("udje u logout");
+    closeSidebar() {
+       this.$store.commit("removeSidebar");
     },
   },
   created() {
@@ -222,7 +222,7 @@ export default {
 
 <style scoped>
 .favorite {
-  color: #c22a2a;
+  color: var(--burgundy);
 }
 .sidebar {
   height: 100%;
@@ -230,7 +230,7 @@ export default {
   /* width: 80px;
   background: #11101d;
   background: #161b22; */
-  background: #0d1117; /*tamnija*/
+  background-color: var(--dark_blue_sidebar); 
   position: fixed;
   top: 0;
   left: 0;
@@ -258,13 +258,13 @@ export default {
 /*  */
 .active_item {
   /* background-color: #e73213; */
-  background: rgb(194, 42, 42);
+  background: var(--burgundy);
 }
 .active_item svg {
   color: #f1f1f1;
 }
 .new_song {
-  color: #69b34c;
+  color: var(--green);
 }
 
 /* .sidebar .logo_content .logo {
@@ -291,7 +291,7 @@ export default {
 }
 
 .sidebar #btn {
-  color: #f1f1f1;
+  color: var(--f1_gray);
   position: absolute;
   /* left: 50%; */
   left: 90%;
@@ -319,7 +319,7 @@ export default {
 }
 
 .sidebar ul li a {
-  color: #f1f1f1;
+  color: var(--f1_gray);
 
   /* color: #c9d1d9; */
   text-decoration: none;
@@ -351,7 +351,7 @@ export default {
 }
 
 .sidebar ul li .toggle-mode .label {
-  background-color: #292c35;
+  background-color: var(--dark_gray_chips);
   border-radius: 50px;
   cursor: pointer;
   display: flex;
@@ -365,7 +365,7 @@ export default {
 }
 
 .sidebar ul li .toggle-mode .label .ball {
-  background-color: #fff;
+  background-color:var(--white);
 
   border-radius: 50%;
   position: absolute;
@@ -417,7 +417,7 @@ export default {
   opacity: 1;
 } */
 
-.sidebar ul li input {
+/* .sidebar ul li input {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -430,13 +430,13 @@ export default {
   padding-left: 40px;
   font-size: 18px;
   color: #f1f1f1;
-}
+} */
 
 .sidebar ul li .search {
   position: absolute;
   z-index: 99;
   transition: all 0.5s ease;
-  color: #f1f1f1;
+  color: var(--f1_gray);
   margin-left: 16px;
 }
 .sidebar ul li input:hover,
@@ -476,7 +476,7 @@ export default {
 
 .sidebar .profile_content {
   position: absolute;
-  color: #f1f1f1;
+  color: var(--f1_gray);
   left: 0;
   bottom: 0;
   width: 100%;
@@ -485,7 +485,8 @@ export default {
   position: relative;
   padding: 14px 6px;
   height: 70px;
-  background-color: #161b22;
+  /* background-color: #161b22; */
+  background-color: #131920;
 }
 
 .sidebar .profile .profile_details {
@@ -518,6 +519,7 @@ export default {
   bottom: 16px;
   font-size: 24px;
   transform: rotate(180deg);
+  color: var(--white);
 }
 
 /* .sidebar #logout {
@@ -531,7 +533,7 @@ export default {
 
 #logout:hover {
   cursor: pointer;
-  color: #d8323c;
+  
 }
 
 .fade-enter-active,
