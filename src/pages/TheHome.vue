@@ -93,7 +93,7 @@ export default {
 
 /* sign form */
 .form {
-  background-color: #fff;
+  background-color: var(--white);
   position: relative;
   min-height: 500px;
   padding: 0 24px;

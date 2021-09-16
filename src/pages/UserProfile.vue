@@ -142,7 +142,7 @@ export default {
 
 <style scoped>
 header {
-  background: #eee;
+  /* background: #333; */
   background-image: url("https://images.pexels.com/photos/1731427/pexels-photo-1731427.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
   background-repeat: no-repeat;
   background-position: center;
@@ -153,12 +153,10 @@ header {
 }
 section {
   font-size: 18px;
-  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .row {
   display: grid;
-  color: RGB(16, 17, 20);
+  color: var(--font_black);
 }
 
 @media (min-width: 800px) {
@@ -177,7 +175,7 @@ section {
 
 .user-info {
   display: flex;
-  color: RGB(16, 17, 20);
+  /* color: var(--font_black); */
   align-items: center;
   /* justify-content: center; */
   flex-direction: column;
@@ -192,7 +190,7 @@ section {
   height: 200px;
   margin-top: -120px;
   border-radius: 100px;
-  border: 4px solid #fff;
+  border: 4px solid  var(--white);
 }
 .name {
   margin-top: 20px;
@@ -202,7 +200,7 @@ section {
 .mail {
   margin-bottom: 5px;
   font-size: 11pt;
-  color: #888888;
+  color:  var(--mid_gray);
 }
 .stats {
   margin-top: 25px;
@@ -212,7 +210,7 @@ section {
   gap: 20px;
   padding-bottom: 20px;
   margin-bottom: 8px;
-  border-bottom: 1px solid #ededed;
+  border-bottom: 1px solid var(--mid_gray);
 }
 .number-stat {
   padding: 0px;
@@ -226,7 +224,7 @@ section {
 }
 .desc {
   padding-bottom: 25px;
-  border-bottom: 1px solid #ededed;
+  border-bottom: 1px solid var(--mid_gray);
 }
 
 /* irght */
@@ -267,11 +265,11 @@ section {
   font-size: inherit;
   margin-top: 14px;
   cursor: pointer;
-  background-color: #ededed;
+  background-color: var(--form_gray);
 }
 .change-psw {
   cursor: pointer;
-  color: rgb(194, 42, 42);
+  color: var(--burgundy);
 }
 .change-psw:hover {
   color: rgb(163, 24, 24);

@@ -9,7 +9,7 @@ import AddSong from "./pages/AddSong.vue"
 import MySongs from "./pages/MySongs.vue"
 import FindKey from "./pages/FindKey.vue"
 import TheAbout from "./pages/TheAbout.vue"
-import UserAuth from "./components/ui/auth/UserAuth.vue"
+// import UserAuth from "./components/ui/auth/UserAuth.vue"
 import ResourcesList from "./components/ui/ResourcesList.vue"
 import NotFound from "./pages/NotFound.vue"
 
@@ -25,7 +25,7 @@ const router = createRouter({
     { path: "/songs", component: Songs, name: "Songs", meta: { title: "Songs | Chordex" } },
     { path: "/songs/:songId", component: SongDetail, name: "SongDetail", meta: { title: "Song Detail | Chordex" }, props: true },
 
-    { path: "/auth", component: UserAuth, name: "Authentication", meta: { title: "Authentication | Chordex" } },
+    // { path: "/auth", component: UserAuth, name: "Authentication", meta: { title: "Authentication | Chordex" } },
     { path: "/profile", component: UserProfile, name: "Account Settings", meta: { title: "My Profile | Chordex" } },
     { path: "/artists", component: Artists, name: "Artists", meta: { title: "Artists | Chordex" } },
     { path: "/artists/:name", component: Songs, name: "Artists Songs", meta: { title: "Artists Songs | Chordex" } },

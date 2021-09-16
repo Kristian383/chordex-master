@@ -22,7 +22,7 @@ export default {};
 <style scoped>
 footer {
   background-color: var(--f1_gray);
-  
+
 
 }
 .container {

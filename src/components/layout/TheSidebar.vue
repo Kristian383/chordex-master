@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="hamburger"
-    @click="toggleSidebar"
-    v-if="isAuthenticated"
-  >
+  <div class="hamburger" @click="toggleSidebar" v-if="isAuthenticated">
     <!-- v-bind:style="{ color: activeColor }"
   gore     -->
     <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
@@ -57,7 +53,7 @@
             v-bind:class="{ active_item: $route.path == '/artists' }"
           >
             <!-- <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon> -->
-            <img id="ikona" class="artist-icon" src="@/assets/mic.svg" alt="">
+            <img id="ikona" class="artist-icon" src="@/assets/mic.svg" alt="" />
             <span class="links_name">Artists</span>
             <!-- <span class="tooltip">Artists</span> -->
           </router-link>
@@ -138,7 +134,7 @@
           </router-link>
         </li>
         <li @click="logOutUser">
-          <router-link to="/auth">
+          <router-link to="/home">
             <!-- v-bind:class="{ active_item: $route.path == '/' }" -->
             <font-awesome-icon
               id="ikona"
@@ -168,7 +164,7 @@
         <div class="profile">
           <div class="profile_details">
             <img src="@/assets/guitar.svg" alt="" />
-            <div class="name">{{getUserData.username}}</div>
+            <div class="name">{{ getUserData.username }}</div>
           </div>
           <font-awesome-icon
             id="logout"
@@ -186,8 +182,7 @@ import { dom } from "@fortawesome/fontawesome-svg-core";
 
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     toggleSidebar() {
@@ -198,25 +193,23 @@ export default {
       this.$store.commit("toggleDarkMode");
     },
     closeSidebar() {
-       this.$store.commit("removeSidebar");
+      this.$store.commit("removeSidebar");
     },
   },
   created() {
     dom.watch();
-   
   },
   computed: {
     isAuthenticated() {
-      return this.$store.getters.isAuthenticated 
+      return this.$store.getters.isAuthenticated;
     },
-    sidebarIsActive(){
-      return this.$store.getters.sidebarIsActive
+    sidebarIsActive() {
+      return this.$store.getters.sidebarIsActive;
     },
     getUserData() {
-      return this.$store.getters.getUserData 
-    }
+      return this.$store.getters.getUserData;
+    },
   },
-  
 };
 </script>
 
@@ -227,21 +220,14 @@ export default {
 .sidebar {
   height: 100%;
   width: 240px;
-  /* width: 80px;
-  background: #11101d;
-  background: #161b22; */
-  background-color: var(--dark_blue_sidebar); 
+  background-color: var(--dark_blue_sidebar);
   position: fixed;
   top: 0;
   left: 0;
   padding: 90px 14px;
   transition: all 0.3s ease;
   z-index: 50;
-  /* visibility: hidden; */
 }
-/* .sidebar.active {
-  width: 240px;
-} */
 
 .hamburger {
   position: fixed;
@@ -251,13 +237,12 @@ export default {
   z-index: 102;
   cursor: pointer;
 }
-.hamburger:hover{
+.hamburger:hover {
   color: #333;
 }
 
 /*  */
 .active_item {
-  /* background-color: #e73213; */
   background: var(--burgundy);
 }
 .active_item svg {
@@ -266,24 +251,6 @@ export default {
 .new_song {
   color: var(--green);
 }
-
-/* .sidebar .logo_content .logo {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  color: #fff;
-  opacity: 0;
-  pointer-events: none;
-} */
-/* .sidebar.active .logo_content .logo  */
-/* .sidebar .logo_content .logo {
-  opacity: 1;
-}
-.logo_content .logo img {
-  height: 100%;
-
-  margin-right: 5px;
-} */
 
 .logo .logo_name {
   font-size: 20px;
@@ -302,9 +269,6 @@ export default {
   cursor: pointer;
   transition: 0.8s ease all;
 }
-/* .sidebar.active #btn {
-  left: 90%;
-} */
 
 .sidebar ul {
   margin-top: 20px;
@@ -315,13 +279,11 @@ export default {
   position: relative;
   width: 100%;
   margin: 5px 0;
-  /* line-height: 50px; */
 }
 
 .sidebar ul li a {
   color: var(--f1_gray);
 
-  /* color: #c9d1d9; */
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -330,7 +292,7 @@ export default {
   border-radius: 12px;
   padding-left: 16px;
   white-space: nowrap;
-  
+
   font-size: 16px;
 }
 /* dark mode */
@@ -365,7 +327,7 @@ export default {
 }
 
 .sidebar ul li .toggle-mode .label .ball {
-  background-color:var(--white);
+  background-color: var(--white);
 
   border-radius: 50%;
   position: absolute;
@@ -405,32 +367,9 @@ export default {
   opacity: 1;
   pointer-events: auto;
 }
-/* .sidebar .links_name {
-  opacity: 0;
-  pointer-events: auto;
-} */
 .sidebar input {
   opacity: 1;
 }
-
-/* .sidebar.active input {
-  opacity: 1;
-} */
-
-/* .sidebar ul li input {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  border-radius: 12px;
-  outline: none;
-  border: none;
-  background: #1d1b31;
-  padding-left: 40px;
-  font-size: 18px;
-  color: #f1f1f1;
-} */
 
 .sidebar ul li .search {
   position: absolute;
@@ -441,38 +380,8 @@ export default {
 }
 .sidebar ul li input:hover,
 .sidebar ul li #ikona:hover {
-  /* background: #f1f1f1; */
   cursor: pointer;
-  /* color: #11101d; */
 }
-
-/* .sidebar ul li .tooltip {
-  position: absolute;
-  height: 35px;
-  width: 122px;
-  left: 122px;
-  top: 0;
-  transform: translate(-45%, -50%);
-  border-radius: 6px;
-  background: #f1f1f1;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  color: #11101d;
-  line-height: 35px;
-  text-align: center;
-  transition: 0s;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.sidebar.active ul li .tooltip {
-  display: none;
-} 
-.sidebar ul li:hover .tooltip {
-  top: 50%;
-  opacity: 1;
-  transition: all 0.5s ease;
-} */
 
 .sidebar .profile_content {
   position: absolute;
@@ -502,7 +411,7 @@ export default {
   align-items: center;
 }
 
-.artist-icon{
+.artist-icon {
   width: 21px;
   height: 21px;
 }
@@ -533,7 +442,6 @@ export default {
 
 #logout:hover {
   cursor: pointer;
-  
 }
 
 .fade-enter-active,

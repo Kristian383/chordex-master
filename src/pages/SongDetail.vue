@@ -196,7 +196,7 @@ export default {
 .song-detail {
   /* min-height: 95vh; */
   background-color: var(--white);
-  color: RGB(16, 17, 20);
+  color: var(--font_black);
   
   /* background-color: #0D1117; 
   color: #c9d1d9; */
@@ -337,7 +337,7 @@ svg {
 }
 .go-back a {
   text-decoration: none;
-  color: RGB(16, 17, 20);
+  color: var(--font_black);
 }
 .go-back:hover {
   background-color: #f1f1f1;
@@ -352,7 +352,7 @@ svg {
   justify-content: flex-start;
   width: 600px;
   outline: none;
-  color: rgb(66, 65, 65);
+  color: var(--dark_gray_chips);
 }
 .middle-icons .delete {
   position: absolute;
@@ -364,7 +364,7 @@ svg {
 }
 .middle-icons .delete:hover,
 .middle-icons .edit:hover {
-  color: black;
+  color: var(--font_black);
 }
 
 .link {

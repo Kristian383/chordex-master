@@ -19,7 +19,6 @@
         <div class="arrow">
           <font-awesome-icon icon="arrow-up"></font-awesome-icon>
         </div>
-        <!-- <div class="text">Back to top</div> -->
       </div>
     </div>
   </section>
