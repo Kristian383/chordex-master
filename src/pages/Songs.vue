@@ -1,33 +1,35 @@
 <template>
   <base-card>
     <template v-slot:filters>
-      <filters  @filters-changed="setFilters"></filters>
+      <filters @filters-changed="setFilters"></filters>
     </template>
     <template v-slot:select_box>
-      <sort-by-optimized @changeSort="sortSongs" :options="sortOptions"></sort-by-optimized>
+      <sort-by-optimized
+        @changeSort="sortSongs"
+        :options="sortOptions"
+      ></sort-by-optimized>
     </template>
     <!-- saong list -->
     <div class="song-cards">
       <template v-if="isLoaded">
         <song-card
-        v-for="song in AllSongs"
-        :key="song.songId"
-        :song="song"
-      ></song-card>
+          v-for="song in AllSongs"
+          :key="song.songId"
+          :song="song"
+        ></song-card>
       </template>
-      <skeleton-song-card v-for="skeleton in 6" :key="skeleton" v-else></skeleton-song-card>
+      <skeleton-song-card
+        v-for="skeleton in 6"
+        :key="skeleton"
+        v-else
+      ></skeleton-song-card>
       <!-- staviti for  skeleton in count  -->
     </div>
-      
-    <!-- <template v-slot:song_cards>
-      <song-card 
-        v-for="song in AllSongs"
-        :key="song.id"
-        :song="song"
-      ></song-card>
-    </template> -->
-    <!-- <div class="cover">&nbsp;</div> -->
-
+    <!-- loader -->
+    <div class="box" v-if="itemsAreLoading">
+      <div class="loader-02"></div>
+    </div>
+    
   </base-card>
 </template>
 
@@ -36,7 +38,7 @@ import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
-import SortByOptimized from '../components/ui/SortByOptimized.vue';
+import SortByOptimized from "../components/ui/SortByOptimized.vue";
 export default {
   components: {
     Filters,
@@ -48,80 +50,127 @@ export default {
   data() {
     return {
       isLoaded: true,
-      filters:[]
+      filters: [],
+      itemsAreLoading: false,
     };
   },
   computed: {
     AllSongs() {
       return this.filterSongs();
     },
-    sortOptions(){
-      return ["Newest Added","Oldest Added","A-Z","Z-A","Best learned","Least learned"]
-    }
+    sortOptions() {
+      return [
+        "Newest Added",
+        "Oldest Added",
+        "A-Z",
+        "Z-A",
+        "Best learned",
+        "Least learned",
+      ];
+    },
   },
   methods: {
     filterSongs() {
-      if(this.$route.params.name){
-        return this.$store.getters.filterSongs(this.filters,this.$route.params.name);
+      if (this.$route.params.name) {
+        return this.$store.getters.filterSongs(
+          this.filters,
+          this.$route.params.name
+        );
       }
       return this.$store.getters.filterSongs(this.filters);
-      
     },
-    setFilters(filters){
-      this.filters=filters;
+    setFilters(filters) {
+      this.filters = filters;
     },
-    // initialLoad() {
-    //   this.isLoaded=true;
-    // },
     // loadMoreSongs() {
-    //   //fetch more songs
-    //   // let response=await axios("htp://www.wdasd.com/+this.page")
     //   console.log("load more songs");
+    //   this.$store.commit("load20MoreSongs");
+    //   this.itemsAreLoading = false;
     // },
 
-    // observer
-    beTouching(entries) {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          //fetch call
-          // loadMoreSongs()
-          // console.log("intersecting");
-          entry.target.classList.add("active");
-          console.log("itnersecta");
-          // observer.unobserve(entry.target)
-        }
-        // else{
-        //   entry.target.classList.remove("active")
-        // }
-      });
+    sortSongs(option) {
+      this.$store.commit("sortSongs", option);
     },
-    sortSongs(option)
-    {
-       this.$store.commit("load20MoreSongs")
-      this.$store.commit("sortSongs",option)
-    }
+   
+
+    handleIntersect(entries) {
+      if (entries[0].isIntersecting) {
+        this.itemsAreLoading = true;
+        setTimeout(() => {
+          this.$store.commit("load20MoreSongs");
+          this.itemsAreLoading = false;
+        }, 1000);
+      }
+    },
   },
   mounted() {
-    // this.initialLoad();
-    // console.log(this.$route);
     let options = {
       root: null,
-      rootMargin: "-100px 0px",
-      threshold: 0.05,
+      rootMargin: " 0px",
+      threshold: 0.5,
     };
-    let observer = new IntersectionObserver(this.beTouching, options);
 
-    document.querySelectorAll(".song-cards").forEach((c) => {
-      observer.observe(c);
-    });
-    //initial load of data
-    // loadMoreSongs()
-   
+    let observer = new IntersectionObserver(this.handleIntersect, options);
+    let el = document.querySelector(".footer");
+    observer.observe(el);
+    this.$store.commit("load20MoreSongs");
   },
+  // beforeUnmount() {
+  //   window.removeEventListener("scroll", this.onScroll);
+  // },
 };
 </script>
 
 <style scoped>
+.box {
+  display: inline-block;
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  /* border: 1px solid currentcolor; */
+  font-size: 30px;
+  padding: 1em;
+  position: relative;
+  /* vertical-align: top; */
+  transition: 0.3s color, 0.3s border, 0.3s transform, 0.3s opacity;
+}
+[class*="loader-"] {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  color: inherit;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+.loader-02 {
+  border: 0.2em solid transparent;
+  border-left-color: currentcolor;
+  border-right-color: currentcolor;
+  border-radius: 50%;
+  -webkit-animation: 1s loader-02 linear infinite;
+  animation: 1s loader-02 linear infinite;
+}
+
+@-webkit-keyframes loader-02 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-02 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*  */
 .song-cards {
   /* display: flex;
   justify-content: center;
