@@ -200,12 +200,12 @@ const store = createStore({
 
 
 
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 10; i++) {
                 let song = { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false }
 
                 song.songId = Math.random().toString(36).substring(2);
                 // console.log(song.songId);
-                state.songs.unshift(song)
+                state.songs.push(song)
             }
 
         }
@@ -221,24 +221,22 @@ const store = createStore({
             context.commit("addSong", payload)
         },
         async apiForSongInfo(context, payload) {
-            // const response = await fetch(`https://accounts.spotify.com/api/token`,{
-            //     method:"GET",
+           
+            // const accesToken="";
+            console.log(context, payload);
 
-            // });
-            console.log("nebitno", context, payload);
-
-            let creds = window.btoa(`${process.env.VUE_APP_CLIENT_ID}:${process.env.VUE_APP_CLIENT_SECRET}`)
-            console.log(creds);
             const response = await fetch("https://accounts.spotify.com/api/token", {
                 method: "GET",
                 headers: {
-                    "Authorization": `Basic ${creds}`,
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    "Authorization": `bearer`,
+                    "access_token": "BQAQpaIXFR_8m73LLfvVjd9nGLAMwW5yYT4mF1i01vOBdb8OOaj5FZYx5aYG-03EODYe_3yBa2WIytjZeAA",
+                    // "expires_in": 3600,
+
 
                 },
-                params: {
-                    grant_type: 'client_credentials'
-                },
+                // params: {
+                //     grant_type: 'client_credentials'
+                // },
 
             })
             console.log("response", response);
