@@ -645,7 +645,7 @@ input[type="radio"] + label {
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
   transition: all 500ms ease;
-  background-color: #6fc982;
+  /* background-color: #6fc982; */
   background-color: var(--dark_gray_font);
   color: #fff;
 }
