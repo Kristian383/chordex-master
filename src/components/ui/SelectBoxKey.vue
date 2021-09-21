@@ -14,7 +14,7 @@
     </div>
     <div class="selected" @click="toggleChoose">
       <span v-if="name == 'secondKey'"> Key change:</span>
-      <span v-else>Song key:</span> {{ selectedKey }}
+      <span v-else>Key:</span> {{ selectedKey }}
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@
 <script>
 export default {
   props: ["name"],
-  emits: ["checkStore"],
+  emits: ["keySelected"],
   data() {
     return {
       selectedKey: null,
@@ -44,7 +44,7 @@ export default {
       };
       // this.$store.commit("selectKey", payload);
       // console.log(payload);
-      this.$emit("checkStore", payload);
+      this.$emit("keySelected", payload);
     },
   },
   computed: {
@@ -67,7 +67,8 @@ export default {
 <style scoped>
 .select-box {
   display: flex;
-  width: 180px;
+  /* width: 180px; */
+  width: 120px;
   flex-direction: column;
   position: relative;
   z-index: 20;
@@ -77,7 +78,7 @@ export default {
   background: #fff;
   /* color: #f1f1f1; */
   max-height: 0;
-  width: 50%;
+  width: 100%;
   text-align: center;
   opacity: 0;
   transition: all 0.4s;
