@@ -18,7 +18,7 @@
           <router-link class="link" active-class="active" to="/songs"
             >App</router-link
           >
-            <!-- ovdje ga preumsjerit na auth ako nije logged -->
+          <!-- ovdje ga preumsjerit na auth ako nije logged -->
         </li>
         <li>
           <router-link class="link" active-class="active" to="/about"
@@ -26,7 +26,6 @@
           >
         </li>
       </ul>
-
     </nav>
   </header>
 </template>
@@ -66,15 +65,20 @@ export default {
     },
   },
   created() {
-    window.addEventListener("resize", this.checkScreen);
-    this.checkScreen();
+    this.$nextTick(function () {
+      window.addEventListener("resize", this.checkScreen);
+      this.checkScreen();
+    });
   },
   mounted() {
-    window.addEventListener("scroll", this.updateScroll);
+    this.$nextTick(function () {
+      window.addEventListener("scroll", this.updateScroll);
+    });
   },
-  computed: {
-    
-  },
+  beforeUnmount(){
+        window.removeEventListener("resize", this.checkScreen)
+
+  }
 };
 </script>
 
