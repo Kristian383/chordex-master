@@ -69,7 +69,7 @@ export default {
     window.addEventListener("scroll", this.showButtonUp);
   },
   beforeUnmount() {
-    window.removeEventListener("scroll", this.resizeHandler);
+    window.removeEventListener("scroll", this.showButtonUp);
   },
 };
 </script>
