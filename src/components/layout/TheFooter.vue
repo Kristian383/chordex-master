@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="container">
+    <div class="container footer">
       <div class="logo"><img src="./../../assets/guitar.svg" alt="Logo" /></div>
       <div>
         <ul>
@@ -22,10 +22,11 @@ export default {};
 <style scoped>
 footer {
   background-color: var(--f1_gray);
-
+  margin-top: auto;
 
 }
 .container {
+  
   display: flex;
   flex-direction: column;
   gap: 12px;
