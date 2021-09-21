@@ -42,7 +42,7 @@
             <button class="btn" @click="submitSong"></button>
           </div> -->
           <!-- @click="submitSong" -->
-          <button-save @click="submitSong"></button-save>
+          <button-save name="Save" @click="submitSong"></button-save>
         </div>
         <div class="grid-2">
           <input
@@ -112,7 +112,7 @@
           <!--  -->
           <div class="grid-2">
             <select-box-key
-              @check-store="insertKey"
+              @key-selected="insertKey"
               name="firstKey"
             ></select-box-key>
             {{ songInfo.firstKeyNotes }}
@@ -121,7 +121,7 @@
             <transition name="fade">
               <select-box-key
                 name="secondKey"
-                @check-store="insertKey"
+                @key-selected="insertKey"
                 v-if="openSecond"
               ></select-box-key>
             </transition>
@@ -375,7 +375,7 @@ export default {
       //   this.firstKey.isValid=false;
       // }
 
-      if (!this.artist.val || this.artist.val.length > 25) {
+      if (!this.artist.val || this.artist.val.length > 45) {
         this.formIsValid = false;
         this.artist.isValid = false;
       }
