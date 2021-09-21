@@ -1,20 +1,43 @@
 <template>
-  <div class="select-box">
-    <div class="options-container" :class="{ active: chooseKeyIsActive }">
-      <div
-        class="option"
-        v-for="songKey in songKeysWithUniqueId"
-        :key="songKey.id"
-        :name="name"
-        @click="chooseKey(songKey)"
-      >
-        <input type="radio" id="songKey.key" class="radio" name="category" />
-        <label :for="songKey.key">{{ songKey.key }}</label>
+  <div class="grid-2">
+    <div class="select-box">
+      <div class="options-container" :class="{ active: chooseKeyIsActive }">
+        <div
+          class="option"
+          v-for="songKey in songKeysWithUniqueId"
+          :key="songKey.id"
+          :name="name"
+          @click="chooseKey(songKey)"
+        >
+          <input type="radio" id="songKey.key" class="radio" name="category" />
+          <label :for="songKey.key">{{ songKey.key }}</label>
+        </div>
+      </div>
+      <div class="selected" @click="toggleChoose">
+        <span v-if="name == 'secondKey'">Change:</span>
+        <span v-else>Key:</span>
+        {{ selectedKey }}
       </div>
     </div>
-    <div class="selected" @click="toggleChoose">
-      <span v-if="name == 'secondKey'"> Key change:</span>
-      <span v-else>Key:</span> {{ selectedKey }}
+    <div class="qualities" v-if="selectedKey">
+      <input
+        value="major"
+        type="radio"
+        :name="name"
+        :id="qualities.major"
+        v-model="selectedQuality"
+      /><label :for="qualities.major" @click="chooseQualityKey('major')"
+        >Major
+      </label>
+      <input
+        type="radio"
+        :name="name"
+        :id="qualities.minor"
+        value="minor"
+        v-model="selectedQuality"
+      /><label :for="qualities.minor" @click="chooseQualityKey('minor')"
+        >Minor</label
+      >
     </div>
   </div>
 </template>
@@ -27,6 +50,12 @@ export default {
     return {
       selectedKey: null,
       chooseKeyIsActive: false,
+      qualities: {
+        major: Math.random().toString(36).substring(2),
+        minor: Math.random().toString(36).substring(2),
+      },
+      selectedQuality: null,
+      payload: {},
     };
   },
   methods: {
@@ -36,28 +65,47 @@ export default {
     chooseKey(selected) {
       this.selectedKey = selected.key;
       this.chooseKeyIsActive = false;
-      const notes=selected.notes.map(el=>el).join(" - ")
-      const payload = {
-        name: this.name,
-        key: this.selectedKey,
-        notes:notes
-      };
+
+      // const notes = selected.notes.map((el) => el).join(" - ");
+
+      // this.payload = {
+      //   name: this.name,
+      //   key: this.selectedKey,
+      //   notes: notes,
+      // };
+
       // this.$store.commit("selectKey", payload);
       // console.log(payload);
-      this.$emit("keySelected", payload);
+      //
+      // console.log("poziv emit",this.payload);
+      // this.$emit("keySelected", this.payload);
+    },
+    chooseQualityKey(quality) {
+      if (!this.selectedKey) {
+        return;
+      }
+      let notes=this.$store.getters.getMusicKeys;
+      if(quality=="major"){
+        notes= notes.filter(key=>key.key==this.selectedKey)[0].notes
+      }else{
+        notes= notes.filter(key=>key.relativeMinor==this.selectedKey)[0].notes
+      }
+      this.payload.notes=notes.map((el) => el).join(" ");
+      this.payload.name=this.name;
+      this.payload.key=this.selectedKey+" "+ quality;
+      console.log("poziv emit", this.payload);
+
+      this.$emit("keySelected", this.payload);
     },
   },
   computed: {
     songKeysWithUniqueId() {
-      // const newKeys = [];
-
       const songKeysCopy = this.$store.getters.getMusicKeys.map((el) => el);
 
       // songKeysCopy.forEach((key) => {
       //   const id = Math.random().toString(36).substring(2);
       //   newKeys.push({ key, id });
       // });
-      // console.log(songKeysCopy);
       return songKeysCopy;
     },
   },
@@ -65,10 +113,56 @@ export default {
 </script>
 
 <style scoped>
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.qualities {
+  display: flex;
+  /* flex-direction: column; */
+  flex-direction: row;
+  gap: 4px;
+  /* width: 100px; */
+  /* margin: auto 0; */
+}
+
+.qualities input[type="checkbox"],
+.qualities input[type="radio"] {
+  display: none;
+}
+
+.qualities input[type="checkbox"] + label,
+.qualities input[type="radio"] + label {
+  transition: all 500ms ease;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 6px;
+  text-align: center;
+  border: none;
+  display: inline-block;
+  user-select: none;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 600;
+
+  margin-top: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.qualities input[type="checkbox"]:checked + label,
+.qualities input[type="radio"]:checked + label {
+  transition: all 500ms ease;
+  /* background-color: #6fc982; */
+  background-color: var(--dark_gray_font);
+  color: #fff;
+}
+
+/*  */
 .select-box {
   display: flex;
   /* width: 180px; */
-  width: 120px;
+  width: 150px;
   flex-direction: column;
   position: relative;
   z-index: 20;
@@ -89,7 +183,7 @@ export default {
 }
 .selected {
   box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   background-color: #fff;
   position: relative;
   color: inherit;
