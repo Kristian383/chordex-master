@@ -46,12 +46,15 @@ export default {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
-body {
+#app {
   min-height: 100vh;
-  /* display: flex; */
-  /* flex-direction: column; */
-  
+  display: flex;
+  flex-direction: column; 
 }
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   /* --dark_blue: #11101d; */
   --dark_blue_sidebar: #0d1117;
