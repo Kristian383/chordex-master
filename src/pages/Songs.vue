@@ -19,7 +19,7 @@
         ></song-card>
       </template>
       <skeleton-song-card
-        v-for="skeleton in 6"
+        v-for="skeleton in 16"
         :key="skeleton"
         v-else
       ></skeleton-song-card>
@@ -29,7 +29,6 @@
     <div class="box" v-if="itemsAreLoading">
       <div class="loader-02"></div>
     </div>
-    
   </base-card>
 </template>
 
@@ -49,7 +48,7 @@ export default {
   },
   data() {
     return {
-      isLoaded: true,
+      isLoaded: false,
       filters: [],
       itemsAreLoading: false,
     };
@@ -91,7 +90,6 @@ export default {
     sortSongs(option) {
       this.$store.commit("sortSongs", option);
     },
-   
 
     handleIntersect(entries) {
       if (entries[0].isIntersecting) {
@@ -99,6 +97,7 @@ export default {
         setTimeout(() => {
           this.$store.commit("load20MoreSongs");
           this.itemsAreLoading = false;
+          this.isLoaded = true;
         }, 1000);
       }
     },
@@ -113,11 +112,12 @@ export default {
     let observer = new IntersectionObserver(this.handleIntersect, options);
     let el = document.querySelector(".footer");
     observer.observe(el);
+
     this.$store.commit("load20MoreSongs");
+    setTimeout(() => {
+      this.isLoaded = true;
+    }, 1000);
   },
-  // beforeUnmount() {
-  //   window.removeEventListener("scroll", this.onScroll);
-  // },
 };
 </script>
 
