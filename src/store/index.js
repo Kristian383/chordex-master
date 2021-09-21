@@ -76,12 +76,7 @@ const store = createStore({
         removeSidebar(state) {
             state.sidebarIsActive = false;
         },
-        // loadMoreSongs(state,payload){
-        //     //dohvatiti podatke carda i pushati u songs array
-        //posto imamo u songs computed za getAllSongs mozda netreba nista dalje
-        //     //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
-        //     //poslati kao prop
-        // }
+       
 
         toggleDarkMode(state) {
             state.darkMode = !state.darkMode;
@@ -204,10 +199,15 @@ const store = createStore({
                 let song = { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false }
 
                 song.songId = Math.random().toString(36).substring(2);
-                // console.log(song.songId);
                 state.songs.push(song)
             }
 
+        },
+        load20MoreArtists(state){
+            for (let i = 7; i < 20; i++) {
+               let artist={ name: "John Frusciante", order: i, totalSongs: 12 };
+                state.artists.push(artist)
+            }
         }
 
 
