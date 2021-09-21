@@ -57,7 +57,7 @@
           <div class="chords">
             <b>Chords in scale:</b> {{ songData.firstKeyNotes }}
           </div>
-          <div class="guitar">
+          <div class="guitar" v-if="songData.firstProgression">
             <b>Chord progression:</b> {{ songData.firstProgression }}
           </div>
         </div>
@@ -66,7 +66,7 @@
           <div class="chords">
             <b>Chords in scale:</b> {{ songData.secondKeyNotes }}
           </div>
-          <div class="guitar">
+          <div class="guitar" v-if="songData.secondProgression">
             <b>Chord progression:</b> {{ songData.secondProgression }}
           </div>
         </div>
@@ -79,7 +79,7 @@
             <b>Tuning:</b> {{ songData.tuning ? songData.tuning : "Standard" }}
           </div>
 
-          <div class="guitar">
+          <div class="guitar" v-if="songData.acoustic || songData.electric ">
             <b>Guitar type:</b> {{ songData.acoustic ? "Acoustic" : "" }}
             {{ songData.electric ? "Eletric" : "" }}
           </div>
@@ -100,7 +100,7 @@
             </a>
           </div>
         </div>
-        <div>
+        <div v-if="songData.difficulty">
           <div><b>Difficulty:</b> {{ songData.difficulty }}</div>
         </div>
       </div>
