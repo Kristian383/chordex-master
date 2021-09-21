@@ -15,34 +15,49 @@
         <div id="login" key="login" v-if="login">
           <form>
             <div class="form-container">
-              <h3>Sign In</h3>
-              <div class="input-group">
-                <span class="icon"
-                  ><font-awesome-icon icon="user-alt"></font-awesome-icon>
-                </span>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="User Name"
-                  required
-                />
-              </div>
+              <h3>{{ formTitle }}</h3>
+              <section v-if="!resetPswd">
+                <div class="input-group">
+                  <span class="icon"
+                    ><font-awesome-icon icon="user-alt"></font-awesome-icon>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="User Name"
+                    required
+                  />
+                </div>
 
-              <div class="input-group">
-                <span class="icon"
-                  ><font-awesome-icon icon="lock"></font-awesome-icon
-                ></span>
-                <input
-                  type="password"
-                  required
-                  class="form-control"
-                  placeholder="User Password"
-                />
-              </div>
-              <p class="forgot"><a href="#">Forgot Password?</a></p>
+                <div class="input-group">
+                  <span class="icon"
+                    ><font-awesome-icon icon="lock"></font-awesome-icon
+                  ></span>
+                  <input
+                    type="password"
+                    required
+                    class="form-control"
+                    placeholder="User Password"
+                  />
+                </div>
+              </section>
+              <section  v-else>
+                <div class="input-group">
+                  <span
+                    ><font-awesome-icon icon="envelope"></font-awesome-icon
+                  ></span>
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Email Address"
+                    required
+                  />
+                </div>
+              </section>
+              <p class="forgot" @click="resetPswdForm">{{forgotPswd}} </p>
             </div>
             <div class="form-footer">
-              <button type="submit" class="btn">Log In</button>
+              <button @click="authenticateOrReset" class="btn">{{buttonName}} </button>
             </div>
           </form>
         </div>
@@ -103,12 +118,47 @@ export default {
   data() {
     return {
       login: true,
+      resetPswd: false,
+      
     };
   },
   methods: {
     toggleForm() {
       this.login = !this.login;
     },
+    resetPswdForm() {
+      this.resetPswd = !this.resetPswd;
+      // console.log(this.resetPswd);
+    },
+    authenticateOrReset(){
+      if (this.resetPswd) {
+       //send user email with new password
+       console.log("reseting pass");
+      }else{
+        //authenticate user
+        console.log("Authenticating user");
+      }
+    }
+  },
+  computed: {
+    formTitle() {
+      if (this.resetPswd) {
+        return "Reset Password";
+      }
+      return "Log In";
+    },
+    buttonName(){
+      if (this.resetPswd) {
+        return "Send";
+      }
+      return "Log In";
+    },
+    forgotPswd(){
+      if (this.resetPswd) {
+        return "Back to Log in";
+      }
+      return "Forgot Password?"
+    }
   },
 };
 </script>
@@ -121,7 +171,7 @@ export default {
   position: absolute;
   left: 50%;
   top: 50%;
-  
+
   color: var(--font_black);
   padding: 8px 16px;
   -webkit-transform: translate(-50%, -50%);
@@ -130,11 +180,10 @@ export default {
 
   border-radius: 8px 8px 0px 0px;
 }
-@media (min-width:1000px) {
-  .form-wrapper{
-     font-size: 18px;
+@media (min-width: 1000px) {
+  .form-wrapper {
+    font-size: 18px;
   }
-  
 }
 .form-wrapper .form-header {
   background: var(--dark_blue_sidebar);
@@ -204,6 +253,7 @@ export default {
 }
 .forgot {
   text-align: right;
+  cursor: pointer;
 }
 .forgot a {
   color: inherit;
