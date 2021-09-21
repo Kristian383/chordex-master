@@ -5,7 +5,6 @@
     </div>
     <div class="about-text">
       <h2>Why should I use this app?</h2>
-      <!-- <div> -->
       <p>
         What a better way of keeping the information about the songs than having
         it all in one place just with couple of clicks. Not only can you easily
@@ -16,10 +15,9 @@
         eventually help you grasp concepts of writing a song. Keep all the main
         information at one place and learn much quicker!
       </p>
-      <!-- </div> -->
       
     </div>
-    <div class="faq">
+    <!-- <div class="faq">
       <h2>FAQ</h2>
       <img src="@/assets/faq.jpg" class="faq-img" alt="Questionmark">
       <div class="questions">
@@ -33,7 +31,6 @@
             dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
           </p>
         </div>
-        <!--  -->
         <div class="question">
           <h3>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
@@ -44,7 +41,6 @@
             dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
           </p>
         </div>
-        <!--  -->
         <div class="question">
           <h3>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
@@ -55,8 +51,8 @@
             dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
           </p>
         </div>
-      </div>
-    </div>
+      </div> 
+    </div>-->
   </div>
   <!-- <the-footer></the-footer> -->
 </template>
