@@ -21,9 +21,8 @@
         @start="drag = true"
         @end="drag = false"
         item-key="order"
-        
       >
-        <template #item="{ element }" >
+        <template #item="{ element }">
           <li class="list-group-item" :key="element.name">
             <div class="handle flex-center">
               <i class="fas fa-bars"></i>
@@ -37,26 +36,20 @@
                   element.name
                 }}</router-link>
               </h2>
-              <!-- {{ element }} -->
               <p>Songs: {{ element.totalSongs }}</p>
             </div>
-            <!-- <div class="btn flex-center" @click="ToggleFavorite">
-              <i
-                class="fa fa-heart"
-                :class="{ 'is-favorite': isFavorite }"
-              ></i>
-              
-            </div> -->
           </li>
         </template>
       </draggable>
     </div>
+    <the-loader v-if="itemsAreLoading"></the-loader>
   </base-card>
 </template>
 
 <script>
 import draggable from "vuedraggable";
 import BaseCard from "./../components/ui/BaseCard.vue";
+import TheLoader from "./../components/ui/TheLoader.vue";
 import SortByOptimized from "../components/ui/SortByOptimized.vue";
 
 export default {
@@ -64,17 +57,32 @@ export default {
     draggable,
     BaseCard,
     SortByOptimized,
+    TheLoader,
   },
   data() {
     return {
       drag: false,
       selectedArtist: null,
       list: this.sortList,
+      itemsAreLoading: false,
     };
   },
   methods: {
     sortArtists(option) {
       this.$store.commit("sortArtists", option);
+    },
+    loadMoreArtists() {
+      this.$store.commit("load20MoreArtists");
+    },
+    handleIntersect(entries) {
+      if (entries[0].isIntersecting) {
+        this.itemsAreLoading = true;
+        setTimeout(() => {
+          this.$store.commit("load20MoreArtists");
+          this.itemsAreLoading = false;
+          this.isLoaded = true;
+        }, 1000);
+      }
     },
   },
   computed: {
@@ -101,6 +109,22 @@ export default {
       },
     },
   },
+  mounted() {
+    let options = {
+      root: null,
+      rootMargin: " 0px",
+      threshold: 0.5,
+    };
+
+    let observer = new IntersectionObserver(this.handleIntersect, options);
+    let el = document.querySelector(".footer");
+    observer.observe(el);
+
+    this.$store.commit("load20MoreArtists");
+    setTimeout(() => {
+      this.isLoaded = true;
+    }, 1000);
+  },
 };
 </script>
 
@@ -110,7 +134,7 @@ export default {
   justify-content:center;
   align-items:center; */
   /* background-color: #ccc; */
-  
+
   /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   max-width: 800px;
   margin: 0 auto;
@@ -190,6 +214,10 @@ export default {
 .list-group .list-group-item .details h2 a {
   text-decoration: none;
   color: inherit;
+  transition: 0.2s all ease;
+}
+.list-group .list-group-item .details h2 a:hover {
+  color: var(--burgundy);
 }
 .list-group .list-group-item .details p {
   color: #555;
