@@ -2,7 +2,7 @@
   <div class="card" @click="openSongDetail">
     <div class="card-header">
       <div class="image">
-        <img  :src="song.imageUrl" alt="Artist photo" />
+        <img :src="song.imageUrl" alt="Artist photo" />
       </div>
 
       <div class="icons">
@@ -22,19 +22,27 @@
     <div class="card-body">
       <div class="tags">
         <span class="tag tag-teal" v-if="song.capo"> Capo</span>
-
+         <!-- <span class="tag tag-teal" v-else></span> -->
         <span
           class="tag tag-teal"
           v-if="song.difficulty"
           :class="skillLevelClass"
           >{{ song.difficulty }}</span
         >
+        <span v-if="!song.capo && !song.difficulty" style="height:24px"></span>
       </div>
-      <h3 class="artist" @click.stop="chooseArtist">
-        <router-link to="/">
-          <h3>{{ song.artist }}</h3>
-        </router-link>
+      <!-- <div  > -->
+      <!-- <router-link to="/"> -->
+      <h3
+        class="artist"
+        @click.stop="chooseArtist"
+        :aria-label="song.artist"
+        :title="song.artist"
+      >
+        {{ song.artist }}
       </h3>
+      <!-- </router-link> -->
+      <!-- </div> -->
       <h4 class="song_name" :aria-label="song.song" :title="song.song">
         {{ song.song }}
       </h4>
@@ -129,7 +137,7 @@ export default {
 
   /* transform: translateY(10%); */
 }
-.card:focus{
+.card:focus {
   outline: none;
 }
 .card:hover {
@@ -163,9 +171,6 @@ export default {
   height: 6px;
   border-radius: 0 0 2px 2px;
 }
-/* .prgoress.low:before {
-  background-color: yellow;
-} */
 /*  ikonice*/
 .icons {
   display: flex;
@@ -187,11 +192,11 @@ export default {
   transition: all 0.5s ease;
 }
 
-@media (min-width:720px) {
+@media (min-width: 720px) {
   .icons .icon:hover {
-  background-color: #303030;
-  color: var(--white);
-}
+    background-color: #303030;
+    color: var(--white);
+  }
 }
 .favorite,
 .edit {
@@ -200,7 +205,6 @@ export default {
   width: auto;
 }
 .is_favorite {
-  
   color: var(--burgundy);
 }
 /* card body  */
@@ -209,7 +213,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 4px 15px 15px 15px;
+  padding: 8px 15px 15px 15px;
   gap: 10px;
   width: 100%;
 }
@@ -241,39 +245,38 @@ export default {
 .hard {
   background: var(--burgundy);
 }
-/* overflow 
-.artist {
-  overflow: hidden;
-  width: 150px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}*/
 .artist,
 .song_name {
   text-transform: capitalize;
-  z-index: 32;
-  font-size: 16px;
+  z-index: 35;
+  /* font-size: 16px; */
+
+  /* max-height: 50px ; */
+
+  /* overflow: hidden; */
+
+  white-space: nowrap;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-  white-space: normal;
-  -webkit-line-clamp: 2;
+  /* white-space: normal; */
+
+  /* display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; */
+
   width: 100%;
 }
 /*  */
-.artist a {
+/* .artist a {
   text-decoration: none;
   color: inherit;
   transition: all 0.3s ease;
-}
+} */
 .artist:hover {
   /* color: rgb(194, 42, 42); */
-  color: #00c;
+  color: var(--burgundy);
 }
-/* .artist a:hover {
-  color: rgb(73, 70, 70);
-} */
+
 .info {
   width: 100%;
   display: flex;
