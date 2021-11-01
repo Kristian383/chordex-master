@@ -110,6 +110,7 @@ tr:hover td {
 
 tr:hover td:nth-child(7)
 {
-  color: var(--burgundy);
+  /* color: var(--burgundy); */
+  text-decoration: underline;
 }
 </style>
