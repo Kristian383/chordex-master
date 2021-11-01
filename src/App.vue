@@ -30,6 +30,9 @@ export default {
       isLogged: false,
     };
   },
+  created () {
+    this.$store.dispatch("tryLogin");
+  },
 };
 </script>
 
