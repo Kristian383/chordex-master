@@ -130,7 +130,7 @@
               id="ikona"
               icon="sticky-note"
             ></font-awesome-icon>
-            <span class="links_name">Notes & Resources </span>
+            <span class="links_name">My Notes </span>
           </router-link>
         </li>
         <li @click="logOutUser">
