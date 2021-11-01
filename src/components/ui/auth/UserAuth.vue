@@ -18,15 +18,15 @@
               <h3>{{ formTitle }}</h3>
               <section v-if="!resetPswd">
                 <div class="input-group">
-                  <span class="icon"
-                    ><font-awesome-icon icon="user-alt"></font-awesome-icon>
-                  </span>
+                  <span
+                    ><font-awesome-icon icon="envelope"></font-awesome-icon
+                  ></span>
                   <input
-                    type="text"
+                    type="email"
                     class="form-control"
-                    placeholder="User Name"
+                    placeholder="Email address"
                     required
-                    v-model="username"
+                    v-model="email"
                   />
                 </div>
 
@@ -38,12 +38,12 @@
                     type="password"
                     required
                     class="form-control"
-                    placeholder="User Password"
+                    placeholder="Password"
                     v-model="password"
                   />
                 </div>
               </section>
-              <section  v-else>
+              <section v-else>
                 <div class="input-group">
                   <span
                     ><font-awesome-icon icon="envelope"></font-awesome-icon
@@ -57,13 +57,13 @@
                   />
                 </div>
               </section>
-              <p class="forgot" @click="resetPswdForm">{{forgotPswd}} </p>
+              <p class="forgot" @click="resetPswdForm">{{ forgotPswd }}</p>
             </div>
             <div class="form-footer">
               <button @click.prevent="authenticateOrReset" class="btn">
                 <!-- {{buttonName}} -->
                 Log In
-                 </button>
+              </button>
             </div>
           </form>
         </div>
@@ -72,7 +72,7 @@
         <!-- <transition name="fade"  > -->
         <!-- ="!login" -->
         <div id="signup" key="signup" v-else>
-          <form >
+          <form>
             <div class="form-container">
               <h3>Sign Up</h3>
               <div class="input-group">
@@ -113,7 +113,9 @@
               </div>
             </div>
             <div class="form-footer">
-              <button  @click.prevent="authenticateOrReset" class="btn">Sign Up</button>
+              <button @click.prevent="authenticateOrReset" class="btn">
+                Sign Up
+              </button>
             </div>
           </form>
         </div>
@@ -128,9 +130,9 @@ export default {
     return {
       login: true,
       resetPswd: false,
-      username:null,
-      email:null,
-      password:null
+      username: null,
+      email: null,
+      password: null,
     };
   },
   methods: {
@@ -141,20 +143,35 @@ export default {
       this.resetPswd = !this.resetPswd;
       // console.log(this.resetPswd);
     },
-    authenticateOrReset(){
+    authenticateOrReset() {
       if (this.resetPswd) {
-       //send user email with new password
-       console.log("reseting pass");
-      }else{
+        //send user email with new password
+        console.log("reseting pass");
+      } else {
         //authenticate user
         console.log("Authenticating user");
-        this.$store.dispatch("signUp",{
-          username:this.username,
-          email:this.email,
-          password:this.password
-        })
+
+        //this.validateForm()
+
+        if (this.login) {
+          this.$store.dispatch("logIn", {
+            // username: this.username,
+            email: this.email,
+            password: this.password,
+          });
+
+          if(this.$store.getters.isAuthenticated){
+            this.$router.push("/songs")
+          }
+        } else {
+          this.$store.dispatch("signUp", {
+            username: this.username,
+            email: this.email,
+            password: this.password,
+          });
+        }
       }
-    }
+    },
   },
   computed: {
     formTitle() {
@@ -163,18 +180,18 @@ export default {
       }
       return "Log In";
     },
-    buttonName(){
+    buttonName() {
       if (this.resetPswd) {
         return "Send";
       }
       return "Log In";
     },
-    forgotPswd(){
+    forgotPswd() {
       if (this.resetPswd) {
         return "Back to Log in";
       }
-      return "Forgot Password?"
-    }
+      return "Forgot Password?";
+    },
   },
 };
 </script>
