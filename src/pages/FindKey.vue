@@ -78,6 +78,11 @@ tbody td:first-child {
 tbody tr:nth-last-child(-n + 7) {
   background-color: #e2e2e2;
 }
+
+tbody td:nth-child(7){
+  font-weight: 600;
+}
+
 @media (min-width: 720px) {
   table th {
     font-size: 32px;
@@ -100,5 +105,11 @@ tr {
 tr:hover td {
   background: #0d1117;
   color: #ffffff;
+  cursor: pointer;
+}
+
+tr:hover td:nth-child(7)
+{
+  color: var(--burgundy);
 }
 </style>
