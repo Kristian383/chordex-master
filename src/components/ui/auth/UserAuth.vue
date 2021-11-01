@@ -26,6 +26,7 @@
                     class="form-control"
                     placeholder="User Name"
                     required
+                    v-model="username"
                   />
                 </div>
 
@@ -38,6 +39,7 @@
                     required
                     class="form-control"
                     placeholder="User Password"
+                    v-model="password"
                   />
                 </div>
               </section>
@@ -51,13 +53,17 @@
                     class="form-control"
                     placeholder="Email Address"
                     required
+                    v-model="email"
                   />
                 </div>
               </section>
               <p class="forgot" @click="resetPswdForm">{{forgotPswd}} </p>
             </div>
             <div class="form-footer">
-              <button @click="authenticateOrReset" class="btn">{{buttonName}} </button>
+              <button @click.prevent="authenticateOrReset" class="btn">
+                <!-- {{buttonName}} -->
+                Log In
+                 </button>
             </div>
           </form>
         </div>
@@ -66,7 +72,7 @@
         <!-- <transition name="fade"  > -->
         <!-- ="!login" -->
         <div id="signup" key="signup" v-else>
-          <form action="/" method="post">
+          <form >
             <div class="form-container">
               <h3>Sign Up</h3>
               <div class="input-group">
@@ -78,6 +84,7 @@
                   class="form-control"
                   placeholder="User Name"
                   required
+                  v-model="username"
                 />
               </div>
 
@@ -90,6 +97,7 @@
                   class="form-control"
                   placeholder="Email Address"
                   required
+                  v-model="email"
                 />
               </div>
 
@@ -100,11 +108,12 @@
                   class="form-control"
                   placeholder="Set Password"
                   required
+                  v-model="password"
                 />
               </div>
             </div>
             <div class="form-footer">
-              <button type="submit">Sign Up</button>
+              <button  @click.prevent="authenticateOrReset" class="btn">Sign Up</button>
             </div>
           </form>
         </div>
@@ -119,7 +128,9 @@ export default {
     return {
       login: true,
       resetPswd: false,
-      
+      username:null,
+      email:null,
+      password:null
     };
   },
   methods: {
@@ -137,6 +148,11 @@ export default {
       }else{
         //authenticate user
         console.log("Authenticating user");
+        this.$store.dispatch("signUp",{
+          username:this.username,
+          email:this.email,
+          password:this.password
+        })
       }
     }
   },
@@ -216,8 +232,8 @@ export default {
   width: 50%;
   text-align: center;
   cursor: pointer;
-  -webkit-transition: 0.5s ease;
-  transition: 0.5s ease;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
 }
 .tab-group li a:hover {
   background: #b62730;
