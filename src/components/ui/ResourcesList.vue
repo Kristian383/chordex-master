@@ -13,7 +13,7 @@
         ></textarea>
       </div>
       <div class="todos">
-        <span><h2>Useful resources</h2></span>
+        <span><h2>Useful websites</h2></span>
         <br />
         <input
           type="text"
@@ -31,7 +31,7 @@
               class="resource-element"
             >
               {{ todo.text }}
-              <a :href="todo.link" target="_blank">Click Link</a>
+              <a :href="todo.link" target="_blank">Go to website</a>
               <font-awesome-icon
                 @click="deleteTodo(todo.id)"
                 :icon="['far', 'times-circle']"
