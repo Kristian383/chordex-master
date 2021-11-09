@@ -20,6 +20,7 @@ export default {
                 numberOfMySongs: 5,
             },
             user: {},
+            isLoggedIn: true,
         };
     },
     // mutations,
