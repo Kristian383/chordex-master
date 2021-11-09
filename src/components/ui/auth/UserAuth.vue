@@ -26,7 +26,7 @@
                     class="form-control"
                     placeholder="Email address"
                     required
-                    v-model="email"
+                    v-model="user.email"
                   />
                 </div>
 
@@ -39,7 +39,7 @@
                     required
                     class="form-control"
                     placeholder="Password"
-                    v-model="password"
+                    v-model="user.password"
                   />
                 </div>
               </section>
@@ -53,7 +53,7 @@
                     class="form-control"
                     placeholder="Email Address"
                     required
-                    v-model="email"
+                    v-model="user.email"
                   />
                 </div>
               </section>
@@ -84,7 +84,7 @@
                   class="form-control"
                   placeholder="User Name"
                   required
-                  v-model="username"
+                  v-model="user.username"
                 />
               </div>
 
@@ -97,7 +97,7 @@
                   class="form-control"
                   placeholder="Email Address"
                   required
-                  v-model="email"
+                  v-model="user.email"
                 />
               </div>
 
@@ -108,7 +108,7 @@
                   class="form-control"
                   placeholder="Set Password"
                   required
-                  v-model="password"
+                  v-model="user.password"
                 />
               </div>
             </div>
@@ -128,11 +128,13 @@
 export default {
   data() {
     return {
+      user: {
+        username: null,
+        email: null,
+        password: null,
+      },
       login: true,
       resetPswd: false,
-      username: null,
-      email: null,
-      password: null,
     };
   },
   methods: {
@@ -143,28 +145,41 @@ export default {
       this.resetPswd = !this.resetPswd;
       // console.log(this.resetPswd);
     },
+    
+    async LogIn() {
+      await this.$store.dispatch("loginUser",this.user).then(() => {
+        if (this.authUser.isLoggedIn) {
+          this.$router.push("/songs");
+        } else {
+          // Handle error
+          this.user = {
+            username: null,
+            password: null,
+          };
+        }
+      });
+    },
     authenticateOrReset() {
       if (this.resetPswd) {
         //send user email with new password
         console.log("reseting pass");
       } else {
-        //authenticate user
         console.log("Authenticating user");
-
         //this.validateForm()
-
         if (this.login) {
-          this.$store.dispatch("logIn", {
-            // username: this.username,
-            email: this.email,
-            password: this.password,
-          });
+          this.LogIn()
 
-          if(this.$store.getters.isAuthenticated){
-            this.$router.push("/songs")
-          }
+          // this.$store.dispatch("logIn", {
+          //   // username: this.username,
+          //   email: this.email,
+          //   password: this.password,
+          // });
+
+          // if (this.$store.getters.isAuthenticated) {
+          //   this.$router.push("/songs");
+          // }
         } else {
-          this.$store.dispatch("signUp", {
+          this.$store.dispatch("registerUser", {
             username: this.username,
             email: this.email,
             password: this.password,
@@ -191,6 +206,9 @@ export default {
         return "Back to Log in";
       }
       return "Forgot Password?";
+    },
+    authUser() {
+      return this.$store.getters.user;
     },
   },
 };
