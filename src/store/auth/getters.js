@@ -16,5 +16,10 @@ export default {
       return state.userData
     }
   }    return state.user
+  isLoggedIn(state) {
+    return state.isLoggedIn
+  },
+  user(state) {
+    return state.user
   },
 }
