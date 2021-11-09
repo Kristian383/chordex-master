@@ -207,7 +207,7 @@ export default {
       return this.$store.getters.sidebarIsActive;
     },
     getUserData() {
-      return this.$store.getters.getUserData;
+      return this.$store.getters.user;
     },
   },
 };
