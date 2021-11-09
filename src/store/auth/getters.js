@@ -15,4 +15,6 @@ export default {
     getUserData(state){
       return state.userData
     }
-  }
+  }    return state.user
+  },
+}
