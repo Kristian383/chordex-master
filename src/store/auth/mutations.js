@@ -8,4 +8,8 @@ export default {
      {
         state.didAutoLogout=true;
      }
+   setUser(state, user) {
+      state.isLoggedIn = true;
+      state.user = user;
+   },
 }
