@@ -19,6 +19,7 @@ export default {
                 numberOfArtists: 20,
                 numberOfMySongs: 5,
             },
+            user: {},
         };
     },
     // mutations,
