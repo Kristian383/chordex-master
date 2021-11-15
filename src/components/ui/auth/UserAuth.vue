@@ -26,7 +26,7 @@
                     class="form-control"
                     placeholder="Email address"
                     required
-                    v-model="user.email"
+                    v-model.trim="user.email"
                   />
                 </div>
 
@@ -39,10 +39,11 @@
                     required
                     class="form-control"
                     placeholder="Password"
-                    v-model="user.password"
+                    v-model.trim="user.password"
                   />
                 </div>
               </section>
+              <!-- forgot email form -->
               <section v-else>
                 <div class="input-group">
                   <span
@@ -53,16 +54,22 @@
                     class="form-control"
                     placeholder="Email Address"
                     required
-                    v-model="user.email"
+                    v-model.trim="user.email"
                   />
                 </div>
               </section>
               <p class="forgot" @click="resetPswdForm">{{ forgotPswd }}</p>
             </div>
             <div class="form-footer">
-              <button @click.prevent="authenticateOrReset" class="btn">
-                <!-- {{buttonName}} -->
+              <button
+                v-if="!this.resetPswd"
+                @click.prevent="submitForm"
+                class="btn"
+              >
                 Log In
+              </button>
+              <button v-else @click.prevent="submitForm" class="btn">
+                Send
               </button>
             </div>
           </form>
@@ -84,7 +91,7 @@
                   class="form-control"
                   placeholder="User Name"
                   required
-                  v-model="user.username"
+                  v-model.trim="user.username"
                 />
               </div>
 
@@ -97,7 +104,7 @@
                   class="form-control"
                   placeholder="Email Address"
                   required
-                  v-model="user.email"
+                  v-model.trim="user.email"
                 />
               </div>
 
@@ -108,14 +115,12 @@
                   class="form-control"
                   placeholder="Set Password"
                   required
-                  v-model="user.password"
+                  v-model.trim="user.password"
                 />
               </div>
             </div>
             <div class="form-footer">
-              <button @click.prevent="authenticateOrReset" class="btn">
-                Sign Up
-              </button>
+              <button @click.prevent="submitForm" class="btn">Sign Up</button>
             </div>
           </form>
         </div>
@@ -135,6 +140,7 @@ export default {
       },
       login: true,
       resetPswd: false,
+      formIsValid: true,
     };
   },
   methods: {
@@ -145,9 +151,9 @@ export default {
       this.resetPswd = !this.resetPswd;
       // console.log(this.resetPswd);
     },
-    
+
     async LogIn() {
-      await this.$store.dispatch("loginUser",this.user).then(() => {
+      await this.$store.dispatch("loginUser", this.user).then(() => {
         if (this.authUser.isLoggedIn) {
           this.$router.push("/songs");
         } else {
@@ -159,32 +165,67 @@ export default {
         }
       });
     },
-    authenticateOrReset() {
+    async submitForm() {
+      this.formIsValid = true;
       if (this.resetPswd) {
         //send user email with new password
-        console.log("reseting pass");
-      } else {
-        console.log("Authenticating user");
-        //this.validateForm()
-        if (this.login) {
-          this.LogIn()
-
-          // this.$store.dispatch("logIn", {
-          //   // username: this.username,
-          //   email: this.email,
-          //   password: this.password,
-          // });
-
-          // if (this.$store.getters.isAuthenticated) {
-          //   this.$router.push("/songs");
-          // }
-        } else {
-          this.$store.dispatch("registerUser", {
-            username: this.username,
-            email: this.email,
-            password: this.password,
-          });
+        console.log("reseting pass", this.user.email);
+        if (!this.user.email) {
+          this.formIsValid = false;
+          return;
         }
+
+        await this.$store.dispatch("resetPswd", this.user);
+      } else if (this.login) {
+        console.log("Authenticating user");
+        if (
+          !this.user.email ||
+          !this.user.password ||
+          !this.user.email.includes("@")
+        ) {
+          this.formIsValid = false;
+          return;
+        }
+
+        const payload = {
+          user: this.user,
+          mode: "login",
+        };
+        // console.log("payy",payload);
+        this.$store.dispatch("auth", payload).then(() => {
+          // console.log(this.$store.getters.token);
+          if (this.$store.getters.token) {
+            this.$router.push("/songs");
+            // console.log("Push");
+          }else{
+            //failed to auth
+            this.user.email=null;
+            this.user.password=null;
+
+          }
+        });
+      } else {
+        console.log("register user");
+        if (
+          !this.user.email ||
+          !this.user.password ||
+          !this.user.email.includes("@") ||
+          !this.user.username
+        ) {
+          this.formIsValid = false;
+          return;
+        }
+
+        const payload = {
+          user: this.user,
+          mode: "signup",
+        };
+        await this.$store.dispatch("signUp", payload);
+        // this.$store.dispatch("registerUser", {
+        //   username: this.username,
+        //   email: this.email,
+        //   password: this.password,
+        // });
       }
     },
   },

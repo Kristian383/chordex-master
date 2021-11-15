@@ -195,13 +195,16 @@ export default {
     closeSidebar() {
       this.$store.commit("removeSidebar");
     },
+    logOutUser(){
+      this.$store.dispatch("logout")
+    }
   },
   created() {
     dom.watch();
   },
   computed: {
     isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
+      return this.$store.getters.token;
     },
     sidebarIsActive() {
       return this.$store.getters.sidebarIsActive;

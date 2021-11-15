@@ -60,7 +60,7 @@ router.beforeEach((to, _, next) => {
 
   document.title = `${to.meta.title}` || "Quotex";
 
-  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+  if (to.meta.requiresAuth && !store.getters.token) {
     next("/home");
   }
   // else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {

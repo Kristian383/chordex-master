@@ -8,19 +8,18 @@ export default {
 
     state() {
         return {
-            // userId: null,
-            token:null,
-            // tokenExpiration:null,
-            didAutoLogout:false,
-            userData: {
-                username: "Kristian",
-                email: "kristian3833@gmail.com",
-                numberOfSongs: 66,
-                numberOfArtists: 20,
-                numberOfMySongs: 5,
-            },
             user: {},
-            isLoggedIn: true,
+            // isLoggedIn: true,
+            tokenExpiration: null,
+            token: null,
+            didAutoLogout: false,
+            // userData: {
+            //     username: "Kristian",
+            //     email: "kristian3833@gmail.com",
+            //     numberOfSongs: 66,
+            //     numberOfArtists: 20,
+            //     numberOfMySongs: 5,
+            // },
         };
     },
     // mutations,

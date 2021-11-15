@@ -1,57 +1,85 @@
 let timer;
-export default {
-    async logIn(context, payload) {
+// import { authService } from '@/api'
 
-        context.dispatch("auth", {
-            ...payload,
-            mode: "login"
-        })
-    },
-    async signUp(context, payload) {
-        context.dispatch("auth", {
-            ...payload,
-            mode: "signup"
-        })
-    },
+export default {
+
+    //from meidum tutorial
+
+
+    // async registerUser(context, payload) {
+    //     await authService.post('/register', payload)
+    //     await context.dispatch('fetchUser')
+    // },
+    // async loginUser(context, payload) {
+    //     await authService.post('/login', payload.user)
+    //     await context.dispatch('fetchUser')
+    // },
+    // async fetchUser(context) {
+    //     await authService.get('/user')
+    //         .then(({ data }) => context.commit('setUser', data))
+    // },
+    // async logoutUser(context) {
+    //     await authService.post('/logout');
+    //     context.commit('logoutUserState');
+    // },
+
+    //dolje je mojez
+    // async login(context, payload) {
+
+    //     context.dispatch("auth", {
+    //         ...payload,
+    //         mode: "login"
+    //     })
+    // },
+    // async signUp(context, payload) {
+    //     context.dispatch("auth", {
+    //         ...payload,
+    //         mode: "signup"
+    //     })
+    // },
     logout(context) {
         localStorage.removeItem("token");
-        localStorage.removeItem("userId");
+        // localStorage.removeItem("userId");
         localStorage.removeItem("tokenExpiration");
+        localStorage.removeItem("username");
+        localStorage.removeItem("email");
 
-        sessionStorage.removeItem("token")
 
         clearTimeout(timer);
 
         context.commit("setUser", {
-            userId: null,
             token: null,
+            user: {}
         })
 
 
     },
+
+
     async auth(context, payload) {
-        console.log(JSON.stringify({
-            ...payload
-        }));
+        // console.log(JSON.stringify({
+        //     ...payload
+        // }));
+
         const mode = payload.mode;
         let url = `http://127.0.0.1:5000/login`;
 
         if (mode === "signup") {
             url = `http://127.0.0.1:5000/register`;
         }
-        console.log(url);
+        // console.log("pay", payload);
         const response = await fetch(url,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    // "Access-Control-Allow-Origin": "http://127.0.0.1:5000/"
-                    "Access-Control-Allow-Origin": "*"
+                    // "Access-Control-Allow-Origin": "*",
+                    // 'X-CSRF-TOKEN': context.dispatch("getCookie", "csrf_access_token"),
                 },
                 body: JSON.stringify({
                     // ...payload
-                    email: payload.email,
-                    password: payload.password
+                    email: payload.user.email,
+                    password: payload.user.password
                 })
             });
 
@@ -61,50 +89,67 @@ export default {
             // const error = new Error(responseData.message || 'Failed to authenticate.');
             // throw error;
             console.log(responseData.message || 'Failed to authenticate.');
+            // return new Promise((resolve) => {
+            //     resolve("done")
+            // });
+            return
+        }
+
+        // context.commit("setUser", context.dispatch("getCookie", "csrf_access_token"))
+        // console.log("tu", responseData);
+
+        // const expiresIn = +responseData.expiresIn * 1000;
+        const expiresIn = 3600000; //1 h
+        const expirationDate = new Date().getTime() + expiresIn;
+
+        localStorage.setItem("tokenExpiration", expirationDate)
+        localStorage.setItem("token", responseData.token);
+        localStorage.setItem("username", responseData.user);
+        localStorage.setItem("email", payload.user.email);
+
+        timer = setTimeout(function () {
+            context.dispatch("autoLogout")
+        }, expiresIn)
+
+
+        context.commit("setUser", {
+            user: {
+                username: responseData.user,
+                email: payload.user.email
+            },
+            token: responseData.token,
+            tokenExpiration: expirationDate,
+
+        })
+        return new Promise((resolve) => {
+            resolve("done")
+        })
+
+    },
+    tryLogin(context) {
+        const token = localStorage.getItem("token");
+        const tokenExpiration = localStorage.getItem("tokenExpiration")
+        const username = localStorage.getItem("username")
+        const email = localStorage.getItem("email")
+
+        const expiresIn = +tokenExpiration - new Date().getTime();
+
+        if (expiresIn < 0) {
             return;
         }
 
-        console.log("tu", responseData);
-        sessionStorage.setItem("token", responseData.access_token)
-        // this.$router.push("/songs")
-        // import router from './../../router.js'
+        timer = setTimeout(() => {
+            context.dispatch("autoLogout")
+        }, expiresIn);
 
-        // const expiresIn = +responseData.expiresIn * 1000;
-        //  const expiresIn = 5000;
-        // const expirationDate = new Date().getTime() + expiresIn;
-
-        // localStorage.setItem("tokenExpiration", expirationDate)
-        // localStorage.setItem("token", responseData.idToken);
-        // localStorage.setItem("userId", responseData.localId);
-
-        // timer = setTimeout(function () {
-        //     context.dispatch("autoLogout")
-        // }, expiresIn)
-
-
-        // context.commit("setUser", {
-        //     token: responseData.idToken,
-        //     userId: responseData.localId,
-        // })
-    },
-    tryLogin(context) {
-        const token = sessionStorage.getItem("token");
-        // const userId = localStorage.getItem("userId");
-        // const tokenExpiration = localStorage.getItem("tokenExpiration")
-
-        // const expiresIn = +tokenExpiration - new Date().getTime();
-
-        // if (expiresIn < 0) {
-        //     return;
-        // }
-
-        // timer = setTimeout(() => {
-        //     context.dispatch("autoLogout")
-        // }, expiresIn);
-
+        const user={
+            username,email
+        }
         if (token) {
             context.commit("setUser", {
                 token: token,
+                tokenExpiration,
+                user
             })
         }
     },

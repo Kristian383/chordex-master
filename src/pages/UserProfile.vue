@@ -47,7 +47,7 @@
                   class="input-field"
                   type="text"
                   id="input-username"
-                  placeholder="John"
+                  :placeholder="getUserData.username"
                 />
               </div>
               <div>
@@ -58,7 +58,7 @@
                   class="input-field"
                   type="text"
                   id="input-email"
-                  placeholder="John"
+                  :placeholder="getUserData.email"
                 />
               </div>
               <div @click="togglePasswordChange" class="change-psw">
@@ -74,7 +74,6 @@
                     class="input-field"
                     type="password"
                     id="password"
-                    placeholder="John"
                   />
                 </div>
               </transition>
@@ -87,7 +86,6 @@
                     class="input-field"
                     type="password"
                     id="password-repeat"
-                    placeholder="John"
                   />
                 </div>
               </transition>
@@ -134,7 +132,7 @@ export default {
   },
   computed: {
     getUserData() {
-      return this.$store.getters.getUserData 
+      return this.$store.getters.user 
     }
   },
 };
