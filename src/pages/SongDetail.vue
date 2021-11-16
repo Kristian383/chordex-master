@@ -39,12 +39,12 @@
         </div>
         <!--  -->
         <div>
-          <div class="song-name"><b>Song:</b> {{songData.song}} </div>
+          <div class="song-name"><b>Song:</b> {{ songData.songName }}</div>
           <!-- <label for="song">Song:</label> -->
           <!-- <input type="text" /> -->
 
           <div class="song-info-box" v-if="songData.bpm">
-            <b > BPM:</b> {{ songData.bpm }}
+            <b> BPM:</b> {{ songData.bpm }}
             <font-awesome-icon
               class="metronome"
               icon="play-circle"
@@ -57,8 +57,8 @@
           <div class="chords">
             <b>Chords in scale:</b> {{ songData.firstKeyNotes }}
           </div>
-          <div class="guitar" v-if="songData.firstProgression">
-            <b>Chord progression:</b> {{ songData.firstProgression }}
+          <div class="guitar" v-if="songData.firstChordProgression">
+            <b>Chord progression:</b> {{ songData.firstChordProgression }}
           </div>
         </div>
         <div v-if="songData.secondKey">
@@ -66,8 +66,8 @@
           <div class="chords">
             <b>Chords in scale:</b> {{ songData.secondKeyNotes }}
           </div>
-          <div class="guitar" v-if="songData.secondProgression">
-            <b>Chord progression:</b> {{ songData.secondProgression }}
+          <div class="guitar" v-if="songData.secondChordProgression">
+            <b>Chord progression:</b> {{ songData.secondChordProgression }}
           </div>
         </div>
         <!--  -->
@@ -79,7 +79,7 @@
             <b>Tuning:</b> {{ songData.tuning ? songData.tuning : "Standard" }}
           </div>
 
-          <div class="guitar" v-if="songData.acoustic || songData.electric ">
+          <div class="guitar" v-if="songData.acoustic || songData.electric">
             <b>Guitar type:</b> {{ songData.acoustic ? "Acoustic" : "" }}
             {{ songData.electric ? "Eletric" : "" }}
           </div>
@@ -93,10 +93,10 @@
               >{{ songData.yt_link }}
             </a>
           </div> -->
-          <div class="link" v-if="songData.chords_link">
+          <div class="link" v-if="songData.chordsWebsiteLink">
             <b>Resource Link: </b>
-            <a :href="songData.chords_link" target="_blank"
-              >{{ songData.chords_link }}
+            <a :href="songData.chordsWebsiteLink" target="_blank"
+              >{{ songData.chordsWebsiteLink }}
             </a>
           </div>
         </div>
@@ -104,16 +104,15 @@
           <div><b>Difficulty:</b> {{ songData.difficulty }}</div>
         </div>
       </div>
-      <div class="box video" v-if="songData && songData.yt_link">
+      <div class="box video" v-if="songData && songData.ytLink">
         <iframe
-          :src="songData.yt_link"
+          :src="songData.ytLink"
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
       </div>
-      
 
       <div class="box notebook">
         <hr />
@@ -148,12 +147,13 @@ export default {
     let songData = this.$store.getters.getAllSongs.find((song) => {
       return song.songId == this.id;
     });
+    // console.log("ucitano",songData);
 
     if (songData) {
       this.songData = songData;
       this.isFavorite = songData.isFavorite;
       //pass song name for title of page
-      this.$store.commit("setSongDetailTitle", songData.song);
+      this.$store.commit("setSongDetailTitle", songData.songName);
     } else {
       this.$router.push("notFound");
     }
@@ -168,8 +168,14 @@ export default {
     },
     deleteSong() {
       if (window.confirm("Are you sure?")) {
-        this.$store.commit("deleteSong", this.songId);
-        this.$router.push(this.songData.isMySong ? "/my-songs" : "/songs");
+        const payload = {
+          songName: this.songData.songName,
+          artist: this.songData.artist,
+          songId:this.songData.songId
+        };
+        this.$store.dispatch("deleteSong", payload).then(() => {
+           this.$router.push(this.songData.isMySong ? "/my-songs" : "/songs");
+        });
       }
     },
   },
@@ -180,24 +186,23 @@ export default {
       }
       return "heart";
     },
-    displayAccordingToYT(){
-      if(this.songData.yt_link){
-        return "1fr"
-      }else{
-        return "1fr 1fr"
+    displayAccordingToYT() {
+      if (this.songData.yt_link) {
+        return "1fr";
+      } else {
+        return "1fr 1fr";
       }
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
-
 .song-detail {
   /* min-height: 95vh; */
   background-color: var(--white);
   color: var(--font_black);
-  
+
   /* background-color: #0D1117; 
   color: #c9d1d9; */
   /* padding: 8px; */
