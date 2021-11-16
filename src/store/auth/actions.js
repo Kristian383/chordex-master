@@ -63,7 +63,7 @@ export default {
 
         const mode = payload.mode;
         let url = `http://127.0.0.1:5000/login`;
-
+        // let username;
         if (mode === "signup") {
             url = `http://127.0.0.1:5000/register`;
         }
@@ -79,7 +79,8 @@ export default {
                 body: JSON.stringify({
                     // ...payload
                     email: payload.user.email,
-                    password: payload.user.password
+                    password: payload.user.password,
+                    username:payload.user.username
                 })
             });
 
@@ -88,7 +89,7 @@ export default {
         if (!response.ok) {
             // const error = new Error(responseData.message || 'Failed to authenticate.');
             // throw error;
-            console.log(responseData.message || 'Failed to authenticate.');
+            window.alert(responseData.message || 'Failed to authenticate.');
             // return new Promise((resolve) => {
             //     resolve("done")
             // });
