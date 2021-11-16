@@ -43,8 +43,8 @@
       </h3>
       <!-- </router-link> -->
       <!-- </div> -->
-      <h4 class="song_name" :aria-label="song.song" :title="song.song">
-        {{ song.song }}
+      <h4 class="song_name" :aria-label="song.songName" :title="song.songName">
+        {{ song.songName }}
       </h4>
       <div class="info">
         <div class="history-info">
