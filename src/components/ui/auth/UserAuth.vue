@@ -152,19 +152,6 @@ export default {
       // console.log(this.resetPswd);
     },
 
-    async LogIn() {
-      await this.$store.dispatch("loginUser", this.user).then(() => {
-        if (this.authUser.isLoggedIn) {
-          this.$router.push("/songs");
-        } else {
-          // Handle error
-          this.user = {
-            username: null,
-            password: null,
-          };
-        }
-      });
-    },
     async submitForm() {
       this.formIsValid = true;
       if (this.resetPswd) {
@@ -197,15 +184,10 @@ export default {
           if (this.$store.getters.token) {
             this.$router.push("/songs");
             // console.log("Push");
-          }else{
-            //failed to auth
-            this.user.email=null;
-            this.user.password=null;
-
           }
         });
       } else {
-        console.log("register user");
+        console.log("registering user");
         if (
           !this.user.email ||
           !this.user.password ||
@@ -220,12 +202,20 @@ export default {
           user: this.user,
           mode: "signup",
         };
-        await this.$store.dispatch("signUp", payload);
-        // this.$store.dispatch("registerUser", {
-        //   username: this.username,
-        //   email: this.email,
-        //   password: this.password,
-        // });
+        this.$store.dispatch("auth", payload).then(() => {
+          // console.log(this.$store.getters.token);
+          if (this.$store.getters.token) {
+            this.$router.push("/songs");
+            // console.log("Push");
+          }
+          // else{
+          //   //failed to auth
+          //   this.user.email=null;
+          //   this.user.password=null;
+          //   this.user.username=null;
+
+          // }
+        });
       }
     },
   },
