@@ -82,7 +82,6 @@ export default {
       this.filters = filters;
     },
     // loadMoreSongs() {
-    //   console.log("load more songs");
     //   this.$store.commit("load20MoreSongs");
     //   this.itemsAreLoading = false;
     // },
@@ -95,7 +94,7 @@ export default {
       if (entries[0].isIntersecting) {
         this.itemsAreLoading = true;
         setTimeout(() => {
-          this.$store.commit("load20MoreSongs");
+          // this.$store.dispatch("loadMoreSongs");
           this.itemsAreLoading = false;
           this.isLoaded = true;
         }, 1000);
@@ -113,7 +112,9 @@ export default {
     let el = document.querySelector(".footer");
     observer.observe(el);
 
-    this.$store.commit("load20MoreSongs");
+    // this.$store.commit("load20MoreSongs");
+    this.$store.dispatch("loadMoreSongs");
+
     setTimeout(() => {
       this.isLoaded = true;
     }, 1000);
