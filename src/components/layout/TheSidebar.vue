@@ -196,7 +196,11 @@ export default {
       this.$store.commit("removeSidebar");
     },
     logOutUser(){
-      this.$store.dispatch("logout")
+      this.$store.dispatch("logout");
+      if(this.sidebarIsActive){
+        this.$store.commit("toggleSidebar")
+      }
+      
     }
   },
   created() {
