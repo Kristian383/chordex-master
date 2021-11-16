@@ -29,7 +29,7 @@
               name="my-song"
               id="my-song"
               v-model="songInfo.isMySong"
-            /><label for="my-song" >My song</label>
+            /><label for="my-song">My song</label>
             <!-- <label for="my-song">My Song</label> -->
           </div>
           <!--  -->
@@ -140,7 +140,7 @@
             class="input-field"
             type="text"
             placeholder="Chord progression"
-            v-model.trim="songInfo.firstProgression"
+            v-model.trim="songInfo.firstChordProgression"
           />
           <transition name="fade">
             <input
@@ -148,7 +148,7 @@
               type="text"
               v-if="openSecond"
               placeholder="Chord progression"
-              v-model.trim="songInfo.secondProgression"
+              v-model.trim="songInfo.secondChordProgression"
             />
           </transition>
           <!-- guitar type -->
@@ -197,13 +197,13 @@
           </div>
           <!--  -->
           <input
-            v-model.trim="songInfo.yt_link"
+            v-model.trim="songInfo.ytLink"
             class="input-field"
             type="text"
             placeholder="YouTube Link: https://www.youtube.com/watch?v="
           />
           <input
-            v-model.trim="songInfo.chords_link"
+            v-model.trim="songInfo.chordsWebsiteLink"
             class="input-field"
             type="text"
             placeholder="Chords Link"
@@ -251,10 +251,10 @@ export default {
         capo: null,
         electric: null,
         acoustic: null,
-        firstProgression: null,
-        secondProgression: null,
-        chords_link: null,
-        yt_link: null,
+        firstChordProgression: null,
+        secondChordProgression: null,
+        chordsWebsiteLink: null,
+        ytLink: null,
         firstKeyNotes: null,
         secondKeyNotes: null,
         tuning: null,
@@ -287,8 +287,15 @@ export default {
   methods: {
     deleteSong() {
       if (window.confirm("Are you sure?")) {
-        this.$store.commit("deleteSong", this.songId);
-        this.$router.push(this.songInfo.isMySong ? "/my-songs" : "/songs");
+        const payload = {
+          songName: this.song.val,
+          artist: this.artist.val,
+          songId: +this.songId,
+        };
+        console.log("pay", payload);
+        this.$store.dispatch("deleteSong", payload).then(() => {
+          this.$router.push(this.songInfo.isMySong ? "/my-songs" : "/songs");
+        });
       }
     },
     goBack() {
@@ -337,11 +344,11 @@ export default {
         event.target.classList.add("success");
       }, 1000);
 
-      setTimeout(() => {
-        event.target.classList.remove("success");
-        const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
-        this.$router.push(pushRoute);
-      }, 2500);
+      // setTimeout(() => {
+      //   event.target.classList.remove("success");
+      //   // const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
+      //   // this.$router.push(pushRoute);
+      // }, 2500);
 
       if (this.songInfo.yt_link) {
         this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
@@ -350,16 +357,17 @@ export default {
       const formData = {
         ...this.songInfo,
         artist: this.artist.val,
-        song: this.song.val,
-        songId: this.songId,
+        songName: this.song.val,
+        songId: +this.songId,
         isFavorite: this.isFavorite,
       };
-      // console.log(formData);
-
-      //dispatch action from store addNewSong
-      this.$store.dispatch("addNewSong", formData);
+      //console.log("prije akcije",formData);
+      this.$store.dispatch("addNewSong", formData).then(() => {
+        event.target.classList.remove("success");
+        const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
+        this.$router.push(pushRoute);
+      });
       this.isSaved = true;
-      //router push koji je u timeoutu
     },
     checkCapo() {
       this.songInfo.capo = null;
@@ -411,16 +419,16 @@ export default {
       this.songInfo.capo = songData.capo;
       this.songInfo.electric = songData.electric;
       this.songInfo.acoustic = songData.acoustic;
-      this.songInfo.firstProgression = songData.firstProgression;
-      this.songInfo.chords_link = songData.chords_link;
-      this.songInfo.yt_link = songData.yt_link;
+      this.songInfo.firstChordProgression = songData.firstChordProgression;
+      this.songInfo.chordsWebsiteLink = songData.chordsWebsiteLink;
+      this.songInfo.ytLink = songData.ytLink;
       this.songInfo.firstKeyNotes = songData.firstKeyNotes;
       this.songInfo.tuning = songData.tuning;
       this.songInfo.isMySong = songData.isMySong;
       this.isFavorite = songData.isFavorite;
       this.haveCapo = !!songData.capo;
       this.artist.val = songData.artist;
-      this.song.val = songData.song;
+      this.song.val = songData.songName;
       this.songInfo.difficulty = songData.difficulty;
       this.songInfo.firstKey = songData.firstKey;
 
@@ -428,7 +436,7 @@ export default {
         this.openSecond = true;
         this.songInfo.secondKey = songData.secondKey;
         this.songInfo.secondKeyNotes = songData.secondKeyNotes;
-        this.songInfo.secondProgression = songData.secondProgression;
+        this.songInfo.secondChordProgression = songData.secondChordProgression;
       }
     }
   },
@@ -649,7 +657,6 @@ input[type="radio"]:checked + label {
   background-color: var(--dark_gray_font);
   color: #fff;
 }
-
 
 form input:-internal-autofill-selected {
   background-color: #fff !important;
