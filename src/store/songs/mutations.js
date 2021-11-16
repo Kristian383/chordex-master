@@ -2,12 +2,18 @@ export default {
     toggleSidebar(state) {
         state.sidebarActive = !state.sidebarActive;
     },
-    // loadMoreSongs(state,payload){
-    //     //dohvatiti podatke carda i pushati u songs array
-    //posto imamo u songs computed za getAllSongs mozda netreba nista dalje
-    //     //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
-    //     //poslati kao prop
-    // }
+    loadMoreSongs(state,payload){
+        //dohvatiti podatke carda i pushati u songs array
+    // posto imamo u songs computed za getAllSongs mozda netreba nista dalje
+        //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
+        //poslati kao prop
+
+        for (let i = 0; i < payload.length; i++) {
+
+            state.songs.unshift(payload[i])
+        }
+
+    },
     toggleDarkMode(state) {
         state.darkMode = !state.darkMode;
     },
