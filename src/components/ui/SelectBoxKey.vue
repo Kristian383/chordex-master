@@ -93,7 +93,7 @@ export default {
       this.payload.notes=notes.map((el) => el).join(" ");
       this.payload.name=this.name;
       this.payload.key=this.selectedKey+" "+ quality;
-      console.log("poziv emit", this.payload);
+      //console.log("poziv emit", this.payload);
 
       this.$emit("keySelected", this.payload);
     },
