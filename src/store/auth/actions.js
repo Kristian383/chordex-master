@@ -57,9 +57,6 @@ export default {
 
 
     async auth(context, payload) {
-        // console.log(JSON.stringify({
-        //     ...payload
-        // }));
 
         const mode = payload.mode;
         let url = `http://127.0.0.1:5000/login`;
@@ -73,34 +70,27 @@ export default {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    // "Access-Control-Allow-Origin": "*",
-                    // 'X-CSRF-TOKEN': context.dispatch("getCookie", "csrf_access_token"),
+
                 },
                 body: JSON.stringify({
-                    // ...payload
                     email: payload.user.email,
                     password: payload.user.password,
-                    username:payload.user.username
+                    username: payload.user.username
                 })
             });
 
         const responseData = await response.json();
 
         if (!response.ok) {
-            // const error = new Error(responseData.message || 'Failed to authenticate.');
-            // throw error;
             window.alert(responseData.message || 'Failed to authenticate.');
-            // return new Promise((resolve) => {
-            //     resolve("done")
-            // });
             return
         }
 
-        // context.commit("setUser", context.dispatch("getCookie", "csrf_access_token"))
-        // console.log("tu", responseData);
-
         // const expiresIn = +responseData.expiresIn * 1000;
-        const expiresIn = 3600000; //1 h
+        //const expiresIn = 3600000; //1 h
+
+        const expiresIn = JSON.parse(atob(responseData.token.split('.')[1]))["exp"]
+        //console.log(expiresIn);
         const expirationDate = new Date().getTime() + expiresIn;
 
         localStorage.setItem("tokenExpiration", expirationDate)
@@ -143,8 +133,8 @@ export default {
             context.dispatch("autoLogout")
         }, expiresIn);
 
-        const user={
-            username,email
+        const user = {
+            username, email
         }
         if (token) {
             context.commit("setUser", {

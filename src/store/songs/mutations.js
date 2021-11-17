@@ -1,77 +1,104 @@
 export default {
     toggleSidebar(state) {
-        state.sidebarActive = !state.sidebarActive;
+        state.sidebarIsActive = !state.sidebarIsActive;
     },
-    loadMoreSongs(state,payload){
-        //dohvatiti podatke carda i pushati u songs array
-    // posto imamo u songs computed za getAllSongs mozda netreba nista dalje
-        //to dohvacat preko gettersa i indexa odakle dokle dohvatiti -slice?
-        //poslati kao prop
-
-        for (let i = 0; i < payload.length; i++) {
-
-            state.songs.unshift(payload[i])
-        }
-
+    removeSidebar(state) {
+        state.sidebarIsActive = false;
     },
     toggleDarkMode(state) {
         state.darkMode = !state.darkMode;
     },
+
     toggleFavorite(state, payload) {
-        const index = state.songs.findIndex(song => song.songId == payload);
+        let index = state.songs.findIndex(song => song.songId == payload.songId);
         state.songs[index].isFavorite = !state.songs[index].isFavorite;
     },
-    selectKey(state, payload) {
-        // console.log("tu",payload);
-        if (payload.name == "firstKey") {
-            state.firstKey = payload.key;
-        } else {
-            state.secondKey = payload.key;
-        }
-    }, removeSecondKey(state) {
-        state.secondKey = null;
-    },
-    addSong(state, payload) {
-        var today = new Date();
-        var dateCreated = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
-        const songId = Date.now();
-
-        const song = {
-            ...payload,
-            dateCreated,
-            songId,
-        }
-        //ubaciti notes in keys i napraviti provjeru jeli second key null
-        state.songs.unshift(song)
-    },
-    setActiveFilters(state, payload) {
-        state.activeFilters = payload;
-    }, setSongDetailTitle(state, payload) {
+    setSongDetailTitle(state, payload) {
         state.songDetailTitle = payload;
     },
-    // sortSongsOption(state,option)
-    // {
-    //     state.sortSongsOption=option;
-    // }
     sortSongs(state, option) {
-        console.log("opcija", option);
+        // console.log("opcija", option);
         if (option == "A-Z") {
-            state.songs.sort((a, b) => a.song.localeCompare(b.song))
+            state.songs.sort((a, b) => a.songName.localeCompare(b.songName))
         } else if (option == "Z-A") {
-            state.songs.sort((a, b) => b.song.localeCompare(a.song))
-        } else if (option == "least") {
+            state.songs.sort((a, b) => b.songName.localeCompare(a.songName))
+        } else if (option == "Least learned") {
             state.songs.sort((a, b) => a.practicedPrcntg - b.practicedPrcntg)
-        } else if (option == "best") {
+        } else if (option == "Best learned") {
             state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
         }
-        // else if (option == "oldest") {
+        // else if (option == "Newest Added") {
         //     state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
         // }else{
 
         // }
-
+        // console.log(state.songs);
 
     },
-     
+
+    deleteSong(state, id) {
+        let index = state.songs.findIndex(song => song.songId == id);
+        state.songs.splice(index, 1)
+
+    },
+
+    storeMusicKeys(state, payload) {
+        state.musicKeys = payload
+    },
+
+    // resources
+    updateUserNotes(state, payload) {
+        state.usefulResources.notes = payload;
+
+    },
+    addUserResourcesList(state, payload) {
+        state.usefulResources.resourcesLinks.unshift(payload)
+    },
+    deleteUserResourcesList(state, id) {
+        let index = state.usefulResources.resourcesLinks.findIndex(link => link.id == id);
+        state.usefulResources.resourcesLinks.splice(index, 1)
+    },
+    updateTxtAreaHeight(state, payload) {
+        state.usefulResources.txtAreaHeight = payload;
+    },
+
+    loadMoreSongs(state, payload) {
+        for (let i = 0; i < payload.length; i++) {
+            // state.songs.unshift(payload[i])
+            state.songs.push(payload[i])
+        }
+    },
+
+    //artists
+    loadMoreArtists(state, payload) {
+        for (let i = 0; i < payload.length; i++) {
+            // state.songs.unshift(payload[i])
+            //console.log(payload[i]);
+            state.artists.push(payload[i])
+        }
+
+        for (let i = 0; i < state.artists.length; i++) {
+            //console.log(state.artists[i]);
+            state.artists[i].order=i+1
+        }
+        
+    },
+    sortArtists(state, option) {
+        if (option == "A-Z") {
+            state.artists.sort((a, b) => a.name.localeCompare(b.name))
+        } else if (option == "Z-A") {
+            state.artists.sort((a, b) => b.name.localeCompare(a.name))
+        }
+    },
+    updateArtistsList(state, payload) {
+        state.artists = payload
+    },
+    load20MoreArtists(state) {
+        for (let i = 7; i < 20; i++) {
+            let artist = { name: "John Frusciante", order: i, totalSongs: 12 };
+            state.artists.push(artist)
+        }
+    }
+
 }

@@ -19,7 +19,7 @@
         ></song-card>
       </template>
       <skeleton-song-card
-        v-for="skeleton in 16"
+        v-for="skeleton in 2"
         :key="skeleton"
         v-else
       ></skeleton-song-card>
@@ -67,6 +67,10 @@ export default {
         "Least learned",
       ];
     },
+    // fetchedSongs(){
+    //   console.log(this.$store.state.songs.length);
+    //   return this.$store.state.songs.length
+    // }
   },
   methods: {
     filterSongs() {
@@ -81,23 +85,19 @@ export default {
     setFilters(filters) {
       this.filters = filters;
     },
-    // loadMoreSongs() {
-    //   this.$store.commit("load20MoreSongs");
-    //   this.itemsAreLoading = false;
-    // },
-
     sortSongs(option) {
       this.$store.commit("sortSongs", option);
     },
-
     handleIntersect(entries) {
       if (entries[0].isIntersecting) {
         this.itemsAreLoading = true;
-        setTimeout(() => {
-          // this.$store.dispatch("loadMoreSongs");
-          this.itemsAreLoading = false;
+        // setTimeout(() => {
+          this.$store.dispatch("loadMoreSongs").then(()=>{
+            this.itemsAreLoading = false;
           this.isLoaded = true;
-        }, 1000);
+          });
+          
+        // }, 1000);
       }
     },
   },
@@ -113,11 +113,14 @@ export default {
     observer.observe(el);
 
     // this.$store.commit("load20MoreSongs");
-    this.$store.dispatch("loadMoreSongs");
-
-    setTimeout(() => {
+    this.$store.dispatch("loadMoreSongs").then(() => {
       this.isLoaded = true;
-    }, 1000);
+    });
+
+    // setTimeout(() => {
+    //   this.isLoaded = true;
+
+    // }, 1000);
   },
 };
 </script>

@@ -25,10 +25,7 @@
         <li><h3>...</h3></li>
       </ul>
     </div>
-    <!-- <n-back-top :right="100" :bottom="500" :visibility-height="100"  /> -->
-    <div class="quote-cards">
-      
-    </div>
+   
   </div>
 
   <!-- <the-footer></the-footer> -->
@@ -43,42 +40,29 @@ export default {
     UserAuth,
     // TheFooter,
   },
-  data() {
-    return {};
-  },
-  methods: {},
   mounted() {
     if (this.$route.path == "/home") {
       this.$store.commit("removeSidebar");
     }
   },
-  computed: {},
+  
 };
 </script>
 
 <style scoped>
-.quote-cards {
-  /* grid-column: 1/4; */
-  padding: 22px;
-}
 
-@media (min-width: 1000px) {
-  .quote-cards {
-    grid-column: 1/4;
-    padding: 72px;
-  }
-}
+
 .home {
   display: grid;
   grid-template-columns: 1fr;
   max-width: 1700px;
   margin: 0 auto;
   height: 100%;
-  row-gap: 56px;
 }
 @media (min-width: 1000px) {
   .home {
     grid-template-columns: repeat(3, 1fr);
+    row-gap: 56px;
 
     padding: 0 32px 32px 32px;
   }

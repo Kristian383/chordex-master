@@ -71,17 +71,20 @@ export default {
     sortArtists(option) {
       this.$store.commit("sortArtists", option);
     },
-    loadMoreArtists() {
-      this.$store.commit("load20MoreArtists");
-    },
+    // loadMoreArtists() {
+    //   // this.$store.commit("load20MoreArtists");
+    //   this.$store.dispatch("loadMoreArtists");
+    // },
     handleIntersect(entries) {
       if (entries[0].isIntersecting) {
         this.itemsAreLoading = true;
-        setTimeout(() => {
-          this.$store.commit("load20MoreArtists");
+        // setTimeout(() => {
+        this.$store.dispatch("loadMoreArtists").then(() => {
           this.itemsAreLoading = false;
           this.isLoaded = true;
-        }, 1000);
+        });
+
+        // }, 1000);
       }
     },
   },
@@ -120,10 +123,11 @@ export default {
     let el = document.querySelector(".footer");
     observer.observe(el);
 
-    this.$store.commit("load20MoreArtists");
-    setTimeout(() => {
+    this.$store.dispatch("loadMoreArtists").then(() => {
       this.isLoaded = true;
-    }, 1000);
+    });
+    // setTimeout(() => {
+    // }, 1000);
   },
 };
 </script>

@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import getters from "./songs/getters.js"
 import actions from "./songs/actions"
-// import router from './../router.js'
+import mutations from "./songs/mutations.js"
 import authModule from './auth/index.js';
 
 const store = createStore({
@@ -9,10 +9,11 @@ const store = createStore({
     state() {
         return {
             sidebarIsActive: true,
-            // isLogged: false,
             songDetailTitle: null,
             darkMode: false,
-
+            numOfLoads:1,
+            numOfLoadingArtists:1,
+            musicKeys:[],
             // musicKeys: [
             //     { key: "C", relativeMinor: "A", notes: ["C", "D", "E", "F", "G", "A", "B"] },
             //     { key: "G", relativeMinor: "E", notes: ["G", "A", "B", "C", "D", "E", "F#"] },
@@ -30,12 +31,13 @@ const store = createStore({
             //     { key: "Gb", relativeMinor: "Eb", notes: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"] },
             //     { key: "Cb", relativeMinor: "Ab", notes: ["Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"] }],
 
-            artists: [{ name: "John Frusciante", order: 1, totalSongs: 1 },
-            { name: "Ed Sheeran", order: 2, totalSongs: 4 },
-            { name: "Nirvana", order: 3, totalSongs: 11 },
-            { name: "RHCP", order: 4, totalSongs: 12 },
-            { name: "Aerosmith", order: 5, totalSongs: 1 },
-            { name: "Led Zeppelin", order: 6, totalSongs: 1 },
+            artists: [
+            //     { name: "John Frusciante", order: 1, totalSongs: 1 },
+            // { name: "Ed Sheeran", order: 2, totalSongs: 4 },
+            // { name: "Nirvana", order: 3, totalSongs: 11 },
+            // { name: "RHCP", order: 4, totalSongs: 12 },
+            // { name: "Aerosmith", order: 5, totalSongs: 1 },
+            // { name: "Led Zeppelin", order: 6, totalSongs: 1 },
             ],
 
             songs: [
@@ -70,87 +72,70 @@ const store = createStore({
         }
     },
     getters,
+    mutations,
+        
+       
+        // addSong(state, payload) {
+        //     var today = new Date();
+        //     var dateCreated = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
-    mutations: {
-        toggleSidebar(state) {
-            state.sidebarIsActive = !state.sidebarIsActive;
-        },
-        removeSidebar(state) {
-            state.sidebarIsActive = false;
-        },
+        //     let songId;
+        //     // console.log("prije",payload.songId);
+        //     // console.log("nakon",songId);
+        //     if (!payload.songId) {
 
+        //         songId = Date.now();
+        //     } else {
 
-        toggleDarkMode(state) {
-            state.darkMode = !state.darkMode;
-        },
-        toggleFavorite(state, payload) {
-            let index = state.songs.findIndex(song => song.songId == payload.songId);
-            state.songs[index].isFavorite = !state.songs[index].isFavorite;
+        //         songId = payload.songId;
+        //     }
+        //     const song = {
+        //         ...payload,
+        //         dateCreated,
+        //         songId,
+        //     }
 
-        },
-        addSong(state, payload) {
-            var today = new Date();
-            var dateCreated = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        //     // if its new artist in app
+        //     if (!state.artists.some(artist => artist.name.toLowerCase() == song.artist.toLowerCase())) {
+        //         const newArtist = {
+        //             name: song.artist,
+        //             totalSongs: 1,
+        //             order: state.artists.length
+        //         }
+        //         state.artists.unshift(newArtist)
+        //         // console.log(newArtist);
+        //         // console.log(state.artists);
+        //     } else {
+        //         state.artists.forEach(artist => {
+        //             if (song.artist.toLowerCase() == artist.name.toLowerCase()) {
+        //                 artist.totalSongs += 1
+        //             }
+        //         });
+        //     }
 
-            let songId;
-            // console.log("prije",payload.songId);
-            // console.log("nakon",songId);
-            if (!payload.songId) {
+        //     //if song doesnt  exists
+        //     if (!song.songId) {
 
-                songId = Date.now();
-            } else {
-
-                songId = payload.songId;
-            }
-            const song = {
-                ...payload,
-                dateCreated,
-                songId,
-            }
-
-            // if its new artist in app
-            if (!state.artists.some(artist => artist.name.toLowerCase() == song.artist.toLowerCase())) {
-                const newArtist = {
-                    name: song.artist,
-                    totalSongs: 1,
-                    order: state.artists.length
-                }
-                state.artists.unshift(newArtist)
-                // console.log(newArtist);
-                // console.log(state.artists);
-            } else {
-                state.artists.forEach(artist => {
-                    if (song.artist.toLowerCase() == artist.name.toLowerCase()) {
-                        artist.totalSongs += 1
-                    }
-                });
-            }
-
-            //if song doesnt  exists
-            if (!song.songId) {
-
-                state.songs.unshift(song)
-            } else {
-                //songs exists so delete old data and refresh with new
-                let index = state.songs.findIndex(song => song.songId == payload.songId);
-                state.songs.splice(index, 1)
-                state.songs.unshift(song);
-            }
-        },
-        setSongDetailTitle(state, payload) {
-            state.songDetailTitle = payload;
-        },
-        sortSongs(state, option) {
-            // console.log("opcija", option);
-            if (option == "A-Z") {
-                state.songs.sort((a, b) => a.song.localeCompare(b.song))
-            } else if (option == "Z-A") {
-                state.songs.sort((a, b) => b.song.localeCompare(a.song))
-            } else if (option == "Least learned") {
-                state.songs.sort((a, b) => a.practicedPrcntg - b.practicedPrcntg)
-            } else if (option == "Best learned") {
-                state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
-            }
+        //         state.songs.unshift(song)
+        //     } else {
+        //         //songs exists so delete old data and refresh with new
+        //         let index = state.songs.findIndex(song => song.songId == payload.songId);
+        //         state.songs.splice(index, 1)
+        //         state.songs.unshift(song);
+        //     }
+        // },
+        
+        // sortSongs(state, option) {
+        //     // console.log("opcija", option);
+        //     if (option == "A-Z") {
+        //         state.songs.sort((a, b) => a.songName.localeCompare(b.songName))
+        //     } else if (option == "Z-A") {
+        //         state.songs.sort((a, b) => b.songName.localeCompare(a.songName))
+        //     } else if (option == "Least learned") {
+        //         state.songs.sort((a, b) => a.practicedPrcntg - b.practicedPrcntg)
+        //     } else if (option == "Best learned") {
+        //         state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
+        //     }
             // else if (option == "Newest Added") {
             //     state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
             // }else{
@@ -158,50 +143,15 @@ const store = createStore({
             // }
             // console.log(state.songs);
 
-        },
-        sortArtists(state, option) {
-            if (option == "A-Z") {
-                state.artists.sort((a, b) => a.name.localeCompare(b.name))
-            } else if (option == "Z-A") {
-                state.artists.sort((a, b) => b.name.localeCompare(a.name))
-            }
-        },
-        deleteSong(state, id) {
-            let index = state.songs.findIndex(song => song.songId == id);
-            state.songs.splice(index, 1)
+        //},
 
-        },
-        updateArtistsList(state, payload) {
-            state.artists = payload
-        },
-        storeMusicKeys(state,payload){
-            state.musicKeys=payload
-            console.log(state.musicKeys);
-        },
+        //loadMoreSongs(state, payload) {
 
-        // resources
-        updateUserNotes(state, payload) {
-            state.usefulResources.notes = payload;
-
-        },
-        addUserResourcesList(state, payload) {
-            state.usefulResources.resourcesLinks.unshift(payload)
-        },
-        deleteUserResourcesList(state, id) {
-            let index = state.usefulResources.resourcesLinks.findIndex(link => link.id == id);
-            state.usefulResources.resourcesLinks.splice(index, 1)
-        },
-        updateTxtAreaHeight(state, payload) {
-            state.usefulResources.txtAreaHeight = payload;
-        },
-
-        loadMoreSongs(state, payload) {
-
-            for (let i = 0; i < payload.length; i++) {
+           // for (let i = 0; i < payload.length; i++) {
 
                 // state.songs.unshift(payload[i])
-                state.songs.push(payload[i])
-            }
+              //  state.songs.push(payload[i])
+           // }
 
             // for (let i = 0; i < 10; i++) {
             //     let song = { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false }
@@ -210,16 +160,16 @@ const store = createStore({
             //     state.songs.push(song)
             // }
 
-        },
-        load20MoreArtists(state) {
-            for (let i = 7; i < 20; i++) {
-                let artist = { name: "John Frusciante", order: i, totalSongs: 12 };
-                state.artists.push(artist)
-            }
-        }
+       // },
+        // load20MoreArtists(state) {
+        //     for (let i = 7; i < 20; i++) {
+        //         let artist = { name: "John Frusciante", order: i, totalSongs: 12 };
+        //         state.artists.push(artist)
+        //     }
+        // }
 
 
-    },
+    
     actions
 
 

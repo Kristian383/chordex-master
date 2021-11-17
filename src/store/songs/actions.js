@@ -2,36 +2,34 @@ export default {
     async loadMoreSongs(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/songs/${username}`;
+        let numOfLoads = context.state.numOfLoads
+        let url = `http://127.0.0.1:5000/songs/${username}?numOfLoads=${numOfLoads}`;
 
-        //trebamo slati i inkremetirati index za svaki zahtjev i u backendu indexirati od indexa do 20 daljnjih
+        //console.log("numOfLoads",numOfLoads);
         const response = await fetch(url,
             {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + access_token
-                    // "Access-Control-Allow-Origin": "*",
-                    // 'X-CSRF-TOKEN': context.dispatch("getCookie", "csrf_access_token"),
                 },
-                // body: JSON.stringify({
-                //     username
-                // })
+                // body: JSON.stringify(
+                //     {numOfLoads}
+                // )
             });
 
         const responseData = await response.json();
 
         if (!response.ok) {
-            // const error = new Error(responseData.message || 'Failed to authenticate.');
-            // throw error;
             window.alert(responseData.message || 'Failed to load more songs.');
-            // return new Promise((resolve) => {
-            //     resolve("done")
-            // });
             return
         }
 
         console.log(responseData);
+        context.state.numOfLoads++
+        if(responseData.songs.length==0){
+            context.state.numOfLoads--
+        }
         context.commit("loadMoreSongs", responseData.songs)
 
     },
@@ -45,10 +43,10 @@ export default {
             username,
             ...payload
         }
-        let methodType="POST";
-        //console.log("body add",body);
-        if (payload.songId){
-            methodType="PUT"
+        let methodType = "POST";
+        console.log("body add", body);
+        if (payload.songId) {
+            methodType = "PUT"
         }
         const response = await fetch(url,
             {
@@ -66,8 +64,10 @@ export default {
 
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add song.');
-            return
+            return false
         }
+
+        return true
 
         //console.log("response", responseData);
         // context.commit("addSong", payload)
@@ -81,7 +81,7 @@ export default {
             username,
             "artist": payload.artist
         }
-        console.log("body",body);
+        console.log("body", body);
         const response = await fetch(url,
             {
                 method: "DELETE",
@@ -102,10 +102,10 @@ export default {
         }
 
         //console.log(responseData);
-        context.commit("deleteSong",payload.songId)
+        context.commit("deleteSong", payload.songId)
     },
 
-    async loadMusicKeys(context){
+    async loadMusicKeys(context) {
         let url = `http://127.0.0.1:5000/keys`;
 
         const response = await fetch(url,
@@ -122,10 +122,39 @@ export default {
             window.alert(responseData.message || 'Failed to load more songs.');
             return
         }
-        context.commit("storeMusicKeys",responseData.musicKeys)
+        context.commit("storeMusicKeys", responseData.musicKeys)
     },
 
+//ARTISTS
+    async loadMoreArtists(context){
+        let username = context.getters.user.username;
+        let access_token = context.getters.token;
+        let numOfLoads = context.state.numOfLoadingArtists
+        let url = `http://127.0.0.1:5000/artists/${username}?numOfLoads=${numOfLoads}`;
 
+        const response = await fetch(url,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token
+                },
+            });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            window.alert(responseData.message || 'Failed to load more songs.');
+            return
+        }
+
+        console.log(responseData);
+        context.state.numOfLoadingArtists++
+        if(responseData.artists.length==0){
+            context.state.numOfLoadingArtists--
+        }
+        context.commit("loadMoreArtists", responseData.artists)
+    },
     async apiForSongInfo(context, payload) {
 
         // const accesToken="";

@@ -11,8 +11,25 @@ export default {
         return state.darkMode;
     },
     getMusicKeys(state) {
+        // if(state.musicKeys)
         return state.musicKeys;
+        // else return []
     },
+    // getKeyNotes(state, payload) {
+    //     if (state.musicKeys) {
+    //         let notes = state.musicKeys;
+    //         console.log("notes",notes);
+
+    //         if (payload.quality == "major") {
+    //             notes = notes.filter(key => key.key == payload.selectedKey)[0].notes
+    //         } else {
+    //             notes = notes.filter(key => key.relativeMinor == payload.selectedKey)[0].notes
+    //         }
+    //         return notes
+    //     } else {
+    //         return
+    //     }
+    // },
     getSongDetailTitle(state) {
         return state.songDetailTitle;
     },
@@ -89,7 +106,7 @@ export default {
     // getUserNotesHeight(state) {
     //     return state.usefulResources.txtAreaHeight
     // },
-     getUserResourcesList(state) {
+    getUserResourcesList(state) {
         return state.usefulResources.resourcesLinks
     },
     getTxtAreaHeight(state) {

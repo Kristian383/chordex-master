@@ -101,7 +101,7 @@ export default {
   computed: {
     songKeysWithUniqueId() {
       const songKeysCopy = this.$store.getters.getMusicKeys.map((el) => el);
-
+      //console.log(songKeysCopy);
       // songKeysCopy.forEach((key) => {
       //   const id = Math.random().toString(36).substring(2);
       //   newKeys.push({ key, id });

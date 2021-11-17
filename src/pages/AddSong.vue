@@ -259,7 +259,7 @@ export default {
         secondKeyNotes: null,
         tuning: null,
         isMySong: false,
-        difficulty: null,
+        difficulty: "medium",
         firstKey: null,
         secondKey: null,
       },
@@ -338,11 +338,11 @@ export default {
       }
 
       event.target.classList.toggle("loading");
-      setTimeout(() => {
-        event.target.classList.remove("loading");
-        // api call
-        event.target.classList.add("success");
-      }, 1000);
+      // setTimeout(() => {
+      //   event.target.classList.remove("loading");
+        
+      //    event.target.classList.add("success");
+      // }, 1000);
 
       // setTimeout(() => {
       //   event.target.classList.remove("success");
@@ -362,10 +362,16 @@ export default {
         isFavorite: this.isFavorite,
       };
       //console.log("prije akcije",formData);
-      this.$store.dispatch("addNewSong", formData).then(() => {
-        event.target.classList.remove("success");
-        const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
+      this.$store.dispatch("addNewSong", formData).then((res) => {
+        event.target.classList.add("success");
+        if(res){
+          const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
         this.$router.push(pushRoute);
+
+        }
+        event.target.classList.remove("loading")
+        event.target.classList.remove("success");
+        
       });
       this.isSaved = true;
     },
