@@ -56,8 +56,8 @@ export default {
     },
     sortOptions() {
       return [
-        "Newest Added",
-        "Oldest Added",
+        "Last viewed",
+        "Oldest",
         "A-Z",
         "Z-A",
         "Best learned",

@@ -28,9 +28,12 @@ export default {
         } else if (option == "Best learned") {
             state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
         }
-        // else if (option == "Newest Added") {
-        //     state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
-        // }else{
+        else if (option == "Last viewed") {
+            state.songs.sort((a, b) => {
+                new Date(b.lastViewed) - new Date(a.lastViewed)
+            })
+        }
+        //else{
 
         // }
         // console.log(state.songs);

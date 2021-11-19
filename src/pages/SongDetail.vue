@@ -152,8 +152,16 @@ export default {
     if (songData) {
       this.songData = songData;
       this.isFavorite = songData.isFavorite;
+
+      // var d = new Date().toLocaleString() ;
+
+      // console.log("datestring",d);
+      // let newDate=new Date(d)
+
+      // console.log("newDate",newDate );
       //pass song name for title of page
       this.$store.commit("setSongDetailTitle", songData.songName);
+      //this.$store.dispatch("updateLastViewed", this.id);
     } else {
       this.$router.push("notFound");
     }
@@ -171,10 +179,10 @@ export default {
         const payload = {
           songName: this.songData.songName,
           artist: this.songData.artist,
-          songId:this.songData.songId
+          songId: this.songData.songId,
         };
         this.$store.dispatch("deleteSong", payload).then(() => {
-           this.$router.push(this.songData.isMySong ? "/my-songs" : "/songs");
+          this.$router.push(this.songData.isMySong ? "/my-songs" : "/songs");
         });
       }
     },

@@ -22,14 +22,14 @@
     <div class="card-body">
       <div class="tags">
         <span class="tag tag-teal" v-if="song.capo"> Capo</span>
-         <!-- <span class="tag tag-teal" v-else></span> -->
+        <!-- <span class="tag tag-teal" v-else></span> -->
         <span
           class="tag tag-teal"
           v-if="song.difficulty"
           :class="skillLevelClass"
           >{{ song.difficulty }}</span
         >
-        <span v-if="!song.capo && !song.difficulty" style="height:24px"></span>
+        <span v-if="!song.capo && !song.difficulty" style="height: 24px"></span>
       </div>
       <!-- <div  > -->
       <!-- <router-link to="/"> -->
@@ -49,7 +49,8 @@
       <div class="info">
         <div class="history-info">
           <font-awesome-icon icon="history"></font-awesome-icon>
-          <small>{{ song.lastViewed }}</small>
+          <small>{{ timeSince }}</small>
+          <!-- <small>{{ song.lastViewed }}</small> -->
         </div>
         <h5>Learned: {{ practicePercentage }}</h5>
       </div>
@@ -79,13 +80,13 @@ export default {
       this.$store.commit("toggleFavorite", { songId: this.song.songId });
     },
     openEditMode() {
-      // console.log("opening edit mode", e.target);
       this.$router.push("/new/" + this.song.songId);
     },
     chooseArtist() {
       // console.log("artist");
       this.$router.push("/artists/" + this.song.artist);
     },
+    
   },
   computed: {
     skillLevelClass() {
@@ -107,15 +108,34 @@ export default {
 
       return "#69b34c";
     },
+    timeSince() {
+      var seconds = Math.floor((new Date() - new Date(this.song.lastViewed) ) / 1000);
+
+      var interval = seconds / 31536000;
+
+      if (interval > 1) {
+        return Math.floor(interval) + " years ago";
+      }
+      interval = seconds / 2592000;
+      if (interval > 1) {
+        return Math.floor(interval) + " months ago";
+      }
+      interval = seconds / 86400;
+      if (interval > 1) {
+        return Math.floor(interval) + " days ago";
+      }
+      interval = seconds / 3600;
+      if (interval > 1) {
+        return Math.floor(interval) + "h ago";
+      }
+      interval = seconds / 60;
+      if (interval > 1) {
+        return Math.floor(interval) + " min ago";
+      }
+      return Math.floor(seconds) + "s ago";
+    },
   },
-  // data() {
-  //   return {
-  //     barPrctg: null,
-  //   };
-  // },
-  // mounted() {
-  //   this.barPrctg = this.song.practicedPrcntg;
-  // },
+ 
 };
 </script>
 
@@ -292,6 +312,7 @@ export default {
 .history-info {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 4px;
 }
 

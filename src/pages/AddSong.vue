@@ -262,6 +262,7 @@ export default {
         difficulty: "medium",
         firstKey: null,
         secondKey: null,
+        lastViewed:null
       },
       haveCapo: null,
       artist: {
@@ -292,7 +293,7 @@ export default {
           artist: this.artist.val,
           songId: +this.songId,
         };
-        console.log("pay", payload);
+        //console.log("pay", payload);
         this.$store.dispatch("deleteSong", payload).then(() => {
           this.$router.push(this.songInfo.isMySong ? "/my-songs" : "/songs");
         });
@@ -437,6 +438,7 @@ export default {
       this.song.val = songData.songName;
       this.songInfo.difficulty = songData.difficulty;
       this.songInfo.firstKey = songData.firstKey;
+      this.songInfo.lastViewed = songData.lastViewed;
 
       if (songData.secondKey) {
         this.openSecond = true;

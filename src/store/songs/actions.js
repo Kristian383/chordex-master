@@ -13,9 +13,7 @@ export default {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + access_token
                 },
-                // body: JSON.stringify(
-                //     {numOfLoads}
-                // )
+               
             });
 
         const responseData = await response.json();
@@ -27,7 +25,7 @@ export default {
 
         console.log(responseData);
         context.state.numOfLoads++
-        if(responseData.songs.length==0){
+        if (responseData.songs.length == 0) {
             context.state.numOfLoads--
         }
         context.commit("loadMoreSongs", responseData.songs)
@@ -39,15 +37,18 @@ export default {
         let url = `http://127.0.0.1:5000/song/${username}`;
         //http
         //pronaci image url
+        let lastViewed = new Date().toLocaleString();
         const body = {
             username,
             ...payload
         }
+        body.lastViewed=lastViewed;
+
         let methodType = "POST";
-        console.log("body add", body);
+        console.log("body add", body, lastViewed);
         if (payload.songId) {
             methodType = "PUT"
-        }
+        } 
         const response = await fetch(url,
             {
                 method: methodType,
@@ -125,8 +126,8 @@ export default {
         context.commit("storeMusicKeys", responseData.musicKeys)
     },
 
-//ARTISTS
-    async loadMoreArtists(context){
+    //ARTISTS
+    async loadMoreArtists(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let numOfLoads = context.state.numOfLoadingArtists
@@ -150,7 +151,7 @@ export default {
 
         console.log(responseData);
         context.state.numOfLoadingArtists++
-        if(responseData.artists.length==0){
+        if (responseData.artists.length == 0) {
             context.state.numOfLoadingArtists--
         }
         context.commit("loadMoreArtists", responseData.artists)

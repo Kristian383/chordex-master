@@ -15,7 +15,7 @@
         </li>
 
         <li>
-          <router-link class="link" active-class="active" to="/songs"
+          <router-link class="link" :class="{not_logged:isLogged}" active-class="active" to="/songs"
             >App</router-link
           >
           <!-- ovdje ga preumsjerit na auth ako nije logged -->
@@ -39,6 +39,11 @@ export default {
       hideLogo: null,
       windowWidth: null,
     };
+  },
+  computed: {
+    isLogged() {
+      return !this.$store.getters.token 
+    }
   },
   methods: {
     // switchMobNav() {
@@ -163,6 +168,10 @@ header nav .link {
 }
 header nav .link:hover {
   color: #d8323c;
+}
+header nav .link.not_logged {
+  color: var(--mid_gray);
+  pointer-events: none;
 }
 header nav .link.active {
   border-color: #d8323c;

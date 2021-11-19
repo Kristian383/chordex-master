@@ -1,50 +1,15 @@
 let timer;
 // import { authService } from '@/api'
+import jwt_decode from "jwt-decode";
 
 export default {
-
-    //from meidum tutorial
-
-
-    // async registerUser(context, payload) {
-    //     await authService.post('/register', payload)
-    //     await context.dispatch('fetchUser')
-    // },
-    // async loginUser(context, payload) {
-    //     await authService.post('/login', payload.user)
-    //     await context.dispatch('fetchUser')
-    // },
-    // async fetchUser(context) {
-    //     await authService.get('/user')
-    //         .then(({ data }) => context.commit('setUser', data))
-    // },
-    // async logoutUser(context) {
-    //     await authService.post('/logout');
-    //     context.commit('logoutUserState');
-    // },
-
-    //dolje je mojez
-    // async login(context, payload) {
-
-    //     context.dispatch("auth", {
-    //         ...payload,
-    //         mode: "login"
-    //     })
-    // },
-    // async signUp(context, payload) {
-    //     context.dispatch("auth", {
-    //         ...payload,
-    //         mode: "signup"
-    //     })
-    // },
     logout(context) {
         localStorage.removeItem("token");
         // localStorage.removeItem("userId");
         localStorage.removeItem("tokenExpiration");
         localStorage.removeItem("username");
         localStorage.removeItem("email");
-
-
+        console.log("prije logouta", timer);
         clearTimeout(timer);
 
         context.commit("setUser", {
@@ -52,15 +17,12 @@ export default {
             user: {}
         })
 
-
     },
-
 
     async auth(context, payload) {
 
         const mode = payload.mode;
         let url = `http://127.0.0.1:5000/login`;
-        // let username;
         if (mode === "signup") {
             url = `http://127.0.0.1:5000/register`;
         }
@@ -80,27 +42,32 @@ export default {
             });
 
         const responseData = await response.json();
-
+        //console.log(responseData);
         if (!response.ok) {
-            window.alert(responseData.message || 'Failed to authenticate.');
+
             return
         }
 
-        // const expiresIn = +responseData.expiresIn * 1000;
-        //const expiresIn = 3600000; //1 h
+        const expiresIn = jwt_decode(responseData.token).exp;
 
-        const expiresIn = JSON.parse(atob(responseData.token.split('.')[1]))["exp"]
-        //console.log(expiresIn);
-        const expirationDate = new Date().getTime() + expiresIn;
-
-        localStorage.setItem("tokenExpiration", expirationDate)
+        localStorage.setItem("tokenExpiration", expiresIn)
         localStorage.setItem("token", responseData.token);
         localStorage.setItem("username", responseData.user);
         localStorage.setItem("email", payload.user.email);
 
+        let d = new Date(expiresIn * 1000).getTime()
+        let expirationDate = new Date(d).getTime()
+        let now = new Date().getTime()
+        let milisecondsBetweenDates = Math.round((expirationDate - now));
+        let timeForAutoLogout = milisecondsBetweenDates - 60000;
+        // console.log("timeForAutoLogout", timeForAutoLogout);
+
         timer = setTimeout(function () {
+            console.log("token je istekao, odjavi usera");
+            //context.dispatch("refreshToken", responseData.token)
             context.dispatch("autoLogout")
-        }, expiresIn)
+
+        }, timeForAutoLogout)
 
 
         context.commit("setUser", {
@@ -109,40 +76,77 @@ export default {
                 email: payload.user.email
             },
             token: responseData.token,
-            tokenExpiration: expirationDate,
+            tokenExpiration: expiresIn,
 
         })
-        return new Promise((resolve) => {
-            resolve("done")
-        })
+
+        // return new Promise((resolve) => {
+        //     resolve("done")
+        // })
 
     },
+
+
+    // async refreshToken(context, token) {
+
+    //     let url = `http://127.0.0.1:5000/refresh`;
+    //     console.log("Stari token", token);
+    //     const response = await fetch(url,
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": "Bearer " + token
+
+    //             },
+
+    //         });
+
+    //     const responseData = await response.json();
+
+    //     if (!response.ok) {
+    //         console.log("refresh nije uspio", responseData.msg);
+    //         //context.dispatch("autoLogout")
+    //     } else {
+    //         //set users new token
+    //         console.log("set users new token", responseData);
+    //         const expiresIn = jwt_decode(responseData.token).exp;
+
+
+    //         localStorage.setItem("tokenExpiration", expiresIn)
+    //         localStorage.setItem("token", responseData.token);
+    //     }
+
+    // }    ,
     tryLogin(context) {
         const token = localStorage.getItem("token");
-        const tokenExpiration = localStorage.getItem("tokenExpiration")
+        //const tokenExpiration = localStorage.getItem("tokenExpiration")
         const username = localStorage.getItem("username")
         const email = localStorage.getItem("email")
-
-        const expiresIn = +tokenExpiration - new Date().getTime();
-
-        if (expiresIn < 0) {
-            return;
+        if (!token) {
+            return
         }
-
-        timer = setTimeout(() => {
+        const expiresIn = jwt_decode(token).exp;
+        //console.log(tokenExpiration,expiresIn);
+        var ts = Math.round((new Date()).getTime() / 1000);
+        console.log(expiresIn - ts);
+        if (expiresIn - ts < 0) {
+            console.log("token je istekao");
             context.dispatch("autoLogout")
-        }, expiresIn);
 
-        const user = {
-            username, email
-        }
-        if (token) {
+        } else {
+            console.log("tryLogin token je vazeci");
+            const user = {
+                username, email
+            }
             context.commit("setUser", {
                 token: token,
-                tokenExpiration,
+                expiresIn,
                 user
             })
         }
+
+
     },
     autoLogout(context) {
         context.dispatch("logout")

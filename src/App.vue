@@ -31,7 +31,9 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("tryLogin");
+    
+    this.$store.dispatch("tryLogin")
+    
     this.$store.dispatch("loadMusicKeys")
   },
   computed: {
