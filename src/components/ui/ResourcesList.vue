@@ -7,7 +7,7 @@
           class="notebook"
           placeholder="Notes about certain ideas..."
           ref="txtHeight"
-          @click="watchHeight"
+          @click="updateNotes"
           @blur="updateNotes"
           :style="{ height: getTxtAreaHeight + 'px' }"
         ></textarea>
@@ -15,33 +15,49 @@
       <div class="todos">
         <span><h2>Useful websites</h2></span>
         <br />
-        <input
-          type="text"
-          v-model.trim="newTodo.text"
-          @keypress.enter="addTodo"
-          placeholder="Add name and link: https://...."
-          :class="{ error: badInput }"
-          @blur="badInput = false"
-        />
-        <div v-if="getResources.length">
+        <div class="inputs">
+          <!-- @keypress.enter="addTodo" -->
+          <input
+            type="text"
+            v-on:keyup.enter="$event.target.nextElementSibling.focus()"
+            v-model.trim="website.name"
+            placeholder="Website name"
+            :class="{ error: badInput }"
+            @blur="badInput = false"
+          />
+          <input
+            type="text"
+            v-model.trim="website.link"
+            @keypress.enter="addTodo"
+            placeholder="Website link: https://...."
+            :class="{ error: badInput }"
+            @blur="badInput = false"
+          />
+        </div>
+        <div v-if="getWebsites.length">
           <transition-group tag="ul" name="list">
             <li
-              v-for="todo in getResources"
-              :key="todo.id"
+              v-for="website in getWebsites"
+              :key="website.name"
               class="resource-element"
             >
-              {{ todo.text }}
-              <a :href="todo.link" target="_blank">Go to website</a>
+              {{ website.name }}
+              <a :href="website.link" target="_blank"
+                >Go to {{ website.name }}</a
+              >
               <font-awesome-icon
-                @click="deleteTodo(todo.id)"
+                @click="deleteWebsite(website.name)"
                 :icon="['far', 'times-circle']"
               ></font-awesome-icon>
             </li>
           </transition-group>
         </div>
-        <div v-else>
+        <!-- <div class="example" v-else>
           Type name of website and its link e.g.
           <i>Chord finder https://www.chordex.com </i><br />
+        </div> -->
+        <div class="example" v-else>
+          <i>Currently no websites saved.</i><br />
         </div>
       </div>
     </div>
@@ -56,9 +72,10 @@ export default {
   },
   data() {
     return {
-      newTodo: {
-        text: null,
-        id: null,
+      website: {
+        name: null,
+        // id: null,
+        link: null,
       },
       notes: null,
       txtAreaHeight: null,
@@ -68,51 +85,46 @@ export default {
 
   methods: {
     addTodo() {
-      if (this.newTodo.text) {
-        const id = Math.random().toString(36).substring(2);
-        let data = this.newTodo.text.split(" ");
-
-        if (data.length < 2) {
+      if (this.website.name) {
+        // const id = Math.random().toString(36).substring(2);
+        if (this.website.name.length < 2 || this.website.name.length > 30) {
           this.badInput = true;
           return;
         }
 
         let link;
         try {
-          link = new URL(data[data.length - 1]);
+          link = new URL(this.website.link);
         } catch (error) {
           this.badInput = true;
           return;
         }
-        // console.log("tu", link.origin);
-        let text = data.slice(0, data.length - 1).join(" ");
-        this.$store.commit("addUserResourcesList", {
-          text: text,
-          id,
-          link: link.origin,
+
+        this.$store.dispatch("addUserWebsite", {
+          name: this.website.name,
+          link: link.href,
         });
 
-        this.newTodo.text = "";
+        this.website.name = "";
+        this.website.link = "";
       } else {
         this.badInput = true;
       }
     },
-    deleteTodo(id) {
-      this.$store.commit("deleteUserResourcesList", id);
+    deleteWebsite(name) {
+      this.$store.dispatch("deleteUserWebsite", name);
     },
-    watchHeight() {
-      this.$store.commit(
-        "updateTxtAreaHeight",
-        this.$refs.txtHeight.offsetHeight
-      );
-    },
+
     updateNotes() {
-      this.$store.commit("updateUserNotes", this.notes);
+      this.$store.dispatch("updateUsersNotes", {
+        notes: this.notes,
+        txtAreaHeight: this.$refs.txtHeight.offsetHeight,
+      });
     },
   },
   computed: {
-    getResources() {
-      return this.$store.getters.getUserResourcesList;
+    getWebsites() {
+      return this.$store.getters.getUserWebsitesLinks;
     },
     getTxtAreaHeight() {
       return this.$store.getters.getTxtAreaHeight;
@@ -122,7 +134,10 @@ export default {
     },
   },
   mounted() {
-    this.notes = this.getNotes;
+    this.$store.dispatch("loadUsersNotes").then(() => {
+      this.notes = this.getNotes;
+    });
+    this.$store.dispatch("loadUserWebsites");
   },
 };
 </script>
@@ -180,14 +195,21 @@ export default {
 input {
   font-size: 21px;
   padding: 14px;
+  /* margin-bottom: 20px; */
   outline: 0;
   width: 100%;
   border-radius: 8px;
   height: 100%;
-  margin-bottom: 20px;
   border: 2px solid #252934;
   /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
 }
+.todos .inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
 .todos ul {
   position: relative;
   padding: 0;

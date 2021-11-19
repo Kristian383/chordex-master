@@ -11,9 +11,9 @@ const store = createStore({
             sidebarIsActive: true,
             songDetailTitle: null,
             darkMode: false,
-            numOfLoads:1,
-            numOfLoadingArtists:1,
-            musicKeys:[],
+            numOfLoads: 1,
+            numOfLoadingArtists: 1,
+            musicKeys: [],
             // musicKeys: [
             //     { key: "C", relativeMinor: "A", notes: ["C", "D", "E", "F", "G", "A", "B"] },
             //     { key: "G", relativeMinor: "E", notes: ["G", "A", "B", "C", "D", "E", "F#"] },
@@ -31,145 +31,120 @@ const store = createStore({
             //     { key: "Gb", relativeMinor: "Eb", notes: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"] },
             //     { key: "Cb", relativeMinor: "Ab", notes: ["Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"] }],
 
-            artists: [
-            //     { name: "John Frusciante", order: 1, totalSongs: 1 },
-            // { name: "Ed Sheeran", order: 2, totalSongs: 4 },
-            // { name: "Nirvana", order: 3, totalSongs: 11 },
-            // { name: "RHCP", order: 4, totalSongs: 12 },
-            // { name: "Aerosmith", order: 5, totalSongs: 1 },
-            // { name: "Led Zeppelin", order: 6, totalSongs: 1 },
-            ],
+            artists: [],
 
             songs: [
                 //     { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: null, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "12", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: false }, { artist: "Rhcp", song: "dani californi", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: true },
 
-
-
-
-
-                // { artist: "RHCP", song: "californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 1, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 71, difficulty: "easy", lastViewed: "2d ago", songId: "2", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "", tuning: null, isMySong: true },
-                // { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: false, capo: null, isFavorite: true, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 84, difficulty: "hard", lastViewed: "2d ago", songId: "6", yt_link: "", chords_link: "", tuning: null, isMySong: true },
-                // { artist: "Nirvana", song: "Californication", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: true, capo: 2, isFavorite: false, imageUrl: "https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg", practicedPrcntg: 65, difficulty: "medium", lastViewed: "2d ago", songId: "3", yt_link: "", chords_link: "", tuning: null, isMySong: false },
-                // { artist: "RHCP", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: false, electric: true, capo: null, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 32, difficulty: "medium", lastViewed: "2d ago", songId: "4", yt_link: "", chords_link: "", tuning: null, isMySong: true },
-                // { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "5", yt_link: "", chords_link: "", tuning: null, isMySong: false },
-
-
-                // { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "52", yt_link: "", chords_link: "", tuning: null, isMySong: false }, { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false },
-
-
-
-
-
-
-
             ],
             usefulResources: {
-                notes: "",
-                resourcesLinks: [{ text: "make the rgb(194, 42, 42)bed", id: 1 },
-                { text: "play video games", id: 2, link: "https://www.youtube.com/watch?v=gmmrejxckWs" },],
+                notes: null,
+                websitesLinks: [
+                    // { name: "youtube",  link: "https://www.youtube.com/watch?v=gmmrejxckWs" },
+                ],
                 txtAreaHeight: 200
             }
         }
     },
     getters,
     mutations,
-        
-       
-        // addSong(state, payload) {
-        //     var today = new Date();
-        //     var dateCreated = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-
-        //     let songId;
-        //     // console.log("prije",payload.songId);
-        //     // console.log("nakon",songId);
-        //     if (!payload.songId) {
-
-        //         songId = Date.now();
-        //     } else {
-
-        //         songId = payload.songId;
-        //     }
-        //     const song = {
-        //         ...payload,
-        //         dateCreated,
-        //         songId,
-        //     }
-
-        //     // if its new artist in app
-        //     if (!state.artists.some(artist => artist.name.toLowerCase() == song.artist.toLowerCase())) {
-        //         const newArtist = {
-        //             name: song.artist,
-        //             totalSongs: 1,
-        //             order: state.artists.length
-        //         }
-        //         state.artists.unshift(newArtist)
-        //         // console.log(newArtist);
-        //         // console.log(state.artists);
-        //     } else {
-        //         state.artists.forEach(artist => {
-        //             if (song.artist.toLowerCase() == artist.name.toLowerCase()) {
-        //                 artist.totalSongs += 1
-        //             }
-        //         });
-        //     }
-
-        //     //if song doesnt  exists
-        //     if (!song.songId) {
-
-        //         state.songs.unshift(song)
-        //     } else {
-        //         //songs exists so delete old data and refresh with new
-        //         let index = state.songs.findIndex(song => song.songId == payload.songId);
-        //         state.songs.splice(index, 1)
-        //         state.songs.unshift(song);
-        //     }
-        // },
-        
-        // sortSongs(state, option) {
-        //     // console.log("opcija", option);
-        //     if (option == "A-Z") {
-        //         state.songs.sort((a, b) => a.songName.localeCompare(b.songName))
-        //     } else if (option == "Z-A") {
-        //         state.songs.sort((a, b) => b.songName.localeCompare(a.songName))
-        //     } else if (option == "Least learned") {
-        //         state.songs.sort((a, b) => a.practicedPrcntg - b.practicedPrcntg)
-        //     } else if (option == "Best learned") {
-        //         state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
-        //     }
-            // else if (option == "Newest Added") {
-            //     state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
-            // }else{
-
-            // }
-            // console.log(state.songs);
-
-        //},
-
-        //loadMoreSongs(state, payload) {
-
-           // for (let i = 0; i < payload.length; i++) {
-
-                // state.songs.unshift(payload[i])
-              //  state.songs.push(payload[i])
-           // }
-
-            // for (let i = 0; i < 10; i++) {
-            //     let song = { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false }
-
-            //     song.songId = Math.random().toString(36).substring(2);
-            //     state.songs.push(song)
-            // }
-
-       // },
-        // load20MoreArtists(state) {
-        //     for (let i = 7; i < 20; i++) {
-        //         let artist = { name: "John Frusciante", order: i, totalSongs: 12 };
-        //         state.artists.push(artist)
-        //     }
-        // }
 
 
-    
+    // addSong(state, payload) {
+    //     var today = new Date();
+    //     var dateCreated = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+    //     let songId;
+    //     // console.log("prije",payload.songId);
+    //     // console.log("nakon",songId);
+    //     if (!payload.songId) {
+
+    //         songId = Date.now();
+    //     } else {
+
+    //         songId = payload.songId;
+    //     }
+    //     const song = {
+    //         ...payload,
+    //         dateCreated,
+    //         songId,
+    //     }
+
+    //     // if its new artist in app
+    //     if (!state.artists.some(artist => artist.name.toLowerCase() == song.artist.toLowerCase())) {
+    //         const newArtist = {
+    //             name: song.artist,
+    //             totalSongs: 1,
+    //             order: state.artists.length
+    //         }
+    //         state.artists.unshift(newArtist)
+    //         // console.log(newArtist);
+    //         // console.log(state.artists);
+    //     } else {
+    //         state.artists.forEach(artist => {
+    //             if (song.artist.toLowerCase() == artist.name.toLowerCase()) {
+    //                 artist.totalSongs += 1
+    //             }
+    //         });
+    //     }
+
+    //     //if song doesnt  exists
+    //     if (!song.songId) {
+
+    //         state.songs.unshift(song)
+    //     } else {
+    //         //songs exists so delete old data and refresh with new
+    //         let index = state.songs.findIndex(song => song.songId == payload.songId);
+    //         state.songs.splice(index, 1)
+    //         state.songs.unshift(song);
+    //     }
+    // },
+
+    // sortSongs(state, option) {
+    //     // console.log("opcija", option);
+    //     if (option == "A-Z") {
+    //         state.songs.sort((a, b) => a.songName.localeCompare(b.songName))
+    //     } else if (option == "Z-A") {
+    //         state.songs.sort((a, b) => b.songName.localeCompare(a.songName))
+    //     } else if (option == "Least learned") {
+    //         state.songs.sort((a, b) => a.practicedPrcntg - b.practicedPrcntg)
+    //     } else if (option == "Best learned") {
+    //         state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
+    //     }
+    // else if (option == "Newest Added") {
+    //     state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
+    // }else{
+
+    // }
+    // console.log(state.songs);
+
+    //},
+
+    //loadMoreSongs(state, payload) {
+
+    // for (let i = 0; i < payload.length; i++) {
+
+    // state.songs.unshift(payload[i])
+    //  state.songs.push(payload[i])
+    // }
+
+    // for (let i = 0; i < 10; i++) {
+    //     let song = { artist: "Nirvana", song: "Smells like teen spirit", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi ", secondProgression: "5 4 1", songText: "", firstKeyNotes: "", secondKeyNotes: "", acoustic: true, electric: false, capo: 3, isFavorite: false, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 62, difficulty: "hard", lastViewed: "2d ago", songId: "15", yt_link: "", chords_link: "", tuning: null, isMySong: false }
+
+    //     song.songId = Math.random().toString(36).substring(2);
+    //     state.songs.push(song)
+    // }
+
+    // },
+    // load20MoreArtists(state) {
+    //     for (let i = 7; i < 20; i++) {
+    //         let artist = { name: "John Frusciante", order: i, totalSongs: 12 };
+    //         state.artists.push(artist)
+    //     }
+    // }
+
+
+
     actions
 
 

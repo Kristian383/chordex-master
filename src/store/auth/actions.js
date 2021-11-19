@@ -86,38 +86,6 @@ export default {
 
     },
 
-
-    // async refreshToken(context, token) {
-
-    //     let url = `http://127.0.0.1:5000/refresh`;
-    //     console.log("Stari token", token);
-    //     const response = await fetch(url,
-    //         {
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": "Bearer " + token
-
-    //             },
-
-    //         });
-
-    //     const responseData = await response.json();
-
-    //     if (!response.ok) {
-    //         console.log("refresh nije uspio", responseData.msg);
-    //         //context.dispatch("autoLogout")
-    //     } else {
-    //         //set users new token
-    //         console.log("set users new token", responseData);
-    //         const expiresIn = jwt_decode(responseData.token).exp;
-
-
-    //         localStorage.setItem("tokenExpiration", expiresIn)
-    //         localStorage.setItem("token", responseData.token);
-    //     }
-
-    // }    ,
     tryLogin(context) {
         const token = localStorage.getItem("token");
         //const tokenExpiration = localStorage.getItem("tokenExpiration")
@@ -127,9 +95,8 @@ export default {
             return
         }
         const expiresIn = jwt_decode(token).exp;
-        //console.log(tokenExpiration,expiresIn);
         var ts = Math.round((new Date()).getTime() / 1000);
-        console.log(expiresIn - ts);
+        //console.log(expiresIn - ts);
         if (expiresIn - ts < 0) {
             console.log("token je istekao");
             context.dispatch("autoLogout")

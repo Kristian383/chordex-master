@@ -106,8 +106,8 @@ export default {
     // getUserNotesHeight(state) {
     //     return state.usefulResources.txtAreaHeight
     // },
-    getUserResourcesList(state) {
-        return state.usefulResources.resourcesLinks
+    getUserWebsitesLinks(state) {
+        return state.usefulResources.websitesLinks
     },
     getTxtAreaHeight(state) {
         return state.usefulResources.txtAreaHeight

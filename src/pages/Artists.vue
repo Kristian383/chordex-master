@@ -65,6 +65,8 @@ export default {
       selectedArtist: null,
       list: this.sortList,
       itemsAreLoading: false,
+      observer:null,
+      el:null
     };
   },
   methods: {
@@ -119,9 +121,9 @@ export default {
       threshold: 0.5,
     };
 
-    let observer = new IntersectionObserver(this.handleIntersect, options);
-    let el = document.querySelector(".footer");
-    observer.observe(el);
+    this.observer = new IntersectionObserver(this.handleIntersect, options);
+    this.el = document.querySelector(".footer");
+    this.observer.observe(this.el);
 
     this.$store.dispatch("loadMoreArtists").then(() => {
       this.isLoaded = true;
@@ -129,6 +131,10 @@ export default {
     // setTimeout(() => {
     // }, 1000);
   },
+  beforeUnmount(){
+    // console.log("unmounting artists component");
+    this.observer.unobserve(this.el)
+  }
 };
 </script>
 

@@ -51,6 +51,8 @@ export default {
       isLoaded: false,
       filters: [],
       itemsAreLoading: false,
+      el:null,
+      observer:null
     };
   },
   computed: {
@@ -109,9 +111,9 @@ export default {
       threshold: 0.5,
     };
 
-    let observer = new IntersectionObserver(this.handleIntersect, options);
-    let el = document.querySelector(".footer");
-    observer.observe(el);
+    this.observer = new IntersectionObserver(this.handleIntersect, options);
+    this.el = document.querySelector(".footer");
+    this.observer.observe(this.el);
 
     // this.$store.commit("load20MoreSongs");
     this.$store.dispatch("loadMoreSongs").then(() => {
@@ -123,6 +125,10 @@ export default {
 
     // }, 1000);
   },
+  beforeUnmount(){
+    //console.log("unmounting songs component");
+    this.observer.unobserve(this.el)
+  }
 };
 </script>
 

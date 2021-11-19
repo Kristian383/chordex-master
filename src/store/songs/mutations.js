@@ -55,15 +55,18 @@ export default {
         state.usefulResources.notes = payload;
 
     },
-    addUserResourcesList(state, payload) {
-        state.usefulResources.resourcesLinks.unshift(payload)
+    addUserWebsite(state, payload) {
+        state.usefulResources.websitesLinks.unshift(payload)
     },
-    deleteUserResourcesList(state, id) {
-        let index = state.usefulResources.resourcesLinks.findIndex(link => link.id == id);
-        state.usefulResources.resourcesLinks.splice(index, 1)
+    deleteUserWebsite(state, name) {
+        let index = state.usefulResources.websitesLinks.findIndex(link => link.name == name);
+        state.usefulResources.websitesLinks.splice(index, 1)
     },
     updateTxtAreaHeight(state, payload) {
         state.usefulResources.txtAreaHeight = payload;
+    },
+    setUserWebsites(state,payload){
+        state.usefulResources.websitesLinks=payload
     },
 
     loadMoreSongs(state, payload) {

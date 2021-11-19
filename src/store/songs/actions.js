@@ -13,7 +13,7 @@ export default {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + access_token
                 },
-               
+
             });
 
         const responseData = await response.json();
@@ -28,6 +28,8 @@ export default {
         if (responseData.songs.length == 0) {
             context.state.numOfLoads--
         }
+
+        //get songImageUrl from spotify
         context.commit("loadMoreSongs", responseData.songs)
 
     },
@@ -42,13 +44,13 @@ export default {
             username,
             ...payload
         }
-        body.lastViewed=lastViewed;
+        body.lastViewed = lastViewed;
 
         let methodType = "POST";
         console.log("body add", body, lastViewed);
         if (payload.songId) {
             methodType = "PUT"
-        } 
+        }
         const response = await fetch(url,
             {
                 method: methodType,
@@ -156,6 +158,140 @@ export default {
         }
         context.commit("loadMoreArtists", responseData.artists)
     },
+
+    async loadUsersNotes(context) {
+        let username = context.getters.user.username;
+        let access_token = context.getters.token;
+        let url = `http://127.0.0.1:5000/notes/${username}`;
+
+        const response = await fetch(url,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token
+                },
+
+            });
+
+        const responseData = await response.json();
+        //console.log("userNotes", responseData);
+        if (!response.ok) {
+            window.alert(responseData.message || 'Failed to load user notes.');
+            return
+        }
+        context.commit("updateUserNotes", responseData.notes)
+        context.commit("updateTxtAreaHeight", responseData.txtAreaHeight)
+
+    },
+    async updateUsersNotes(context, payload) {
+        let username = context.getters.user.username;
+        let access_token = context.getters.token;
+        let url = `http://127.0.0.1:5000/notes/${username}`;
+        //console.log(payload);
+        const response = await fetch(url,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token
+                },
+                body: JSON.stringify(
+                    payload
+                )
+
+            });
+
+        const responseData = await response.json();
+        //console.log("updated UsersNotes",responseData);
+        if (!response.ok) {
+            window.alert(responseData.message || 'Failed to update user notes.');
+            return
+        }
+        context.commit("updateUserNotes", responseData.notes)
+        context.commit("updateTxtAreaHeight", responseData.txtAreaHeight)
+
+    },
+    async addUserWebsite(context, payload) {
+        let username = context.getters.user.username;
+        let access_token = context.getters.token;
+        let url = `http://127.0.0.1:5000/website/${username}`;
+        console.log(JSON.stringify(
+            payload
+        ));
+        const response = await fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token
+                },
+                body: JSON.stringify(
+                    payload
+                )
+
+            });
+
+        const responseData = await response.json();
+        //console.log("updated UsersNotes",responseData);
+        if (!response.ok) {
+            window.alert(responseData.message || 'Failed to add user website.');
+            return
+        }
+        context.commit("addUserWebsite", payload)
+    },
+    async deleteUserWebsite(context, name) {
+        let username = context.getters.user.username;
+        let access_token = context.getters.token;
+        let url = `http://127.0.0.1:5000/website/${username}`;
+        
+        const response = await fetch(url,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token
+                },
+                body: JSON.stringify(
+                    {name}
+                )
+
+            });
+
+        const responseData = await response.json();
+        console.log("deleteUserWebsite",responseData);
+        if (!response.ok) {
+            window.alert(responseData.message || 'Failed to add user website.');
+            return
+        }
+        context.commit("deleteUserWebsite", name)
+    },
+    async loadUserWebsites(context) {
+        let username = context.getters.user.username;
+        let access_token = context.getters.token;
+        let url = `http://127.0.0.1:5000/websites/${username}`;
+
+        const response = await fetch(url,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token
+                },
+
+            });
+
+        const responseData = await response.json();
+        //console.log("websites", responseData);
+        if (!response.ok) {
+            window.alert(responseData.message || 'Failed to load user notes.');
+            return
+        }
+        context.commit("setUserWebsites", responseData.websites)
+        
+
+    },
+
     async apiForSongInfo(context, payload) {
 
         // const accesToken="";
