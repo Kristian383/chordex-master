@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <div class="form">
+    <div class="form" v-if="!isLogged">
       <!-- <span><h2>Welcome!</h2></span> -->
-      <user-auth></user-auth>
+      <user-auth ></user-auth>
     </div>
-    <div class="home-content third">
+    <div class="home-content third" :class="{logged:isLogged}">
       <div><h2>Keep track of your songs and store them at one place.</h2></div>
       <div class="photo-div">
         <img src=".././assets/home.jpg" alt="logo" />
@@ -45,6 +45,12 @@ export default {
       this.$store.commit("removeSidebar");
     }
   },
+  computed: {
+    isLogged() {
+      // console.log("user has token?",this.$store.getters.token );
+      return !!this.$store.getters.token 
+    }
+  },
   
 };
 </script>
@@ -66,9 +72,14 @@ export default {
 
     padding: 0 32px 32px 32px;
   }
+  
   .third {
     grid-column: 2/4;
     padding-top: 26px;
+  }
+
+  .third.logged {
+    grid-column: 1/4;
   }
   #songs {
     grid-column: 1 / 3;

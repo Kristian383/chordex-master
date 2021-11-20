@@ -4,7 +4,7 @@
       <img src="@/assets/green.jpg" alt="" />
     </div>
     <div class="about-text">
-      <h2>Why should I use this app?</h2>
+      <h2>Why should I use this website?</h2>
       <p>
         What a better way of keeping the information about the songs than having
         it all in one place just with couple of clicks. Not only can you easily
