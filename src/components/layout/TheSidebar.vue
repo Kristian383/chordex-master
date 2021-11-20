@@ -30,7 +30,7 @@
         <li>
           <router-link
             to="/songs"
-            v-bind:class="{ active_item: $route.path == '/songs' }"
+            v-bind:class="{ active_item: $route.path == '/songs' && $route.query.isMySong !='True' }"
           >
             <font-awesome-icon id="ikona" icon="music"></font-awesome-icon>
             <span class="links_name">Songs</span>
@@ -89,8 +89,8 @@
       </li> -->
         <li>
           <router-link
-            to="/my-songs"
-            v-bind:class="{ active_item: $route.path == '/my-songs' }"
+            to="/songs?isMySong=True"
+            v-bind:class="{ active_item: $route.query.isMySong == 'True' }"
           >
             <font-awesome-icon
               id="ikona"

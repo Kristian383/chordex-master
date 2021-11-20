@@ -1,4 +1,5 @@
-import router from './../../router.js'
+// import router from './../../router.js'
+
 export default {
     sidebarIsActive(state) {
         return state.sidebarIsActive;
@@ -33,21 +34,26 @@ export default {
     getSongDetailTitle(state) {
         return state.songDetailTitle;
     },
+    // filterSongs22(state,payload){
+    //     console.log(state,payload);
+    // }
+    // ,
     filterSongs(state) {
-        return (filters, artist = null) => {
+        return (filters,query=null, artist = null) => {
 
             if (artist) {
                 return state.songs.filter(song => song.artist.toLowerCase() == artist.toLowerCase())
             }
+            //console.log(query);
 
             if (!filters.length || filters == "all") {
                 // console.log("prazno udje, vracam sve pjesme");
                 return state.songs.filter(song => {
-                    if (song.isMySong && router.currentRoute._rawValue.path == "/my-songs") {
+                    if (song.isMySong && query) {
                         return true
-                    } else if (song.isMySong && router.currentRoute._rawValue.path != "/my-songs") {
+                    } else if (song.isMySong && !query) {
                         return false
-                    } else if (!song.isMySong && router.currentRoute._rawValue.path == "/songs") {
+                    } else if (!song.isMySong && !query) {
                         return true
 
                     }
@@ -57,8 +63,8 @@ export default {
 
             const songs = state.songs.filter(song => {
 
-                if (song.isMySong && router.currentRoute._rawValue.path != "/my-songs") return false;
-                if (!song.isMySong && router.currentRoute._rawValue.path == "/my-songs") return false;
+                if (song.isMySong && !query) return false;
+                if (!song.isMySong && query) return false;
 
                 // let mySong=song.isMySong && router.currentRoute._rawValue.path == "/my-songs";
                 // console.log(mySong);
@@ -86,7 +92,6 @@ export default {
                 });
                 return songIsValid
             })
-            // console.log("hei", songs);
             return songs
         }
 

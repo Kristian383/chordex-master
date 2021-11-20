@@ -49,11 +49,9 @@ export default {
         console.log("body add", body);
         if (payload.songId) {
             methodType = "PUT"
-        } else {
+        } 
             let lastViewed = new Date().toLocaleString();
-
             body.lastViewed = lastViewed;
-        }
 
         const response = await fetch(url,
             {

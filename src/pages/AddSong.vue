@@ -29,6 +29,7 @@
               name="my-song"
               id="my-song"
               v-model="songInfo.isMySong"
+              @click="setArtist"
             /><label for="my-song">My song</label>
             <!-- <label for="my-song">My Song</label> -->
           </div>
@@ -284,6 +285,9 @@ export default {
       }
       return "heart";
     },
+    getUsername(){
+      return this.$store.getters.user.username
+    }
   },
   methods: {
     deleteSong() {
@@ -295,7 +299,7 @@ export default {
         };
         //console.log("pay", payload);
         this.$store.dispatch("deleteSong", payload).then(() => {
-          this.$router.push(this.songInfo.isMySong ? "/my-songs" : "/songs");
+          this.$router.push(this.songInfo.isMySong ? "/songs?isMySong=True" : "/songs");
         });
       }
     },
@@ -366,7 +370,7 @@ export default {
       this.$store.dispatch("addNewSong", formData).then((res) => {
         event.target.classList.add("success");
         if(res){
-          const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
+          const pushRoute = this.songInfo.isMySong ? "/songs?isMySong=True" : "/songs";
         this.$router.push(pushRoute);
 
         }
@@ -405,6 +409,14 @@ export default {
       let id = linkArr[linkArr.length - 1];
       // let id = link.split("https://www.youtube.com/watch?v=")[1];
       return `https://www.youtube.com/embed/${id}`;
+    },
+    setArtist(e){
+      //console.log(e.target.checked);
+      if(e.target.checked){
+        this.artist.val=this.getUsername
+      }else{
+        this.artist.val=""
+      }
     },
     searchSongInfo() {
       //api call to spotify

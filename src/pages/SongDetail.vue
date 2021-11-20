@@ -4,7 +4,7 @@
       <div class="box song-info">
         <div class="top-icons">
           <div class="go-back">
-            <router-link :to="songData.isMySong ? '/my-songs' : '/songs'">
+            <router-link :to="songData.isMySong ? '/songs?isMySong=True' : '/songs'">
               <font-awesome-icon icon="arrow-left"></font-awesome-icon>
             </router-link>
           </div>
@@ -187,7 +187,7 @@ export default {
           songId: this.songData.songId,
         };
         this.$store.dispatch("deleteSong", payload).then(() => {
-          this.$router.push(this.songData.isMySong ? "/my-songs" : "/songs");
+          this.$router.push(this.songData.isMySong ? "/songs?isMySong=True" : "/songs");
         });
       }
     },

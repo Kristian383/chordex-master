@@ -76,14 +76,25 @@ export default {
     // }
   },
   methods: {
+    // filterSongs() {
+    //   console.log(this.$route);
+    //   if (this.$route.query.isMySong) {
+    //     return this.$store.getters.filterSongs(
+    //       this.filters,
+    //       this.$route.query.isMySong
+    //     );
+    //   }
+    //   return this.$store.getters.filterSongs(this.filters);
+    // },
     filterSongs() {
       if (this.$route.params.name) {
         return this.$store.getters.filterSongs(
           this.filters,
+          null,
           this.$route.params.name
         );
       }
-      return this.$store.getters.filterSongs(this.filters);
+      return this.$store.getters.filterSongs(this.filters,this.$route.query.isMySong);
     },
     setFilters(filters) {
       this.filters = filters;

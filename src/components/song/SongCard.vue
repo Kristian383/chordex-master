@@ -66,15 +66,12 @@ export default {
   methods: {
     openSongDetail() {
       // console.log("stisak", e.target);
-      if (this.song.isMySong) {
-        this.$router.push("/my-songs/" + this.song.songId);
-      } else {
         this.$router.push("/songs/" + this.song.songId);
-      }
-      //if (e.target.id == "edit") {
-      //   console.log("Edit mode");
-      //   //route push na edit preko id propsa
+      // if (this.song.isMySong) {
+      // } else {
+      //   this.$router.push("/songs/" + this.song.songId);
       // }
+     
     },
     toggleFavorite() {
       this.$store.commit("toggleFavorite", { songId: this.song.songId });
