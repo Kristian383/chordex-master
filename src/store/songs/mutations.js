@@ -30,12 +30,14 @@ export default {
         }
         else if (option == "Last viewed") {
             state.songs.sort((a, b) => {
-                new Date(b.lastViewed) - new Date(a.lastViewed)
+              return  new Date(b.lastViewed) - new Date(a.lastViewed)
             })
         }
-        //else{
-
-        // }
+        else{
+            state.songs.sort((a, b) => {
+                return  new Date(a.lastViewed) - new Date(b.lastViewed)
+              })
+         }
         // console.log(state.songs);
 
     },
@@ -45,6 +47,11 @@ export default {
         state.songs.splice(index, 1)
 
     },
+    updateSong(state,payload){
+        let index = state.songs.findIndex(song => song.songId == payload.songId);
+        state.songs[index]=payload
+    }
+    ,
 
     storeMusicKeys(state, payload) {
         state.musicKeys = payload

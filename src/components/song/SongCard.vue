@@ -78,6 +78,8 @@ export default {
     },
     toggleFavorite() {
       this.$store.commit("toggleFavorite", { songId: this.song.songId });
+      //this.song.isFavorite=!this.song.isFavorite
+      this.$store.dispatch("addNewSong", this.song);
     },
     openEditMode() {
       this.$router.push("/new/" + this.song.songId);
@@ -122,7 +124,8 @@ export default {
       }
       interval = seconds / 86400;
       if (interval > 1) {
-        return Math.floor(interval) + " days ago";
+        
+        return Math.floor(interval) + "d ago";
       }
       interval = seconds / 3600;
       if (interval > 1) {

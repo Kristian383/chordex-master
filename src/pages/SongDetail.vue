@@ -12,7 +12,7 @@
             <font-awesome-icon
               :icon="iconName"
               :class="{ 'is-favorite': isFavorite }"
-              @click="ToggleFavorite"
+              @click="toggleFavorite"
             ></font-awesome-icon>
             <font-awesome-icon
               icon="edit"
@@ -167,9 +167,14 @@ export default {
     }
   },
   methods: {
-    ToggleFavorite() {
-      this.isFavorite = !this.isFavorite;
+    // ToggleFavorite() {
+    //   this.isFavorite = !this.isFavorite;
+    //   this.$store.commit("toggleFavorite", { songId: this.id });
+    // },
+    toggleFavorite() {
       this.$store.commit("toggleFavorite", { songId: this.id });
+      this.isFavorite = !this.isFavorite;
+      this.$store.dispatch("addNewSong", this.songData);
     },
     openEdit() {
       this.$router.push("/new/" + this.songId);

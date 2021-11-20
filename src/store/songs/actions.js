@@ -39,18 +39,22 @@ export default {
         let url = `http://127.0.0.1:5000/song/${username}`;
         //http
         //pronaci image url
-        let lastViewed = new Date().toLocaleString();
+        //console.log("payload add",payload);
         const body = {
             username,
             ...payload
         }
-        body.lastViewed = lastViewed;
 
         let methodType = "POST";
-        console.log("body add", body, lastViewed);
+        console.log("body add", body);
         if (payload.songId) {
             methodType = "PUT"
+        } else {
+            let lastViewed = new Date().toLocaleString();
+
+            body.lastViewed = lastViewed;
         }
+
         const response = await fetch(url,
             {
                 method: methodType,
@@ -67,13 +71,16 @@ export default {
 
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add song.');
-            return false
+             return false
         }
 
+        
+        if (payload.songId){
+            
+             context.commit("updateSong", payload)
+        }
         return true
-
         //console.log("response", responseData);
-        // context.commit("addSong", payload)
     },
     async deleteSong(context, payload) {
         let username = context.getters.user.username;
@@ -84,7 +91,7 @@ export default {
             username,
             "artist": payload.artist
         }
-        console.log("body", body);
+        //console.log("delete body", body);
         const response = await fetch(url,
             {
                 method: "DELETE",
@@ -244,7 +251,7 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `http://127.0.0.1:5000/website/${username}`;
-        
+
         const response = await fetch(url,
             {
                 method: "DELETE",
@@ -253,13 +260,13 @@ export default {
                     "Authorization": "Bearer " + access_token
                 },
                 body: JSON.stringify(
-                    {name}
+                    { name }
                 )
 
             });
 
         const responseData = await response.json();
-        console.log("deleteUserWebsite",responseData);
+        console.log("deleteUserWebsite", responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add user website.');
             return
@@ -288,7 +295,7 @@ export default {
             return
         }
         context.commit("setUserWebsites", responseData.websites)
-        
+
 
     },
 

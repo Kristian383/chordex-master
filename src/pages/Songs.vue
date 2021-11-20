@@ -94,13 +94,11 @@ export default {
     handleIntersect(entries) {
       if (entries[0].isIntersecting) {
         this.itemsAreLoading = true;
-        // setTimeout(() => {
           this.$store.dispatch("loadMoreSongs").then(()=>{
             this.itemsAreLoading = false;
           this.isLoaded = true;
           });
           
-        // }, 1000);
       }
     },
   },
@@ -115,18 +113,13 @@ export default {
     this.el = document.querySelector(".footer");
     this.observer.observe(this.el);
 
-    // this.$store.commit("load20MoreSongs");
     this.$store.dispatch("loadMoreSongs").then(() => {
+      // this.sortSongs("Last viewed")
       this.isLoaded = true;
     });
 
-    // setTimeout(() => {
-    //   this.isLoaded = true;
-
-    // }, 1000);
   },
   beforeUnmount(){
-    //console.log("unmounting songs component");
     this.observer.unobserve(this.el)
   }
 };
