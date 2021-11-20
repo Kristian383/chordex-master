@@ -2,7 +2,7 @@
   <div class="card" @click="openSongDetail">
     <div class="card-header">
       <div class="image">
-        <img :src="song.imageUrl" alt="Artist photo" />
+        <img :src="song.imageUrl" alt="Photo" />
       </div>
 
       <div class="icons">
