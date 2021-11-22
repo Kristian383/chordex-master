@@ -24,13 +24,15 @@
               id="my-song"
               v-model="songInfo.isMySong"
             /> -->
-            <input
+            <template v-if="!songId">
+              <input
               type="checkbox"
               name="my-song"
               id="my-song"
               v-model="songInfo.isMySong"
               @click="setArtist"
             /><label for="my-song">My song</label>
+            </template>
             <!-- <label for="my-song">My Song</label> -->
           </div>
           <!--  -->
@@ -51,6 +53,7 @@
             type="text"
             id="input-artist"
             placeholder="Artist name"
+            :disabled="songInfo.isMySong"
             v-model.trim="artist.val"
             :class="{ 'error-msg': !artist.isValid }"
             @focus="clearValidity('artist')"
@@ -218,7 +221,7 @@
             v-model="songInfo.songText"
             id="txt_area"
             name=""
-            rows="10"
+            rows="20"
             placeholder="Song notes..."
           ></textarea>
 
