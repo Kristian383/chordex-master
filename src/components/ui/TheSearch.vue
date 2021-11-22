@@ -59,32 +59,30 @@ export default {
 </script>
 
 <style scoped>
-
-.list-enter-from{
+.list-enter-from {
   opacity: 0;
 }
-.list-enter-to{
+.list-enter-to {
   opacity: 1;
 }
-.list-enter-active{
-transition: all .4s ease;
+.list-enter-active {
+  transition: all 0.4s ease;
 }
 
-.list-leave-from{
+.list-leave-from {
   opacity: 1;
 }
-.list-leave-to{
+.list-leave-to {
   opacity: 0;
 }
-.list-leave-active{
-transition: all .3s ease;
+.list-leave-active {
+  transition: all 0.3s ease;
 }
-
 
 .home-section nav .search-box {
   position: relative;
   height: 50px;
-   width: 100%;
+  width: 100%;
   max-width: 350px;
   /* min-width: 200px; */
   /* width: 100%; */
@@ -138,7 +136,6 @@ nav .search-box #search {
 }
 .match-list li {
   list-style: none;
-  padding: 10px 12px;
   display: none;
   width: 100%;
   border-radius: 3px;
@@ -155,5 +152,6 @@ nav .search-box #search {
   color: inherit;
   display: inline-block;
   width: 100%;
+  padding: 10px 12px;
 }
 </style>
