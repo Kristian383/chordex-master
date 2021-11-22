@@ -5,17 +5,17 @@ import jwt_decode from "jwt-decode";
 export default {
     logout(context) {
         localStorage.removeItem("token");
-        // localStorage.removeItem("userId");
         localStorage.removeItem("tokenExpiration");
         localStorage.removeItem("username");
         localStorage.removeItem("email");
-        console.log("prije logouta", timer);
         clearTimeout(timer);
 
         context.commit("setUser", {
             token: null,
             user: {}
         })
+
+        //clear state?
 
     },
 
@@ -45,7 +45,7 @@ export default {
         //console.log(responseData);
         if (!response.ok) {
 
-            return
+            return 
         }
 
         const expiresIn = jwt_decode(responseData.token).exp;
@@ -80,6 +80,8 @@ export default {
 
         })
 
+        context.dispatch("loadAllSongs");
+            context.dispatch("loadMusicKeys");
         // return new Promise((resolve) => {
         //     resolve("done")
         // })
@@ -98,11 +100,11 @@ export default {
         var ts = Math.round((new Date()).getTime() / 1000);
         //console.log(expiresIn - ts);
         if (expiresIn - ts < 0) {
-            console.log("token je istekao");
+            // console.log("token je istekao");
             context.dispatch("autoLogout")
 
         } else {
-            console.log("tryLogin token je vazeci");
+            // console.log("tryLogin token je vazeci");
             const user = {
                 username, email
             }
@@ -111,6 +113,9 @@ export default {
                 expiresIn,
                 user
             })
+            context.dispatch("loadAllSongs");
+            context.dispatch("loadMusicKeys");
+
         }
 
 
