@@ -27,6 +27,8 @@
                     placeholder="Email address"
                     required
                     v-model.trim="user.email"
+                    :class="{ 'error-msg': !formIsValid }"
+                    @focus="clearValidity"
                   />
                 </div>
 
@@ -40,6 +42,8 @@
                     class="form-control"
                     placeholder="Password"
                     v-model.trim="user.password"
+                    :class="{ 'error-msg': !formIsValid }"
+                    @focus="clearValidity"
                   />
                 </div>
               </section>
@@ -55,10 +59,14 @@
                     placeholder="Email Address"
                     required
                     v-model.trim="user.email"
+                    :class="{ 'error-msg': !formIsValid }"
+                    @focus="clearValidity"
                   />
                 </div>
               </section>
-              <p class="forgot" @click="resetPswdForm">{{ forgotPswd }}</p>
+              <p class="forgot" @click="toggleResetPswdForm">
+                {{ forgotPswdTitle }}
+              </p>
             </div>
             <div class="form-footer">
               <button
@@ -92,6 +100,8 @@
                   placeholder="User Name"
                   required
                   v-model.trim="user.username"
+                  :class="{ 'error-msg': !formIsValid }"
+                  @focus="clearValidity"
                 />
               </div>
 
@@ -105,6 +115,8 @@
                   placeholder="Email Address"
                   required
                   v-model.trim="user.email"
+                  :class="{ 'error-msg': !formIsValid }"
+                  @focus="clearValidity"
                 />
               </div>
 
@@ -116,8 +128,11 @@
                   placeholder="Set Password"
                   required
                   v-model.trim="user.password"
+                  :class="{ 'error-msg': !formIsValid }"
+                  @focus="clearValidity"
                 />
               </div>
+              <p class="error-text" v-if="errorText">{{errorText}}</p>
             </div>
             <div class="form-footer">
               <button @click.prevent="submitForm" class="btn">Sign Up</button>
@@ -141,28 +156,36 @@ export default {
       login: true,
       resetPswd: false,
       formIsValid: true,
+      errorText:null
     };
   },
   methods: {
     toggleForm() {
       this.login = !this.login;
+      this.resetPswd = false;
+      this.formIsValid = true;
+      this.errorText=null;
     },
-    resetPswdForm() {
+    toggleResetPswdForm() {
       this.resetPswd = !this.resetPswd;
+      this.formIsValid = true;
+
       // console.log(this.resetPswd);
     },
-
+    clearValidity() {
+      this.formIsValid = true;
+    },
     async submitForm() {
       this.formIsValid = true;
       if (this.resetPswd) {
         //send user email with new password
         console.log("reseting pass", this.user.email);
-        if (!this.user.email) {
+        if (!this.user.email || !this.user.email.includes("@")) {
           this.formIsValid = false;
           return;
         }
 
-        await this.$store.dispatch("resetPswd", this.user);
+        // await this.$store.dispatch("resetPswd", this.user);
       } else if (this.login) {
         console.log("Authenticating user");
         if (
@@ -185,6 +208,7 @@ export default {
             this.$router.push("/songs");
             // console.log("Push");
           }
+          //else display error msg
         });
       } else {
         console.log("registering user");
@@ -192,8 +216,20 @@ export default {
           !this.user.email ||
           !this.user.password ||
           !this.user.email.includes("@") ||
-          !this.user.username
+          !this.user.username 
+          // this.user.username.length < 3 ||
+          // this.user.password.length < 5
         ) {
+          this.formIsValid = false;
+          return;
+        }
+        if (this.user.username.length < 3) {
+          this.formIsValid = false;
+          this.errorText="Username needs to have atleast 3 characters."
+          return;
+        }
+        if (this.user.password.length < 5) {
+          this.errorText="Password needs to have atleast 5 characters."
           this.formIsValid = false;
           return;
         }
@@ -203,16 +239,14 @@ export default {
           mode: "signup",
         };
         this.$store.dispatch("auth", payload).then(() => {
-          // console.log(this.$store.getters.token);
           if (this.$store.getters.token) {
             this.$router.push("/songs");
-            // console.log("Push");
           }
           // else{
+            //display response msg
           //   //failed to auth
           //   this.user.email=null;
           //   this.user.password=null;
-          //   this.user.username=null;
 
           // }
         });
@@ -232,7 +266,7 @@ export default {
       }
       return "Log In";
     },
-    forgotPswd() {
+    forgotPswdTitle() {
       if (this.resetPswd) {
         return "Back to Log in";
       }
@@ -385,5 +419,46 @@ export default {
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.3s ease;
+}
+
+/* show error  */
+.error-msg {
+  border: var(--burgundy) solid 2px !important;
+  -webkit-animation: shake 0.2s ease-in-out 0s 2;
+  animation: shake 0.2s ease-in-out 0s 2;
+}
+.error-text{
+  color: var(--burgundy);
+  font-size: 12px;
+}
+
+@-webkit-keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
+}
+
+@keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
 }
 </style>
