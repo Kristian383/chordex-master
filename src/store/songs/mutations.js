@@ -30,14 +30,14 @@ export default {
         }
         else if (option == "Last viewed") {
             state.songs.sort((a, b) => {
-              return  new Date(b.lastViewed) - new Date(a.lastViewed)
+                return new Date(b.lastViewed) - new Date(a.lastViewed)
             })
         }
-        else{
+        else {
             state.songs.sort((a, b) => {
-                return  new Date(a.lastViewed) - new Date(b.lastViewed)
-              })
-         }
+                return new Date(a.lastViewed) - new Date(b.lastViewed)
+            })
+        }
         // console.log(state.songs);
 
     },
@@ -47,9 +47,9 @@ export default {
         state.songs.splice(index, 1)
 
     },
-    updateSong(state,payload){
+    updateSong(state, payload) {
         let index = state.songs.findIndex(song => song.songId == payload.songId);
-        state.songs[index]=payload
+        state.songs[index] = payload
     }
     ,
 
@@ -72,17 +72,17 @@ export default {
     updateTxtAreaHeight(state, payload) {
         state.usefulResources.txtAreaHeight = payload;
     },
-    setUserWebsites(state,payload){
-        state.usefulResources.websitesLinks=payload
+    setUserWebsites(state, payload) {
+        state.usefulResources.websitesLinks = payload
     },
 
     setAllSongs(state, payload) {
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
-            if(payload[i].isMySong){
+            if (payload[i].isMySong) {
                 state.mySongs.push(payload[i])
-                
-            }else{
+
+            } else {
 
                 state.songs.push(payload[i])
             }
@@ -90,7 +90,7 @@ export default {
     },
 
     //artists
-    loadMoreArtists(state, payload) {
+    setAllArtists(state, payload) {
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
             //console.log(payload[i]);
@@ -99,9 +99,9 @@ export default {
 
         for (let i = 0; i < state.artists.length; i++) {
             //console.log(state.artists[i]);
-            state.artists[i].order=i+1
+            state.artists[i].order = i + 1
         }
-        
+
     },
     sortArtists(state, option) {
         if (option == "A-Z") {
@@ -113,11 +113,21 @@ export default {
     updateArtistsList(state, payload) {
         state.artists = payload
     },
-    load20MoreArtists(state) {
-        for (let i = 7; i < 20; i++) {
-            let artist = { name: "John Frusciante", order: i, totalSongs: 12 };
-            state.artists.push(artist)
-        }
+    clearVuex(state) {
+        state.songsLoaded = 2;
+        state.mySongsLoaded = 2;
+        state.artistsLoaded = 2;
+        state.musicKeys = [];
+        state.artists = [];
+        state.mySongs = [];
+        state.songs = [];
+        state.songDetailTitle =null;
+        
+        state.usefulResources = {
+            notes: null,
+            websitesLinks: [],
+            txtAreaHeight: 200
+        };
     }
 
 }
