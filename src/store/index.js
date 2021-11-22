@@ -11,28 +11,12 @@ const store = createStore({
             sidebarIsActive: true,
             songDetailTitle: null,
             darkMode: false,
-            numOfLoads: 1,
-            numOfLoadingArtists: 1,
+            songsLoaded: 2,
+            mySongsLoaded: 2,
+            artistsLoaded: 2,
             musicKeys: [],
-            // musicKeys: [
-            //     { key: "C", relativeMinor: "A", notes: ["C", "D", "E", "F", "G", "A", "B"] },
-            //     { key: "G", relativeMinor: "E", notes: ["G", "A", "B", "C", "D", "E", "F#"] },
-            //     { key: "D", relativeMinor: "B", notes: ["D", "E", "F#", "G", "A", "B", "C#"] },
-            //     { key: "A", relativeMinor: "F#", notes: ["A", "B", "C#", "D", "E", "F#", "G#"] },
-            //     { key: "E", relativeMinor: "C#", notes: ["E", "F#", "G#", "A", "B", "C#", "D#"] },
-            //     { key: "B", relativeMinor: "G#", notes: ["B", "C#", "D#", "E", "F#", "G#", "A#"] },
-            //     { key: "F#", relativeMinor: "D#", notes: ["F#", "G#", "A#", "B", "C#", "D#", "E#"] },
-            //     { key: "C#", relativeMinor: "A#", notes: ["C#", "D#", "E#", "F#", "G#", "A#", "B#"] },
-            //     { key: "F", relativeMinor: "D", notes: ["F", "G", "A", "Bb", "C", "D", "E"] },
-            //     { key: "Bb", relativeMinor: "G", notes: ["Bb", "C", "D", "Eb", "F", "G", "A"] },
-            //     { key: "Eb", relativeMinor: "C", notes: ["Eb", "F", "G", "Ab", "Bb", "C", "D"] },
-            //     { key: "Ab", relativeMinor: "F", notes: ["Ab", "Bb", "C", "Db", "Eb", "F", "G"] },
-            //     { key: "Db", relativeMinor: "Bb", notes: ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C"] },
-            //     { key: "Gb", relativeMinor: "Eb", notes: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"] },
-            //     { key: "Cb", relativeMinor: "Ab", notes: ["Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"] }],
-
             artists: [],
-
+            mySongs:[],
             songs: [
                 //     { artist: "Nirvana", song: "Lithium", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: null, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "12", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: false }, { artist: "Rhcp", song: "dani californi", firstKey: "Am", secondKey: "D", bpm: 102, firstProgression: "I V vi 4", secondProgression: "5 4 1", songText: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem, optio?", firstKeyNotes: "A B C# D# Eb G F", secondKeyNotes: "A B C# D# Eb G F", acoustic: true, electric: false, capo: 4, isFavorite: true, imageUrl: "https://bit.ly/3gbwSnf", practicedPrcntg: 24, difficulty: "easy", lastViewed: "2d ago", songId: "1", yt_link: "https://www.youtube.com/embed/32GZ3suxRn4", chords_link: "www.chords.com", tuning: "DADGAD", isMySong: true },
 
