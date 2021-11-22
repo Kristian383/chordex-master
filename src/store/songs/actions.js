@@ -1,9 +1,9 @@
 export default {
-    async loadMoreSongs(context) {
+    async loadAllSongs(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let numOfLoads = context.state.numOfLoads
-        let url = `http://127.0.0.1:5000/songs/${username}?numOfLoads=${numOfLoads}`;
+        //let numOfLoads = context.state.numOfLoads
+        let url = `http://127.0.0.1:5000/songs/${username}`;//?numOfLoads=${numOfLoads}
 
         //console.log("numOfLoads",numOfLoads);
         const response = await fetch(url,
@@ -24,13 +24,13 @@ export default {
         }
 
         console.log(responseData);
-        context.state.numOfLoads++
-        if (responseData.songs.length == 0) {
-            context.state.numOfLoads--
-        }
+        // context.state.numOfLoads++
+        // if (responseData.songs.length == 0) {
+        //     context.state.numOfLoads--
+        // }
 
         //get songImageUrl from spotify
-        context.commit("loadMoreSongs", responseData.songs)
+        context.commit("setAllSongs", responseData.songs)
 
     },
     async addNewSong(context, payload) {
@@ -297,26 +297,28 @@ export default {
 
     },
 
-    async apiForSongInfo(context, payload) {
+    async apiForSongInfo() { //OVO SE MORA NA BACKENDU
 
-        // const accesToken="";
-        console.log(context, payload);
+        //console.log(context, payload);
+        var client_id = '85e8304fb2904dd2b138193b78217377'; // Your client id
+        var client_secret = 'ca0aea62d5094911b2cce94d0b7a2e96'; // Your secret
 
         const response = await fetch("https://accounts.spotify.com/api/token", {
-            method: "GET",
+            method: "POST",
             headers: {
-                "Authorization": `bearer`,
-                "access_token": "BQAQpaIXFR_8m73LLfvVjd9nGLAMwW5yYT4mF1i01vOBdb8OOaj5FZYx5aYG-03EODYe_3yBa2WIytjZeAA",
-                // "expires_in": 3600,
-
-
+                "Authorization": 'Basic ' + window.btoa(client_id + ':' + client_secret),
+                 "Content-Type": "application/json",
+                
             },
-            // params: {
-            //     grant_type: 'client_credentials'
-            // },
+            body: {
+                "grant_type": 'client_credentials'
+            },
+            
+            // json: true
 
         })
-        console.log("response", response);
+
+        // console.log("response", response);
         const responseData = await response.json();
         console.log("response data", responseData);
 
