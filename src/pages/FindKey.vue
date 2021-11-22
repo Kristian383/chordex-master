@@ -33,21 +33,30 @@ export default {
   },
   data() {
     return {
-      formatedKeys: [],
+      // formatedKeys: [],
     };
   },
   computed: {
     allKeys() {
-      return this.formatedKeys;
+      let formatedKeys=[]
+      this.$store.getters.getMusicKeys.forEach((element) => {
+      // console.log("mounted");
+      let each = [];
+      each.push(element.key, ...element.notes);
+      formatedKeys.push(each);
+    });
+      return formatedKeys;
     },
   },
   mounted() {
-    this.$store.getters.getMusicKeys.forEach((element) => {
-      let each = [];
-      each.push(element.key, ...element.notes);
-      this.formatedKeys.push(each);
-    });
+    // this.$store.getters.getMusicKeys.forEach((element) => {
+    //   // console.log("mounted");
+    //   let each = [];
+    //   each.push(element.key, ...element.notes);
+    //  // this.formatedKeys.push(each);
+    // });
   },
+ 
 };
 </script>
 
