@@ -14,6 +14,8 @@ export default {
             token: null,
             user: {}
         })
+        
+        context.commit("clearVuex")
 
         //clear state?
 
@@ -45,7 +47,7 @@ export default {
         //console.log(responseData);
         if (!response.ok) {
 
-            return 
+            return
         }
 
         const expiresIn = jwt_decode(responseData.token).exp;
@@ -81,7 +83,8 @@ export default {
         })
 
         context.dispatch("loadAllSongs");
-            context.dispatch("loadMusicKeys");
+        context.dispatch("loadAllArtists");
+        context.dispatch("loadMusicKeys");
         // return new Promise((resolve) => {
         //     resolve("done")
         // })
@@ -115,6 +118,7 @@ export default {
             })
             context.dispatch("loadAllSongs");
             context.dispatch("loadMusicKeys");
+            context.dispatch("loadAllArtists");
 
         }
 
