@@ -11,9 +11,10 @@
           <div class="middle-icons">
             <font-awesome-icon
               :icon="iconName"
+              style="pointer-events:none;"
               :class="{ 'is-favorite': isFavorite }"
-              @click="toggleFavorite"
             ></font-awesome-icon>
+              <!-- @click="toggleFavorite" -->
             <font-awesome-icon
               icon="edit"
               @click="openEdit"
@@ -171,11 +172,11 @@ export default {
     //   this.isFavorite = !this.isFavorite;
     //   this.$store.commit("toggleFavorite", { songId: this.id });
     // },
-    toggleFavorite() {
-      this.$store.commit("toggleFavorite", { songId: this.id });
-      this.isFavorite = !this.isFavorite;
-      this.$store.dispatch("addNewSong", this.songData);
-    },
+    // toggleFavorite() {
+    //   this.$store.commit("toggleFavorite", { songId: this.id });
+    //   this.isFavorite = !this.isFavorite;
+    //   this.$store.dispatch("addNewSong", this.songData);
+    // },
     openEdit() {
       this.$router.push("/new/" + this.songId);
     },
