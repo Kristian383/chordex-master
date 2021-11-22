@@ -15,15 +15,15 @@
             <p class="mail">{{getUserData.email}}</p>
             <div class="stats row">
               <div class="stat">
-                <p class="number-stat">{{getUserData.numberOfSongs}}</p>
+                <p class="number-stat">{{numOfSongs}}</p>
                 <p class="desc-stat">Songs</p>
               </div>
               <div class="stat">
-                <p class="number-stat">{{getUserData.numberOfArtists}}</p>
+                <p class="number-stat">{{numOfArtists}}</p>
                 <p class="desc-stat">Artists</p>
               </div>
               <div class="stat">
-                <p class="number-stat">{{getUserData.numberOfMySongs}}</p>
+                <p class="number-stat">{{numOfMySongs}}</p>
                 <p class="desc-stat">My Songs</p>
               </div>
             </div>
@@ -133,7 +133,16 @@ export default {
   computed: {
     getUserData() {
       return this.$store.getters.user 
-    }
+    },
+    numOfSongs(){
+      return this.$store.getters.getAllSongs.length 
+    },
+    numOfMySongs(){
+      return this.$store.getters.getAllMySongs.length 
+    },
+    numOfArtists(){
+      return this.$store.getters.getArtists.length 
+    },
   },
 };
 </script>
