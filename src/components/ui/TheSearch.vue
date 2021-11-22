@@ -9,7 +9,7 @@
       <transition-group name="list">
         <li v-for="match in searchMatch" :key="match">
           <router-link :to="'/songs/' + match.songId">
-            <b>{{ match.artist }} - {{ match.song }}</b></router-link
+            <b>{{ match.artist }} - {{ match.songName }}</b></router-link
           >
         </li>
       </transition-group>
@@ -38,7 +38,7 @@ export default {
 
       let foundData = this.$store.getters.getAllSongs.filter((song) => {
         const regex = new RegExp(`${textValue}`, "gi");
-        return song.song.match(regex) || song.artist.match(regex);
+        return song.songName.match(regex) || song.artist.match(regex);
       });
       if (textValue.length === 0) {
         foundData = [];
