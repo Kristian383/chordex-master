@@ -207,6 +207,9 @@ export default {
           if (this.$store.getters.token) {
             this.$router.push("/songs");
             // console.log("Push");
+          }else{
+          this.formIsValid = false;
+
           }
           //else display error msg
         });
