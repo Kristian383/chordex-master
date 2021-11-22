@@ -76,10 +76,16 @@ export default {
         state.usefulResources.websitesLinks=payload
     },
 
-    loadMoreSongs(state, payload) {
+    setAllSongs(state, payload) {
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
-            state.songs.push(payload[i])
+            if(payload[i].isMySong){
+                state.mySongs.push(payload[i])
+                
+            }else{
+
+                state.songs.push(payload[i])
+            }
         }
     },
 
