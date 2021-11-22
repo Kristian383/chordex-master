@@ -27,14 +27,11 @@ export default {
   },
   data() {
     return {
-      isLogged: false,
+      // isLogged: false,
     };
   },
   created() {
-    
-    this.$store.dispatch("tryLogin")
-    
-    this.$store.dispatch("loadMusicKeys")
+    this.$store.dispatch("tryLogin"); 
   },
   computed: {
     didAutoLogout() {
