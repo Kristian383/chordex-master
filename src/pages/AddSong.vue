@@ -201,7 +201,7 @@
             v-model.trim="songInfo.ytLink"
             class="input-field"
             type="text"
-            placeholder="YouTube Link: https://www.youtube.com/watch?v="
+            placeholder="YouTube Link: https://www.youtube.com/..."
           />
           <input
             v-model.trim="songInfo.chordsWebsiteLink"
@@ -355,8 +355,8 @@ export default {
       //   // this.$router.push(pushRoute);
       // }, 2500);
 
-      if (this.songInfo.yt_link) {
-        this.songInfo.yt_link = this.handleYTLink(this.songInfo.yt_link);
+      if (this.songInfo.ytLink) {
+        this.songInfo.ytLink = this.handleYTLink(this.songInfo.ytLink);
       }
 
       const formData = {
@@ -405,8 +405,10 @@ export default {
       }
     },
     handleYTLink(link) {
+      
       let linkArr = link.split(/[/=]+/);
       let id = linkArr[linkArr.length - 1];
+      //console.log(id);
       // let id = link.split("https://www.youtube.com/watch?v=")[1];
       return `https://www.youtube.com/embed/${id}`;
     },
