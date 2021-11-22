@@ -28,7 +28,7 @@ const router = createRouter({
 
     { path: "/profile", component: UserProfile, name: "Account Settings", meta: { title: "My Profile | Chordex", requiresAuth: true } },
     { path: "/artists", component: Artists, name: "Artists", meta: { title: "Artists | Chordex", requiresAuth: true } },
-    { path: "/artists/:name", component: Songs, name: "Artists Songs", meta: { title: "Artists Songs | Chordex", requiresAuth: true } },//ovo staviti u query /artists?name=:name
+    //{ path: "/artists/:name", component: Songs, name: "Artists Songs", meta: { title: "Artists Songs | Chordex", requiresAuth: true } },//ovo staviti u query /artists?name=:name
     { path: "/new", component: AddSong, name: "Add Song", meta: { title: "Add Song | Chordex", requiresAuth: true } },
     { path: "/new/:songId", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex", requiresAuth: true } },
     //{ path: "/my-songs", component: MySongs, name: "My Songs", meta: { title: "MySongs | Chordex", requiresAuth: true } },

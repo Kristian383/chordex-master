@@ -134,12 +134,13 @@ export default {
     },
 
     //ARTISTS
-    async loadMoreArtists(context) {
+    async loadAllArtists(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let numOfLoads = context.state.numOfLoadingArtists
-        let url = `http://127.0.0.1:5000/artists/${username}?numOfLoads=${numOfLoads}`;
+        //let numOfLoads = context.state.numOfLoadingArtists
+        let url = `http://127.0.0.1:5000/artists/${username}`;//?numOfLoads=${numOfLoads}
 
+        console.log("usao artists");
         const response = await fetch(url,
             {
                 method: "GET",
@@ -157,11 +158,11 @@ export default {
         }
 
         console.log(responseData);
-        context.state.numOfLoadingArtists++
-        if (responseData.artists.length == 0) {
-            context.state.numOfLoadingArtists--
-        }
-        context.commit("loadMoreArtists", responseData.artists)
+        // context.state.numOfLoadingArtists++
+        // if (responseData.artists.length == 0) {
+        //     context.state.numOfLoadingArtists--
+        // }
+        context.commit("setAllArtists", responseData.artists)
     },
 
     async loadUsersNotes(context) {

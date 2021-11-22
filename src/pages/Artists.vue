@@ -32,7 +32,7 @@
             </div>
             <div class="details">
               <h2>
-                <router-link :to="'/artists/' + element.name">{{
+                <router-link :to="'/songs?artist=' + element.name">{{
                   element.name
                 }}</router-link>
               </h2>
@@ -65,7 +65,7 @@ export default {
       selectedArtist: null,
       list: this.sortList,
       itemsAreLoading: false,
-      observer:null,
+      // observer:null,
       el:null
     };
   },
@@ -73,22 +73,19 @@ export default {
     sortArtists(option) {
       this.$store.commit("sortArtists", option);
     },
-    // loadMoreArtists() {
-    //   // this.$store.commit("load20MoreArtists");
-    //   this.$store.dispatch("loadMoreArtists");
-    // },
-    handleIntersect(entries) {
-      if (entries[0].isIntersecting) {
-        this.itemsAreLoading = true;
-        // setTimeout(() => {
-        this.$store.dispatch("loadMoreArtists").then(() => {
-          this.itemsAreLoading = false;
-          this.isLoaded = true;
-        });
+    
+    // handleIntersect(entries) {
+    //   if (entries[0].isIntersecting) {
+    //     this.itemsAreLoading = true;
+    //     // setTimeout(() => {
+    //     this.$store.dispatch("loadAllArtists").then(() => {
+    //       this.itemsAreLoading = false;
+    //       this.isLoaded = true;
+    //     });
 
-        // }, 1000);
-      }
-    },
+    //     // }, 1000);
+    //   }
+    // },
   },
   computed: {
     dragOptions() {
@@ -99,9 +96,9 @@ export default {
         ghostClass: "ghost",
       };
     },
-    getElement(element) {
-      return element;
-    },
+    // getElement(element) {
+    //   return element;
+    // },
     getOptions() {
       return ["A-Z", "Z-A"];
     },
@@ -115,25 +112,26 @@ export default {
     },
   },
   mounted() {
-    let options = {
-      root: null,
-      rootMargin: " 0px",
-      threshold: 0.5,
-    };
+    // let options = {
+    //   root: null,
+    //   rootMargin: " 0px",
+    //   threshold: 0.5,
+    // };
 
-    this.observer = new IntersectionObserver(this.handleIntersect, options);
-    this.el = document.querySelector(".footer");
-    this.observer.observe(this.el);
+    // this.observer = new IntersectionObserver(this.handleIntersect, options);
+    // this.el = document.querySelector(".footer");
+    // this.observer.observe(this.el);
 
-    this.$store.dispatch("loadMoreArtists").then(() => {
-      this.isLoaded = true;
-    });
+    // this.$store.dispatch("loadAllArtists")
+    // .then(() => {
+    //   this.isLoaded = true;
+    // });
     // setTimeout(() => {
     // }, 1000);
   },
   beforeUnmount(){
     // console.log("unmounting artists component");
-    this.observer.unobserve(this.el)
+    // this.observer.unobserve(this.el)
   }
 };
 </script>

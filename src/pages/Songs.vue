@@ -11,22 +11,23 @@
     </template>
     <!-- saong list -->
     <div class="song-cards">
-      <template v-if="isLoaded">
-        <song-card
-          v-for="song in AllSongs"
-          :key="song.songId"
-          :song="song"
-        ></song-card>
-      </template>
-      <skeleton-song-card
+      <!-- <template v-if="isLoaded"> -->
+      <p v-if="!AllSongs.length">Currently no songs.</p>
+      <song-card
+        v-for="song in AllSongs"
+        :key="song.songId"
+        :song="song"
+      ></song-card>
+      <!-- </template> -->
+      <!-- <skeleton-song-card
         v-for="skeleton in 2"
         :key="skeleton"
         v-else
-      ></skeleton-song-card>
+      ></skeleton-song-card> -->
       <!-- staviti for  skeleton in count  -->
     </div>
     <!-- loader -->
-    <div class="box" v-if="itemsAreLoading">
+    <div class="box" v-if="!isLoaded">
       <div class="loader-02"></div>
     </div>
   </base-card>
@@ -35,7 +36,7 @@
 <script>
 import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
-import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
+// import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
 import SortByOptimized from "../components/ui/SortByOptimized.vue";
 export default {
@@ -43,16 +44,16 @@ export default {
     Filters,
     SongCard,
     BaseCard,
-    SkeletonSongCard,
+    // SkeletonSongCard,
     SortByOptimized,
   },
   data() {
     return {
-      isLoaded: false,
+      isLoaded: true,
       filters: [],
-      itemsAreLoading: false,
-      el:null,
-      observer:null
+      // itemsAreLoading: false,
+      el: null,
+      observer: null,
     };
   },
   computed: {
@@ -70,31 +71,21 @@ export default {
         "Least learned",
       ];
     },
-    // fetchedSongs(){
-    //   console.log(this.$store.state.songs.length);
-    //   return this.$store.state.songs.length
-    // }
   },
   methods: {
-    // filterSongs() {
-    //   console.log(this.$route);
-    //   if (this.$route.query.isMySong) {
-    //     return this.$store.getters.filterSongs(
-    //       this.filters,
-    //       this.$route.query.isMySong
-    //     );
-    //   }
-    //   return this.$store.getters.filterSongs(this.filters);
-    // },
     filterSongs() {
-      if (this.$route.params.name) {
+      if (this.$route.query.artist) {
         return this.$store.getters.filterSongs(
           this.filters,
           null,
-          this.$route.params.name
+          this.$route.query.artist
         );
       }
-      return this.$store.getters.filterSongs(this.filters,this.$route.query.isMySong);
+
+      return this.$store.getters.filterSongs(
+        this.filters,
+        this.$route.query.isMySong
+      );
     },
     setFilters(filters) {
       this.filters = filters;
@@ -104,12 +95,20 @@ export default {
     },
     handleIntersect(entries) {
       if (entries[0].isIntersecting) {
-        this.itemsAreLoading = true;
-          this.$store.dispatch("loadMoreSongs").then(()=>{
-            this.itemsAreLoading = false;
-          this.isLoaded = true;
-          });
-          
+        // this.itemsAreLoading = true;
+        // this.$store.dispatch("loadMoreSongs").then(()=>{
+        //   this.itemsAreLoading = false;
+        // this.isLoaded = true;
+        // });
+        // this.$store.getters.lazyLoadSongs("songs")
+
+        this.filterSongs();
+        if (this.$route.params.name) {
+          this.$store.state.mySongsLoaded += 2;
+        } else {
+          this.$store.state.songsLoaded += 2;
+        }
+        this.isLoaded = true;
       }
     },
   },
@@ -124,15 +123,17 @@ export default {
     this.el = document.querySelector(".footer");
     this.observer.observe(this.el);
 
-    this.$store.dispatch("loadMoreSongs").then(() => {
-      // this.sortSongs("Last viewed")
-      this.isLoaded = true;
-    });
+    // this.$store.dispatch("loadMoreSongs").then(() => {
 
+    //   this.isLoaded = true;
+    // });
   },
-  beforeUnmount(){
-    this.observer.unobserve(this.el)
-  }
+  beforeUnmount() {
+    this.observer.unobserve(this.el);
+  },
+  created() {
+    //this.$store.dispatch("loadAllSongs");
+  },
 };
 </script>
 

@@ -83,7 +83,7 @@ export default {
     },
     chooseArtist() {
       // console.log("artist");
-      this.$router.push("/artists/" + this.song.artist);
+      this.$router.push("/songs?artist=" + this.song.artist);
     },
     
   },
