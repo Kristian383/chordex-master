@@ -2,10 +2,8 @@ export default {
     async loadAllSongs(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        //let numOfLoads = context.state.numOfLoads
-        let url = `http://127.0.0.1:5000/songs/${username}`;//?numOfLoads=${numOfLoads}
+        let url = `http://127.0.0.1:5000/songs/${username}`;
 
-        //console.log("numOfLoads",numOfLoads);
         const response = await fetch(url,
             {
                 method: "GET",
@@ -24,11 +22,7 @@ export default {
         }
 
         console.log(responseData);
-        // context.state.numOfLoads++
-        // if (responseData.songs.length == 0) {
-        //     context.state.numOfLoads--
-        // }
-
+        
         //get songImageUrl from spotify
         context.commit("setAllSongs", responseData.songs)
 
@@ -113,6 +107,9 @@ export default {
         context.commit("deleteSong", payload.songId)
     },
 
+    //
+    //
+    //
     async loadMusicKeys(context) {
         let url = `http://127.0.0.1:5000/keys`;
 
@@ -137,10 +134,8 @@ export default {
     async loadAllArtists(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        //let numOfLoads = context.state.numOfLoadingArtists
-        let url = `http://127.0.0.1:5000/artists/${username}`;//?numOfLoads=${numOfLoads}
+        let url = `http://127.0.0.1:5000/artists/${username}`;
 
-        console.log("usao artists");
         const response = await fetch(url,
             {
                 method: "GET",
@@ -158,13 +153,11 @@ export default {
         }
 
         console.log(responseData);
-        // context.state.numOfLoadingArtists++
-        // if (responseData.artists.length == 0) {
-        //     context.state.numOfLoadingArtists--
-        // }
+       
         context.commit("setAllArtists", responseData.artists)
     },
 
+    //NOTES 
     async loadUsersNotes(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
@@ -194,7 +187,6 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `http://127.0.0.1:5000/notes/${username}`;
-        //console.log(payload);
         const response = await fetch(url,
             {
                 method: "PUT",
@@ -209,7 +201,6 @@ export default {
             });
 
         const responseData = await response.json();
-        //console.log("updated UsersNotes",responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to update user notes.');
             return
@@ -218,6 +209,7 @@ export default {
         context.commit("updateTxtAreaHeight", responseData.txtAreaHeight)
 
     },
+     //websites
     async addUserWebsite(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
@@ -239,7 +231,6 @@ export default {
             });
 
         const responseData = await response.json();
-        //console.log("updated UsersNotes",responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add user website.');
             return
@@ -288,56 +279,31 @@ export default {
             });
 
         const responseData = await response.json();
-        //console.log("websites", responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to load user notes.');
             return
         }
         context.commit("setUserWebsites", responseData.websites)
-
-
     },
 
+    //SPOTIFY API
     async apiForSongInfo() { //OVO SE MORA NA BACKENDU
 
         //console.log(context, payload);
-        var client_id = '85e8304fb2904dd2b138193b78217377'; // Your client id
-        var client_secret = 'ca0aea62d5094911b2cce94d0b7a2e96'; // Your secret
+        // var client_id = '85e8304fb2904dd2b138193b78217377'; // Your client id
+        // var client_secret = 'ca0aea62d5094911b2cce94d0b7a2e96'; // Your secret
 
-        const response = await fetch("https://accounts.spotify.com/api/token", {
-            method: "POST",
-            headers: {
-                "Authorization": 'Basic ' + window.btoa(client_id + ':' + client_secret),
-                "Content-Type": "application/json",
+        // const response = await fetch("https://accounts.spotify.com/api/token", {
+        //     method: "POST",
+        //     headers: {
+        //         "Authorization": 'Basic ' + window.btoa(client_id + ':' + client_secret),
+        //         "Content-Type": "application/json",
 
-            },
-            body: {
-                "grant_type": 'client_credentials'
-            },
+        //     },
+        //     body: {
+        //         "grant_type": 'client_credentials'
+        //     },
 
-            // json: true
-
-        })
-
-        // console.log("response", response);
-        const responseData = await response.json();
-        console.log("response data", responseData);
-
-        //     const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${process.env.VUE_APP_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:8080/new&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`
-
-        //     window.location.href = AUTH_URL
-
-
-        //     const response = await fetch(`https://api.getsongbpm.com/song/?api_key=${process.env.VUE_APP_CLIENT_ID}&id=983pB`);
-        //     const responseData = await response.json();
-
-        //     if (!response.ok) {
-        //         const error = new Error(responseData.message || "failed to fetch request")
-        //         throw error;
-        //     }
-        //     console.log("paays", payload);
-        //     console.log("responseData", responseData);
-        //     context.commit("addApiData", responseData)
-        // }
+        // })
     }
 }

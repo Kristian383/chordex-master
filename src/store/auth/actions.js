@@ -1,11 +1,10 @@
 let timer;
-// import { authService } from '@/api'
 import jwt_decode from "jwt-decode";
 
 export default {
     logout(context) {
         localStorage.removeItem("token");
-        localStorage.removeItem("tokenExpiration");
+        // localStorage.removeItem("tokenExpiration");
         localStorage.removeItem("username");
         localStorage.removeItem("email");
         clearTimeout(timer);
@@ -16,9 +15,6 @@ export default {
         })
         
         context.commit("clearVuex")
-
-        //clear state?
-
     },
 
     async auth(context, payload) {
@@ -52,7 +48,7 @@ export default {
 
         const expiresIn = jwt_decode(responseData.token).exp;
 
-        localStorage.setItem("tokenExpiration", expiresIn)
+        // localStorage.setItem("tokenExpiration", expiresIn)
         localStorage.setItem("token", responseData.token);
         localStorage.setItem("username", responseData.user);
         localStorage.setItem("email", payload.user.email);
@@ -62,11 +58,8 @@ export default {
         let now = new Date().getTime()
         let milisecondsBetweenDates = Math.round((expirationDate - now));
         let timeForAutoLogout = milisecondsBetweenDates - 60000;
-        // console.log("timeForAutoLogout", timeForAutoLogout);
 
         timer = setTimeout(function () {
-            console.log("token je istekao, odjavi usera");
-            //context.dispatch("refreshToken", responseData.token)
             context.dispatch("autoLogout")
 
         }, timeForAutoLogout)
@@ -78,22 +71,18 @@ export default {
                 email: payload.user.email
             },
             token: responseData.token,
-            tokenExpiration: expiresIn,
+            // tokenExpiration: expiresIn,
 
         })
 
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
-        // return new Promise((resolve) => {
-        //     resolve("done")
-        // })
 
     },
 
     tryLogin(context) {
         const token = localStorage.getItem("token");
-        //const tokenExpiration = localStorage.getItem("tokenExpiration")
         const username = localStorage.getItem("username")
         const email = localStorage.getItem("email")
         if (!token) {
@@ -101,13 +90,10 @@ export default {
         }
         const expiresIn = jwt_decode(token).exp;
         var ts = Math.round((new Date()).getTime() / 1000);
-        //console.log(expiresIn - ts);
         if (expiresIn - ts < 0) {
-            // console.log("token je istekao");
             context.dispatch("autoLogout")
 
         } else {
-            // console.log("tryLogin token je vazeci");
             const user = {
                 username, email
             }

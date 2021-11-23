@@ -5,20 +5,17 @@ export default {
     removeSidebar(state) {
         state.sidebarIsActive = false;
     },
-    toggleDarkMode(state) {
-        state.darkMode = !state.darkMode;
-    },
-
+    // toggleDarkMode(state) {
+    //     state.darkMode = !state.darkMode;
+    // },
     toggleFavorite(state, payload) {
         let index = state.songs.findIndex(song => song.songId == payload.songId);
         state.songs[index].isFavorite = !state.songs[index].isFavorite;
     },
-
     setSongDetailTitle(state, payload) {
         state.songDetailTitle = payload;
     },
     sortSongs(state, option) {
-        // console.log("opcija", option);
         if (option == "A-Z") {
             state.songs.sort((a, b) => a.songName.localeCompare(b.songName))
         } else if (option == "Z-A") {
@@ -39,46 +36,18 @@ export default {
             })
         }
         // console.log(state.songs);
-
     },
-
     deleteSong(state, id) {
         let index = state.songs.findIndex(song => song.songId == id);
         state.songs.splice(index, 1)
-
     },
     updateSong(state, payload) {
         let index = state.songs.findIndex(song => song.songId == payload.songId);
         state.songs[index] = payload
-    }    ,
-    insertSongAndArtist(state,payload){
-        state.songs.unshift(payload)
-        
-    }
-    ,
-    storeMusicKeys(state, payload) {
-        state.musicKeys = payload
     },
-
-    // resources
-    updateUserNotes(state, payload) {
-        state.usefulResources.notes = payload;
-
-    },
-    addUserWebsite(state, payload) {
-        state.usefulResources.websitesLinks.unshift(payload)
-    },
-    deleteUserWebsite(state, name) {
-        let index = state.usefulResources.websitesLinks.findIndex(link => link.name == name);
-        state.usefulResources.websitesLinks.splice(index, 1)
-    },
-    updateTxtAreaHeight(state, payload) {
-        state.usefulResources.txtAreaHeight = payload;
-    },
-    setUserWebsites(state, payload) {
-        state.usefulResources.websitesLinks = payload
-    },
-
+    // insertSongAndArtist(state, payload) {
+    //     state.songs.unshift(payload)
+    // },
     setAllSongs(state, payload) {
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
@@ -96,12 +65,13 @@ export default {
     setAllArtists(state, payload) {
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
-            //console.log(payload[i]);
+            if(payload[i].name==state.auth.user.username){
+                continue
+            }
             state.artists.push(payload[i])
         }
 
         for (let i = 0; i < state.artists.length; i++) {
-            //console.log(state.artists[i]);
             state.artists[i].order = i + 1
         }
 
@@ -113,9 +83,31 @@ export default {
             state.artists.sort((a, b) => b.name.localeCompare(a.name))
         }
     },
-    updateArtistsList(state, payload) {
-        state.artists = payload
+    // updateArtistsList(state, payload) {
+    //     state.artists = payload
+    // },
+
+    // resources
+    storeMusicKeys(state, payload) {
+        state.musicKeys = payload
     },
+    updateUserNotes(state, payload) {
+        state.usefulResources.notes = payload;
+    },
+    addUserWebsite(state, payload) {
+        state.usefulResources.websitesLinks.unshift(payload)
+    },
+    deleteUserWebsite(state, name) {
+        let index = state.usefulResources.websitesLinks.findIndex(link => link.name == name);
+        state.usefulResources.websitesLinks.splice(index, 1)
+    },
+    updateTxtAreaHeight(state, payload) {
+        state.usefulResources.txtAreaHeight = payload;
+    },
+    setUserWebsites(state, payload) {
+        state.usefulResources.websitesLinks = payload
+    },
+
     clearVuex(state) {
         state.songsLoaded = 2;
         state.mySongsLoaded = 2;
@@ -124,12 +116,12 @@ export default {
         state.artists = [];
         state.mySongs = [];
         state.songs = [];
-        state.songDetailTitle =null;
-        
+        state.songDetailTitle = null;
+
         state.usefulResources = {
             notes: null,
             websitesLinks: [],
-            txtAreaHeight: 200
+            txtAreaHeight: 400
         };
     }
 

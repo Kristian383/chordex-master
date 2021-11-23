@@ -49,14 +49,9 @@ router.beforeEach((to, _, next) => {
   if (to.meta.requiresAuth && !store.getters.token) {
     next("/home");
   }
-  // else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
-  //   next("/home")
-  // }
   else {
     next()
   }
-
-  //ruta add new song before its saved, ako nije ondapronpt
 })
 
 

@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 library.add(faBars, faEye, faSearch, faPenSquare, faMusic, faSignOutAlt, faHeart, faUserAlt, faGuitar, faPlusSquare, faEdit, faStar, faHistory, faClipboard, faClipboardList, faQuestionCircle, faThumbtack, faPlayCircle, faHeadphones, faVolumeUp, faArrowLeft, faTrashAlt, HeartRegular,faMoon,faSun,faMapPin,faTimesCircle,faCheckSquare,faSave,faLock,faEnvelope,faAngleRight,faAngleLeft,faStickyNote,faArrowUp)
-//zasad nekoristim play, volume up
+//zasad nekoristim play
 const app = createApp(App);
 
 app.component('font-awesome-icon', FontAwesomeIcon)
