@@ -10,27 +10,6 @@
         <input type="radio" :id="option" class="radio" name="category" />
         <label :for="option">{{ option }} </label>
       </div>
-
-      <!-- <div class="option" @click.prevent="changeSortOption('oldest')">
-        <input type="radio" id="oldest" class="radio" name="category" />
-        <label for="oldest">Oldest Added</label>
-      </div>
-      <div class="option" @click.prevent="changeSortOption('A-Z')">
-        <input type="radio" id="alphabet" class="radio" name="category" />
-        <label for="alphabet">A - Z</label>
-      </div>
-      <div class="option" @click.prevent="changeSortOption('Z-A')">
-        <input type="radio" id="reverse" class="radio" name="category" />
-        <label for="reverse">Z - A</label>
-      </div>
-      <div class="option" @click.prevent="changeSortOption('best')">
-        <input type="radio" id="best" class="radio" name="best" />
-        <label for="best">Best learned</label>
-      </div>
-      <div class="option" @click.prevent="changeSortOption('least')">
-        <input type="radio" id="least" class="radio" name="least" />
-        <label for="least">Least learned</label>
-      </div> -->
     </div>
     <div class="selected" @click="toggleSort">Sort by: {{ selectedSort }}</div>
   </div>
@@ -53,19 +32,8 @@ export default {
     changeSortOption(option) {
       this.selectedSort = option;
       this.sortIsActive = false;
-      // this.$router.replace({query:{sort:option}})
       this.$emit("changeSort", option);
     },
-  },
-  computed:{
-  //   uniqueId() {
-  //   const newKeys = [];
-  //   this.options.forEach(option => {
-  //     const id= Math.random().toString(36).substring(2);
-  //     newKeys.push({option,id})
-  //   });
-  //   return newKeys;
-  // },
   },
 };
 </script>
@@ -78,9 +46,7 @@ export default {
   position: relative;
   z-index: 20;
   user-select: none;
-  
   font-size: 16px;
-  
 }
 .select-box .options-container {
   background: #11101d;
@@ -151,7 +117,6 @@ export default {
 
 .select-box label {
   cursor: pointer;
-  /*display: block;  ovo sam dodao ako neradi click */
   text-transform: capitalize;
 }
 

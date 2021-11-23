@@ -16,11 +16,9 @@ export default {
   width: 100%;
   height: 100px;
   text-align: center;
-  /* border: 1px solid currentcolor; */
   font-size: 30px;
   padding: 1em;
   position: relative;
-  /* vertical-align: top; */
   transition: 0.3s color, 0.3s border, 0.3s transform, 0.3s opacity;
 }
 [class*="loader-"] {

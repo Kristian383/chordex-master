@@ -6,7 +6,6 @@ export default {
     },
     getAllSongs(state) {
         return state.songs;
-        // .filter(song=>song.mySong==false)
     },
     getAllMySongs(state) {
         return state.mySongs;
@@ -29,9 +28,7 @@ export default {
         return state.darkMode;
     },
     getMusicKeys(state) {
-        // if(state.musicKeys)
         return state.musicKeys;
-        // else return []
     },
     getSongDetailTitle(state) {
         return state.songDetailTitle;

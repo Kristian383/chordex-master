@@ -1,11 +1,8 @@
 <template>
   <base-card>
     <div class="form-container">
-      <!-- <div class="modal" id="modal"></div> -->
       <div class="go-back" @click="goBack">
-        <!-- <router-link :to="songInfo.isMySong ? '/my-songs' : '/songs'"> -->
         <font-awesome-icon icon="arrow-left"></font-awesome-icon>
-        <!-- </router-link> -->
       </div>
       <form @submit.prevent>
         <div class="top-section">
@@ -15,23 +12,16 @@
             :class="{ 'is-favorite': isFavorite }"
             @click.prevent="toggleFavorite"
           ></font-awesome-icon>
-          <!-- my song checkbox  clipboard-list  -->
+          <!-- my song checkbox  -->
           <div class="mysong">
-            <!-- <label for="my-song" class="my-label">My song:</label>
-            <input
-              type="checkbox"
-              name="choice"
-              id="my-song"
-              v-model="songInfo.isMySong"
-            /> -->
             <template v-if="!songId">
               <input
-              type="checkbox"
-              name="my-song"
-              id="my-song"
-              v-model="songInfo.isMySong"
-              @click="setArtist"
-            /><label for="my-song">My song</label>
+                type="checkbox"
+                name="my-song"
+                id="my-song"
+                v-model="songInfo.isMySong"
+                @click="setArtist"
+              /><label for="my-song">My song</label>
             </template>
             <!-- <label for="my-song">My Song</label> -->
           </div>
@@ -41,13 +31,12 @@
             class="delete"
             icon="trash-alt"
           ></font-awesome-icon>
-          <!-- <div class="button-container">
-            <button class="btn" @click="submitSong"></button>
-          </div> -->
-          <!-- @click="submitSong" -->
+
           <button-save name="Save" @click="submitSong"></button-save>
         </div>
+
         <div class="grid-2">
+          <!-- artist name -->
           <input
             class="input-field"
             type="text"
@@ -58,10 +47,11 @@
             :class="{ 'error-msg': !artist.isValid }"
             @focus="clearValidity('artist')"
           />
+          <!-- spotify api and bpm -->
           <div class="grid-2">
             <div class="find-data" @click="searchSongInfo">
               <!-- Not found anything -->
-              Try to get song info
+              {{ getSongInfoTxt }}
               <font-awesome-icon icon="question-circle"></font-awesome-icon>
             </div>
             <!--  -->
@@ -73,6 +63,7 @@
               placeholder="BPM"
             />
           </div>
+          <!-- song name -->
           <input
             class="input-field"
             type="text"
@@ -82,7 +73,7 @@
             @focus="clearValidity('song')"
             v-model.trim="song.val"
           />
-          <!-- easy hard -->
+          <!-- easy hard and tuning badges -->
           <div>
             <input
               value="easy"
@@ -113,7 +104,7 @@
               placeholder="Tuning: Standard"
             />
           </div>
-          <!--  -->
+          <!-- first key -->
           <div class="grid-2">
             <select-box-key
               @key-selected="insertKey"
@@ -121,6 +112,7 @@
             ></select-box-key>
             {{ songInfo.firstKeyNotes }}
           </div>
+          <!-- second key -->
           <div class="grid-2">
             <transition name="fade">
               <select-box-key
@@ -139,13 +131,14 @@
               </div>
             </transition>
           </div>
-          <!--  -->
+          <!-- first key Chord progression-->
           <input
             class="input-field"
             type="text"
             placeholder="Chord progression"
             v-model.trim="songInfo.firstChordProgression"
           />
+          <!-- second key Chord progression-->
           <transition name="fade">
             <input
               class="input-field"
@@ -155,7 +148,7 @@
               v-model.trim="songInfo.secondChordProgression"
             />
           </transition>
-          <!-- guitar type -->
+          <!-- guitar types -->
           <div>
             <input
               type="checkbox"
@@ -186,7 +179,6 @@
             />
           </div>
           <!-- slider -->
-
           <div class="range-slider">
             <input
               class="range-slider__range"
@@ -199,22 +191,24 @@
               >{{ songInfo.practicedPrcntg }}%</span
             >
           </div>
-          <!--  -->
+          <!-- yt link -->
           <input
             v-model.trim="songInfo.ytLink"
             class="input-field"
             type="text"
             placeholder="YouTube Link: https://www.youtube.com/..."
           />
+          <!-- chords website link -->
+
           <input
             v-model.trim="songInfo.chordsWebsiteLink"
             class="input-field"
             type="text"
-            placeholder="Chords Link"
+            placeholder="Chords website link"
           />
           <!--  -->
         </div>
-        <!--  -->
+        <!-- song notes -->
         <div>
           <textarea
             class="notebook"
@@ -222,10 +216,8 @@
             id="txt_area"
             name=""
             rows="20"
-            placeholder="Song notes..."
+            placeholder="Notes about this song..."
           ></textarea>
-
-          <!-- @keydown.tab.prevent="tabber($event)" -->
         </div>
       </form>
     </div>
@@ -266,7 +258,7 @@ export default {
         difficulty: "medium",
         firstKey: null,
         secondKey: null,
-        lastViewed:null
+        lastViewed: null,
       },
       haveCapo: null,
       artist: {
@@ -277,7 +269,7 @@ export default {
         val: null,
         isValid: true,
       },
-      isSaved: null,
+      getSongInfoTxt: "Try to get song info",
     };
   },
 
@@ -288,9 +280,9 @@ export default {
       }
       return "heart";
     },
-    getUsername(){
-      return this.$store.getters.user.username
-    }
+    getUsername() {
+      return this.$store.getters.user.username;
+    },
   },
   methods: {
     deleteSong() {
@@ -300,9 +292,10 @@ export default {
           artist: this.artist.val,
           songId: +this.songId,
         };
-        //console.log("pay", payload);
         this.$store.dispatch("deleteSong", payload).then(() => {
-          this.$router.push(this.songInfo.isMySong ? "/songs?isMySong=True" : "/songs");
+          this.$router.push(
+            this.songInfo.isMySong ? "/songs?isMySong=True" : "/songs"
+          );
         });
       }
     },
@@ -321,7 +314,6 @@ export default {
         this.songInfo.secondKey = data.key;
         this.songInfo.secondKeyNotes = data.notes;
       }
-      // console.log(data);
     },
     removeSecondKeySelect() {
       this.openSecond = false;
@@ -341,22 +333,11 @@ export default {
     },
     submitSong(event) {
       this.validateForm();
+
       if (!this.formIsValid) {
         return;
       }
-
       event.target.classList.toggle("loading");
-      // setTimeout(() => {
-      //   event.target.classList.remove("loading");
-        
-      //    event.target.classList.add("success");
-      // }, 1000);
-
-      // setTimeout(() => {
-      //   event.target.classList.remove("success");
-      //   // const pushRoute = this.songInfo.isMySong ? "/my-songs" : "/songs";
-      //   // this.$router.push(pushRoute);
-      // }, 2500);
 
       if (this.songInfo.ytLink) {
         this.songInfo.ytLink = this.handleYTLink(this.songInfo.ytLink);
@@ -369,19 +350,24 @@ export default {
         songId: +this.songId,
         isFavorite: this.isFavorite,
       };
-      //console.log("prije akcije",formData);
-      this.$store.dispatch("addNewSong", formData).then((res) => {
-        event.target.classList.add("success");
-        if(res){
-          const pushRoute = this.songInfo.isMySong ? "/songs?isMySong=True" : "/songs";
-        this.$router.push(pushRoute);
 
+      this.$store.dispatch("addNewSong", formData).then((res) => {
+        event.target.classList.remove("loading");
+
+        if (res) {
+          console.log("res", res);
+          const pushRoute = this.songInfo.isMySong
+            ? "/songs?isMySong=True"
+            : "/songs";
+          // event.target.classList.add("success");
+          // event.target.classList.remove("success");
+
+          this.$router.push(pushRoute);
+        } else {
+          this.formIsValid = false;
+          this.song.isValid = false;
         }
-        event.target.classList.remove("loading")
-        event.target.classList.remove("success");
-        
       });
-      this.isSaved = true;
     },
     checkCapo() {
       this.songInfo.capo = null;
@@ -392,40 +378,34 @@ export default {
     validateForm() {
       this.formIsValid = true;
 
-      // if(!keys.first){
-      //   this.formIsValid=false;
-      //   this.firstKey.isValid=false;
-      // }
-
-      if (!this.artist.val || this.artist.val.length > 45) {
+      if (!this.artist.val || this.artist.val.length > 40) {
         this.formIsValid = false;
         this.artist.isValid = false;
       }
 
-      if (!this.song.val || this.song.val.length > 45) {
+      if (!this.song.val || this.song.val.length > 40) {
         this.formIsValid = false;
         this.song.isValid = false;
       }
     },
     handleYTLink(link) {
-      
       let linkArr = link.split(/[/=]+/);
       let id = linkArr[linkArr.length - 1];
       //console.log(id);
       // let id = link.split("https://www.youtube.com/watch?v=")[1];
       return `https://www.youtube.com/embed/${id}`;
     },
-    setArtist(e){
-      //console.log(e.target.checked);
-      if(e.target.checked){
-        this.artist.val=this.getUsername
-      }else{
-        this.artist.val=""
+    setArtist(e) {
+      if (e.target.checked) {
+        this.artist.val = this.getUsername;
+      } else {
+        this.artist.val = "";
       }
     },
     searchSongInfo() {
       //api call to spotify
       this.$store.dispatch("apiForSongInfo", this.song.val);
+      //.then((res)=>{ if(res) this.getSongInfoTxt="Loading..." })
     },
   },
   mounted() {
@@ -470,7 +450,6 @@ export default {
 
 <style scoped>
 .form-container {
-  /* background-color: #fff; */
   background-color: #f5f6fa;
   background-color: #eaebea;
   color: RGB(16, 17, 20);
@@ -480,8 +459,6 @@ export default {
   border-radius: 6px;
   font-family: Arial, sans-serif !important;
   font-size: 18px;
-
-  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   border-left: 6px solid var(--burgundy);
   position: relative;
@@ -492,7 +469,6 @@ export default {
   align-items: center;
   padding-top: 8px;
   gap: 26px;
-  /* height: 90px; */
 }
 svg {
   font-size: 24px;
@@ -508,7 +484,6 @@ svg {
 .top-section .mysong {
   position: absolute;
   left: 65px;
-  /* top: 33px; */
   top: 2px;
   cursor: pointer;
   font-weight: 600;
@@ -517,7 +492,6 @@ svg {
 .top-section .delete {
   cursor: pointer;
   color: RGB(16, 17, 20);
-  /* margin-bottom: 28px; */
 }
 
 @media (max-width: 380px) {
@@ -549,16 +523,9 @@ svg {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-/* .grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-} */
+
 .grid-2 .find-data {
-  /* width: 50px; */
   color: rgb(136, 136, 136);
-  /* justify-self: center; 
-  align-self: center;*/
   text-align: center;
   cursor: pointer;
 }
@@ -581,7 +548,7 @@ form .input-field {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
-  display: inline-block; /*dodao umjesto block */
+  display: inline-block; 
   width: 100%;
   margin-top: 1em;
   font-size: inherit;
@@ -678,7 +645,6 @@ input[type="radio"] + label {
 input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
   transition: all 500ms ease;
-  /* background-color: #6fc982; */
   background-color: var(--dark_gray_font);
   color: #fff;
 }
@@ -694,11 +660,6 @@ form input:-internal-autofill-selected {
 .fade-enter-from {
   opacity: 0;
 }
-
-/* .fade-leave-from,
-.fade-enter-to {
-  opacity: 1
-} */
 
 .range-slider {
   width: 100%;

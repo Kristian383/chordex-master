@@ -39,19 +39,17 @@ export default {
         let url = `http://127.0.0.1:5000/song/${username}`;
         //http
         //pronaci image url
-        //console.log("payload add",payload);
         const body = {
             username,
             ...payload
         }
 
         let methodType = "POST";
-        console.log("body add", body);
         if (payload.songId) {
             methodType = "PUT"
-        } 
-            let lastViewed = new Date().toLocaleString();
-            body.lastViewed = lastViewed;
+        }
+        let lastViewed = new Date().toLocaleString();
+        body.lastViewed = lastViewed;
 
         const response = await fetch(url,
             {
@@ -69,16 +67,18 @@ export default {
 
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add song.');
-             return false
+            return false
         }
 
-        
-        if (payload.songId){
-            
-             context.commit("updateSong", payload)
+        if (payload.songId) {
+
+            context.commit("updateSong", payload)
         }
+        // else{
+        //     context.commit("insertSongAndArtist", payload)
+
+        // }
         return true
-        //console.log("response", responseData);
     },
     async deleteSong(context, payload) {
         let username = context.getters.user.username;
@@ -308,13 +308,13 @@ export default {
             method: "POST",
             headers: {
                 "Authorization": 'Basic ' + window.btoa(client_id + ':' + client_secret),
-                 "Content-Type": "application/json",
-                
+                "Content-Type": "application/json",
+
             },
             body: {
                 "grant_type": 'client_credentials'
             },
-            
+
             // json: true
 
         })

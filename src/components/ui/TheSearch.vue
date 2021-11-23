@@ -43,7 +43,6 @@ export default {
       if (textValue.length === 0) {
         foundData = [];
       }
-      //   console.log(foundData);
       this.searchMatch = foundData;
     },
   },
@@ -84,9 +83,6 @@ export default {
   height: 50px;
   width: 100%;
   max-width: 350px;
-  /* min-width: 200px; */
-  /* width: 100%; */
-
   margin: 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }

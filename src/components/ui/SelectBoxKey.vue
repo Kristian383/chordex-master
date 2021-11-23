@@ -65,20 +65,6 @@ export default {
     chooseKey(selected) {
       this.selectedKey = selected.key;
       this.chooseKeyIsActive = false;
-
-      // const notes = selected.notes.map((el) => el).join(" - ");
-
-      // this.payload = {
-      //   name: this.name,
-      //   key: this.selectedKey,
-      //   notes: notes,
-      // };
-
-      // this.$store.commit("selectKey", payload);
-      // console.log(payload);
-      //
-      // console.log("poziv emit",this.payload);
-      // this.$emit("keySelected", this.payload);
     },
     chooseQualityKey(quality) {
       if (!this.selectedKey) {
@@ -101,11 +87,7 @@ export default {
   computed: {
     songKeysWithUniqueId() {
       const songKeysCopy = this.$store.getters.getMusicKeys.map((el) => el);
-      //console.log(songKeysCopy);
-      // songKeysCopy.forEach((key) => {
-      //   const id = Math.random().toString(36).substring(2);
-      //   newKeys.push({ key, id });
-      // });
+     
       return songKeysCopy;
     },
   },
@@ -120,11 +102,8 @@ export default {
 
 .qualities {
   display: flex;
-  /* flex-direction: column; */
   flex-direction: row;
   gap: 4px;
-  /* width: 100px; */
-  /* margin: auto 0; */
 }
 
 .qualities input[type="checkbox"],
@@ -153,7 +132,6 @@ export default {
 .qualities input[type="checkbox"]:checked + label,
 .qualities input[type="radio"]:checked + label {
   transition: all 500ms ease;
-  /* background-color: #6fc982; */
   background-color: var(--dark_gray_font);
   color: #fff;
 }
@@ -161,7 +139,6 @@ export default {
 /*  */
 .select-box {
   display: flex;
-  /* width: 180px; */
   width: 150px;
   flex-direction: column;
   position: relative;
@@ -170,7 +147,6 @@ export default {
 }
 .select-box .options-container {
   background: #fff;
-  /* color: #f1f1f1; */
   max-height: 0;
   width: 100%;
   text-align: center;
@@ -183,7 +159,6 @@ export default {
 }
 .selected {
   box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
-  /* margin-bottom: 8px; */
   background-color: #fff;
   position: relative;
   color: inherit;
@@ -233,13 +208,11 @@ export default {
   transition: all 0.5s ease;
 }
 .select-box .option:hover {
-  /* color: #11101d; */
   background: #d8d8d8;
 }
 
 .select-box label {
   cursor: pointer;
-  /*display: block;  ovo sam dodao ako neradi click */
 }
 
 .select-box .option .radio {
@@ -247,7 +220,6 @@ export default {
 }
 
 .secondOption {
-  /* background-color: red; */
   justify-self: center;
   position: relative;
   width: 100%;
@@ -259,7 +231,6 @@ export default {
 .secondOption #secondSelectOption {
   display: inline-block;
   width: 20px;
-  /* margin-left: 4px; */
   margin-top: 0;
   height: 18px;
 }

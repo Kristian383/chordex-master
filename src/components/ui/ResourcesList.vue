@@ -16,7 +16,6 @@
         <span><h2>Useful websites</h2></span>
         <br />
         <div class="inputs">
-          <!-- @keypress.enter="addTodo" -->
           <input
             type="text"
             v-on:keyup.enter="$event.target.nextElementSibling.focus()"
@@ -52,10 +51,6 @@
             </li>
           </transition-group>
         </div>
-        <!-- <div class="example" v-else>
-          Type name of website and its link e.g.
-          <i>Chord finder https://www.chordex.com </i><br />
-        </div> -->
         <div class="example" v-else>
           <i>Currently no websites saved.</i><br />
         </div>
@@ -137,6 +132,7 @@ export default {
     this.$store.dispatch("loadUsersNotes").then(() => {
       this.notes = this.getNotes;
     });
+
     this.$store.dispatch("loadUserWebsites");
   },
 };
