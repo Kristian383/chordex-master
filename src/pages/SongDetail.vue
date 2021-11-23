@@ -3,18 +3,15 @@
     <div class="song-detail" v-if="songData">
       <div class="box song-info">
         <div class="top-icons">
-          <div class="go-back">
-            <router-link :to="songData.isMySong ? '/songs?isMySong=True' : '/songs'">
-              <font-awesome-icon icon="arrow-left"></font-awesome-icon>
-            </router-link>
+          <div class="go-back" @click="goBack">
+            <font-awesome-icon icon="arrow-left"></font-awesome-icon>
           </div>
           <div class="middle-icons">
             <font-awesome-icon
               :icon="iconName"
-              style="pointer-events:none;"
+              style="pointer-events: none"
               :class="{ 'is-favorite': isFavorite }"
             ></font-awesome-icon>
-              <!-- @click="toggleFavorite" -->
             <font-awesome-icon
               icon="edit"
               @click="openEdit"
@@ -27,23 +24,16 @@
             ></font-awesome-icon>
           </div>
         </div>
-        <!--  -->
+        <!-- Artist and learned-->
         <div>
           <div><b>Artist:</b> {{ songData.artist }}</div>
-          <!-- <label for="artist">Artist:</label>
-            <span>RHCP</span> -->
-
-          <!-- <input type="text" /> -->
           <div class="song-info-box">
             <b>Learned:</b> {{ songData.practicedPrcntg }}%
           </div>
         </div>
-        <!--  -->
+        <!-- Song and bpm -->
         <div>
           <div class="song-name"><b>Song:</b> {{ songData.songName }}</div>
-          <!-- <label for="song">Song:</label> -->
-          <!-- <input type="text" /> -->
-
           <div class="song-info-box" v-if="songData.bpm">
             <b> BPM:</b> {{ songData.bpm }}
             <font-awesome-icon
@@ -52,7 +42,7 @@
             ></font-awesome-icon>
           </div>
         </div>
-        <!-- ovdje mora ici vfor ako ima 2 keya -->
+        <!-- keys -->
         <div v-if="songData.firstKey">
           <div class="key"><b>Key:</b> {{ songData.firstKey }}</div>
           <div class="chords">
@@ -71,10 +61,10 @@
             <b>Chord progression:</b> {{ songData.secondChordProgression }}
           </div>
         </div>
-        <!--  -->
+        <!-- capo  tuning guitar-->
         <div>
           <div class="capo" v-if="songData.capo">
-            <b>Capo:</b> {{ songData.capo ? songData.capo : "No" }}
+            <b>Capo:</b> {{ songData.capo }}
           </div>
           <div class="tuning">
             <b>Tuning:</b> {{ songData.tuning ? songData.tuning : "Standard" }}
@@ -85,15 +75,8 @@
             {{ songData.electric ? "Eletric" : "" }}
           </div>
         </div>
-        <!--  -->
+        <!-- chordsWebsiteLink -->
         <div>
-          <!-- <div class="genre">Genre: Rock</div> -->
-          <!-- <div class="link" v-if="songData.yt_link">
-            <b>Link: </b>
-            <a :href="songData.yt_link" target="_blank"
-              >{{ songData.yt_link }}
-            </a>
-          </div> -->
           <div class="link" v-if="songData.chordsWebsiteLink">
             <b>Resource Link: </b>
             <a :href="songData.chordsWebsiteLink" target="_blank"
@@ -101,11 +84,13 @@
             </a>
           </div>
         </div>
+        <!-- difficulty -->
         <div v-if="songData.difficulty">
           <div><b>Difficulty:</b> {{ songData.difficulty }}</div>
         </div>
       </div>
-      <div class="box video" v-if="songData && songData.ytLink">
+      <!-- yt video  -->
+      <div class="box video" v-if="songData.ytLink">
         <iframe
           :src="songData.ytLink"
           title="YouTube video player"
@@ -116,7 +101,7 @@
       </div>
 
       <div class="box notebook">
-        <hr />
+        <hr v-if="songData.songText" />
         <br />
         <pre>{{ songData.songText }}</pre>
       </div>
@@ -142,41 +127,30 @@ export default {
     };
   },
   mounted() {
-    // this.id = this.$route.params.songId;
-    //iz rutera prop
     this.id = this.songId;
-    let songData = this.$store.getters.getAllSongs.find((song) => {
-      return song.songId == this.id;
-    });
-    // console.log("ucitano",songData);
+    let songData;
+    if (this.$route.query.isMySong) {
+      songData = this.$store.getters.getAllMySongs.find((song) => {
+        return song.songId == this.id;
+      });
+    } else {
+      songData = this.$store.getters.getAllSongs.find((song) => {
+        return song.songId == this.id;
+      });
+    }
 
     if (songData) {
       this.songData = songData;
       this.isFavorite = songData.isFavorite;
-
-      // var d = new Date().toLocaleString() ;
-
-      // console.log("datestring",d);
-      // let newDate=new Date(d)
-
-      // console.log("newDate",newDate );
-      //pass song name for title of page
       this.$store.commit("setSongDetailTitle", songData.songName);
-      //this.$store.dispatch("updateLastViewed", this.id);
     } else {
       this.$router.push("notFound");
     }
   },
   methods: {
-    // ToggleFavorite() {
-    //   this.isFavorite = !this.isFavorite;
-    //   this.$store.commit("toggleFavorite", { songId: this.id });
-    // },
-    // toggleFavorite() {
-    //   this.$store.commit("toggleFavorite", { songId: this.id });
-    //   this.isFavorite = !this.isFavorite;
-    //   this.$store.dispatch("addNewSong", this.songData);
-    // },
+    goBack() {
+      this.$router.go(-1);
+    },
     openEdit() {
       this.$router.push("/new/" + this.songId);
     },
@@ -188,7 +162,9 @@ export default {
           songId: this.songData.songId,
         };
         this.$store.dispatch("deleteSong", payload).then(() => {
-          this.$router.push(this.songData.isMySong ? "/songs?isMySong=True" : "/songs");
+          this.$router.push(
+            this.songData.isMySong ? "/songs?isMySong=True" : "/songs"
+          );
         });
       }
     },
@@ -213,13 +189,8 @@ export default {
 
 <style scoped>
 .song-detail {
-  /* min-height: 95vh; */
   background-color: var(--white);
   color: var(--font_black);
-
-  /* background-color: #0D1117; 
-  color: #c9d1d9; */
-  /* padding: 8px; */
   padding: 12px 15px;
   display: grid;
   gap: 10px;
@@ -229,23 +200,15 @@ export default {
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
-  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
-
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   font-size: 18px;
   border-right: 6px solid var(--burgundy);
-  /* border: solid 2px black;
-  position: relative;  */
-  /* font-size: 21px; */
 }
 
 .box {
   border-radius: 0 0 6px 6px;
-
   width: 240px;
-  /* margin: auto; */
   justify-self: center;
-  /* background-color: #ccc; */
 }
 .box.notebook {
   font-weight: 400;
@@ -271,20 +234,16 @@ export default {
 }
 @media (min-width: 770px) {
   .song-info {
-    /* width: 600px; */
-    /* margin: auto; */
     order: 2;
     overflow: hidden;
   }
   .box.song-info,
   .box.video {
     width: 600px;
-    /* margin: auto; */
     min-height: 400px;
   }
   .box.video iframe {
     height: 100%;
-    /* width: 560px; */
   }
   .box.notebook {
     width: 100%;

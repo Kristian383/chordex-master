@@ -64,7 +64,10 @@ export default {
   props: ["song"],
   methods: {
     openSongDetail() {
-        this.$router.push("/songs/" + this.song.songId);
+      const pushRoute = this.song.isMySong
+        ? `/songs/${this.song.songId}?isMySong=True`
+        : `/songs/${this.song.songId}`;
+      this.$router.push(pushRoute );
     },
     toggleFavorite() {
       this.$store.commit("toggleFavorite", { songId: this.song.songId });
@@ -76,7 +79,6 @@ export default {
     chooseArtist() {
       this.$router.push("/songs?artist=" + this.song.artist);
     },
-    
   },
   computed: {
     skillLevelClass() {
@@ -99,7 +101,9 @@ export default {
       return "#69b34c";
     },
     timeSince() {
-      var seconds = Math.floor((new Date() - new Date(this.song.lastViewed) ) / 1000);
+      var seconds = Math.floor(
+        (new Date() - new Date(this.song.lastViewed)) / 1000
+      );
 
       var interval = seconds / 31536000;
 
@@ -112,7 +116,6 @@ export default {
       }
       interval = seconds / 86400;
       if (interval > 1) {
-        
         return Math.floor(interval) + "d ago";
       }
       interval = seconds / 3600;
@@ -126,7 +129,6 @@ export default {
       return Math.floor(seconds) + "s ago";
     },
   },
- 
 };
 </script>
 

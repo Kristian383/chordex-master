@@ -6,16 +6,12 @@ import UserProfile from "./pages/UserProfile.vue"
 import SongDetail from "./pages/SongDetail.vue"
 import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
-// import MySongs from "./pages/MySongs.vue"
 import FindKey from "./pages/FindKey.vue"
 import TheAbout from "./pages/TheAbout.vue"
-// import UserAuth from "./components/ui/auth/UserAuth.vue"
 import ResourcesList from "./components/ui/ResourcesList.vue"
 import NotFound from "./pages/NotFound.vue"
 import store from "./store/index";
 
-// const Favorites=()=>import("./pages/Favorites.vue")
-// const Songs=()=>import("./pages/Songs.vue")
 
 const router = createRouter({
   history: createWebHistory(),
@@ -31,8 +27,6 @@ const router = createRouter({
     //{ path: "/artists/:name", component: Songs, name: "Artists Songs", meta: { title: "Artists Songs | Chordex", requiresAuth: true } },//ovo staviti u query /artists?name=:name
     { path: "/new", component: AddSong, name: "Add Song", meta: { title: "Add Song | Chordex", requiresAuth: true } },
     { path: "/new/:songId", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex", requiresAuth: true } },
-    //{ path: "/my-songs", component: MySongs, name: "My Songs", meta: { title: "MySongs | Chordex", requiresAuth: true } },
-    //{ path: "/my-songs/:songId", component: SongDetail, name: "MySongDetail", meta: { title: "SongDetail | Chordex", requiresAuth: true }, props: true },
     { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex", requiresAuth: true } },
     { path: "/resources", component: ResourcesList, name: "Notes", meta: { title: "Resources | Chordex", requiresAuth: true } },
     { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
@@ -44,13 +38,6 @@ const router = createRouter({
       return { left: 0, top: 0, behavior: "smooth" }
     }
   },
-  // beforeRouteLeave(_, _2, next) {
-  //   console.log(window.innerWidth);
-  //   if(window.innerWidth<400){
-  //     this.$store.commit("removeSidebar")
-  //   }
-  //   next();
-  // },
 
 });
 
@@ -68,7 +55,6 @@ router.beforeEach((to, _, next) => {
   else {
     next()
   }
-
 
   //ruta add new song before its saved, ako nije ondapronpt
 })

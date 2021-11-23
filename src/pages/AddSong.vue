@@ -355,7 +355,6 @@ export default {
         event.target.classList.remove("loading");
 
         if (res) {
-          console.log("res", res);
           const pushRoute = this.songInfo.isMySong
             ? "/songs?isMySong=True"
             : "/songs";

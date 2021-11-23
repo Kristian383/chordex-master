@@ -11,7 +11,6 @@
           <th>V</th>
           <th>vi</th>
           <th>vii°</th>
-          <!-- <th>Number of b / #</th> -->
         </tr>
       </thead>
       <tbody>
@@ -31,30 +30,17 @@ export default {
   components: {
     BaseCard,
   },
-  data() {
-    return {
-      // formatedKeys: [],
-    };
-  },
+  
   computed: {
     allKeys() {
       let formatedKeys=[]
       this.$store.getters.getMusicKeys.forEach((element) => {
-      // console.log("mounted");
       let each = [];
       each.push(element.key, ...element.notes);
       formatedKeys.push(each);
     });
       return formatedKeys;
     },
-  },
-  mounted() {
-    // this.$store.getters.getMusicKeys.forEach((element) => {
-    //   // console.log("mounted");
-    //   let each = [];
-    //   each.push(element.key, ...element.notes);
-    //  // this.formatedKeys.push(each);
-    // });
   },
  
 };
@@ -78,9 +64,7 @@ tbody td {
 
   text-align: center;
 }
-/* thead th:last-child {
-  display:none;
-} */
+
 tbody td:first-child {
   font-weight: bold;
 }
@@ -103,9 +87,6 @@ tbody td:nth-child(7){
     width: 100px;
   }
 
-  /* thead th:last-child {
-    display: block;
-  } */
 }
 tr {
   background-color: #f2f2f2;
@@ -119,7 +100,6 @@ tr:hover td {
 
 tr:hover td:nth-child(7)
 {
-  /* color: var(--burgundy); */
   text-decoration: underline;
 }
 </style>

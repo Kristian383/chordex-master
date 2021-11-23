@@ -1,7 +1,6 @@
 <template>
   <base-card>
     <template v-slot:select_box>
-      <!-- <sort-by @changeSort="sortArtists"></sort-by> -->
       <sort-by-optimized
         @changeSort="sortArtists"
         :options="getOptions"
@@ -96,9 +95,7 @@ export default {
         ghostClass: "ghost",
       };
     },
-    // getElement(element) {
-    //   return element;
-    // },
+    
     getOptions() {
       return ["A-Z", "Z-A"];
     },
@@ -138,12 +135,6 @@ export default {
 
 <style scoped>
 .artists {
-  /* display:flex;
-  justify-content:center;
-  align-items:center; */
-  /* background-color: #ccc; */
-
-  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   max-width: 800px;
   margin: 0 auto;
 }
@@ -190,15 +181,6 @@ export default {
   color: #fff;
 }
 
-/* @media (min-width: 720px) {
-  .list-group .list-group-item  {
-   
-  }
-} */
-/* .list-group .list-group-item .handle:hover {
-  color: #111;
-} */
-
 .list-group .list-group-item .thumbnail {
   padding: 0px 10px;
 }
@@ -207,7 +189,6 @@ export default {
   border-radius: 50%;
 }
 .list-group .list-group-item .details {
-  /* gap: 14px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
