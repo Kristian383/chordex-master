@@ -2,12 +2,7 @@
   <div class="skeleton-card">
     <div class="card-header">
       <div class="image skeleton"></div>
-      <!-- <div class="icons">
-        <div class="icon skeleton"></div>
-        <div class="icon skeleton"></div>
-      </div> -->
     </div>
-
     <div class="card-body">
       <div class="tags">
         <span class="tag skeleton"></span>
@@ -42,7 +37,6 @@ export default {};
 .image {
   width: 100%;
   height: 100px;
-  /*  */
   position: relative;
   overflow: hidden;
   background: #d9d9d9;
@@ -54,7 +48,6 @@ export default {};
   width: 100%;
   justify-content: space-between;
   padding: 4px;
-  /* z-index: 14; */
 }
 .icons .icon {
   display: flex;
@@ -64,7 +57,6 @@ export default {};
   height: 34px;
   border-radius: 50%;
   background-color: #fff;
-  /*  */
 }
 
 .card-body {
@@ -85,7 +77,6 @@ export default {};
   border-radius: 50px;
   height: 20px;
   width: 40px;
-  /* font-size: 12px; */
   margin: 5px 0;
   padding: 4px 10px;
 }
@@ -127,31 +118,23 @@ export default {};
 }
 
 .skeleton {
-  /* opacity: .7; */
-   animation: skeleton-loading 1.25s linear infinite ;
-  background-image: linear-gradient(to right, #d9d9d9 0%, rgba(0,0,0,0.05) 20%, #d9d9d9 40%, #d9d9d9 100%);
+  animation: skeleton-loading 1.25s linear infinite;
+  background-image: linear-gradient(
+    to right,
+    #d9d9d9 0%,
+    rgba(0, 0, 0, 0.05) 20%,
+    #d9d9d9 40%,
+    #d9d9d9 100%
+  );
   background-repeat: no-repeat;
-   background-size: 450px 400px; 
-
-    /* animation: fade 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; */
+  background-size: 450px 400px;
 }
-/* @keyframes fade {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  to {
-    opacity: 1;
-  }
-} */
 
 @keyframes skeleton-loading {
-  0%{
+  0% {
     background-position: -450px 0;
   }
-  100%{
+  100% {
     background-position: 450px 0;
   }
 }
