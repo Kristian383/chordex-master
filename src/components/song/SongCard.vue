@@ -22,6 +22,9 @@
     <div class="card-body">
       <div class="tags">
         <span class="tag tag-teal" v-if="song.capo"> Capo</span>
+        <!-- <span class="tag tag-teal" v-if="song.acoustic"> Acoustic</span>
+        <span class="tag tag-teal" v-else-if="song.electric"> Electric</span>
+        <span class="tag tag-teal" v-else-if="song.capo"> Capo</span> -->
         <span
           class="tag tag-teal"
           v-if="song.difficulty"

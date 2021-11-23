@@ -39,8 +39,6 @@ footer {
 
 .logo {
   width: 50px;
-
-  /* margin: 0 auto; */
 }
 .logo img {
   width: 100%;

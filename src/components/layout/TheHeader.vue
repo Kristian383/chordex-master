@@ -18,7 +18,6 @@
           <router-link class="link" :class="{not_logged:isLogged}" active-class="active" to="/songs"
             >App</router-link
           >
-          <!-- ovdje ga preumsjerit na auth ako nije logged -->
         </li>
         <li>
           <router-link class="link" active-class="active" to="/about"
