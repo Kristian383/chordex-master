@@ -1,4 +1,7 @@
 <template>
+<!-- beta banner -->
+<the-beta-banner v-if="!isLogged"></the-beta-banner>
+<!--  -->
   <the-header></the-header>
   <the-sidebar></the-sidebar>
   <router-view :key="$route.path" v-slot="{ Component }">
@@ -11,6 +14,7 @@
 
 <script>
 import TheSidebar from "./components/layout/TheSidebar.vue";
+import TheBetaBanner from "./components/layout/TheBetaBanner.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheFooter from "./components/layout/TheFooter.vue";
 export default {
@@ -18,7 +22,7 @@ export default {
   components: {
     TheSidebar,
     TheHeader,
-    TheFooter,
+    TheFooter,TheBetaBanner
   },
   created() {
     this.$store.dispatch("tryLogin");
@@ -27,6 +31,10 @@ export default {
     didAutoLogout() {
       return this.$store.getters.didAutoLogout;
     },
+    isLogged(){
+      return this.$store.getters.token;
+
+    }
   },
   watch: {
     didAutoLogout(curValue, oldValue) {
