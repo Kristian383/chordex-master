@@ -5,12 +5,14 @@
       <div>
         <ul>
           <li><router-link to="/home">Home</router-link></li>
-          <li><router-link to="/songs">App</router-link></li>
           <li><router-link to="/about">About</router-link></li>
         </ul>
       </div>
       <!--  -->
       <p>&copy; Kristian Nenadovic 2021</p>
+      <div class="spotify-logo">
+        <img src="./../../assets/spotify.png" alt="Logo" />
+      </div>
     </div>
   </footer>
 </template>
@@ -23,10 +25,8 @@ export default {};
 footer {
   background-color: var(--f1_gray);
   margin-top: auto;
-
 }
 .container {
-  
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -34,7 +34,6 @@ footer {
   padding: 20px;
   max-width: 1140px;
   margin: 0 auto;
-
 }
 
 .logo {
@@ -54,5 +53,17 @@ footer {
   color: RGB(16, 17, 20);
   font-weight: 500;
   font-size: 18px;
+}
+/* .spotify-content{
+display: flex;
+gap: 12px;
+} */
+
+.spotify-logo {
+  width: 95px;
+}
+
+.spotify-logo img {
+  width: 100%;
 }
 </style>

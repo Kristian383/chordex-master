@@ -11,51 +11,42 @@
                 src="https://images.pexels.com/photos/1804796/pexels-photo-1804796.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
               />
             </div>
-            <h4 class="name">{{getUserData.username}}</h4>
-            <p class="mail">{{getUserData.email}}</p>
+            <h4 class="name">{{ getUserData.username }}</h4>
+            <p class="mail">{{ getUserData.email }}</p>
             <div class="stats row">
               <div class="stat">
-                <p class="number-stat">{{numOfSongs}}</p>
+                <p class="number-stat">{{ numOfSongs }}</p>
                 <p class="desc-stat">Songs</p>
               </div>
               <div class="stat">
-                <p class="number-stat">{{numOfArtists}}</p>
+                <p class="number-stat">{{ numOfArtists }}</p>
                 <p class="desc-stat">Artists</p>
               </div>
               <div class="stat">
-                <p class="number-stat">{{numOfMySongs}}</p>
+                <p class="number-stat">{{ numOfMySongs }}</p>
                 <p class="desc-stat">My Songs</p>
               </div>
             </div>
-            <!-- <p class="desc">Settings</p> -->
-            <button-save @click="saveChanges" v-if="passwordChanged"></button-save>
           </div>
           <div class="right">
-            <!-- <ul class="nav">
-          <li>Gallery</li>
-          <li>Collections</li>
-          <li>Groups</li>
-          <li>About</li>
-        </ul> -->
-            <!-- <span class="edit">Toggle edit </span> -->
             <div class="container">
+              <!-- username -->
               <div>
                 <label class="form-control-label" for="input-username"
                   >Username</label
                 >
                 <input
-                  class="input-field"
                   type="text"
                   id="input-username"
                   :placeholder="getUserData.username"
                 />
               </div>
+              <!-- email -->
               <div>
                 <label class="form-control-label" for="input-email"
                   >Email</label
                 >
                 <input
-                  class="input-field"
                   type="text"
                   id="input-email"
                   :placeholder="getUserData.email"
@@ -68,27 +59,29 @@
               <transition name="fade">
                 <div v-if="changePassword">
                   <label class="form-control-label" for="input-email"
-                    >Password</label
+                    >Old password</label
                   >
-                  <input
-                    class="input-field"
-                    type="password"
-                    id="password"
-                  />
+                  <input class="input-password" type="password" id="password" />
                 </div>
               </transition>
               <transition name="fade">
                 <div v-if="changePassword">
                   <label class="form-control-label" for="input-email"
-                    >New Password</label
+                    >New password</label
                   >
                   <input
-                    class="input-field"
+                    class="input-password"
                     type="password"
                     id="password-repeat"
                   />
                 </div>
               </transition>
+              <div class="save-pswd">
+                <button-save
+                  @click="saveChanges"
+                  v-if="passwordChanged"
+                ></button-save>
+              </div>
               <!--  -->
             </div>
           </div>
@@ -109,7 +102,7 @@ export default {
   data() {
     return {
       changePassword: false,
-      passwordChanged:false
+      passwordChanged: true,
     };
   },
   methods: {
@@ -132,16 +125,16 @@ export default {
   },
   computed: {
     getUserData() {
-      return this.$store.getters.user 
+      return this.$store.getters.user;
     },
-    numOfSongs(){
-      return this.$store.getters.getAllSongs.length 
+    numOfSongs() {
+      return this.$store.getters.getAllSongs.length;
     },
-    numOfMySongs(){
-      return this.$store.getters.getAllMySongs.length 
+    numOfMySongs() {
+      return this.$store.getters.getAllMySongs.length;
     },
-    numOfArtists(){
-      return this.$store.getters.getArtists.length 
+    numOfArtists() {
+      return this.$store.getters.getArtists.length;
     },
   },
 };
@@ -149,7 +142,6 @@ export default {
 
 <style scoped>
 header {
-  /* background: #333; */
   background-image: url("https://images.pexels.com/photos/1731427/pexels-photo-1731427.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
   background-repeat: no-repeat;
   background-position: center;
@@ -182,9 +174,7 @@ section {
 
 .user-info {
   display: flex;
-  /* color: var(--font_black); */
   align-items: center;
-  /* justify-content: center; */
   flex-direction: column;
   width: 100%;
   margin: 0 auto;
@@ -197,7 +187,7 @@ section {
   height: 200px;
   margin-top: -120px;
   border-radius: 100px;
-  border: 4px solid  var(--white);
+  border: 4px solid var(--white);
 }
 .name {
   margin-top: 20px;
@@ -207,7 +197,7 @@ section {
 .mail {
   margin-bottom: 5px;
   font-size: 11pt;
-  color:  var(--mid_gray);
+  color: var(--mid_gray);
 }
 .stats {
   margin-top: 25px;
@@ -239,20 +229,13 @@ section {
   padding: 14px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-
-  /* background-color: #ededed; */
 }
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* font-size: 18px; */
-  /* grid-template-columns: 1fr;
- justify-content: center;
- align-items: center; */
 }
 .container > div {
-  /* width: 100%; */
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -263,7 +246,7 @@ section {
 }
 .container > div input {
   border: 0;
-  padding: 16px;
+  padding: 12px;
   border-radius: 8px;
   outline: 0;
   width: 100%;
@@ -274,9 +257,17 @@ section {
   cursor: pointer;
   background-color: var(--form_gray);
 }
+
+.input-password {
+  font-family: caption;
+}
 .change-psw {
   cursor: pointer;
   color: var(--burgundy);
+}
+
+.save-pswd{
+  align-items: center !important;
 }
 .change-psw:hover {
   color: rgb(163, 24, 24);

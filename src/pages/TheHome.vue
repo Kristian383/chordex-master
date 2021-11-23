@@ -5,7 +5,7 @@
       <user-auth ></user-auth>
     </div>
     <div class="home-content third" :class="{logged:isLogged}">
-      <div><h2>Keep track of your songs and store them at one place.</h2></div>
+      <div><h2>Keep track of your songs and store them at one place with Chordex.</h2></div>
       <div class="photo-div">
         <img src=".././assets/home.jpg" alt="logo" />
       </div>
@@ -28,17 +28,14 @@
    
   </div>
 
-  <!-- <the-footer></the-footer> -->
 </template>
 
 <script>
 
 import UserAuth from "./../components/ui/auth/UserAuth.vue";
-// import TheFooter from "./../components/layout/TheFooter.vue";
 export default {
   components: {
     UserAuth,
-    // TheFooter,
   },
   mounted() {
     if (this.$route.path == "/home") {
@@ -47,7 +44,6 @@ export default {
   },
   computed: {
     isLogged() {
-      // console.log("user has token?",this.$store.getters.token );
       return !!this.$store.getters.token 
     }
   },
