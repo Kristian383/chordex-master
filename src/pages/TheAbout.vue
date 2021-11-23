@@ -7,7 +7,7 @@
       <h2>Why should I use this website?</h2>
       <p>
         What a better way of keeping the information about the songs than having
-        it all in one place just with couple of clicks. Not only can you easily
+        it <u>all in one place</u> just with couple of clicks. Not only can you easily
         refresh your memory, but also speed up the learning process and have
         more songs under your repertoire. <br />
         <br />
@@ -15,54 +15,13 @@
         eventually help you grasp concepts of writing a song. Keep all the main
         information at one place and learn much quicker!
       </p>
-      
     </div>
-    <!-- <div class="faq">
-      <h2>FAQ</h2>
-      <img src="@/assets/faq.jpg" class="faq-img" alt="Questionmark">
-      <div class="questions">
-        <div class="question">
-          <h3>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
-            magni?
-          </h3>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis sint
-            dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
-          </p>
-        </div>
-        <div class="question">
-          <h3>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
-            magni?
-          </h3>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis sint
-            dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
-          </p>
-        </div>
-        <div class="question">
-          <h3>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
-            magni?
-          </h3>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis sint
-            dolores eos pariatur voluptate qui eligendi veniam et omnis! Veniam?
-          </p>
-        </div>
-      </div> 
-    </div>-->
   </div>
-  <!-- <the-footer></the-footer> -->
 </template>
 
 <script>
-// import TheFooter from "./../components/layout/TheFooter.vue";
 export default {
-  components: {
-    // TheFooter,
-  },
+ 
   mounted() {
     if (this.$route.path == "/about") {
       this.$store.commit("removeSidebar");
@@ -77,15 +36,12 @@ export default {
   grid-template-columns: 1fr;
   max-width: 1600px;
   margin: 0 auto;
-  /* height: 100%; */
   justify-items: center;
   align-items: center;
-  /* row-gap: 56px; */
 }
 @media (min-width: 1000px) {
   .about {
     grid-template-columns: repeat(2, 1fr);
-    /* min-height: 700px ; */
   }
 }
 
@@ -133,9 +89,5 @@ export default {
   }
 }
 
-/* faq */
-.faq-img{
-   max-width: 300px;
-  max-height: 300px;
-}
+
 </style>

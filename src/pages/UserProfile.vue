@@ -13,6 +13,7 @@
             </div>
             <h4 class="name">{{ getUserData.username }}</h4>
             <p class="mail">{{ getUserData.email }}</p>
+            <!--  -->
             <div class="stats row">
               <div class="stat">
                 <p class="number-stat">{{ numOfSongs }}</p>
@@ -27,6 +28,8 @@
                 <p class="desc-stat">My Songs</p>
               </div>
             </div>
+            <!--  -->
+            <!-- <p>Delete account?</p> -->
           </div>
           <div class="right">
             <div class="container">
@@ -38,7 +41,7 @@
                 <input
                   type="text"
                   id="input-username"
-                  :placeholder="getUserData.username"
+                  :value="getUserData.username"
                 />
               </div>
               <!-- email -->
@@ -49,7 +52,8 @@
                 <input
                   type="text"
                   id="input-email"
-                  :placeholder="getUserData.email"
+                  :value="getUserData.email"
+                  disabled
                 />
               </div>
               <div @click="togglePasswordChange" class="change-psw">
