@@ -1,22 +1,10 @@
 <template>
   <div class="hamburger" @click="toggleSidebar" v-if="isAuthenticated">
-    <!-- v-bind:style="{ color: activeColor }"
-  gore     -->
     <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
   </div>
   <transition name="fade">
     <div class="sidebar" v-if="sidebarIsActive">
       <ul class="nav_list">
-        <!-- <li @click="toggleSidebar">
-        <font-awesome-icon
-          id="ikona"
-          class="search"
-          icon="search"
-        ></font-awesome-icon>
-
-        <input type="text" placeholder="Search..." v-model="searchText" />
-        <span class="tooltip">Search</span>
-      </li>-->
         <li>
           <router-link
             to="/profile"
@@ -24,48 +12,32 @@
           >
             <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
             <span class="links_name">Account</span>
-            <!-- <span class="tooltip">My Profile</span> -->
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/songs"
-            v-bind:class="{ active_item: $route.path == '/songs' && $route.query.isMySong !='True' }"
+            v-bind:class="{
+              active_item:
+                $route.path == '/songs' && $route.query.isMySong != 'True',
+            }"
           >
             <font-awesome-icon id="ikona" icon="music"></font-awesome-icon>
             <span class="links_name">Songs</span>
-            <!-- <span class="tooltip">Songs</span> -->
           </router-link>
         </li>
-        <!-- <li>
-        <router-link
-          to="/favorites"
-          v-bind:class="{ active_item: $route.path == '/favorites' }"
-        >
-          <font-awesome-icon class="favorite" id="ikona" icon="heart"></font-awesome-icon>
-          <span class="links_name">Favorites</span>
-          <span class="tooltip">Favorites</span>
-        </router-link>
-      </li> -->
+
         <li>
           <router-link
             to="/artists"
             v-bind:class="{ active_item: $route.path == '/artists' }"
           >
-            <!-- <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon> -->
             <img id="ikona" class="artist-icon" src="@/assets/mic.svg" alt="" />
             <span class="links_name">Artists</span>
-            <!-- <span class="tooltip">Artists</span> -->
           </router-link>
         </li>
-        <!-- <li>
-        <router-link to="/" v-bind:class="{ active_item: $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="guitar"></font-awesome-icon>
-          <span class="links_name">Guitar Type</span>
-          <span class="tooltip">Guitar Type</span>
-         
-        </router-link>
-      </li> -->
+
         <li>
           <router-link
             to="/new"
@@ -77,16 +49,9 @@
               icon="plus-square"
             ></font-awesome-icon>
             <span class="links_name">Add New Song</span>
-            <!-- <span class="tooltip">Add New Song</span> -->
           </router-link>
         </li>
-        <!-- <li>
-        <router-link to="#" v-bind:class="{ active_item: $route.path == '/' }">
-          <font-awesome-icon id="ikona" icon="thumbtack"></font-awesome-icon>
-          <span class="links_name">Songs To Learn</span>
-          <span class="tooltip">Songs To Learn</span>
-        </router-link>
-      </li> -->
+        
         <li>
           <router-link
             to="/songs?isMySong=True"
@@ -97,18 +62,9 @@
               icon="clipboard-list"
             ></font-awesome-icon>
             <span class="links_name">My Songs</span>
-            <!-- <span class="tooltip">My Songs</span> -->
           </router-link>
         </li>
-        <!-- <li>
-          <router-link
-            to="#"
-            v-bind:class="{ active_item: $route.path == '/' }"
-          >
-            <font-awesome-icon id="ikona" icon="headphones"></font-awesome-icon>
-            <span class="links_name">Backing tracks</span>
-          </router-link>
-        </li> -->
+        
         <li>
           <router-link
             to="/find-key"
@@ -121,6 +77,7 @@
             <span class="links_name">Find a key </span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/resources"
@@ -133,18 +90,18 @@
             <span class="links_name">My Notes </span>
           </router-link>
         </li>
+
         <li @click="logOutUser">
           <router-link to="/home">
-            <!-- v-bind:class="{ active_item: $route.path == '/' }" -->
             <font-awesome-icon
               id="ikona"
               icon="sign-out-alt"
             ></font-awesome-icon>
             <span class="links_name">Logout </span>
-            <!-- <span class="tooltip">Find a key</span> -->
           </router-link>
         </li>
-        <li>
+
+        <!-- <li>
           <div class="toggle-mode">
             <input
               type="checkbox"
@@ -158,8 +115,10 @@
               <div class="ball"></div>
             </label>
           </div>
-        </li>
+        </li> -->
+
       </ul>
+
       <div class="profile_content">
         <div class="profile">
           <div class="profile_details">
@@ -173,6 +132,7 @@
           ></font-awesome-icon>
         </div>
       </div>
+
     </div>
   </transition>
 </template>
@@ -195,13 +155,12 @@ export default {
     closeSidebar() {
       this.$store.commit("removeSidebar");
     },
-    logOutUser(){
+    logOutUser() {
       this.$store.dispatch("logout");
-      if(this.sidebarIsActive){
-        this.$store.commit("toggleSidebar")
+      if (this.sidebarIsActive) {
+        this.$store.commit("toggleSidebar");
       }
-      
-    }
+    },
   },
   created() {
     dom.watch();
@@ -267,7 +226,6 @@ export default {
 .sidebar #btn {
   color: var(--f1_gray);
   position: absolute;
-  /* left: 50%; */
   left: 90%;
   top: 26px;
   font-size: 24px;
@@ -401,7 +359,6 @@ export default {
   position: relative;
   padding: 14px 6px;
   height: 70px;
-  /* background-color: #161b22; */
   background-color: #131920;
 }
 
@@ -409,10 +366,7 @@ export default {
   opacity: 1;
   pointer-events: auto;
 }
-/* .sidebar .profile .profile_details {
-  opacity: 0;
-  pointer-events: none;
-} */
+
 .profile_details {
   display: flex;
   align-items: center;

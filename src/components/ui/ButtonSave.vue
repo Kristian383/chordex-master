@@ -22,8 +22,6 @@ export default {};
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  /* color: rgb(136, 136, 136); */
-  /* color: RGB(16, 17, 20); */
   color: #fff;
   border-radius: 3px;
   outline: none;

@@ -10,7 +10,7 @@
         </ul>
       </div>
       <!--  -->
-      <p>&copy; Ttianmaar Ind. 2021</p>
+      <p>&copy; Kristian Nenadovic 2021</p>
     </div>
   </footer>
 </template>

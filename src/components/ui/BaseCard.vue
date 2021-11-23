@@ -44,7 +44,6 @@ export default {
     },
     Title() {
       const route = this.$route.name;
-      // console.log(this.$route);
       if (route == "SongDetail") {
         return this.$store.getters.getSongDetailTitle;
       } else if (route == "Artists Songs") {
@@ -77,11 +76,7 @@ export default {
 <style scoped>
 .home-section {
   position: relative;
-  /* background: #eaebea; */
   background: var(--white);
-
-  /* background: #161B22; */
-
   min-height: 100vh;
   transition: all 0.5s ease;
   width: calc(100% - 240px);
@@ -98,13 +93,11 @@ export default {
 .home-section nav {
   display: flex;
   justify-content: space-between;
-  /* height: 100px; */
   flex-direction: column;
 
   gap: 16px;
 
   background: var(--white);
-  /* background: #161B22; */
   align-items: center;
   position: fixed;
   width: calc(100% - 240px);
@@ -123,7 +116,6 @@ export default {
 
 @media (min-width: 1400px) {
   .home-section nav {
-    /* padding-left: 80px; */
     flex-direction: row;
     height: 80px;
   }
@@ -143,7 +135,6 @@ export default {
 }
 @media (min-width: 1400px) {
   .filter_categories {
-    /* padding-left: 80px; */
     order: 0;
   }
 }
@@ -154,9 +145,7 @@ export default {
 /* Content under header */
 .home-section .home-content {
   position: relative;
-  /* padding-top: 124px; */
   padding: 140px 15px 15px 15px;
-  /* max-width: 1400px; */
   margin: 0 auto;
   background-color: var(--white);
   height: 100%;
@@ -170,15 +159,10 @@ export default {
 
 /*  */
 .sort-section-title {
-  /* position: absolute;
-  top: 104px;
-  transform: translateX(-50%);
-
-  left: 50%; */
+ 
   display: flex;
   justify-content: space-around;
   gap: 14px;
-  /* align-items: center; */
   margin-bottom: 8px;
   
   color: var(--font_black);
@@ -188,10 +172,6 @@ export default {
 }
 /* list of all songs - song-cards  */
 .home-section .song-cards {
-  /* display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 4px; */
   padding-top: 20px;
   display: grid;
   gap: 8px;
@@ -203,12 +183,9 @@ export default {
 .scroll-top {
   display: inline-block;
   background: #222;
-  /* width: 50px;
-  height: 50px; */
   height: 0px;
   width: 0px;
   position: fixed;
-
   bottom: 30px;
   right: 30px;
   text-align: center;

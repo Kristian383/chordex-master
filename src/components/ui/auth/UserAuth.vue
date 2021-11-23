@@ -132,7 +132,7 @@
                   @focus="clearValidity"
                 />
               </div>
-              <p class="error-text" v-if="errorText">{{errorText}}</p>
+              <p class="error-text" v-if="errorText">{{ errorText }}</p>
             </div>
             <div class="form-footer">
               <button @click.prevent="submitForm" class="btn">Sign Up</button>
@@ -156,7 +156,7 @@ export default {
       login: true,
       resetPswd: false,
       formIsValid: true,
-      errorText:null
+      errorText: null,
     };
   },
   methods: {
@@ -164,22 +164,20 @@ export default {
       this.login = !this.login;
       this.resetPswd = false;
       this.formIsValid = true;
-      this.errorText=null;
+      this.errorText = null;
     },
     toggleResetPswdForm() {
       this.resetPswd = !this.resetPswd;
       this.formIsValid = true;
-
-      // console.log(this.resetPswd);
     },
     clearValidity() {
       this.formIsValid = true;
     },
     async submitForm() {
       this.formIsValid = true;
+
       if (this.resetPswd) {
         //send user email with new password
-        console.log("reseting pass", this.user.email);
         if (!this.user.email || !this.user.email.includes("@")) {
           this.formIsValid = false;
           return;
@@ -187,7 +185,6 @@ export default {
 
         // await this.$store.dispatch("resetPswd", this.user);
       } else if (this.login) {
-        console.log("Authenticating user");
         if (
           !this.user.email ||
           !this.user.password ||
@@ -201,38 +198,34 @@ export default {
           user: this.user,
           mode: "login",
         };
-        // console.log("payy",payload);
+
         this.$store.dispatch("auth", payload).then(() => {
-          // console.log(this.$store.getters.token);
           if (this.$store.getters.token) {
             this.$router.push("/songs");
-            // console.log("Push");
-          }else{
-          this.formIsValid = false;
-
+          } else {
+            this.formIsValid = false;
           }
-          //else display error msg
         });
       } else {
-        console.log("registering user");
+        //registering user
         if (
           !this.user.email ||
           !this.user.password ||
           !this.user.email.includes("@") ||
-          !this.user.username 
-          // this.user.username.length < 3 ||
-          // this.user.password.length < 5
+          !this.user.username
         ) {
           this.formIsValid = false;
           return;
         }
+
         if (this.user.username.length < 3) {
           this.formIsValid = false;
-          this.errorText="Username needs to have atleast 3 characters."
+          this.errorText = "Username needs to have atleast 3 characters.";
           return;
         }
+
         if (this.user.password.length < 5) {
-          this.errorText="Password needs to have atleast 5 characters."
+          this.errorText = "Password needs to have atleast 5 characters.";
           this.formIsValid = false;
           return;
         }
@@ -241,17 +234,11 @@ export default {
           user: this.user,
           mode: "signup",
         };
+
         this.$store.dispatch("auth", payload).then(() => {
           if (this.$store.getters.token) {
             this.$router.push("/songs");
           }
-          // else{
-            //display response msg
-          //   //failed to auth
-          //   this.user.email=null;
-          //   this.user.password=null;
-
-          // }
         });
       }
     },
@@ -297,7 +284,7 @@ export default {
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 8px 8px 0 0;
 }
 @media (min-width: 1000px) {
   .form-wrapper {
@@ -306,7 +293,7 @@ export default {
 }
 .form-wrapper .form-header {
   background: var(--dark_blue_sidebar);
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 8px 8px 0 0;
   padding: 10px 17px;
 }
 
@@ -380,7 +367,7 @@ export default {
 }
 .form-footer {
   background: var(--f1_gray);
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0 0 8px 8px;
   padding: 15px;
   text-align: center;
   width: 100%;
@@ -410,14 +397,12 @@ export default {
 .fade-leave-to {
   opacity: 0;
   transform: scale(0.6);
-  /* transform: translateX(-60px);  */
 }
 
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
   transform: scale(1);
-  /* transform: translateX(0);  */
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -430,14 +415,14 @@ export default {
   -webkit-animation: shake 0.2s ease-in-out 0s 2;
   animation: shake 0.2s ease-in-out 0s 2;
 }
-.error-text{
+.error-text {
   color: var(--burgundy);
   font-size: 12px;
 }
 
 @-webkit-keyframes shake {
   0% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
   25% {
     margin-left: 0.5rem;
@@ -446,13 +431,13 @@ export default {
     margin-left: -0.5rem;
   }
   100% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
 }
 
 @keyframes shake {
   0% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
   25% {
     margin-left: 0.5rem;
@@ -461,7 +446,7 @@ export default {
     margin-left: -0.5rem;
   }
   100% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
 }
 </style>
