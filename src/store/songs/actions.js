@@ -2,7 +2,7 @@ export default {
     async loadAllSongs(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/songs/${username}`;
+        let url = `${process.env.VUE_APP_SONGS_URL}/${username}`;
 
         const response = await fetch(url,
             {
@@ -30,7 +30,7 @@ export default {
     async addNewSong(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/song/${username}`;
+        let url = `${process.env.VUE_APP_SONG_URL}/${username}`;
         //http
         //pronaci image url
         const body = {
@@ -77,7 +77,7 @@ export default {
     async deleteSong(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/song/${username}`;
+        let url = `${process.env.VUE_APP_SONG_URL}/${username}`;
         const body = {
             "songName": payload.songName,
             username,
@@ -111,7 +111,7 @@ export default {
     //
     //
     async loadMusicKeys(context) {
-        let url = `http://127.0.0.1:5000/keys`;
+        let url = `${process.env.VUE_APP_KEYS_URL}`;
 
         const response = await fetch(url,
             {
@@ -134,7 +134,7 @@ export default {
     async loadAllArtists(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/artists/${username}`;
+        let url = `${process.env.VUE_APP_ARTISTS_URL}/${username}`;
 
         const response = await fetch(url,
             {
@@ -161,7 +161,7 @@ export default {
     async loadUsersNotes(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/notes/${username}`;
+        let url = `${process.env.VUE_APP_NOTES_URL}/${username}`;
 
         const response = await fetch(url,
             {
@@ -186,7 +186,7 @@ export default {
     async updateUsersNotes(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/notes/${username}`;
+        let url = `${process.env.VUE_APP_NOTES_URL}/${username}`;
         const response = await fetch(url,
             {
                 method: "PUT",
@@ -213,7 +213,7 @@ export default {
     async addUserWebsite(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/website/${username}`;
+        let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
         console.log(JSON.stringify(
             payload
         ));
@@ -240,7 +240,7 @@ export default {
     async deleteUserWebsite(context, name) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/website/${username}`;
+        let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
 
         const response = await fetch(url,
             {
@@ -266,7 +266,7 @@ export default {
     async loadUserWebsites(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `http://127.0.0.1:5000/websites/${username}`;
+        let url = `${process.env.VUE_APP_WEBSITES_URL}/${username}`;
 
         const response = await fetch(url,
             {
@@ -288,6 +288,7 @@ export default {
 
     //SPOTIFY API
     async apiForSongInfo() { //OVO SE MORA NA BACKENDU
+        // let url = `${process.env.VUE_APP_SPOTIFY_URL}/${username}`;
 
         //console.log(context, payload);
         // var client_id = '85e8304fb2904dd2b138193b78217377'; // Your client id

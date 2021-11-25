@@ -1,10 +1,20 @@
 <template>
   <base-card>
     <div class="form-container">
+      <!-- yt modal -->
+      <transition name="fade">
+
+      <how-to-modal
+        v-if="showYtModal"
+        @close-modal="closeYtModal"
+      ></how-to-modal>
+      </transition>
+
+      <!--  -->
       <div class="go-back" @click="goBack">
         <font-awesome-icon icon="arrow-left"></font-awesome-icon>
       </div>
-      <form @submit.prevent>
+      <form @submit.prevent autocomplete="off">
         <div class="top-section">
           <font-awesome-icon
             class="heart"
@@ -192,12 +202,17 @@
             >
           </div>
           <!-- yt link -->
-          <input
-            v-model.trim="songInfo.ytLink"
-            class="input-field"
-            type="text"
-            placeholder="YouTube Link: https://www.youtube.com/..."
-          />
+          <div class="yt">
+            <input
+              v-model.trim="songInfo.ytLink"
+              class="input-field"
+              type="text"
+              placeholder="YouTube Link: https://www.youtube.com/..."
+            />
+            <span class="yt_questionmark" @click="displayYtModal"
+              ><font-awesome-icon icon="question-circle"></font-awesome-icon
+            ></span>
+          </div>
           <!-- chords website link -->
 
           <input
@@ -228,11 +243,13 @@
 import BaseCard from "../components/ui/BaseCard.vue";
 import ButtonSave from "../components/ui/ButtonSave.vue";
 import SelectBoxKey from "../components/ui/SelectBoxKey.vue";
+import HowToModal from "../components/ui/HowToModal.vue";
 export default {
   components: {
     BaseCard,
     SelectBoxKey,
     ButtonSave,
+    HowToModal,
   },
   data() {
     return {
@@ -247,10 +264,10 @@ export default {
         capo: null,
         electric: null,
         acoustic: null,
-        firstChordProgression: null,
-        secondChordProgression: null,
-        chordsWebsiteLink: null,
-        ytLink: null,
+        firstChordProgression: "",
+        secondChordProgression: "",
+        chordsWebsiteLink: "",
+        ytLink: "",
         firstKeyNotes: null,
         secondKeyNotes: null,
         tuning: null,
@@ -270,6 +287,7 @@ export default {
         isValid: true,
       },
       getSongInfoTxt: "Try to get song info",
+      showYtModal: false,
     };
   },
 
@@ -386,6 +404,33 @@ export default {
         this.formIsValid = false;
         this.song.isValid = false;
       }
+      //
+      if (
+        this.songInfo.bpm < 0 ||
+        this.songInfo.bpm > 250 ||
+        this.songInfo.secondChordProgression.length > 40 ||
+        this.songInfo.firstChordProgression.length > 40
+      ) {
+        this.formIsValid = false;
+        return;
+      }
+      if (
+        this.songInfo.chordsWebsiteLink.length > 150 ||
+        this.songInfo.ytLink.length > 150
+      ) {
+        this.formIsValid = false;
+        return;
+      }
+      if (this.songInfo.capo > 20 || this.songInfo.songText.length > 15000) {
+        this.formIsValid = false;
+        return;
+      }
+    },
+    displayYtModal() {
+      this.showYtModal = true;
+    },
+    closeYtModal() {
+      this.showYtModal = false;
     },
     handleYTLink(link) {
       let linkArr = link.split(/[/=]+/);
@@ -401,6 +446,7 @@ export default {
         this.artist.val = "";
       }
     },
+
     searchSongInfo() {
       //api call to spotify
       this.$store.dispatch("apiForSongInfo", this.song.val);
@@ -547,17 +593,22 @@ form .input-field {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
-  display: inline-block; 
+  display: inline-block;
   width: 100%;
   margin-top: 1em;
   font-size: inherit;
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  transition: 0.4s;
 
   resize: none;
   color: var(--font_black);
 }
+form .input-field:focus {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
 form .notebook {
   resize: vertical;
 }
@@ -570,41 +621,7 @@ form .notebook {
   justify-self: center;
   padding: 14px;
 }
-.error-msg {
-  border: var(--burgundy) solid 2px !important;
-  -webkit-animation: shake 0.2s ease-in-out 0s 2;
-  animation: shake 0.2s ease-in-out 0s 2;
-}
 
-@-webkit-keyframes shake {
-  0% {
-    margin-left: 0rem;
-  }
-  25% {
-    margin-left: 0.5rem;
-  }
-  75% {
-    margin-left: -0.5rem;
-  }
-  100% {
-    margin-left: 0rem;
-  }
-}
-
-@keyframes shake {
-  0% {
-    margin-left: 0rem;
-  }
-  25% {
-    margin-left: 0.5rem;
-  }
-  75% {
-    margin-left: -0.5rem;
-  }
-  100% {
-    margin-left: 0rem;
-  }
-}
 /* selectbox za key */
 .secondOption {
   position: relative;
@@ -737,6 +754,23 @@ form input:-internal-autofill-selected {
 ::-moz-range-track {
   background: #d7dcdf;
   border: 0;
+}
+/* yt  */
+.yt {
+  position: relative;
+}
+.yt_questionmark {
+  position: absolute;
+  top: 60%;
+  left: 90%;
+  transform: translate(0, -50%);
+  cursor: pointer;
+
+  width: 24px;
+  height: 24px;
+}
+.yt input {
+  padding-right: 35px;
 }
 
 input::-moz-focus-inner,

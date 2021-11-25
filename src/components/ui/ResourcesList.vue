@@ -1,7 +1,7 @@
 <template>
   <base-card>
     <div class="section">
-      <div>
+      <div class="notes-div">
         <textarea
           v-model="notes"
           class="notebook"
@@ -248,6 +248,7 @@ input {
   cursor: pointer;
 }
 
+
 .notebook {
   border: 0;
   outline: 0;
@@ -255,17 +256,17 @@ input {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
-  /* display: inline-block;  */
   width: 100%;
   min-height: 200px;
-  margin-top: 1em;
+  line-height: 31px;
   font-size: inherit;
+
+  margin-top: 1em;
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  background-color: var(--form_gray);
+  background-color: var(--f1_gray);
   resize: vertical;
-  font-size: 18px;
   color: var(--font_black);
 }
 

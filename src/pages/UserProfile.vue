@@ -259,7 +259,13 @@ section {
   font-size: inherit;
   margin-top: 14px;
   cursor: pointer;
+  transition: 0.4s;
   background-color: var(--form_gray);
+}
+
+.container > div input:focus {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  background-color: #fff;
 }
 
 .input-password {

@@ -12,6 +12,7 @@
     </div>
     <div class="tab-content">
       <transition name="fade" tag="section" mode="out-in">
+        <!-- login -->
         <div id="login" key="login" v-if="login">
           <form>
             <div class="form-container">
@@ -73,18 +74,22 @@
                 v-if="!this.resetPswd"
                 @click.prevent="submitForm"
                 class="btn"
+                :disabled="requestIsPending"
               >
                 Log In
               </button>
-              <button v-else @click.prevent="submitForm" class="btn">
+              <button
+                v-else
+                @click.prevent="submitForm"
+                class="btn"
+                :disabled="requestIsPending"
+              >
                 Send
               </button>
             </div>
           </form>
         </div>
-        <!-- </transition> -->
 
-        <!-- <transition name="fade"  > -->
         <!-- ="!login" -->
         <div id="signup" key="signup" v-else>
           <form>
@@ -135,16 +140,27 @@
               <p class="error-text" v-if="errorText">{{ errorText }}</p>
             </div>
             <div class="form-footer">
-              <button @click.prevent="submitForm" class="btn">Sign Up</button>
+              <button
+                @click.prevent="submitForm"
+                :disabled="requestIsPending"
+                class="btn"
+              >
+                Sign Up
+              </button>
             </div>
           </form>
         </div>
       </transition>
+      <div class="loader">
+        <the-loader v-if="requestIsPending"></the-loader>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import TheLoader from "./../TheLoader.vue";
+
 export default {
   data() {
     return {
@@ -157,7 +173,11 @@ export default {
       resetPswd: false,
       formIsValid: true,
       errorText: null,
+      requestIsPending: false,
     };
+  },
+  components: {
+    TheLoader,
   },
   methods: {
     toggleForm() {
@@ -175,15 +195,17 @@ export default {
     },
     async submitForm() {
       this.formIsValid = true;
-
+      this.requestIsPending = true;
       if (this.resetPswd) {
         //send user email with new password
         if (!this.user.email || !this.user.email.includes("@")) {
           this.formIsValid = false;
+          this.requestIsPending = false;
           return;
         }
 
         // await this.$store.dispatch("resetPswd", this.user);
+        //this.requestIsPending=false;
       } else if (this.login) {
         if (
           !this.user.email ||
@@ -191,6 +213,7 @@ export default {
           !this.user.email.includes("@")
         ) {
           this.formIsValid = false;
+          this.requestIsPending=false;
           return;
         }
 
@@ -204,6 +227,7 @@ export default {
             this.$router.push("/songs");
           } else {
             this.formIsValid = false;
+            this.requestIsPending=false;
           }
         });
       } else {
@@ -215,18 +239,21 @@ export default {
           !this.user.username
         ) {
           this.formIsValid = false;
+          this.requestIsPending=false;
           return;
         }
 
         if (this.user.username.length < 3) {
           this.formIsValid = false;
           this.errorText = "Username needs to have atleast 3 characters.";
+          this.requestIsPending=false;
           return;
         }
 
         if (this.user.password.length < 5) {
           this.errorText = "Password needs to have atleast 5 characters.";
           this.formIsValid = false;
+          this.requestIsPending=false;
           return;
         }
 
@@ -236,7 +263,9 @@ export default {
         };
 
         this.$store.dispatch("auth", payload).then(() => {
+          
           if (this.$store.getters.token) {
+            this.requestIsPending=false;
             this.$router.push("/songs");
           }
         });
@@ -354,6 +383,14 @@ export default {
   border-radius: 4px;
 }
 
+.form-control:focus {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.form-control {
+  transition: 0.4s;
+}
+
 .icon {
   cursor: pointer;
 }
@@ -448,5 +485,17 @@ export default {
   100% {
     margin-left: 0;
   }
+}
+
+/* loader */
+.tab-content {
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 50%;
 }
 </style>

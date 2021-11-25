@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr class="table-headers">
-          <th>Scale</th>
+          <th>Key</th>
           <th>I</th>
           <th>ii</th>
           <th>iii</th>
@@ -30,19 +30,18 @@ export default {
   components: {
     BaseCard,
   },
-  
+
   computed: {
     allKeys() {
-      let formatedKeys=[]
+      let formatedKeys = [];
       this.$store.getters.getMusicKeys.forEach((element) => {
-      let each = [];
-      each.push(element.key, ...element.notes);
-      formatedKeys.push(each);
-    });
+        let each = [];
+        each.push(element.key, ...element.notes);
+        formatedKeys.push(each);
+      });
       return formatedKeys;
     },
   },
- 
 };
 </script>
 
@@ -50,6 +49,7 @@ export default {
 table {
   margin: 0 auto;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
 }
 table th {
   font-size: 20px;
@@ -61,7 +61,6 @@ tbody td {
   font-size: 18px;
   font-weight: 400;
   padding: 2px;
-
   text-align: center;
 }
 
@@ -72,7 +71,7 @@ tbody tr:nth-last-child(-n + 7) {
   background-color: #e2e2e2;
 }
 
-tbody td:nth-child(7){
+tbody td:nth-child(7) {
   font-weight: 600;
 }
 
@@ -86,20 +85,21 @@ tbody td:nth-child(7){
     padding: 8px;
     width: 100px;
   }
-
 }
 tr {
   background-color: #f2f2f2;
-}
 
+}
+tr:hover {
+  border-bottom: 4px solid black;
+}
 tr:hover td {
-  background: #0d1117;
+  background: var(--mid_gray);
   color: #ffffff;
   cursor: pointer;
 }
 
-tr:hover td:nth-child(7)
-{
+tr:hover td:nth-child(7) {
   text-decoration: underline;
 }
 </style>

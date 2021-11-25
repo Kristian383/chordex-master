@@ -73,6 +73,7 @@ html {
   --f1_gray: #f1f1f1;
   --dark_gray_chips: #242424;
   --font_black: #101114;
+  --chips_gray: #e7e7e7;
   --mid_gray: #888888;
   --dark_gray_font: #424242;
   --form_gray: #eaebea;
@@ -81,12 +82,47 @@ html {
   --orange: #ff4500;
   --green: #69b34c;
   --save_button_green: #6fc982;
-  --chips_gray: #e7e7e7;
 
   --levi_blue: #1b233a;
   --levi_red: #b0253c;
 }
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.error-msg {
+  border: var(--burgundy) solid 2px !important;
+  -webkit-animation: shake 0.2s ease-in-out 0s 2;
+  animation: shake 0.2s ease-in-out 0s 2;
+}
+
+@-webkit-keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
+}
+
+@keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
 }
 </style>
