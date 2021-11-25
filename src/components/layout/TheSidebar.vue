@@ -157,9 +157,9 @@ export default {
     },
     logOutUser() {
       this.$store.dispatch("logout");
-      if (this.sidebarIsActive) {
-        this.$store.commit("toggleSidebar");
-      }
+        this.$store.commit("removeSidebar");
+      // if (this.sidebarIsActive) {
+      // }
     },
   },
   created() {
