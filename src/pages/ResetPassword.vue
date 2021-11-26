@@ -16,7 +16,6 @@
             @focus="clearValidity"
             v-model="newPswd"
             :class="{ 'error-msg': !formIsValid }"
-
           />
         </div>
 
@@ -37,7 +36,10 @@
             :class="{ 'error-msg': !formIsValid }"
           />
         </div>
-        <p class="error-text" v-if="errorText">{{ errorText }}</p>
+        <p class="error-text" v-if="errorText" :class="{ valid: goodRequest }">
+          {{ errorText }} <br /><br />
+          <router-link to="/home">Go to home</router-link>
+        </p>
       </div>
       <!--  -->
       <div class="form-footer">
@@ -71,10 +73,11 @@ export default {
       show: false,
       errorText: null,
       requestIsPending: false,
+      goodRequest: false,
     };
   },
   mounted() {
-    // console.log(this.$route);
+    // console.log("mounted",this.$route);
   },
   computed: {
     pswdType() {
@@ -92,20 +95,49 @@ export default {
       this.formIsValid = true;
     },
     async submitReset() {
+      this.goodRequest = false;
+
       this.formIsValid = true;
       this.requestIsPending = true;
       //razdvojit ifove
-      if (!this.newPswd || this.newPswd!==this.confirm || !this.confirm || this.newPswd.length<7) {
+      if (
+        !this.newPswd ||
+        this.newPswd !== this.confirm ||
+        !this.confirm ||
+        this.newPswd.length < 3
+      ) {
         this.formIsValid = false;
         this.requestIsPending = false;
+        this.errorText = "please change your password";
         return;
       }
 
       //api call
-      this.requestIsPending = false;
+      let token = this.$route.query.token;
+      let email = this.$route.query.email;
+      // this.errorText=null;
+      // this.$store.commit("checkToken",  token )
+      this.$store
+        .dispatch("resetPassword", { token, new: this.newPswd, email })
+        .then((res) => {
+          if (res === "expired") {
+            this.errorText = "Link has expired. Type your email again.";
+          } else if (res === "Done") {
+            this.errorText =
+              "Password successfuly changed. Please log in again with new password.";
+            this.goodRequest = true;
+          } else {
+            this.errorText = "You can only use link once.";
+          }
 
+          this.requestIsPending = false;
+          setTimeout(() => {
+            this.$router.push("/home")
+          }, 3000);
+        });
     },
   },
+  beforeMount() {},
 };
 </script>
 
@@ -208,6 +240,18 @@ export default {
 .error-text {
   color: var(--burgundy);
   font-size: 12px;
+}
+.error-text a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+  font-size: 14px;
+}
+.error-text a:hover {
+  color: var(--dark_gray_font);
+}
+.error-text.valid {
+  color: var(--green);
 }
 /* loader */
 .tab-content {
