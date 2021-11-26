@@ -13,7 +13,7 @@ export default {
             token: null,
             user: {}
         })
-        
+
         context.commit("clearVuex")
     },
 
@@ -115,16 +115,61 @@ export default {
         context.dispatch("logout")
         context.commit("setAutoLogout")
     },
-    async resetPassword(){//context,payload
+
+    async forgotPassword(_, email) {//context,payload
         // generate a JWT in the form of a link sent to the user through email
         // JWT payload consists of the username to uniquely identify the user. JWT expiration is set to a limited time say 30mins.
         // JWT signature is signed with a secret: the user’s password hash
         // JWT could be appended in the query of the link: https://exampletest.com/reset/password?token={Insert JWT here} i ovo ce biti ruta na frontendu
+        let url = `${process.env.VUE_APP_FORGOTPSWD_URL}`;
+        const response = await fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
 
+                },
+                body: JSON.stringify({ email })
+            });
+
+        //console.log(responseData);
+        if (!response.ok) {
+            return false
+        } else {
+            return true
+        }
 
     },
-    async contactMe(_,payload){
-        console.log("payload",payload);
+
+    async resetPassword(_, payload) {
+        let url = `${process.env.VUE_APP_RESETPSWD_URL}/${payload.token}`;
+        const expiresIn = jwt_decode(payload.token, { header: true }).exp;
+        var ts = Math.round((new Date()).getTime() / 1000);
+
+        if (expiresIn - ts < 0) {
+            return "expired"
+        }
+        const response = await fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ new: payload.new,email:payload.email }) //, token: payload.token 
+            });
+
+        const responseData = await response.json();
+
+        return responseData.message
+        // if (!response.ok) {
+        //     return false
+        // } else {
+        //     return true
+        // }
+    }
+    ,
+    async contactMe(_, payload) {
+        // console.log("payload", payload);
         let url = `${process.env.VUE_APP_CONTACT_URL}`;
         const response = await fetch(url,
             {
