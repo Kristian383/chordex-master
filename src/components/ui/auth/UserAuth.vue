@@ -250,8 +250,8 @@ export default {
           return;
         }
 
-        if (this.user.password.length < 5) {
-          this.errorText = "Password needs to have atleast 5 characters.";
+        if (this.user.password.length < 7) {
+          this.errorText = "Password needs to have atleast 7 characters.";
           this.formIsValid = false;
           this.requestIsPending=false;
           return;
@@ -402,6 +402,7 @@ export default {
   color: inherit;
   text-decoration: none;
 }
+
 .form-footer {
   background: var(--f1_gray);
   border-radius: 0 0 8px 8px;
@@ -447,16 +448,17 @@ export default {
 }
 
 /* show error  */
-.error-msg {
+
+/* .error-msg {
   border: var(--burgundy) solid 2px !important;
   -webkit-animation: shake 0.2s ease-in-out 0s 2;
   animation: shake 0.2s ease-in-out 0s 2;
-}
+} */
 .error-text {
   color: var(--burgundy);
   font-size: 12px;
 }
-
+/* 
 @-webkit-keyframes shake {
   0% {
     margin-left: 0;
@@ -485,7 +487,7 @@ export default {
   100% {
     margin-left: 0;
   }
-}
+} */
 
 /* loader */
 .tab-content {

@@ -1,0 +1,224 @@
+<template>
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h2>Change password</h2>
+    </div>
+    <!--  -->
+    <form class="tab-content">
+      <div class="form-container">
+        <div class="input-group">
+          <span> <font-awesome-icon icon="lock"></font-awesome-icon></span>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="New password"
+            required
+            @focus="clearValidity"
+            v-model="newPswd"
+            :class="{ 'error-msg': !formIsValid }"
+
+          />
+        </div>
+
+        <div class="input-group">
+          <span
+            ><font-awesome-icon
+              :icon="eyeIconType"
+              @click="showPswd"
+            ></font-awesome-icon
+          ></span>
+          <input
+            :type="pswdType"
+            class="form-control"
+            placeholder="Confirm password"
+            required
+            @focus="clearValidity"
+            v-model="confirm"
+            :class="{ 'error-msg': !formIsValid }"
+          />
+        </div>
+        <p class="error-text" v-if="errorText">{{ errorText }}</p>
+      </div>
+      <!--  -->
+      <div class="form-footer">
+        <button
+          @click.prevent="submitReset"
+          :disabled="requestIsPending"
+          class="btn"
+        >
+          Send
+        </button>
+      </div>
+      <div class="loader">
+        <the-loader v-if="requestIsPending"></the-loader>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import TheLoader from "./../components/ui/TheLoader.vue";
+
+export default {
+  components: {
+    TheLoader,
+  },
+  data() {
+    return {
+      newPswd: "",
+      confirm: "",
+      formIsValid: true,
+      show: false,
+      errorText: null,
+      requestIsPending: false,
+    };
+  },
+  mounted() {
+    // console.log(this.$route);
+  },
+  computed: {
+    pswdType() {
+      return this.show ? "text" : "password";
+    },
+    eyeIconType() {
+      return this.show ? "eye-slash" : "eye";
+    },
+  },
+  methods: {
+    showPswd() {
+      this.show = !this.show;
+    },
+    clearValidity() {
+      this.formIsValid = true;
+    },
+    async submitReset() {
+      this.formIsValid = true;
+      this.requestIsPending = true;
+      //razdvojit ifove
+      if (!this.newPswd || this.newPswd!==this.confirm || !this.confirm || this.newPswd.length<7) {
+        this.formIsValid = false;
+        this.requestIsPending = false;
+        return;
+      }
+
+      //api call
+      this.requestIsPending = false;
+
+    },
+  },
+};
+</script>
+
+<style scoped>
+.form-wrapper {
+  width: 100%;
+  font-size: 16px;
+  max-width: 400px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: var(--font_black);
+  padding: 8px 16px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 8px 8px 0 0;
+}
+@media (min-width: 1000px) {
+  .form-wrapper {
+    font-size: 18px;
+  }
+}
+.form-wrapper .form-header {
+  background: var(--dark_blue_sidebar);
+  border-radius: 8px 8px 0 0;
+  padding: 10px 17px;
+}
+
+.form-header h2 {
+  color: #fff;
+  text-align: center;
+}
+
+.form-wrapper .form-container {
+  background: #fefefe;
+  padding: 25px 30px 12px 30px;
+}
+/*  */
+
+.input-group {
+  height: 45px;
+  margin: 20px 0 20px 0;
+  position: relative;
+}
+.input-group span svg {
+  position: absolute;
+  top: 33%;
+  left: 10px;
+  cursor: pointer;
+}
+
+.input-group input {
+  font-size: 18px;
+  padding: 8px 12px 8px 36px;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #252934;
+  border-radius: 4px;
+}
+
+.form-control:focus {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.icon {
+  cursor: pointer;
+}
+
+/*  */
+
+.form-footer {
+  background: var(--f1_gray);
+  border-radius: 0 0 8px 8px;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+.form-footer button {
+  display: inline-block;
+  background: var(--dark_blue_sidebar);
+  border-radius: 4px;
+  padding: 10px 20px;
+  border: none;
+  color: var(--white);
+  font-size: inherit;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4),
+    0 5px 10px -1px rgba(51, 51, 51, 0.3);
+  transition: 0.5s ease;
+}
+.form-footer button:hover {
+  background: #b62730;
+  color: #ffffff;
+  text-decoration: none;
+}
+/*  */
+.error-text {
+  color: var(--burgundy);
+  font-size: 12px;
+}
+/* loader */
+.tab-content {
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* bottom: 15%; */
+  bottom: 40%;
+}
+</style>

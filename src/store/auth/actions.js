@@ -105,6 +105,7 @@ export default {
             context.dispatch("loadAllSongs");
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
+            context.commit("activateSidebar");
 
         }
 
@@ -119,6 +120,8 @@ export default {
         // JWT payload consists of the username to uniquely identify the user. JWT expiration is set to a limited time say 30mins.
         // JWT signature is signed with a secret: the user’s password hash
         // JWT could be appended in the query of the link: https://exampletest.com/reset/password?token={Insert JWT here} i ovo ce biti ruta na frontendu
+
+
     },
     async contactMe(_,payload){
         console.log("payload",payload);

@@ -15,7 +15,11 @@
         </li>
 
         <li>
-          <router-link class="link" :class="{not_logged:isLogged}" active-class="active" to="/songs"
+          <router-link
+            class="link"
+            :class="{ not_logged: isLogged }"
+            active-class="active"
+            to="/songs"
             >App</router-link
           >
         </li>
@@ -41,8 +45,8 @@ export default {
   },
   computed: {
     isLogged() {
-      return !this.$store.getters.token 
-    }
+      return !this.$store.getters.token;
+    },
   },
   methods: {
     // switchMobNav() {
@@ -79,21 +83,19 @@ export default {
       window.addEventListener("scroll", this.updateScroll);
     });
   },
-  beforeUnmount(){
-        window.removeEventListener("resize", this.checkScreen)
-
-  }
+  beforeUnmount() {
+    window.removeEventListener("resize", this.checkScreen);
+  },
 };
 </script>
 
 <style scoped>
-/* header nav {
-  width: 100%;
-  position: sticky;
-  height: 80px;
-  background-color: #f1f1f1;
-} */
-
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+/*  */
 header {
   background-color: var(--f1_gray);
   z-index: 70;
@@ -205,5 +207,8 @@ header nav .logo img {
 }
 .mobile-nav-enter-to {
   transform: translateX(0);
+}
+/*  */
+.app {
 }
 </style>

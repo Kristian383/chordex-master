@@ -6,6 +6,7 @@ import UserProfile from "./pages/UserProfile.vue"
 import SongDetail from "./pages/SongDetail.vue"
 import Artists from "./pages/Artists.vue"
 import AddSong from "./pages/AddSong.vue"
+import ResetPassword from "./pages/ResetPassword.vue"
 import FindKey from "./pages/FindKey.vue"
 import TheAbout from "./pages/TheAbout.vue"
 import ResourcesList from "./components/ui/ResourcesList.vue"
@@ -29,6 +30,7 @@ const router = createRouter({
     { path: "/new/:songId", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex", requiresAuth: true } },
     { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex", requiresAuth: true } },
     { path: "/resources", component: ResourcesList, name: "Notes", meta: { title: "Resources | Chordex", requiresAuth: true } },
+    { path: "/resetpswd", component: ResetPassword, name: "Reset Password", meta: { title: "Reset Password | Chordex", resetPassword: false } },
     { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
   ],
   scrollBehavior(_, _2, savedPosition) {
@@ -49,6 +51,10 @@ router.beforeEach((to, _, next) => {
   if (to.meta.requiresAuth && !store.getters.token) {
     next("/home");
   }
+  // else if(to.meta.resetPassword && !store.getters.resetTokenAuthenticated){
+  //   next("/home");
+
+  // }
   else {
     next()
   }

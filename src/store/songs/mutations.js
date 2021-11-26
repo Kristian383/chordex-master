@@ -5,6 +5,10 @@ export default {
     removeSidebar(state) {
         state.sidebarIsActive = false;
     },
+    activateSidebar(state){
+        state.sidebarIsActive = true;
+
+    },
     // toggleDarkMode(state) {
     //     state.darkMode = !state.darkMode;
     // },

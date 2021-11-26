@@ -8,7 +8,7 @@ const store = createStore({
     modules: { auth: authModule },
     state() {
         return {
-            sidebarIsActive: true,
+            sidebarIsActive: false,
             songDetailTitle: null,
             darkMode: false,
             songsLoaded: 2,
