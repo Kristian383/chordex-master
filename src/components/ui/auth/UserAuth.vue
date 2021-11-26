@@ -68,6 +68,13 @@
               <p class="forgot" @click="toggleResetPswdForm">
                 {{ forgotPswdTitle }}
               </p>
+              <p
+                class="error-text"
+                :class="{ valid: goodRequest }"
+                v-if="errorText"
+              >
+                {{ errorText }}
+              </p>
             </div>
             <div class="form-footer">
               <button
@@ -174,6 +181,7 @@ export default {
       formIsValid: true,
       errorText: null,
       requestIsPending: false,
+      goodRequest: false,
     };
   },
   components: {
@@ -182,20 +190,27 @@ export default {
   methods: {
     toggleForm() {
       this.login = !this.login;
-      this.resetPswd = false;
+
       this.formIsValid = true;
       this.errorText = null;
     },
     toggleResetPswdForm() {
       this.resetPswd = !this.resetPswd;
       this.formIsValid = true;
+      this.errorText = null;
+      this.user.email = null;
+      this.user.password = null;
     },
     clearValidity() {
       this.formIsValid = true;
+      this.errorText = null;
     },
     async submitForm() {
       this.formIsValid = true;
       this.requestIsPending = true;
+      this.errorText = null;
+      this.goodRequest = false;
+
       if (this.resetPswd) {
         //send user email with new password
         if (!this.user.email || !this.user.email.includes("@")) {
@@ -204,8 +219,19 @@ export default {
           return;
         }
 
-        // await this.$store.dispatch("resetPswd", this.user);
-        //this.requestIsPending=false;
+        this.$store.dispatch("forgotPassword", this.user.email).then((res) => {
+          // console.log(this.errorText);
+          if (res) {
+            this.errorText =
+              "We received your request. Please check your email.";
+            this.goodRequest = true;
+          } else {
+            this.errorText = "User with that email doesnt exist.";
+          }
+          this.requestIsPending = false;
+          this.user.email = null;
+        });
+        //
       } else if (this.login) {
         if (
           !this.user.email ||
@@ -213,7 +239,7 @@ export default {
           !this.user.email.includes("@")
         ) {
           this.formIsValid = false;
-          this.requestIsPending=false;
+          this.requestIsPending = false;
           return;
         }
 
@@ -227,7 +253,8 @@ export default {
             this.$router.push("/songs");
           } else {
             this.formIsValid = false;
-            this.requestIsPending=false;
+            this.requestIsPending = false;
+            this.errorText = "Invalid credentials.";
           }
         });
       } else {
@@ -239,21 +266,21 @@ export default {
           !this.user.username
         ) {
           this.formIsValid = false;
-          this.requestIsPending=false;
+          this.requestIsPending = false;
           return;
         }
 
         if (this.user.username.length < 3) {
           this.formIsValid = false;
           this.errorText = "Username needs to have atleast 3 characters.";
-          this.requestIsPending=false;
+          this.requestIsPending = false;
           return;
         }
 
         if (this.user.password.length < 7) {
           this.errorText = "Password needs to have atleast 7 characters.";
           this.formIsValid = false;
-          this.requestIsPending=false;
+          this.requestIsPending = false;
           return;
         }
 
@@ -263,9 +290,8 @@ export default {
         };
 
         this.$store.dispatch("auth", payload).then(() => {
-          
           if (this.$store.getters.token) {
-            this.requestIsPending=false;
+            this.requestIsPending = false;
             this.$router.push("/songs");
           }
         });
@@ -457,6 +483,9 @@ export default {
 .error-text {
   color: var(--burgundy);
   font-size: 12px;
+}
+.error-text.valid {
+  color: var(--green);
 }
 /* 
 @-webkit-keyframes shake {
