@@ -100,16 +100,17 @@ export default {
       this.formIsValid = true;
       this.requestIsPending = true;
       //razdvojit ifove
-      if (
-        !this.newPswd ||
-        this.newPswd !== this.confirm ||
-        !this.confirm ||
-        this.newPswd.length < 3
-      ) {
+      if (!this.newPswd || this.newPswd !== this.confirm || !this.confirm) {
         this.formIsValid = false;
         this.requestIsPending = false;
-        this.errorText = "please change your password";
+        this.errorText = "Passwords doesnt match!";
         return;
+      } else if (this.newPswd.length < 6) {
+        this.formIsValid = false;
+        this.requestIsPending = false;
+        this.errorText = "Password too short. Please enter longer than 6 chars.";
+        return;
+
       }
 
       //api call
@@ -132,7 +133,7 @@ export default {
 
           this.requestIsPending = false;
           setTimeout(() => {
-            this.$router.push("/home")
+            this.$router.push("/home");
           }, 3000);
         });
     },
