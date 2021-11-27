@@ -12,7 +12,7 @@
     <!-- saong list -->
     <div class="song-cards">
       <!-- <template v-if="isLoaded"> -->
-      <p v-if="!AllSongs.length">Currently no songs.</p>
+      <!-- <p v-if="!AllSongs.length">Currently no songs.</p> -->
       <song-card
         v-for="song in AllSongs"
         :key="song.songId"
