@@ -18,7 +18,7 @@
         information at one place and learn much quicker!
       </p>
     </div>
-    <div class="contact">
+    <!-- <div class="contact">
       <h1>Contact me</h1>
       <form>
         <div class="form-group">
@@ -56,80 +56,83 @@
           <the-loader v-if="isSending"></the-loader>
         </div>
       </form>
-    </div>
+    </div> -->
+    <contact-me></contact-me>
   </div>
 </template>
 
 <script>
-import TheLoader from "./../components/ui/TheLoader.vue";
+// import TheLoader from "./../components/ui/TheLoader.vue";
+import ContactMe from "./../components/ui/auth/ContactMe.vue";
 
 export default {
   components: {
-    TheLoader,
+    // TheLoader,
+    ContactMe
   },
   mounted() {
     if (this.$route.path == "/about") {
       this.$store.commit("removeSidebar");
     }
   },
-  data() {
-    return {
-      email: {
-        val: "",
-        isValid: true,
-      },
-      message: {
-        val: "",
-        isValid: true,
-      },
-      infoMsg: "",
-      isSending: false,
-    };
-  },
-  methods: {
-    async submitForm() {
-      if (!this.email.val.includes("@")) {
-        this.infoMsg = "Please insert valid email.";
-        this.email.isValid = false;
-        return;
-      } else if (this.message.val.length > 900) {
-        this.infoMsg = "Please insert shorter (900) message.";
-        this.message.isValid = false;
+  // data() {
+  //   return {
+  //     email: {
+  //       val: "",
+  //       isValid: true,
+  //     },
+  //     message: {
+  //       val: "",
+  //       isValid: true,
+  //     },
+  //     infoMsg: "",
+  //     isSending: false,
+  //   };
+  // },
+  // methods: {
+  //   async submitForm() {
+  //     if (!this.email.val.includes("@")) {
+  //       this.infoMsg = "Please insert valid email.";
+  //       this.email.isValid = false;
+  //       return;
+  //     } else if (this.message.val.length > 900) {
+  //       this.infoMsg = "Please insert shorter (900) message.";
+  //       this.message.isValid = false;
 
-        return;
-      } else if (!this.message.val) {
-        this.infoMsg = "Please insert message.";
-        this.message.isValid = false;
-        return;
-      } else if (this.message.val.length < 30) {
-        this.infoMsg = "Sorry, your message seems too small.";
-        this.message.isValid = false;
-        return;
-      } else {
-        //dispatch form data
-        this.isSending = true;
-        this.infoMsg = "Sending...";
-        this.$store
-          .dispatch("contactMe", {
-            email: this.email.val,
-            message: this.message.val,
-          })
-          .then((res) => {
-            this.isSending = false;
-            if (res) {
-              this.infoMsg = "Your message has been sent.";
-              this.email.val = "";
-              this.message.val = "";
-            } else {
-              this.infoMsg = "Something went wrong.";
-            }
-          });
-      }
-    },
-    clearValidity(input) {
-      this[input].isValid = true;
-    },
-  },
+  //       return;
+  //     } else if (!this.message.val) {
+  //       this.infoMsg = "Please insert message.";
+  //       this.message.isValid = false;
+  //       return;
+  //     } else if (this.message.val.length < 30) {
+  //       this.infoMsg = "Sorry, your message seems too small.";
+  //       this.message.isValid = false;
+  //       return;
+  //     } else {
+  //       //dispatch form data
+  //       this.isSending = true;
+  //       this.infoMsg = "Sending...";
+  //       this.$store
+  //         .dispatch("contactMe", {
+  //           email: this.email.val,
+  //           message: this.message.val,
+  //         })
+  //         .then((res) => {
+  //           this.isSending = false;
+  //           if (res) {
+  //             this.infoMsg = "Your message has been sent.";
+  //             this.email.val = "";
+  //             this.message.val = "";
+  //           } else {
+  //             this.infoMsg = "Something went wrong.";
+  //           }
+  //         });
+  //     }
+  //   },
+  //   clearValidity(input) {
+  //     this[input].isValid = true;
+  //   },
+  // },
 };
 </script>
 
@@ -193,7 +196,7 @@ export default {
 }
 
 /* contact */
-
+/* 
 .contact {
   max-width: 1280px;
   width: 100%;
@@ -290,7 +293,7 @@ export default {
   right: 0; 
   bottom: 10%;
 
-}
+} */
 
 /* .confirmation{
   border: #59e4a8 solid 2px !important;
