@@ -20,8 +20,7 @@ export default {
             window.alert(responseData.message || 'Failed to load more songs.');
             return
         }
-
-        console.log(responseData);
+        // console.log(responseData);
         
         //get songImageUrl from spotify
         context.commit("setAllSongs", responseData.songs)
