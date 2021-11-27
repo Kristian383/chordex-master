@@ -42,6 +42,8 @@
                   type="text"
                   id="input-username"
                   :value="getUserData.username"
+                  disabled
+
                 />
               </div>
               <!-- email -->
@@ -56,10 +58,11 @@
                   disabled
                 />
               </div>
-              <div @click="togglePasswordChange" class="change-psw">
+              <!-- change password -->
+              <!-- <section>
+                <div @click="togglePasswordChange" class="change-psw">
                 Change password
               </div>
-              <!-- password -->
               <transition name="fade">
                 <div v-if="changePassword">
                   <label class="form-control-label" for="input-email"
@@ -86,6 +89,7 @@
                   v-if="passwordChanged"
                 ></button-save>
               </div>
+              </section> -->
               <!--  -->
             </div>
           </div>
@@ -97,11 +101,11 @@
 
 <script>
 import BaseCard from "./../components/ui/BaseCard.vue";
-import ButtonSave from "./../components/ui/ButtonSave.vue";
+// import ButtonSave from "./../components/ui/ButtonSave.vue";
 export default {
   components: {
     BaseCard,
-    ButtonSave,
+    // ButtonSave,
   },
   data() {
     return {
