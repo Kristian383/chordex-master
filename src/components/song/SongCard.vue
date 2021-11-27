@@ -39,11 +39,12 @@
         @click.stop="chooseArtist"
         :aria-label="song.artist"
         :title="song.artist"
+        
       >
         {{ song.artist }}
       </h3>
       <!-- </div> -->
-      <h4 class="song_name" :aria-label="song.songName" :title="song.songName">
+      <h4 class="song_name" :aria-label="song.songName" :title="song.songName"  >
         {{ song.songName }}
       </h4>
       <div class="info">
@@ -77,6 +78,7 @@ export default {
       this.$router.push("/new/" + this.song.songId);
     },
     chooseArtist() {
+      if(!this.song.isMySong)
       this.$router.push("/songs?artist=" + this.song.artist);
     },
   },
