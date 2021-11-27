@@ -87,9 +87,9 @@ export default {
             state.artists.sort((a, b) => b.name.localeCompare(a.name))
         }
     },
-    // updateArtistsList(state, payload) {
-    //     state.artists = payload
-    // },
+    updateArtistsList(state, payload) {
+        state.artists = payload
+    },
 
     // resources
     storeMusicKeys(state, payload) {
