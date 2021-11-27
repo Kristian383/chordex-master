@@ -152,7 +152,7 @@ export default {
             return
         }
 
-        console.log(responseData);
+        // console.log(responseData);
        
         context.commit("setAllArtists", responseData.artists)
     },
