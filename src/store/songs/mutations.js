@@ -9,6 +9,12 @@ export default {
         state.sidebarIsActive = true;
 
     },
+    setLoader(state){
+        state.songsLoading=true;
+    },
+    removeLoader(state){
+        state.songsLoading=false;
+    },
     // toggleDarkMode(state) {
     //     state.darkMode = !state.darkMode;
     // },
@@ -113,9 +119,9 @@ export default {
     },
 
     clearVuex(state) {
-        state.songsLoaded = 2;
-        state.mySongsLoaded = 2;
-        state.artistsLoaded = 2;
+        // state.songsLoaded = 2;
+        // state.mySongsLoaded = 2;
+        // state.artistsLoaded = 2;
         state.musicKeys = [];
         state.artists = [];
         state.mySongs = [];

@@ -27,7 +27,7 @@
         :id="qualities.major"
         v-model="selectedQuality"
       /><label :for="qualities.major" @click="chooseQualityKey('major')"
-        >Major
+        >Maj
       </label>
       <input
         type="radio"
@@ -36,7 +36,7 @@
         value="minor"
         v-model="selectedQuality"
       /><label :for="qualities.minor" @click="chooseQualityKey('minor')"
-        >Minor</label
+        >Min</label
       >
     </div>
   </div>
@@ -70,16 +70,25 @@ export default {
       if (!this.selectedKey) {
         return;
       }
-      let notes=this.$store.getters.getMusicKeys;
-      if(quality=="major"){
-        notes= notes.filter(key=>key.key==this.selectedKey)[0].notes
-      }else{
-        notes= notes.filter(key=>key.relativeMinor==this.selectedKey)[0].notes
+      let notes = this.$store.getters.getMusicKeys;
+      if (quality == "major") {
+        notes = notes.filter((key) => key.key == this.selectedKey)[0].notes;
+      } else {
+        notes = notes.filter((key) => {
+          if (this.selectedKey == "Db") {
+            return key.relativeMinor == "C#";
+          } else if (this.selectedKey == "Gb") {
+            return key.relativeMinor == "F#";
+          } else if (this.selectedKey == "Cb") {
+            return key.relativeMinor == "G#";
+          } else {
+            return key.relativeMinor == this.selectedKey;
+          }
+        })[0].notes;
       }
-      this.payload.notes=notes.map((el) => el).join(" ");
-      this.payload.name=this.name;
-      this.payload.key=this.selectedKey+" "+ quality;
-      //console.log("poziv emit", this.payload);
+      this.payload.notes = notes.map((el) => el).join(" ");
+      this.payload.name = this.name;
+      this.payload.key = this.selectedKey + " " + quality;
 
       this.$emit("keySelected", this.payload);
     },
@@ -87,7 +96,7 @@ export default {
   computed: {
     songKeysWithUniqueId() {
       const songKeysCopy = this.$store.getters.getMusicKeys.map((el) => el);
-     
+
       return songKeysCopy;
     },
   },

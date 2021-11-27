@@ -2,6 +2,9 @@ export default {
     isDarkMode(state) {
         return state.darkMode;
     },
+    songsLoading(state) {
+        return state.songsLoading
+    },
     getMusicKeys(state) {
         return state.musicKeys;
     },
@@ -33,26 +36,35 @@ export default {
     // },
 
     filterSongs(state, getters) {
-        return (filters, query = null, artist = null) => {
+        return (filters, query = null) => {
 
-            if (artist) {
-                return state.songs.filter(song => song.artist.toLowerCase() == artist.toLowerCase())
+            //  in case of displaying all  songs from artist
+            if (!filters.length && query.artist) {
+                return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase())
             }
             //in case of displaying all songs 
             if (!filters.length || filters == "all") {
 
-                if (query) {
+                if (query.isMySong) {
                     return state.mySongs
                 } else {
                     return state.songs
                 }
             }
 
-            //in case when we need to filter songs 
-            if (query) {
+            //in case when we need to filter songs
+            if (query.isMySong) {
+                // console.log("imamo query");
                 return state.mySongs.filter(song => {
                     return getters.filterHelper(filters, song)
                 })
+            } else if (query.artist) {
+                return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase()).filter(song => {
+                    return getters.filterHelper(filters, song)
+                })
+                // return state.songs.filter(song => {
+                //     return getters.filterHelper(filters, song)
+                // })
             } else {
                 return state.songs.filter(song => {
                     return getters.filterHelper(filters, song)

@@ -15,7 +15,12 @@
         <slot name="select_box"></slot>
       </div>
       <slot></slot>
-      <div class="scroll-top" aria-hidden="true" @click="scrollUp" :class="{show:showBackToTop}">
+      <div
+        class="scroll-top"
+        aria-hidden="true"
+        @click="scrollUp"
+        :class="{ show: showBackToTop }"
+      >
         <div class="arrow">
           <font-awesome-icon icon="arrow-up"></font-awesome-icon>
         </div>
@@ -35,7 +40,7 @@ export default {
   data() {
     return {
       title: "",
-      showBackToTop:false
+      showBackToTop: false,
     };
   },
   computed: {
@@ -44,10 +49,15 @@ export default {
     },
     Title() {
       const route = this.$route.name;
+      let artist = this.$route.query.artist;
       if (route == "SongDetail") {
         return this.$store.getters.getSongDetailTitle;
-      } else if (route == "Artists Songs") {
-        return "Songs by: " + this.$route.params.name;
+      } else if (artist) {
+        return "Songs by: " + artist;
+      } else if (route == "Songs") {
+        return "All Songs";
+      } else if (route == "Artists") {
+        return "All Artists";
       }
       return route;
     },
@@ -159,12 +169,11 @@ export default {
 
 /*  */
 .sort-section-title {
- 
   display: flex;
   justify-content: space-around;
   gap: 14px;
   margin-bottom: 8px;
-  
+
   color: var(--font_black);
 }
 .sort-section-title h2 {

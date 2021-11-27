@@ -449,7 +449,22 @@ export default {
 
     searchSongInfo() {
       //api call to spotify
-      this.$store.dispatch("apiForSongInfo", this.song.val);
+      if(!this.song.val || !this.artist.val) return;
+      const payload={
+        "songName":this.song.val,
+        "artist":this.artist.val
+      }
+      this.$store.dispatch("apiForSongInfo", payload).then(res=>{
+        console.log("response",res);
+
+        if(!res){
+          console.log("couldnt fint any data, please check your input");
+        }else{
+          this.songInfo.firstKey=res.key
+          this.songInfo.bpm=res.bpm
+          this.firstKey=res.key
+        }
+      });
       //.then((res)=>{ if(res) this.getSongInfoTxt="Loading..." })
     },
   },

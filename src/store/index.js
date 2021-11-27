@@ -11,6 +11,7 @@ const store = createStore({
             sidebarIsActive: false,
             songDetailTitle: null,
             darkMode: false,
+            songsLoading:false,
             // songsLoaded: 2,
             // mySongsLoaded: 2,
             // artistsLoaded: 2,

@@ -3,7 +3,7 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_SONGS_URL}/${username}`;
-
+        context.commit("setLoader")
         const response = await fetch(url,
             {
                 method: "GET",
@@ -21,9 +21,10 @@ export default {
             return
         }
         // console.log(responseData);
-        
+
         //get songImageUrl from spotify
         context.commit("setAllSongs", responseData.songs)
+        context.commit("removeLoader")
 
     },
     async addNewSong(context, payload) {
@@ -152,7 +153,7 @@ export default {
         }
 
         // console.log(responseData);
-       
+
         context.commit("setAllArtists", responseData.artists)
     },
 
@@ -208,7 +209,7 @@ export default {
         context.commit("updateTxtAreaHeight", responseData.txtAreaHeight)
 
     },
-     //websites
+    //websites
     async addUserWebsite(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
@@ -286,9 +287,29 @@ export default {
     },
 
     //SPOTIFY API
-    async apiForSongInfo() { //OVO SE MORA NA BACKENDU
-        // let url = `${process.env.VUE_APP_SPOTIFY_URL}/${username}`;
+    async apiForSongInfo(_,payload) { //OVO SE MORA NA BACKENDU
+        let url = `${process.env.VUE_APP_SPOTIFY_URL}`;
+        console.log(JSON.stringify(
+            payload
+        ));
+        const response = await fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(
+                    payload
+                )
 
+            });
+
+        const responseData = await response.json();
+        // console.log(responseData);
+        if(!response.ok){
+            return false
+        }
+        return responseData
         //console.log(context, payload);
         // var client_id = '85e8304fb2904dd2b138193b78217377'; // Your client id
         // var client_secret = 'ca0aea62d5094911b2cce94d0b7a2e96'; // Your secret
