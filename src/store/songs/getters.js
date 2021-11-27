@@ -1,27 +1,4 @@
 export default {
-    sidebarIsActive(state) {
-        return state.sidebarIsActive;
-    },
-    getAllSongs(state) {
-        return state.songs;
-    },
-    getAllMySongs(state) {
-        return state.mySongs;
-    },
-    lazyLoadSongs(state) {
-
-        return (type) => {
-
-            if (type == "songs") {
-
-                return state.songs.slice(0, state.songsLoaded)
-            } else {
-                return state.songs.slice(0, state.mySongsLoaded)
-
-            }
-        }
-
-    },
     isDarkMode(state) {
         return state.darkMode;
     },
@@ -31,21 +8,43 @@ export default {
     getSongDetailTitle(state) {
         return state.songDetailTitle;
     },
+    sidebarIsActive(state) {
+        return state.sidebarIsActive;
+    },
+    getAllSongs(state) {
+        return state.songs;
+    },
+    getAllMySongs(state) {
+        return state.mySongs;
+    },
+    // lazyLoadSongs(state) {
+
+    //     return (type) => {
+
+    //         if (type == "songs") {
+
+    //             return state.songs.slice(0, state.songsLoaded)
+    //         } else {
+    //             return state.songs.slice(0, state.mySongsLoaded)
+
+    //         }
+    //     }
+
+    // },
 
     filterSongs(state, getters) {
         return (filters, query = null, artist = null) => {
 
             if (artist) {
-                return getters.lazyLoadSongs("songs").filter(song => song.artist.toLowerCase() == artist.toLowerCase())
+                return state.songs.filter(song => song.artist.toLowerCase() == artist.toLowerCase())
             }
-
             //in case of displaying all songs 
             if (!filters.length || filters == "all") {
 
                 if (query) {
                     return state.mySongs
                 } else {
-                    return getters.lazyLoadSongs("songs")
+                    return state.songs
                 }
             }
 
@@ -55,12 +54,11 @@ export default {
                     return getters.filterHelper(filters, song)
                 })
             } else {
-                return getters.lazyLoadSongs("songs").filter(song => {
+                return state.songs.filter(song => {
                     return getters.filterHelper(filters, song)
                 })
             }
         }
-
     },
     filterHelper() {
 
