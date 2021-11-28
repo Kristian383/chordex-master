@@ -51,7 +51,7 @@
             type="text"
             id="input-artist"
             placeholder="Artist name"
-            :disabled="songInfo.isMySong"
+            :disabled="songInfo.isMySong || songId"
             v-model.trim="artist.val"
             :class="{ 'error-msg': !artist.isValid }"
             @focus="clearValidity('artist')"
