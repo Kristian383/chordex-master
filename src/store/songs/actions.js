@@ -21,7 +21,6 @@ export default {
             return false
         }
 
-        //get songImageUrl from spotify
         context.commit("setAllSongs", responseData.songs)
         context.commit("removeLoader")
 
@@ -218,9 +217,7 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
-        console.log(JSON.stringify(
-            payload
-        ));
+       
         const response = await fetch(url,
             {
                 method: "POST",
@@ -231,7 +228,6 @@ export default {
                 body: JSON.stringify(
                     payload
                 )
-
             });
 
         const responseData = await response.json();
