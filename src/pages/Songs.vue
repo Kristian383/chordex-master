@@ -15,7 +15,7 @@
       <!-- <p v-if="!AllSongs.length">Currently no songs.</p> -->
       <song-card
         v-for="song in AllSongs"
-        :key="song.songId"
+        :key="song.songId || song.songName"
         :song="song"
       ></song-card>
       <!-- </template> -->
