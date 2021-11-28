@@ -3,11 +3,10 @@
     <div class="form-container">
       <!-- yt modal -->
       <transition name="fade">
-
-      <how-to-modal
-        v-if="showYtModal"
-        @close-modal="closeYtModal"
-      ></how-to-modal>
+        <how-to-modal
+          v-if="showYtModal"
+          @close-modal="closeYtModal"
+        ></how-to-modal>
       </transition>
 
       <!--  -->
@@ -119,6 +118,7 @@
             <select-box-key
               @key-selected="insertKey"
               name="firstKey"
+              :spotify-key="getSpotifyKey"
             ></select-box-key>
             {{ songInfo.firstKeyNotes }}
           </div>
@@ -232,6 +232,7 @@
             name=""
             rows="20"
             placeholder="Notes about this song..."
+            @keydown.tab.prevent="tabber($event)"
           ></textarea>
         </div>
       </form>
@@ -264,7 +265,9 @@ export default {
         capo: null,
         electric: null,
         acoustic: null,
+        firstKey: null,
         firstChordProgression: "",
+        secondKey: null,
         secondChordProgression: "",
         chordsWebsiteLink: "",
         ytLink: "",
@@ -273,9 +276,8 @@ export default {
         tuning: null,
         isMySong: false,
         difficulty: "medium",
-        firstKey: null,
-        secondKey: null,
         lastViewed: null,
+        imgUrl: "",
       },
       haveCapo: null,
       artist: {
@@ -300,6 +302,9 @@ export default {
     },
     getUsername() {
       return this.$store.getters.user.username;
+    },
+    getSpotifyKey() {
+      return this.songInfo.firstKey;
     },
   },
   methods: {
@@ -349,7 +354,7 @@ export default {
       event.target.selectionEnd = event.target.selectionStart =
         originalSelectionStart + 1;
     },
-    submitSong(event) {
+    async submitSong(event) {
       this.validateForm();
 
       if (!this.formIsValid) {
@@ -368,7 +373,6 @@ export default {
         songId: +this.songId,
         isFavorite: this.isFavorite,
       };
-
       this.$store.dispatch("addNewSong", formData).then((res) => {
         event.target.classList.remove("loading");
 
@@ -449,33 +453,51 @@ export default {
 
     searchSongInfo() {
       //api call to spotify
-      if(!this.song.val || !this.artist.val) return;
-      const payload={
-        "songName":this.song.val,
-        "artist":this.artist.val
+      if (
+        !this.song.val ||
+        !this.artist.val ||
+        this.getSongInfoTxt == "Searching for song..."
+      ) {
+        this.getSongInfoTxt = "Please insert song and artist.";
+        setTimeout(() => {
+          this.getSongInfoTxt = "Try to get song info";
+        }, 2000);
+        return;
       }
-      this.$store.dispatch("apiForSongInfo", payload).then(res=>{
-        console.log("response",res);
+      const payload = {
+        songName: this.song.val,
+        artist: this.artist.val,
+      };
+      this.getSongInfoTxt = "Searching for song...";
+      this.$store.dispatch("apiForSongInfo", payload).then((res) => {
+        // console.log("response from spotify", res);
 
-        if(!res){
-          console.log("couldnt fint any data, please check your input");
-        }else{
-          this.songInfo.firstKey=res.key
-          this.songInfo.bpm=res.bpm
-          this.firstKey=res.key
+        if (!res) {
+          this.getSongInfoTxt = "Couldnt find anything.";
+        } else {
+          this.songInfo.firstKey = res.key;
+          this.songInfo.bpm = res.bpm;
+          this.songInfo.imgUrl = res.imgUrl;
+          this.getSongInfoTxt = "Successfuly fetched info!";
         }
+        setTimeout(() => {
+          this.getSongInfoTxt = "Try to get song info";
+        }, 2000);
       });
-      //.then((res)=>{ if(res) this.getSongInfoTxt="Loading..." })
     },
   },
   mounted() {
     const songId = this.$route.params.songId;
     this.songId = songId;
-
+    let songData;
     if (songId) {
-      const songData = this.$store.getters.getAllSongs.find((song) => {
+      songData = this.$store.getters.getAllSongs.find((song) => {
         return song.songId == songId;
       });
+      if (!songData) {
+        this.$router.push("/songs");
+        return;
+      }
 
       this.songInfo.songText = songData.songText;
       this.songInfo.practicedPrcntg = songData.practicedPrcntg;
@@ -496,6 +518,7 @@ export default {
       this.songInfo.difficulty = songData.difficulty;
       this.songInfo.firstKey = songData.firstKey;
       this.songInfo.lastViewed = songData.lastViewed;
+      this.songInfo.imgUrl = songData.imgUrl;
 
       if (songData.secondKey) {
         this.openSecond = true;

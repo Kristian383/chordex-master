@@ -43,6 +43,7 @@ export default {
         //console.log(responseData);
         if (!response.ok) {
             console.log(responseData.message);
+
             return
         }
 
@@ -102,7 +103,14 @@ export default {
                 expiresIn,
                 user
             })
-            context.dispatch("loadAllSongs");
+             context.dispatch("loadAllSongs")
+            //.then(res => {
+            //     // if (!res) {
+            //     //     context.dispatch("autoLogout")
+
+            //     // }
+            //     console.log("res",res);
+            // });
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
             context.commit("activateSidebar");
@@ -155,7 +163,7 @@ export default {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ new: payload.new,email:payload.email }) //, token: payload.token 
+                body: JSON.stringify({ new: payload.new, email: payload.email }) //, token: payload.token 
             });
 
         const responseData = await response.json();

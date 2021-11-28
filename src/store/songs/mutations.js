@@ -55,9 +55,10 @@ export default {
         let index = state.songs.findIndex(song => song.songId == payload.songId);
         state.songs[index] = payload
     },
-    // insertSongAndArtist(state, payload) {
-    //     state.songs.unshift(payload)
-    // },
+    insertSongAndArtist(state, payload) {
+        state.songs.unshift(payload)
+        
+    },
     setAllSongs(state, payload) {
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])

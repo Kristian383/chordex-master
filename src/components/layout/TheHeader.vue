@@ -6,7 +6,7 @@
           ><img src="@/assets/guitar.svg" alt="Quote Logo"
         /></router-link>
       </span>
-      <div class="title"><h2>Chordex</h2></div>
+      <div class="title"><h2>ChordEx</h2></div>
       <ul class="navigation">
         <li>
           <router-link class="link" active-class="active" to="/home"

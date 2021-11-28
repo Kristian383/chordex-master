@@ -251,6 +251,7 @@ export default {
         this.$store.dispatch("auth", payload).then(() => {
           if (this.$store.getters.token) {
             this.$router.push("/songs");
+            this.$store.commit("activateSidebar")
           } else {
             this.formIsValid = false;
             this.requestIsPending = false;
@@ -277,8 +278,8 @@ export default {
           return;
         }
 
-        if (this.user.password.length < 7) {
-          this.errorText = "Password needs to have atleast 7 characters.";
+        if (this.user.password.length < 6) {
+          this.errorText = "Password needs to have atleast 6 characters.";
           this.formIsValid = false;
           this.requestIsPending = false;
           return;
@@ -293,6 +294,8 @@ export default {
           if (this.$store.getters.token) {
             this.requestIsPending = false;
             this.$router.push("/songs");
+            this.$store.commit("activateSidebar")
+
           }
         });
       }

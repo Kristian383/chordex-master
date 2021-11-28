@@ -130,9 +130,7 @@ export default {
   beforeUnmount() {
     // this.observer.unobserve(this.el);
   },
-  created() {
-    //this.$store.dispatch("loadAllSongs");
-  },
+  
 };
 </script>
 

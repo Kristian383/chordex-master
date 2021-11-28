@@ -5,7 +5,7 @@
       <user-auth ></user-auth>
     </div>
     <div class="home-content third" :class="{logged:isLogged}">
-      <div><h2>Keep track of your songs and store them at one place with Chordex.</h2></div>
+      <div><h2>Keep track of your songs and store them at one place with ChordEx.</h2></div>
       <div class="photo-div">
         <img src=".././assets/home.jpg" alt="logo" />
       </div>

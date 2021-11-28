@@ -2,7 +2,11 @@
   <div class="card" @click="openSongDetail">
     <div class="card-header">
       <div class="image">
-        <img :src="song.imageUrl" alt="Photo" />
+        <img :src="song.imgUrl" alt="Photo" />
+        <!-- <img
+          src="https://i.scdn.co/image/ab67616d00001e0294d08ab63e57b0cae74e8595"
+          alt="Photo"
+        /> -->
       </div>
 
       <div class="icons">
@@ -22,9 +26,6 @@
     <div class="card-body">
       <div class="tags">
         <span class="tag tag-teal" v-if="song.capo"> Capo</span>
-        <!-- <span class="tag tag-teal" v-if="song.acoustic"> Acoustic</span>
-        <span class="tag tag-teal" v-else-if="song.electric"> Electric</span>
-        <span class="tag tag-teal" v-else-if="song.capo"> Capo</span> -->
         <span
           class="tag tag-teal"
           v-if="song.difficulty"
@@ -39,12 +40,11 @@
         @click.stop="chooseArtist"
         :aria-label="song.artist"
         :title="song.artist"
-        
       >
         {{ song.artist }}
       </h3>
       <!-- </div> -->
-      <h4 class="song_name" :aria-label="song.songName" :title="song.songName"  >
+      <h4 class="song_name" :aria-label="song.songName" :title="song.songName">
         {{ song.songName }}
       </h4>
       <div class="info">
@@ -68,7 +68,7 @@ export default {
       const pushRoute = this.song.isMySong
         ? `/songs/${this.song.songId}?isMySong=True`
         : `/songs/${this.song.songId}`;
-      this.$router.push(pushRoute );
+      this.$router.push(pushRoute);
     },
     toggleFavorite() {
       this.$store.commit("toggleFavorite", { songId: this.song.songId });
@@ -78,8 +78,8 @@ export default {
       this.$router.push("/new/" + this.song.songId);
     },
     chooseArtist() {
-      if(!this.song.isMySong)
-      this.$router.push("/songs?artist=" + this.song.artist);
+      if (!this.song.isMySong)
+        this.$router.push("/songs?artist=" + this.song.artist);
     },
   },
   computed: {

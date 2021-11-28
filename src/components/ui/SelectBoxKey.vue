@@ -44,7 +44,7 @@
 
 <script>
 export default {
-  props: ["name"],
+  props: ["name", "spotifyKey"],
   emits: ["keySelected"],
   data() {
     return {
@@ -98,6 +98,19 @@ export default {
       const songKeysCopy = this.$store.getters.getMusicKeys.map((el) => el);
 
       return songKeysCopy;
+    },
+  },
+  watch: {
+    spotifyKey: function () {
+      if (this.spotifyKey) {
+        const payload = {
+          key: this.spotifyKey.split(" ")[0],
+          quality: this.spotifyKey.split(" ")[1],
+        };
+        this.selectedQuality = payload.quality;
+        this.chooseKey(payload);
+        this.chooseQualityKey(payload.quality);
+      }
     },
   },
 };
