@@ -473,9 +473,10 @@ export default {
         // console.log("response from spotify", res);
 
         if (!res) {
-          this.getSongInfoTxt = "Couldnt find anything.";
+          this.getSongInfoTxt = "Couldn't find anything.";
         } else {
           this.songInfo.firstKey = res.key;
+          this.artist.val = res.artist;
           this.songInfo.bpm = res.bpm;
           this.songInfo.imgUrl = res.imgUrl;
           this.getSongInfoTxt = "Successfuly fetched info!";

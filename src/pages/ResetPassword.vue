@@ -111,6 +111,11 @@ export default {
         this.errorText = "Password too short. Please enter longer than 6 chars.";
         return;
 
+      }else if(this.newPswd.length>45){
+        this.formIsValid = false;
+        this.requestIsPending = false;
+        this.errorText = "Password too long. Please enter shorter than 45 chars.";
+        return;
       }
 
       //api call

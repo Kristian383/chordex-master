@@ -1,18 +1,23 @@
 <template>
   <div class="home">
+    <!-- auth -->
     <div class="form" v-if="!isLogged">
       <!-- <span><h2>Welcome!</h2></span> -->
-      <user-auth ></user-auth>
+      <user-auth></user-auth>
     </div>
-    <div class="home-content third" :class="{logged:isLogged}">
-      <div><h2>Keep track of your songs and store them at one place with ChordEx.</h2></div>
+    <div class="home-content third" :class="{ logged: isLogged }">
+      <div>
+        <h2>
+          Keep track of your songs and store them at one place with ChordEx.
+        </h2>
+      </div>
       <div class="photo-div">
-        <img src=".././assets/home.jpg" alt="logo" />
+        <img src="@/assets/home.jpg" alt="logo" />
       </div>
     </div>
     <!--  -->
     <div class="home-content" id="songs">
-      <img src=".././assets/Screenshot_2.png" alt="logo" />
+      <img src="@/assets/home_chordex.png" alt="logo" />
     </div>
     <div class="smaller">
       <h2>Write information about song:</h2>
@@ -25,13 +30,17 @@
         <li><h3>...</h3></li>
       </ul>
     </div>
-   
+    <!-- <div class="home-content">
+      <div class="" id="songs">
+        <img src="@/assets/home_chordex.png" alt="logo" />
+      </div>
+    </div> -->
+    <!--  -->
   </div>
-
+  
 </template>
 
 <script>
-
 import UserAuth from "./../components/ui/auth/UserAuth.vue";
 export default {
   components: {
@@ -44,16 +53,13 @@ export default {
   },
   computed: {
     isLogged() {
-      return !!this.$store.getters.token 
-    }
+      return !!this.$store.getters.token;
+    },
   },
-  
 };
 </script>
 
 <style scoped>
-
-
 .home {
   display: grid;
   grid-template-columns: 1fr;
@@ -68,7 +74,7 @@ export default {
 
     padding: 0 32px 32px 32px;
   }
-  
+
   .third {
     grid-column: 2/4;
     padding-top: 26px;
