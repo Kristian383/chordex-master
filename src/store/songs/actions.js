@@ -35,7 +35,6 @@ export default {
             username,
             ...payload
         }
-        // console.log("body add", body);
         let methodType = "POST";
         if (payload.songId) {
             methodType = "PUT"
@@ -56,25 +55,19 @@ export default {
             });
 
         const responseData = await response.json();
-
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add song.');
             return false
         } else {
             if (payload.songId) {
-
                 context.commit("updateSong", payload)
             } else {
-
-                context.commit("insertSongAndArtist", payload)
+                const resp_payload = responseData.song;
+                resp_payload.artist = responseData.artist.name
+                context.commit("insertSongAndArtist", resp_payload)
             }
         }
 
-
-        // else{
-        //     context.commit("insertSongAndArtist", payload)
-
-        // }
         return true
     },
     async deleteSong(context, payload) {
@@ -217,7 +210,7 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
-       
+
         const response = await fetch(url,
             {
                 method: "POST",
