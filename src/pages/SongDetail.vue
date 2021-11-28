@@ -144,7 +144,7 @@ export default {
       this.isFavorite = songData.isFavorite;
       this.$store.commit("setSongDetailTitle", songData.songName);
     } else {
-      this.$router.push("notFound");
+      this.$router.push("/songs");
     }
   },
   methods: {
