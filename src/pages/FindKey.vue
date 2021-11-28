@@ -49,7 +49,6 @@ export default {
 table {
   margin: 0 auto;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-
 }
 table th {
   font-size: 20px;
@@ -99,7 +98,7 @@ tr:hover td {
   cursor: pointer;
 }
 
-tr:hover td:nth-child(7) {
+tr td:nth-child(7) {
   text-decoration: underline;
 }
 </style>
