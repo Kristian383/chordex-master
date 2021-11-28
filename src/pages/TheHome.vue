@@ -17,10 +17,10 @@
     </div>
     <!--  -->
     <div class="home-content" id="songs">
-      <img src="@/assets/home_chordex.png" alt="logo" />
+      <img src="@/assets/home_cards.png" alt="logo" />
     </div>
     <div class="smaller">
-      <h2>Write information about song:</h2>
+      <h2>Write information about songs:</h2>
       <ul>
         <li><h3>Key</h3></li>
         <li><h3>Chords</h3></li>
@@ -37,7 +37,6 @@
     </div> -->
     <!--  -->
   </div>
-  
 </template>
 
 <script>
@@ -135,4 +134,68 @@ export default {
   padding: 32px 16px;
   text-align: center;
 }
+/* za produljivati slike */
+/* .home-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.home-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 4;
+  order: 2;
+}
+
+@media (min-width: 700px) {
+  .home-wrapper {
+    min-height: 650px;
+    max-height: 650px;
+    flex-direction: row;
+  }
+  .home-content {
+    order: 1;
+  }
+  .home-content div {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 800px) {
+  .home-content {
+    flex: 3;
+  }
+}
+
+.home-content div {
+  max-width: 375px;
+  padding: 72px 24px;
+}
+
+.home-photo {
+  order: 1;
+  flex: 3;
+}
+.home-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (min-width: 700px) {
+  .home-content {
+    flex: 3;
+  }
+  .home-photo {
+    order: 2;
+  }
+}
+
+.home-wrapper:nth-child(even) .home-content {
+  order: 2;
+}
+.home-wrapper:nth-child(even) .home-photo {
+  order: 1;
+} */
 </style>
