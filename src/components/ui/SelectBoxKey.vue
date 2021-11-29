@@ -55,7 +55,11 @@ export default {
         minor: Math.random().toString(36).substring(2),
       },
       selectedQuality: null,
-      payload: {},
+      payload: {
+        notes: [],
+        key: "",
+        name: "",
+      },
     };
   },
   methods: {
@@ -70,27 +74,28 @@ export default {
       if (!this.selectedKey) {
         return;
       }
-      
+
       let notes = this.$store.getters.getMusicKeys;
-      try{
-      if (quality == "major") {
-        notes = notes.filter((key) => key.key == this.selectedKey)[0].notes;
-      } else {
-        notes = notes.filter((key) => {
-          if (this.selectedKey == "Db") {
-            return key.relativeMinor == "C#";
-          } else if (this.selectedKey == "Gb") {
-            return key.relativeMinor == "F#";
-          } else if (this.selectedKey == "Cb") {
-            return key.relativeMinor == "G#";
-          } else {
-            return key.relativeMinor == this.selectedKey;
-          }
-        })[0].notes;
+      try {
+        if (quality == "major") {
+          notes = notes.filter((key) => key.key == this.selectedKey)[0].notes;
+        } else {
+          notes = notes.filter((key) => {
+            if (this.selectedKey == "Db") {
+              return key.relativeMinor == "C#";
+            } else if (this.selectedKey == "Gb") {
+              return key.relativeMinor == "F#";
+            } else if (this.selectedKey == "Cb") {
+              return key.relativeMinor == "G#";
+            } else {
+              return key.relativeMinor == this.selectedKey;
+            }
+          })[0].notes;
+        }
+      } catch {
+        return;
       }
-      }catch{
-        return
-      }
+
       this.payload.notes = notes.map((el) => el).join(" ");
       this.payload.name = this.name;
       this.payload.key = this.selectedKey + " " + quality;
@@ -116,7 +121,7 @@ export default {
         let exceptions = ["A#", "D#", "G#", "C#", "F#"];
         let index = exceptions.indexOf(payload.key);
 
-        if (payload.quality == "major" && index) {
+        if (payload.quality == "major" && index != -1) {
           let translated_eceptions = ["Bb", "Eb", "Ab", "Db", "Gb"];
           payload.key = translated_eceptions[index];
         }
