@@ -42,14 +42,13 @@ export default {
                 })
         } catch {
             // context.commit("removeLoader")
-            console.log("There was an error!");
+            //  console.log("There was an error!");
             return "There was an error!"
         }
 
         const responseData = await response.json();
         //console.log(responseData);
         if (!response.ok) {
-            console.log(responseData.message);
             return responseData.message
         }
 
