@@ -144,7 +144,7 @@
                   @focus="clearValidity"
                 />
               </div>
-              <p class="error-text" v-if="errorText">{{ errorText }}</p>
+              <p class="error-text" v-if="errorText" :class="{ valid: goodRequest }">{{ errorText }}</p>
             </div>
             <div class="form-footer">
               <button
@@ -293,11 +293,14 @@ export default {
           mode: "signup",
         };
 
-        this.$store.dispatch("auth", payload).then(() => {
+        this.$store.dispatch("auth", payload).then((res) => {
           if (this.$store.getters.token) {
             this.$router.push("/songs");
             this.$store.commit("activateSidebar")
-
+             this.errorText = "Successfully registered.";
+              this.goodRequest=true
+          }else{
+             this.errorText = res;
           }
             this.requestIsPending = false;
         });
