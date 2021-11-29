@@ -185,7 +185,8 @@ export default {
   padding: 0px 10px;
 }
 .list-group .list-group-item .thumbnail img {
-  width: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
 }
 .list-group .list-group-item .details {
