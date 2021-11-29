@@ -384,6 +384,14 @@ export default {
           // event.target.classList.remove("success");
 
           this.$router.push(pushRoute);
+          //update artists
+          let index = this.$store.getters.getArtists.findIndex(
+            (artist) =>
+              artist.name.toLowerCase() == formData.artist.toLowerCase()
+          );
+          if (index==-1) {
+            this.$store.dispatch("loadAllArtists");
+          }
         } else {
           this.formIsValid = false;
           this.song.isValid = false;
