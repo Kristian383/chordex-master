@@ -172,9 +172,9 @@ export default {
   data() {
     return {
       user: {
-        username: null,
-        email: null,
-        password: null,
+        username: "",
+        email: "",
+        password: "",
       },
       login: true,
       resetPswd: false,
@@ -231,7 +231,7 @@ export default {
             this.errorText = "Something went wrong.";
           }
           this.requestIsPending = false;
-          this.user.email = null;
+          this.user.email = "";
         });
         //
       } else if (this.login) {
@@ -276,13 +276,13 @@ export default {
 
         if (this.user.username.length < 3) {
           this.formIsValid = false;
-          this.errorText = "Username needs to have atleast 3 characters.";
+          this.errorText = "Username must have atleast 3 characters.";
           this.requestIsPending = false;
           return;
         }
 
         if (this.user.password.length < 6) {
-          this.errorText = "Password needs to have atleast 6 characters.";
+          this.errorText = "Password must have atleast 6 characters.";
           this.formIsValid = false;
           this.requestIsPending = false;
           return;
@@ -300,6 +300,7 @@ export default {
              this.errorText = "Successfully registered.";
               this.goodRequest=true
           }else{
+            this.user.username=""
              this.errorText = res;
           }
             this.requestIsPending = false;
