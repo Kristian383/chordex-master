@@ -1,7 +1,7 @@
-// let timer;
 import jwt_decode from "jwt-decode";
 
 export default {
+
     logout(context) {
         localStorage.removeItem("token");
         // localStorage.removeItem("tokenExpiration");
@@ -25,61 +25,50 @@ export default {
             url = `${process.env.VUE_APP_REGISTER_URL}`;
         }
         // console.log("pay", payload);
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
 
-                },
-                body: JSON.stringify({
-                    email: payload.user.email,
-                    password: payload.user.password,
-                    username: payload.user.username
+                    },
+                    body: JSON.stringify({
+                        email: payload.user.email,
+                        password: payload.user.password,
+                        username: payload.user.username
+                    })
                 })
-            });
+        } catch {
+            // context.commit("removeLoader")
+            console.log("There was an error!");
+            return "There was an error!"
+        }
 
         const responseData = await response.json();
         //console.log(responseData);
         if (!response.ok) {
             console.log(responseData.message);
-
-            return
+            return responseData.message
         }
 
-        // const expiresIn = jwt_decode(responseData.token).exp;
-
-        // localStorage.setItem("tokenExpiration", expiresIn)
         localStorage.setItem("token", responseData.token);
         localStorage.setItem("username", responseData.user);
         localStorage.setItem("email", payload.user.email);
-
-        // let d = new Date(expiresIn * 1000).getTime()
-        // let expirationDate = new Date(d).getTime()
-        // let now = new Date().getTime()
-        // let milisecondsBetweenDates = Math.round((expirationDate - now));
-        // let timeForAutoLogout = milisecondsBetweenDates - 60000;
-
-        // timer = setTimeout(function () {
-        //     context.dispatch("autoLogout")
-
-        // }, timeForAutoLogout)
-
 
         context.commit("setUser", {
             user: {
                 username: responseData.user,
                 email: payload.user.email
             },
-            token: responseData.token,
-            // tokenExpiration: expiresIn,
+            token: responseData.token
 
         })
 
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
-
     },
 
     tryLogin(context) {
@@ -103,7 +92,7 @@ export default {
                 expiresIn,
                 user
             })
-             context.dispatch("loadAllSongs")
+            context.dispatch("loadAllSongs")
             //.then(res => {
             //     // if (!res) {
             //     //     context.dispatch("autoLogout")
@@ -114,10 +103,7 @@ export default {
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
             context.commit("activateSidebar");
-
         }
-
-
     },
     autoLogout(context) {
         context.dispatch("logout")
@@ -125,21 +111,23 @@ export default {
     },
 
     async forgotPassword(_, email) {//context,payload
-        // generate a JWT in the form of a link sent to the user through email
-        // JWT payload consists of the username to uniquely identify the user. JWT expiration is set to a limited time say 30mins.
-        // JWT signature is signed with a secret: the user’s password hash
-        // JWT could be appended in the query of the link: https://exampletest.com/reset/password?token={Insert JWT here} i ovo ce biti ruta na frontendu
         let url = `${process.env.VUE_APP_FORGOTPSWD_URL}`;
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
 
-                },
-                body: JSON.stringify({ email })
-            });
+                    },
+                    body: JSON.stringify({ email })
+                });
 
+        } catch {
+            console.log("There was an error!");
+            return "error"
+        }
         //console.log(responseData);
         if (!response.ok) {
             return false
@@ -157,41 +145,46 @@ export default {
         if (expiresIn - ts < 0) {
             return "expired"
         }
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ new: payload.new, email: payload.email }) //, token: payload.token 
-            });
-
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ new: payload.new, email: payload.email }) //, token: payload.token 
+                });
+        } catch {
+            console.log("There was an error!");
+            return "There was an error!"
+        }
         const responseData = await response.json();
 
         return responseData.message
-        // if (!response.ok) {
-        //     return false
-        // } else {
-        //     return true
-        // }
     }
     ,
     async contactMe(_, payload) {
         // console.log("payload", payload);
         let url = `${process.env.VUE_APP_CONTACT_URL}`;
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
 
-                },
-                body: JSON.stringify({
-                    email: payload.email,
-                    message: payload.message
-                })
-            });
+                    },
+                    body: JSON.stringify({
+                        email: payload.email,
+                        message: payload.message
+                    })
+                });
 
+        } catch {
+            return false
+        }
         if (!response.ok) {
             return false
         }

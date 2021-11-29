@@ -221,12 +221,14 @@ export default {
 
         this.$store.dispatch("forgotPassword", this.user.email).then((res) => {
           // console.log(this.errorText);
-          if (res) {
+          if (res==true) {
             this.errorText =
               "We received your request. Please check your email.";
             this.goodRequest = true;
-          } else {
+          } else if(!res){
             this.errorText = "User with that email doesnt exist.";
+          }else{
+            this.errorText = "Something went wrong.";
           }
           this.requestIsPending = false;
           this.user.email = null;
@@ -248,15 +250,16 @@ export default {
           mode: "login",
         };
 
-        this.$store.dispatch("auth", payload).then(() => {
+        this.$store.dispatch("auth", payload).then((res) => {
           if (this.$store.getters.token) {
             this.$router.push("/songs");
             this.$store.commit("activateSidebar")
           } else {
             this.formIsValid = false;
-            this.requestIsPending = false;
-            this.errorText = "Invalid credentials.";
+            // this.errorText = "Invalid credentials.";
+             this.errorText = res;
           }
+            this.requestIsPending = false;
         });
       } else {
         //registering user
@@ -292,11 +295,11 @@ export default {
 
         this.$store.dispatch("auth", payload).then(() => {
           if (this.$store.getters.token) {
-            this.requestIsPending = false;
             this.$router.push("/songs");
             this.$store.commit("activateSidebar")
 
           }
+            this.requestIsPending = false;
         });
       }
     },

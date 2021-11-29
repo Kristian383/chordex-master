@@ -1,23 +1,32 @@
 export default {
+
     async loadAllSongs(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_SONGS_URL}/${username}`;
+
         context.commit("setLoader")
-        const response = await fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
 
-            });
-
+                });
+        } catch {
+            console.log("There was an error!");
+            context.commit("removeLoader")
+            return "There was an error!"
+        }
         const responseData = await response.json();
 
         if (!response.ok) {
             // window.alert(responseData.message || 'Failed to load more songs.');
+            context.commit("removeLoader")
             return false
         }
 
@@ -29,8 +38,6 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_SONG_URL}/${username}`;
-        //http
-        //pronaci image url
         const body = {
             username,
             ...payload
@@ -42,18 +49,22 @@ export default {
         let lastViewed = new Date().toLocaleString();
         body.lastViewed = lastViewed;
 
-        const response = await fetch(url,
-            {
-                method: methodType,
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-                body: JSON.stringify(
-                    body
-                )
-            });
-
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: methodType,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(
+                        body
+                    )
+                });
+        } catch {
+            return false
+        }
         const responseData = await response.json();
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add song.');
@@ -67,7 +78,6 @@ export default {
                 context.commit("insertSongAndArtist", resp_payload)
             }
         }
-
         return true
     },
     async deleteSong(context, payload) {
@@ -80,43 +90,45 @@ export default {
             "artist": payload.artist
         }
         //console.log("delete body", body);
-        const response = await fetch(url,
-            {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-                body: JSON.stringify(
-                    body
-                )
-            });
-
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(
+                        body
+                    )
+                });
+        } catch {
+            return
+        }
         const responseData = await response.json();
-
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to load more songs.');
             return
         }
-
-        //console.log(responseData);
         context.commit("deleteSong", payload.songId)
     },
-
-
     //
     //
     async loadMusicKeys(context) {
         let url = `${process.env.VUE_APP_KEYS_URL}`;
-
-        const response = await fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+        } catch {
+            return
+        }
         const responseData = await response.json();
 
         if (!response.ok) {
@@ -131,25 +143,25 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_ARTISTS_URL}/${username}`;
-
-        const response = await fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-            });
-
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                });
+        } catch {
+            return
+        }
         const responseData = await response.json();
 
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to load more songs.');
             return
         }
-
-        // console.log(responseData);
-
         context.commit("setAllArtists", responseData.artists)
     },
 
@@ -158,17 +170,20 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_NOTES_URL}/${username}`;
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
 
-        const response = await fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-
-            });
-
+                });
+        } catch {
+            return;
+        }
         const responseData = await response.json();
         //console.log("userNotes", responseData);
         if (!response.ok) {
@@ -183,19 +198,23 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_NOTES_URL}/${username}`;
-        const response = await fetch(url,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-                body: JSON.stringify(
-                    payload
-                )
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(
+                        payload
+                    )
 
-            });
-
+                });
+        } catch {
+            return;
+        }
         const responseData = await response.json();
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to update user notes.');
@@ -210,19 +229,22 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
-
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-                body: JSON.stringify(
-                    payload
-                )
-            });
-
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(
+                        payload
+                    )
+                });
+        } catch {
+            return
+        }
         const responseData = await response.json();
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add user website.');
@@ -234,20 +256,24 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(
+                        { name }
+                    )
 
-        const response = await fetch(url,
-            {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-                body: JSON.stringify(
-                    { name }
-                )
-
-            });
-
+                });
+        } catch {
+            console.log("There was an error!");
+            return
+        }
         const responseData = await response.json();
         console.log("deleteUserWebsite", responseData);
         if (!response.ok) {
@@ -260,20 +286,23 @@ export default {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_WEBSITES_URL}/${username}`;
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
 
-        const response = await fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + access_token
-                },
-
-            });
-
+                });
+        } catch {
+            console.log("There was an error!");
+            return
+        }
         const responseData = await response.json();
         if (!response.ok) {
-            // window.alert(responseData.message || 'Failed to load user notes.');
             return
         }
         context.commit("setUserWebsites", responseData.websites)
@@ -282,18 +311,23 @@ export default {
     //SPOTIFY API
     async apiForSongInfo(_, payload) {
         let url = `${process.env.VUE_APP_SPOTIFY_URL}`;
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(
+                        payload
+                    )
+                });
 
-        const response = await fetch(url,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(
-                    payload
-                )
-            });
-
+        } catch {
+            console.log("There was an error!");
+            return false
+        }
         const responseData = await response.json();
         if (!response.ok) {
             return false
