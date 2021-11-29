@@ -1,26 +1,39 @@
 <template>
   <base-card>
-    <table>
-      <thead>
-        <tr class="table-headers">
-          <th>Key</th>
-          <th>I</th>
-          <th>ii</th>
-          <th>iii</th>
-          <th>IV</th>
-          <th>V</th>
-          <th>vi</th>
-          <th>vii°</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="key of allKeys" :key="key">
-          <template v-for="note in key" :key="note">
-            <td>{{ note }}</td>
-          </template>
-        </tr>
-      </tbody>
-    </table>
+    <section class="section">
+      <table>
+        <thead>
+          <tr class="table-headers">
+            <th>Key</th>
+            <th>I</th>
+            <th>ii</th>
+            <th>iii</th>
+            <th>IV</th>
+            <th>V</th>
+            <th>vi</th>
+            <th>vii°</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="key of allKeys" :key="key">
+            <template v-for="note in key" :key="note">
+              <td>{{ note }}</td>
+            </template>
+          </tr>
+        </tbody>
+      </table>
+      <div class="notes-div">
+        <textarea
+          v-model="notes"
+          class="notebook"
+          placeholder="Notes about certain ideas..."
+          ref="txtHeight"
+          @click="updateNotes"
+          @blur="updateNotes"
+          :style="{ height: getTxtAreaHeight + 'px' }"
+        ></textarea>
+      </div>
+    </section>
   </base-card>
 </template>
 
@@ -30,7 +43,12 @@ export default {
   components: {
     BaseCard,
   },
-
+  data() {
+    return {
+      notes: null,
+      txtAreaHeight: null,
+    };
+  },
   computed: {
     allKeys() {
       let formatedKeys = [];
@@ -41,19 +59,49 @@ export default {
       });
       return formatedKeys;
     },
+
+    getTxtAreaHeight() {
+      return this.$store.getters.getTxtAreaHeight;
+    },
+    getNotes() {
+      return this.$store.getters.getUserNotes;
+    },
+  },
+  methods: {
+    updateNotes() {
+      this.$store.dispatch("updateUsersNotes", {
+        notes: this.notes,
+        txtAreaHeight: this.$refs.txtHeight.offsetHeight,
+      });
+    },
+  },
+  mounted() {
+    this.$store.dispatch("loadUsersNotes").then(() => {
+      this.notes = this.getNotes;
+    });
   },
 };
 </script>
 
 <style scoped>
+.section {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
 table {
   margin: 0 auto;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 table th {
   font-size: 20px;
-  background: #242424;
   background: #0d1117;
+  background: #242424;
+  background: var(--burgundy);
+
   color: #fff;
 }
 tbody td {
@@ -67,13 +115,19 @@ tbody td:first-child {
   font-weight: bold;
 }
 tbody tr:nth-last-child(-n + 7) {
-  background-color: #e2e2e2;
+  background-color: #e5e5e5;
+  
 }
 
 tbody td:nth-child(7) {
   font-weight: 600;
 }
+/* tbody td:nth-child(2), 
+tbody td:nth-child(3), 
+tbody td:nth-child(6) 
+{
 
+} */
 @media (min-width: 720px) {
   table th {
     font-size: 32px;
@@ -87,18 +141,41 @@ tbody td:nth-child(7) {
 }
 tr {
   background-color: #f2f2f2;
-
 }
 tr:hover {
   border-bottom: 4px solid black;
 }
 tr:hover td {
-  background: var(--mid_gray);
-  color: #ffffff;
+  background: #B0B0B0;
+  /* color: #ffffff; */
   cursor: pointer;
 }
 
 tr td:nth-child(7) {
   text-decoration: underline;
+}
+
+/* notes */
+
+.notebook {
+  border: 0;
+  outline: 0;
+  padding: 1em;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  width: 100%;
+  min-height: 200px;
+  line-height: 31px;
+  font-size: inherit;
+
+  margin-top: 3em;
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  /* background-color: var(--f1_gray); */
+  background-color: var(--light_gray);
+  resize: vertical;
+  color: var(--font_black);
 }
 </style>

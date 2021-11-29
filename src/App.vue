@@ -74,6 +74,7 @@ html {
   --dark_gray_chips: #242424;
   --font_black: #101114;
   --chips_gray: #e7e7e7;
+  --light_gray: #F5F5F5;
   --mid_gray: #888888;
   --dark_gray_font: #424242;
   --form_gray: #eaebea;

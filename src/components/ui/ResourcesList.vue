@@ -1,7 +1,7 @@
 <template>
   <base-card>
     <div class="section">
-      <div class="notes-div">
+      <!-- <div class="notes-div">
         <textarea
           v-model="notes"
           class="notebook"
@@ -11,7 +11,7 @@
           @blur="updateNotes"
           :style="{ height: getTxtAreaHeight + 'px' }"
         ></textarea>
-      </div>
+      </div> -->
       <div class="todos">
         <span><h2>Useful websites</h2></span>
         <br />
@@ -72,8 +72,8 @@ export default {
         // id: null,
         link: null,
       },
-      notes: null,
-      txtAreaHeight: null,
+      // notes: null,
+      // txtAreaHeight: null,
       badInput: false,
     };
   },
@@ -110,28 +110,28 @@ export default {
       this.$store.dispatch("deleteUserWebsite", name);
     },
 
-    updateNotes() {
-      this.$store.dispatch("updateUsersNotes", {
-        notes: this.notes,
-        txtAreaHeight: this.$refs.txtHeight.offsetHeight,
-      });
-    },
+    // updateNotes() {
+    //   this.$store.dispatch("updateUsersNotes", {
+    //     notes: this.notes,
+    //     txtAreaHeight: this.$refs.txtHeight.offsetHeight,
+    //   });
+    // },
   },
   computed: {
     getWebsites() {
       return this.$store.getters.getUserWebsitesLinks;
     },
-    getTxtAreaHeight() {
-      return this.$store.getters.getTxtAreaHeight;
-    },
-    getNotes() {
-      return this.$store.getters.getUserNotes;
-    },
+    // getTxtAreaHeight() {
+    //   return this.$store.getters.getTxtAreaHeight;
+    // },
+    // getNotes() {
+    //   return this.$store.getters.getUserNotes;
+    // },
   },
   mounted() {
-    this.$store.dispatch("loadUsersNotes").then(() => {
-      this.notes = this.getNotes;
-    });
+    // this.$store.dispatch("loadUsersNotes").then(() => {
+    //   this.notes = this.getNotes;
+    // });
 
     this.$store.dispatch("loadUserWebsites");
   },
@@ -247,7 +247,7 @@ input {
 .todos .resource-element:hover {
   cursor: pointer;
 }
-
+/* 
 
 .notebook {
   border: 0;
@@ -268,7 +268,7 @@ input {
   background-color: var(--f1_gray);
   resize: vertical;
   color: var(--font_black);
-}
+} */
 
 /* list transitions */
 .list-enter-from {

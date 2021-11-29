@@ -25,7 +25,7 @@ const store = createStore({
             usefulResources: {
                 notes: null,
                 websitesLinks: [],
-                txtAreaHeight: 400
+                txtAreaHeight: 600
             }
         }
     },

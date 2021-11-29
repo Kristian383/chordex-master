@@ -29,7 +29,7 @@ const router = createRouter({
     { path: "/new", component: AddSong, name: "Add Song", meta: { title: "Add Song | Chordex", requiresAuth: true } },
     { path: "/new/:songId", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex", requiresAuth: true } },
     { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex", requiresAuth: true } },
-    { path: "/resources", component: ResourcesList, name: "Notes", meta: { title: "Resources | Chordex", requiresAuth: true } },
+    { path: "/resources", component: ResourcesList, meta: { title: "Websites | Chordex", requiresAuth: true } },//name: "Useful Websites"
     { path: "/resetpswd", component: ResetPassword, name: "Reset Password", meta: { title: "Reset Password | Chordex", resetPassword: false } },
     { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
   ],

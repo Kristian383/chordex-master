@@ -87,7 +87,7 @@
               id="ikona"
               icon="sticky-note"
             ></font-awesome-icon>
-            <span class="links_name">My Notes </span>
+            <span class="links_name">Websites </span>
           </router-link>
         </li>
 
