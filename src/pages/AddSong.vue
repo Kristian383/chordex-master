@@ -373,6 +373,7 @@ export default {
         songId: +this.songId,
         isFavorite: this.isFavorite,
       };
+      
       this.$store.dispatch("addNewSong", formData).then((res) => {
         event.target.classList.remove("loading");
 
@@ -485,6 +486,7 @@ export default {
         } else {
           this.songInfo.firstKey = res.key;
           this.artist.val = res.artist;
+          this.song.val = res.songName;
           this.songInfo.bpm = res.bpm;
           this.songInfo.imgUrl = res.imgUrl;
           this.getSongInfoTxt = "Successfuly fetched info!";
