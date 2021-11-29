@@ -64,10 +64,10 @@ export default {
             token: responseData.token
 
         })
-
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
+        
     },
 
     tryLogin(context) {
@@ -92,13 +92,11 @@ export default {
                 user
             })
             context.dispatch("loadAllSongs")
-            //.then(res => {
-            //     // if (!res) {
-            //     //     context.dispatch("autoLogout")
-
-            //     // }
-            //     console.log("res",res);
-            // });
+            .then(res => {
+                if (!res) {
+                    context.dispatch("autoLogout")
+                }
+            });
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
             context.commit("activateSidebar");
