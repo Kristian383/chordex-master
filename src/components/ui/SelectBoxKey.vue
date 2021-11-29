@@ -70,7 +70,9 @@ export default {
       if (!this.selectedKey) {
         return;
       }
+      
       let notes = this.$store.getters.getMusicKeys;
+      try{
       if (quality == "major") {
         notes = notes.filter((key) => key.key == this.selectedKey)[0].notes;
       } else {
@@ -85,6 +87,9 @@ export default {
             return key.relativeMinor == this.selectedKey;
           }
         })[0].notes;
+      }
+      }catch{
+        return
       }
       this.payload.notes = notes.map((el) => el).join(" ");
       this.payload.name = this.name;
@@ -107,6 +112,14 @@ export default {
           key: this.spotifyKey.split(" ")[0],
           quality: this.spotifyKey.split(" ")[1],
         };
+        // console.log(this.spotifyKey);
+        let exceptions = ["A#", "D#", "G#", "C#", "F#"];
+        let index = exceptions.indexOf(payload.key);
+
+        if (payload.quality == "major" && index) {
+          let translated_eceptions = ["Bb", "Eb", "Ab", "Db", "Gb"];
+          payload.key = translated_eceptions[index];
+        }
         this.selectedQuality = payload.quality;
         this.chooseKey(payload);
         this.chooseQualityKey(payload.quality);
