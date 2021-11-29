@@ -18,7 +18,7 @@ export default {
 
                 });
         } catch {
-            console.log("There was an error!");
+            // console.log("There was an error!");
             context.commit("removeLoader")
             return "There was an error!"
         }
@@ -75,7 +75,7 @@ export default {
             } else {
                 const resp_payload = responseData.song;
                 resp_payload.artist = responseData.artist.name
-                context.commit("insertSongAndArtist", resp_payload)
+                context.commit("insertSong", resp_payload)
             }
         }
         return true
@@ -332,7 +332,32 @@ export default {
         if (!response.ok) {
             return false
         }
+        // console.log(responseData);
         return responseData
 
-    }
+    },
+    // async spotifyArtistImgUrl(_,payload){
+    //     let url = `${process.env.VUE_APP_ARTIST_IMG_URL}`;
+    //     let response;
+    //     try {
+    //         response = await fetch(url,
+    //             {
+    //                 method: "POST",
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify(
+    //                     payload
+    //                 )
+    //             });
+
+    //     } catch {
+    //         return false
+    //     }
+    //     const responseData = await response.json();
+    //     if (!response.ok) {
+    //         return false
+    //     }
+    //     return responseData
+    // }
 }

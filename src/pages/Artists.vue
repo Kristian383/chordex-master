@@ -27,7 +27,7 @@
               <i class="fas fa-bars"></i>
             </div>
             <div class="thumbnail flex-center">
-              <img src="https://picsum.photos/id/1004/100" alt="" />
+              <img :src="element.artistImg || '@/assets/guitar.svg' " alt="" />
             </div>
             <div class="details">
               <h2>

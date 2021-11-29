@@ -1,3 +1,4 @@
+
 export default {
     toggleSidebar(state) {
         state.sidebarIsActive = !state.sidebarIsActive;
@@ -5,15 +6,15 @@ export default {
     removeSidebar(state) {
         state.sidebarIsActive = false;
     },
-    activateSidebar(state){
+    activateSidebar(state) {
         state.sidebarIsActive = true;
 
     },
-    setLoader(state){
-        state.songsLoading=true;
+    setLoader(state) {
+        state.songsLoading = true;
     },
-    removeLoader(state){
-        state.songsLoading=false;
+    removeLoader(state) {
+        state.songsLoading = false;
     },
     // toggleDarkMode(state) {
     //     state.darkMode = !state.darkMode;
@@ -55,11 +56,13 @@ export default {
         let index = state.songs.findIndex(song => song.songId == payload.songId);
         state.songs[index] = payload
     },
-    insertSongAndArtist(state, payload) {
+    insertSong(state, payload) {
         state.songs.unshift(payload)
-        
+        // console.log(payload);
     },
     setAllSongs(state, payload) {
+        // state.songs=[]
+
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
             if (payload[i].isMySong) {
@@ -74,11 +77,13 @@ export default {
 
     //artists
     setAllArtists(state, payload) {
+        state.artists=[]
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
-            if(payload[i].name==state.auth.user.username){
+            if (payload[i].name == state.auth.user.username) {
                 continue
             }
+            // payload[i].imgUrl=
             state.artists.push(payload[i])
         }
 
