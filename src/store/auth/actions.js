@@ -93,7 +93,7 @@ export default {
             })
             context.dispatch("loadAllSongs")
             .then(res => {
-                if (!res) {
+                if (res=="There was an error!") {
                     context.dispatch("autoLogout")
                 }
             });
