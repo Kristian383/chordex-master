@@ -16,10 +16,12 @@
       </div>
     </div>
     <!--  -->
+
     <div class="home-content" id="songs">
       <img src="@/assets/home_cards.png" alt="logo" />
     </div>
     <div class="smaller">
+      <h4>Do you play piano, guitar or any other instrument?</h4>
       <h2>Write information about songs:</h2>
       <ul>
         <li><h3>Key</h3></li>
@@ -129,10 +131,15 @@ export default {
   width: 260px;
   margin: 0 auto;
 }
-
+.smaller h4{
+  text-align: start;
+  padding: 10px 16px;
+  font-size: 21px;
+}
 .smaller h2 {
-  padding: 32px 16px;
-  text-align: center;
+  padding: 10px 16px;
+  font-size: 18px;
+  text-align: start;
 }
 /* za produljivati slike */
 /* .home-wrapper {
