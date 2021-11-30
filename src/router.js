@@ -51,10 +51,11 @@ router.beforeEach((to, _, next) => {
   if (to.meta.requiresAuth && !store.getters.token) {
     next("/home");
   }
-  // else if(to.meta.resetPassword && !store.getters.resetTokenAuthenticated){
-  //   next("/home");
+  else if (store.getters.isMobile ) {
+    store.commit("removeSidebar")
+    next();
 
-  // }
+  }
   else {
     next()
   }

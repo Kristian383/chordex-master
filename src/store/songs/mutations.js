@@ -1,5 +1,8 @@
 
 export default {
+    setMobile(state,payload){
+        state.mobile=payload
+    },
     toggleSidebar(state) {
         state.sidebarIsActive = !state.sidebarIsActive;
     },

@@ -15,6 +15,7 @@ const store = createStore({
             // songsLoaded: 2,
             // mySongsLoaded: 2,
             // artistsLoaded: 2,
+            mobile:null,
             musicKeys: [],
             artists: [],
             mySongs: [],

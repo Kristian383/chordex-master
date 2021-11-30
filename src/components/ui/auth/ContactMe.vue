@@ -84,7 +84,7 @@ export default {
         this.message.isValid = false;
         return;
       } else if (this.message.val.length < 30) {
-        this.infoMsg = "Sorry, your message seems too small.";
+        this.infoMsg = "Please insert more than 30 characters. You have: "+this.message.val.length;
         this.message.isValid = false;
         return;
       } else {

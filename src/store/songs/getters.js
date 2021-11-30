@@ -112,6 +112,9 @@ export default {
     },
     getTxtAreaHeight(state) {
         return state.usefulResources.txtAreaHeight
+    },
+    isMobile(state){
+        return state.mobile
     }
 
 

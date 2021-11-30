@@ -6,7 +6,7 @@
           ><img src="@/assets/guitar.svg" alt="Quote Logo"
         /></router-link>
       </span>
-      <div class="title"><h2>ChordEx</h2></div>
+      <div class="title"><h2>ChordEx</h2> </div>
       <ul class="navigation">
         <li>
           <router-link class="link" active-class="active" to="/home"
@@ -37,7 +37,7 @@
 export default {
   data() {
     return {
-      mobile: null,
+      //  mobile: null,
       scrolledNav: null,
       hideLogo: null,
       windowWidth: null,
@@ -55,11 +55,13 @@ export default {
     checkScreen() {
       this.windowWidth = window.innerWidth;
       if (this.windowWidth <= 950) {
-        // this.mobile = true;
+        //  this.mobile = true;
+        this.$store.commit("setMobile",true)
         this.hideLogo = true;
         return;
       }
-      // this.mobile = false;
+      //  this.mobile = false;
+      this.$store.commit("setMobile",false)
       this.hideLogo = false;
       return;
     },
@@ -90,11 +92,7 @@ export default {
 </script>
 
 <style scoped>
-[data-tooltip] {
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-}
+
 /*  */
 header {
   background-color: var(--f1_gray);
