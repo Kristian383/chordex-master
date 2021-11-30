@@ -11,7 +11,21 @@
     </nav>
     <div class="home-content">
       <div class="sort-section-title">
-        <h2 class="title">{{ Title }}</h2>
+        <h2 class="title">
+          <span
+            class="arrow-left"
+            @click="goToSong('prev')"
+            v-if="showArrows == 'both' || showArrows == 'prev'"
+            ><font-awesome-icon icon="angle-left"></font-awesome-icon
+          ></span>
+          <span>{{ Title }}</span>
+          <span
+            class="arrow-right"
+            @click="goToSong('next')"
+            v-if="showArrows == 'both' || showArrows == 'next'"
+            ><font-awesome-icon icon="angle-right"></font-awesome-icon
+          ></span>
+        </h2>
         <slot name="select_box"></slot>
       </div>
       <slot></slot>
@@ -41,6 +55,8 @@ export default {
     return {
       title: "",
       showBackToTop: false,
+      showLeft: false,
+      showRight: false,
     };
   },
   computed: {
@@ -61,6 +77,22 @@ export default {
       }
       return route;
     },
+    showArrows() {
+      if (this.$route.name == "SongDetail") {
+        let index = this.$store.getters.indexOfCurrentSong(
+          this.$route.params.songId
+        );
+        if (index == 0) {
+          return "next";
+        }
+        if (index == this.$store.getters.getAllSongsLen - 1) {
+          return "prev";
+        } else {
+          return "both";
+        }
+      }
+      return false;
+    },
   },
   methods: {
     scrollUp() {
@@ -72,6 +104,19 @@ export default {
       } else if (window.scrollY < 800) {
         this.showBackToTop = false;
       }
+    },
+    goToSong(direction) {
+      let currentSongIndex = this.$store.getters.indexOfCurrentSong(
+        this.$route.params.songId
+      );
+      let index;
+      if (direction == "next") {
+        index = currentSongIndex + 1;
+      } else {
+        index = currentSongIndex - 1;
+      }
+      let songId = this.$store.getters.getAllSongs[index].songId;
+      this.$router.push({ path: `/songs/${songId}` });
     },
   },
   mounted() {
@@ -173,12 +218,28 @@ export default {
   justify-content: space-around;
   gap: 14px;
   margin-bottom: 8px;
-
   color: var(--font_black);
 }
 .sort-section-title h2 {
+  flex-shrink: 0; /*  this doesnt remove arrows down */
   padding-top: 8px;
 }
+
+/* arrows for song */
+.arrow-right,
+.arrow-left {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  color: var(--burgundy);
+  transition: all ease-in 0.3s;
+}
+.arrow-right:hover,
+.arrow-left:hover {
+  cursor: pointer;
+  color: #222;
+}
+
 /* list of all songs - song-cards  */
 .home-section .song-cards {
   padding-top: 20px;

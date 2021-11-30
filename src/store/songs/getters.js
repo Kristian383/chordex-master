@@ -14,8 +14,17 @@ export default {
     sidebarIsActive(state) {
         return state.sidebarIsActive;
     },
+    indexOfCurrentSong(state){
+        return id=>{
+            return state.songs.findIndex(song=>song.songId==id)
+        }
+    }
+    ,
     getAllSongs(state) {
         return state.songs;
+    },
+    getAllSongsLen(state){
+        return state.songs.length;
     },
     getAllMySongs(state) {
         return state.mySongs;

@@ -90,8 +90,9 @@
         </div>
       </div>
       <!-- yt video  -->
-      <div class="box video" >
-        <iframe v-if="songData.ytLink"
+      <div class="box video">
+        <iframe
+          v-if="songData.ytLink"
           :src="songData.ytLink"
           title="YouTube video player"
           frameborder="0"
@@ -99,7 +100,7 @@
           allowfullscreen
         ></iframe>
 
-        <img v-else-if="songData.imgUrl" :src="songData.imgUrl" alt="">
+        <img v-else-if="songData.imgUrl" :src="songData.imgUrl" alt="" />
       </div>
 
       <div class="box notebook">
@@ -252,10 +253,10 @@ export default {
     width: 100%;
   }
 }
- .box.video img{
+.box.video img {
   height: 100%;
-  object-fit: contain;
-} 
+  max-width: 100%;
+}
 @media (min-width: 1400px) {
   .song-detail {
     grid-template-columns: displayAccordingToYT;
@@ -306,6 +307,7 @@ svg {
   position: absolute;
   left: -5px;
   top: -50px;
+  top: 0px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   width: 40px;
@@ -318,6 +320,7 @@ svg {
 @media (min-width: 720px) {
   .go-back {
     left: 15px;
+    top: -50px;
   }
 }
 .go-back a {
