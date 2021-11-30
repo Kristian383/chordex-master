@@ -27,7 +27,7 @@
               <i class="fas fa-bars"></i>
             </div>
             <div class="thumbnail flex-center">
-              <img :src="element.artistImg || '@/assets/guitar.svg' " alt="" />
+              <img :src="element.artistImg || '@/assets/guitar.svg'" alt="" />
             </div>
             <div class="details">
               <h2>
@@ -65,14 +65,14 @@ export default {
       list: this.sortList,
       itemsAreLoading: false,
       // observer:null,
-      el:null
+      el: null,
     };
   },
   methods: {
     sortArtists(option) {
       this.$store.commit("sortArtists", option);
     },
-    
+
     // handleIntersect(entries) {
     //   if (entries[0].isIntersecting) {
     //     this.itemsAreLoading = true;
@@ -95,7 +95,7 @@ export default {
         ghostClass: "ghost",
       };
     },
-    
+
     getOptions() {
       return ["A-Z", "Z-A"];
     },
@@ -114,11 +114,9 @@ export default {
     //   rootMargin: " 0px",
     //   threshold: 0.5,
     // };
-
     // this.observer = new IntersectionObserver(this.handleIntersect, options);
     // this.el = document.querySelector(".footer");
     // this.observer.observe(this.el);
-
     // this.$store.dispatch("loadAllArtists")
     // .then(() => {
     //   this.isLoaded = true;
@@ -126,10 +124,10 @@ export default {
     // setTimeout(() => {
     // }, 1000);
   },
-  beforeUnmount(){
+  beforeUnmount() {
     // console.log("unmounting artists component");
     // this.observer.unobserve(this.el)
-  }
+  },
 };
 </script>
 
@@ -191,20 +189,28 @@ export default {
 }
 .list-group .list-group-item .details {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   flex: 1;
 }
 
 .list-group .list-group-item .details h2 {
   font-size: 18px;
   color: #111;
-  padding: 0px 5px 3px;
+  /* padding: 0px 5px 3px; */
+  display: block;
+  height: 100%;
 }
 .list-group .list-group-item .details h2 a {
   text-decoration: none;
   color: inherit;
   transition: 0.2s all ease;
+  display: block;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  /* padding-top: 14px; */
 }
 .list-group .list-group-item .details h2 a:hover {
   color: var(--burgundy);
