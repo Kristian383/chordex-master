@@ -90,14 +90,16 @@
         </div>
       </div>
       <!-- yt video  -->
-      <div class="box video" v-if="songData.ytLink">
-        <iframe
+      <div class="box video" >
+        <iframe v-if="songData.ytLink"
           :src="songData.ytLink"
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
+
+        <img v-else-if="songData.imgUrl" :src="songData.imgUrl" alt="">
       </div>
 
       <div class="box notebook">
@@ -219,6 +221,7 @@ export default {
   text-align: center;
   order: 1;
 }
+
 .box.video iframe {
   width: 230px;
 }
@@ -249,6 +252,10 @@ export default {
     width: 100%;
   }
 }
+ .box.video img{
+  height: 100%;
+  object-fit: contain;
+} 
 @media (min-width: 1400px) {
   .song-detail {
     grid-template-columns: displayAccordingToYT;
