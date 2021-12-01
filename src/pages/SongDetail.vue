@@ -215,7 +215,7 @@ export default {
 }
 .box.notebook {
   font-weight: 400;
-  line-height: 1.5em;
+  line-height: 31px;
   order: 3;
 }
 .box.video {
