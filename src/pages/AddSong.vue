@@ -15,7 +15,7 @@
       </div>
       <form @submit.prevent autocomplete="off">
         <p class="error-text">
-          {{errorMsg}}
+          {{ errorMsg }}
         </p>
         <div class="top-section">
           <font-awesome-icon
@@ -430,25 +430,30 @@ export default {
         return;
       }
       //
-      if(this.songInfo.bpm=="" || typeof this.songInfo.bpm == "string"){
-        this.songInfo.bpm=null
+      if (this.songInfo.bpm == "" || typeof this.songInfo.bpm == "string") {
+        this.songInfo.bpm = null;
       }
       if (this.songInfo.bpm < 0 || this.songInfo.bpm > 300) {
         this.formIsValid = false;
         this.errorMsg =
-          "Please check if BPM > 0 and < 300. Yours: "+this.songInfo.bpm;
+          "Please check if BPM > 0 and < 300. Yours: " + this.songInfo.bpm;
         return;
       }
-      if ( this.songInfo.secondChordProgression.length > 100 ||
-        this.songInfo.firstChordProgression.length > 100) {
+      if (
+        this.songInfo.secondChordProgression.length > 100 ||
+        this.songInfo.firstChordProgression.length > 100
+      ) {
         this.formIsValid = false;
         this.errorMsg =
-          "Please check if chord progressions have less than 100 characters. First: "+this.songInfo.firstChordProgression.length+" Second: "+this.songInfo.secondChordProgression.length;
+          "Please check if chord progressions have less than 100 characters. First: " +
+          this.songInfo.firstChordProgression.length +
+          " Second: " +
+          this.songInfo.secondChordProgression.length;
         return;
       }
-      if (this.songInfo.songText.length > 5000) {
+      if (this.songInfo.songText.length > 2500) {
         this.errorMsg =
-          "Please check if the notes about song have less than 5000 chars. Yours: " +
+          "Please check if the notes about song have less than 2500 chars. Yours: " +
           this.songInfo.songText.length;
         this.formIsValid = false;
 
@@ -460,15 +465,17 @@ export default {
       ) {
         this.formIsValid = false;
         this.errorMsg =
-          "Please check if Youtube or Chord website links have less than 150 chars. Yours YT: "+this.songInfo.ytLink.length+" Chord website: "+this.songInfo.chordsWebsiteLink.length;
+          "Please check if Youtube or Chord website links have less than 150 chars. Yours YT: " +
+          this.songInfo.ytLink.length +
+          " Chord website: " +
+          this.songInfo.chordsWebsiteLink.length;
 
         return;
       }
-      if( typeof this.songInfo.capo == "string" || this.songInfo.capo==""){
-        this.songInfo.capo=null
-
+      if (typeof this.songInfo.capo == "string" || this.songInfo.capo == "") {
+        this.songInfo.capo = null;
       }
-      if (this.songInfo.capo > 20 || this.songInfo.capo < 0 ) {
+      if (this.songInfo.capo > 20 || this.songInfo.capo < 0) {
         this.formIsValid = false;
         this.errorMsg = "Capo seems to be wrongly inserted.";
         return;
