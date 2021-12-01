@@ -22,6 +22,9 @@
           </tr>
         </tbody>
       </table>
+      <p v-if="errorMsg" class="error-text">
+        {{ errorMsg }}
+      </p>
       <div class="notes-div">
         <textarea
           v-model="notes"
@@ -47,6 +50,7 @@ export default {
     return {
       notes: null,
       txtAreaHeight: null,
+      errorMsg: "",
     };
   },
   computed: {
@@ -69,6 +73,15 @@ export default {
   },
   methods: {
     updateNotes() {
+      if (this.notes.length > 8000) {
+        this.errorMsg =
+          "You have exceeded maximum amount of text (8000), you have: " +
+          this.notes.length +
+          ".   Please shorten, otherwise it won't be saved.";
+
+        return;
+      }
+      this.errorMsg = "";
       this.$store.dispatch("updateUsersNotes", {
         notes: this.notes,
         txtAreaHeight: this.$refs.txtHeight.offsetHeight,
@@ -116,7 +129,6 @@ tbody td:first-child {
 }
 tbody tr:nth-last-child(-n + 7) {
   background-color: #e5e5e5;
-  
 }
 
 tbody td:nth-child(7) {
@@ -146,7 +158,7 @@ tr:hover {
   border-bottom: 4px solid black;
 }
 tr:hover td {
-  background: #B0B0B0;
+  background: #b0b0b0;
   /* color: #ffffff; */
   cursor: pointer;
 }
@@ -156,6 +168,11 @@ tr td:nth-child(7) {
 }
 
 /* notes */
+.error-text {
+  color: var(--burgundy);
+  font-size: 14px;
+  margin-top: 32px;
+}
 
 .notebook {
   border: 0;
