@@ -450,6 +450,7 @@ export default {
         this.errorMsg =
           "Please check if the notes about song have less than 5000 chars. Yours: " +
           this.songInfo.songText.length;
+        this.formIsValid = false;
 
         return;
       }
@@ -700,6 +701,7 @@ form .input-field:focus {
 
 form .notebook {
   resize: vertical;
+  line-height: 31px;
 }
 #input-bpm {
   width: 100px;
