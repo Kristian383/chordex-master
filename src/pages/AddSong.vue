@@ -14,6 +14,9 @@
         <font-awesome-icon icon="arrow-left"></font-awesome-icon>
       </div>
       <form @submit.prevent autocomplete="off">
+        <p class="error-text">
+          {{errorMsg}}
+        </p>
         <div class="top-section">
           <font-awesome-icon
             class="heart"
@@ -290,6 +293,7 @@ export default {
       },
       getSongInfoTxt: "Try to get song info",
       showYtModal: false,
+      errorMsg: "",
     };
   },
 
@@ -373,7 +377,7 @@ export default {
         songId: +this.songId,
         isFavorite: this.isFavorite,
       };
-      
+
       this.$store.dispatch("addNewSong", formData).then((res) => {
         event.target.classList.remove("loading");
 
@@ -390,7 +394,7 @@ export default {
             (artist) =>
               artist.name.toLowerCase() == formData.artist.toLowerCase()
           );
-          if (index==-1) {
+          if (index == -1) {
             this.$store.dispatch("loadAllArtists");
           }
         } else {
@@ -407,24 +411,46 @@ export default {
     },
     validateForm() {
       this.formIsValid = true;
-
+      this.errorMsg = "";
       if (!this.artist.val || this.artist.val.length > 40) {
         this.formIsValid = false;
         this.artist.isValid = false;
+        this.errorMsg =
+          "Please check if your artist have less than 40 characters. Yours: " +
+          this.artist.val.length;
+        return;
       }
 
       if (!this.song.val || this.song.val.length > 40) {
         this.formIsValid = false;
         this.song.isValid = false;
+        this.errorMsg =
+          "Please check if your song have less than 40 characters. Yours: " +
+          this.song.val.length;
+        return;
       }
       //
-      if (
-        this.songInfo.bpm < 0 ||
-        this.songInfo.bpm > 250 ||
-        this.songInfo.secondChordProgression.length > 40 ||
-        this.songInfo.firstChordProgression.length > 40
-      ) {
+      if(this.songInfo.bpm==""){
+        this.songInfo.bpm=null
+      }
+      if (this.songInfo.bpm < 0 || this.songInfo.bpm > 300) {
         this.formIsValid = false;
+        this.errorMsg =
+          "Please check if chord progressions have less than 40 characters or BPM > 0 and < 300. Yours: "+this.songInfo.bpm;
+        return;
+      }
+      if ( this.songInfo.secondChordProgression.length > 100 ||
+        this.songInfo.firstChordProgression.length > 100) {
+        this.formIsValid = false;
+        this.errorMsg =
+          "Please check if chord progressions have less than 100 characters. First: "+this.songInfo.firstChordProgression.length+" Second: "+this.songInfo.secondChordProgression.length;
+        return;
+      }
+      if (this.songInfo.songText.length > 5000) {
+        this.errorMsg =
+          "Please check if the notes about song have less than 5000 chars. Yours: " +
+          this.songInfo.songText.length;
+
         return;
       }
       if (
@@ -432,10 +458,14 @@ export default {
         this.songInfo.ytLink.length > 150
       ) {
         this.formIsValid = false;
+        this.errorMsg =
+          "Please check if Youtube or Chord website links have less than 150 chars. Yours YT: "+this.songInfo.ytLink.length+" Chord website: "+this.songInfo.chordsWebsiteLink.length;
+
         return;
       }
-      if (this.songInfo.capo > 20 || this.songInfo.songText.length > 15000) {
+      if (this.songInfo.capo > 20 || this.songInfo.capo < 0) {
         this.formIsValid = false;
+        this.errorMsg = "Capo seems to be wrongly inserted.";
         return;
       }
     },
@@ -593,6 +623,12 @@ svg {
     position: absolute;
     top: -40px;
   }
+}
+/* error msg */
+.error-text {
+  color: var(--burgundy);
+  font-size: 14px;
+  text-align: center;
 }
 
 .top-section .delete:hover {
