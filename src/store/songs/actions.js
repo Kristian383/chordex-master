@@ -67,7 +67,7 @@ export default {
         }
         const responseData = await response.json();
         if (!response.ok) {
-            window.alert(responseData.message || 'Failed to add song.');
+            // window.alert( 'Failed to add song.');
             return false
         } else {
             if (payload.songId) {
