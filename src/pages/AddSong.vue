@@ -430,13 +430,13 @@ export default {
         return;
       }
       //
-      if(this.songInfo.bpm==""){
+      if(this.songInfo.bpm=="" || typeof this.songInfo.bpm == "string"){
         this.songInfo.bpm=null
       }
       if (this.songInfo.bpm < 0 || this.songInfo.bpm > 300) {
         this.formIsValid = false;
         this.errorMsg =
-          "Please check if chord progressions have less than 40 characters or BPM > 0 and < 300. Yours: "+this.songInfo.bpm;
+          "Please check if BPM > 0 and < 300. Yours: "+this.songInfo.bpm;
         return;
       }
       if ( this.songInfo.secondChordProgression.length > 100 ||
@@ -463,7 +463,11 @@ export default {
 
         return;
       }
-      if (this.songInfo.capo > 20 || this.songInfo.capo < 0) {
+      if( typeof this.songInfo.capo == "string" || this.songInfo.capo==""){
+        this.songInfo.capo=null
+
+      }
+      if (this.songInfo.capo > 20 || this.songInfo.capo < 0 ) {
         this.formIsValid = false;
         this.errorMsg = "Capo seems to be wrongly inserted.";
         return;
