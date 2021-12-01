@@ -1,17 +1,7 @@
 <template>
   <base-card>
     <div class="section">
-      <!-- <div class="notes-div">
-        <textarea
-          v-model="notes"
-          class="notebook"
-          placeholder="Notes about certain ideas..."
-          ref="txtHeight"
-          @click="updateNotes"
-          @blur="updateNotes"
-          :style="{ height: getTxtAreaHeight + 'px' }"
-        ></textarea>
-      </div> -->
+      
       <div class="todos">
         <span><h2>Useful websites</h2></span>
         <br />
