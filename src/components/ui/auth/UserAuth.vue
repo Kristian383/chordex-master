@@ -35,10 +35,10 @@
 
                 <div class="input-group">
                   <span class="icon"
-                    ><font-awesome-icon icon="lock"></font-awesome-icon
+                    ><font-awesome-icon :icon="lockType" @click="togglePassword"></font-awesome-icon
                   ></span>
                   <input
-                    type="password"
+                    :type="pswdType"
                     required
                     class="form-control"
                     placeholder="Password"
@@ -133,9 +133,9 @@
               </div>
 
               <div class="input-group">
-                <span><font-awesome-icon icon="lock"></font-awesome-icon></span>
+                <span class="icon"><font-awesome-icon :icon="lockType" @click="togglePassword"></font-awesome-icon></span>
                 <input
-                  type="password"
+                  :type="pswdType"
                   class="form-control"
                   placeholder="Set Password"
                   required
@@ -182,6 +182,7 @@ export default {
       errorText: null,
       requestIsPending: false,
       goodRequest: false,
+      showPswd:false
     };
   },
   components: {
@@ -307,6 +308,9 @@ export default {
         });
       }
     },
+    togglePassword() {
+      this.showPswd = !this.showPswd;
+    },
   },
   computed: {
     formTitle() {
@@ -330,6 +334,12 @@ export default {
     authUser() {
       return this.$store.getters.user;
     },
+    lockType(){
+      return this.showPswd ? "lock-open" : "lock"
+    },
+    pswdType(){
+      return this.showPswd ? "text" : "password";
+    }
   },
 };
 </script>
