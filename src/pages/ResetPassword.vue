@@ -76,9 +76,7 @@ export default {
       goodRequest: false,
     };
   },
-  mounted() {
-    // console.log("mounted",this.$route);
-  },
+ 
   computed: {
     pswdType() {
       return this.show ? "text" : "password";
@@ -99,7 +97,6 @@ export default {
 
       this.formIsValid = true;
       this.requestIsPending = true;
-      //razdvojit ifove
       if (!this.newPswd || this.newPswd !== this.confirm || !this.confirm) {
         this.formIsValid = false;
         this.requestIsPending = false;
@@ -143,7 +140,6 @@ export default {
         });
     },
   },
-  beforeMount() {},
 };
 </script>
 
