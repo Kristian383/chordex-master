@@ -284,11 +284,11 @@ export default {
       },
       haveCapo: null,
       artist: {
-        val: null,
+        val: "",
         isValid: true,
       },
       song: {
-        val: null,
+        val: "",
         isValid: true,
       },
       getSongInfoTxt: "Try to get song info",
@@ -400,6 +400,7 @@ export default {
         } else {
           this.formIsValid = false;
           this.song.isValid = false;
+          this.errorMsg="Something went wrong. Check if you already have that song."
         }
       });
     },
