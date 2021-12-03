@@ -14,7 +14,7 @@
       <transition name="fade" tag="section" mode="out-in">
         <!-- login -->
         <div id="login" key="login" v-if="login">
-          <form>
+          <form >
             <div class="form-container">
               <h3>{{ formTitle }}</h3>
               <section v-if="!resetPswd">
