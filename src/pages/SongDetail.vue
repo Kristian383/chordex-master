@@ -38,8 +38,16 @@
             <b> BPM:</b> {{ songData.bpm }}
             <font-awesome-icon
               class="metronome"
-              icon="play-circle"
+              :icon="iconType"
+              @click="toggleMetronome"
             ></font-awesome-icon>
+            <audio
+            hidden
+            :muted="!play"
+              ref="metronome"
+              src="https://caljer1.github.io/MetronomeLite/sounds/rimshot.mp3"
+              type="audio/mp3"
+            ></audio>
           </div>
         </div>
         <!-- keys -->
@@ -127,6 +135,7 @@ export default {
       isFavorite: null,
       songData: null,
       isMy: null,
+      play: false,
     };
   },
   mounted() {
@@ -171,6 +180,23 @@ export default {
         });
       }
     },
+    toggleMetronome() {
+      this.play = !this.play;
+      let el = this.$refs.metronome;
+      let bpm = this.songData.bpm;
+      // let timer = 1 / (bpm / 60 / 1000);
+       let timer = 60000 /bpm;
+       console.log(timer);
+      var interval = setInterval(() => {
+        el.currentTime = 0;
+        if(!this.play){
+          clearInterval(interval)
+        }
+        el.play();
+      }, timer);
+      
+     
+    },
   },
   computed: {
     iconName() {
@@ -186,7 +212,17 @@ export default {
         return "1fr 1fr";
       }
     },
+    iconType(){
+      if(this.play){
+        return "pause-circle"
+      }else{
+        return "play-circle"
+      }
+    }
   },
+  beforeUnmount(){
+    this.play=false
+  }
 };
 </script>
 
