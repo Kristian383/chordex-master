@@ -71,7 +71,7 @@ export default {
       this.$router.push(pushRoute);
     },
     toggleFavorite() {
-      this.$store.commit("toggleFavorite", { songId: this.song.songId });
+      this.$store.commit("toggleFavorite", { songId: this.song.songId ,isMySong:this.$route.query.isMySong});
       this.$store.dispatch("addNewSong", this.song);
     },
     openEditMode() {

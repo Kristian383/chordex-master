@@ -1,7 +1,7 @@
 
 export default {
-    setMobile(state,payload){
-        state.mobile=payload
+    setMobile(state, payload) {
+        state.mobile = payload
     },
     toggleSidebar(state) {
         state.sidebarIsActive = !state.sidebarIsActive;
@@ -23,8 +23,17 @@ export default {
     //     state.darkMode = !state.darkMode;
     // },
     toggleFavorite(state, payload) {
-        let index = state.songs.findIndex(song => song.songId == payload.songId);
-        state.songs[index].isFavorite = !state.songs[index].isFavorite;
+        let index;
+        if (payload.isMySong) {
+
+            index = state.mySongs.findIndex(song => song.songId == payload.songId);
+            state.mySongs[index].isFavorite = !state.mySongs[index].isFavorite;
+
+        }else{
+
+            index = state.songs.findIndex(song => song.songId == payload.songId);
+            state.songs[index].isFavorite = !state.songs[index].isFavorite;
+        }
     },
     setSongDetailTitle(state, payload) {
         state.songDetailTitle = payload;
@@ -60,7 +69,12 @@ export default {
         state.songs[index] = payload
     },
     insertSong(state, payload) {
-        state.songs.unshift(payload)
+        if (payload.isMySong) {
+
+            state.mySongs.unshift(payload)
+        } else {
+            state.songs.unshift(payload)
+        }
         // console.log(payload);
     },
     setAllSongs(state, payload) {
@@ -80,7 +94,7 @@ export default {
 
     //artists
     setAllArtists(state, payload) {
-        state.artists=[]
+        state.artists = []
         for (let i = 0; i < payload.length; i++) {
             // state.songs.unshift(payload[i])
             if (payload[i].name == state.auth.user.username) {
