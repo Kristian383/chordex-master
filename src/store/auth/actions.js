@@ -83,9 +83,11 @@ export default {
             context.dispatch("autoLogout")
 
         } else {
+
             const user = {
                 username, email
             }
+            
             context.commit("setUser", {
                 token: token,
                 expiresIn,
@@ -93,7 +95,7 @@ export default {
             })
             context.dispatch("loadAllSongs")
             .then(res => {
-                if (res=="There was an error!") {
+                if (res=="There was an error!" || res==false) {
                     context.dispatch("autoLogout")
                 }
             });
