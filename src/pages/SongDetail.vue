@@ -186,7 +186,6 @@ export default {
       let bpm = this.songData.bpm;
       // let timer = 1 / (bpm / 60 / 1000);
        let timer = 60000 /bpm;
-       console.log(timer);
       var interval = setInterval(() => {
         el.currentTime = 0;
         if(!this.play){
