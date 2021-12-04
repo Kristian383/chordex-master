@@ -58,9 +58,9 @@ export default {
   data() {
     return {
       website: {
-        name: null,
+        name: "",
         // id: null,
-        link: null,
+        link: "",
       },
       // notes: null,
       // txtAreaHeight: null,
