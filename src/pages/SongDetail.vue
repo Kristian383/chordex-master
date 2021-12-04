@@ -253,6 +253,8 @@ export default {
   font-weight: 400;
   line-height: 31px;
   order: 3;
+  padding-bottom: 52px;
+  
 }
 .box.video {
   text-align: center;
