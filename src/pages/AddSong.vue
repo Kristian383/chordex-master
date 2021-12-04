@@ -452,9 +452,9 @@ export default {
           this.songInfo.secondChordProgression.length;
         return;
       }
-      if (this.songInfo.songText.length > 2500) {
+      if (this.songInfo.songText.length > 3500) {
         this.errorMsg =
-          "Please check if the notes about song have less than 2500 chars. Yours: " +
+          "Please check if the notes about song have less than 3500 chars. Yours: " +
           this.songInfo.songText.length;
         this.formIsValid = false;
 
