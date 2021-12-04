@@ -61,7 +61,7 @@
           />
           <!-- spotify api and bpm -->
           <div class="grid-2">
-            <div class="find-data" @click="searchSongInfo">
+            <div class="find-data" @click="searchSongInfo" v-if="!songInfo.isMySong">
               <!-- Not found anything -->
               {{ getSongInfoTxt }}
               <font-awesome-icon icon="question-circle"></font-awesome-icon>
@@ -400,7 +400,8 @@ export default {
         } else {
           this.formIsValid = false;
           this.song.isValid = false;
-          this.errorMsg="Something went wrong. Check if you already have that song."
+          this.errorMsg =
+            "Something went wrong. Check if you already have that song.";
         }
       });
     },
@@ -505,6 +506,7 @@ export default {
 
     searchSongInfo() {
       //api call to spotify
+      
       if (
         !this.song.val ||
         !this.artist.val ||
@@ -543,11 +545,25 @@ export default {
   mounted() {
     const songId = this.$route.params.songId;
     this.songId = songId;
+    let mysong = false;
+    if (this.$route.query.isMySong) {
+      {
+        mysong = true;
+      }
+    }
+
     let songData;
     if (songId) {
-      songData = this.$store.getters.getAllSongs.find((song) => {
-        return song.songId == songId;
-      });
+      if (mysong) {
+        songData = this.$store.getters.getAllMySongs.find((song) => {
+          return song.songId == songId;
+        });
+      } else {
+        songData = this.$store.getters.getAllSongs.find((song) => {
+          return song.songId == songId;
+        });
+      }
+
       if (!songData) {
         this.$router.push("/songs");
         return;

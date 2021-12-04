@@ -134,7 +134,6 @@ export default {
       id: null,
       isFavorite: null,
       songData: null,
-      isMy: null,
       play: false,
     };
   },
@@ -164,7 +163,11 @@ export default {
       this.$router.go(-1);
     },
     openEdit() {
-      this.$router.push("/new/" + this.songId);
+        let song=this.$store.getters.findSong(this.songId)
+      const pushRoute = song.isMySong
+        ? `/new/${song.songId}?isMySong=True`
+        : `/new/${song.songId}`; 
+      this.$router.push(pushRoute);
     },
     deleteSong() {
       if (window.confirm("Are you sure?")) {

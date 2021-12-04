@@ -29,6 +29,15 @@ export default {
     getAllMySongs(state) {
         return state.mySongs;
     },
+    findSong(state){
+        return songId=>{
+            let foundSong=state.songs.find(song=>song.songId==songId)
+            if (!foundSong){
+                foundSong=state.mySongs.find(song=>song.songId==songId)
+            }
+            return foundSong
+        }
+    },
     // lazyLoadSongs(state) {
 
     //     return (type) => {

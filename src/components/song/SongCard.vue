@@ -75,7 +75,11 @@ export default {
       this.$store.dispatch("addNewSong", this.song);
     },
     openEditMode() {
-      this.$router.push("/new/" + this.song.songId);
+      const pushRoute = this.song.isMySong
+        ? `/new/${this.song.songId}?isMySong=True`
+        : `/new/${this.song.songId}`; 
+      // this.$router.push("/new/" + this.song.songId);
+      this.$router.push(pushRoute);
     },
     chooseArtist() {
       if (!this.song.isMySong)
@@ -131,6 +135,7 @@ export default {
       return Math.floor(seconds) + "s ago";
     },
   },
+  
 };
 </script>
 
