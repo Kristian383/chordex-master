@@ -4,8 +4,8 @@
       <table>
         <thead>
           <tr class="table-headers">
-            <th>Key</th>
-            <th>I</th>
+            <th>Key (I)</th>
+            <!-- <th>I</th> -->
             <th>ii</th>
             <th>iii</th>
             <th>IV</th>
@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      notes: null,
+      notes: "",
       txtAreaHeight: null,
       errorMsg: "",
     };
@@ -58,7 +58,8 @@ export default {
       let formatedKeys = [];
       this.$store.getters.getMusicKeys.forEach((element) => {
         let each = [];
-        each.push(element.key, ...element.notes);
+        // each.push(element.key, ...element.notes);
+        each.push( ...element.notes);
         formatedKeys.push(each);
       });
       return formatedKeys;
@@ -73,9 +74,9 @@ export default {
   },
   methods: {
     updateNotes() {
-      if (this.notes.length > 8000) {
+      if (this.notes.length > 10000) {
         this.errorMsg =
-          "You have exceeded maximum amount of text (8000), you have: " +
+          "You have exceeded maximum amount of text (10000), you have: " +
           this.notes.length +
           ".   Please shorten, otherwise it won't be saved.";
 
@@ -134,12 +135,14 @@ tbody tr:nth-last-child(-n + 7) {
 tbody td:nth-child(7) {
   font-weight: 600;
 }
-/* tbody td:nth-child(2), 
+ /* tbody td:nth-child(2), 
 tbody td:nth-child(3), 
 tbody td:nth-child(6) 
 {
+  background-color: #f7f7f7;
+}  */
 
-} */
+
 @media (min-width: 720px) {
   table th {
     font-size: 32px;
@@ -162,7 +165,11 @@ tr:hover td {
   /* color: #ffffff; */
   cursor: pointer;
 }
-
+/* tr:hover td:nth-child(2),
+tr:hover td:nth-child(3),
+tr:hover td:nth-child(6){
+  background-color: #ccc;
+} */
 tr td:nth-child(7) {
   text-decoration: underline;
 }
@@ -184,6 +191,7 @@ tr td:nth-child(7) {
   width: 100%;
   min-height: 200px;
   line-height: 31px;
+  
   font-size: inherit;
 
   margin-top: 3em;
