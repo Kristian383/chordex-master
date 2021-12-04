@@ -132,7 +132,7 @@ tbody tr:nth-last-child(-n + 7) {
   background-color: #e5e5e5;
 }
 
-tbody td:nth-child(7) {
+tbody td:nth-child(6) {
   font-weight: 600;
 }
  /* tbody td:nth-child(2), 
@@ -170,7 +170,7 @@ tr:hover td:nth-child(3),
 tr:hover td:nth-child(6){
   background-color: #ccc;
 } */
-tr td:nth-child(7) {
+tr td:nth-child(6) {
   text-decoration: underline;
 }
 
