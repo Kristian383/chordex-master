@@ -108,7 +108,7 @@ export default {
         }
         const responseData = await response.json();
         if (!response.ok) {
-            window.alert(responseData.message || 'Failed to load more songs.');
+            window.alert(responseData.message || 'Failed to delete song.');
             return
         }
         context.commit("deleteSong", payload.songId)
@@ -132,7 +132,7 @@ export default {
         const responseData = await response.json();
 
         if (!response.ok) {
-            window.alert(responseData.message || 'Failed to load more songs.');
+            // window.alert(responseData.message || 'Failed to load more songs.');
             return
         }
         context.commit("storeMusicKeys", responseData.musicKeys)
@@ -159,7 +159,7 @@ export default {
         const responseData = await response.json();
 
         if (!response.ok) {
-            window.alert(responseData.message || 'Failed to load more songs.');
+            window.alert(responseData.message || 'Failed to load more artists.');
             return
         }
         context.commit("setAllArtists", responseData.artists)
