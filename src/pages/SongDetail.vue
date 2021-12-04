@@ -108,7 +108,7 @@
           allowfullscreen
         ></iframe>
 
-        <img v-else-if="songData.imgUrl" :src="songData.imgUrl" alt="" />
+        <img v-else :src="songData.imgUrl || 'https://img.freepik.com/free-vector/song-sunset-illustration-vector_167947-75.jpg?size=338&ext=jpg'" alt="" />
       </div>
 
       <div class="box notebook">

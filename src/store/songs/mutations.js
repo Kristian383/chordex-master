@@ -29,7 +29,7 @@ export default {
             index = state.mySongs.findIndex(song => song.songId == payload.songId);
             state.mySongs[index].isFavorite = !state.mySongs[index].isFavorite;
 
-        }else{
+        } else {
 
             index = state.songs.findIndex(song => song.songId == payload.songId);
             state.songs[index].isFavorite = !state.songs[index].isFavorite;
@@ -61,12 +61,25 @@ export default {
         // console.log(state.songs);
     },
     deleteSong(state, id) {
-        let index = state.songs.findIndex(song => song.songId == id);
-        state.songs.splice(index, 1)
+        let index;
+        index = state.songs.findIndex(song => song.songId == id);
+        if (index == -1) {
+            index = state.mySongs.findIndex(song => song.songId == id);
+            state.mySongs.splice(index, 1)
+        }else{
+            state.songs.splice(index, 1)
+
+        }
     },
     updateSong(state, payload) {
-        let index = state.songs.findIndex(song => song.songId == payload.songId);
-        state.songs[index] = payload
+        let index;
+        if (payload.isMySong) {
+            index = state.mySongs.findIndex(song => song.songId == payload.songId);
+            state.mySongs[index] = payload
+        } else {
+            index = state.songs.findIndex(song => song.songId == payload.songId);
+            state.songs[index] = payload
+        }
     },
     insertSong(state, payload) {
         if (payload.isMySong) {
