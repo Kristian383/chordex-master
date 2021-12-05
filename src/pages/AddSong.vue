@@ -382,9 +382,13 @@ export default {
         event.target.classList.remove("loading");
 
         if (res) {
-          const pushRoute = this.songInfo.isMySong
-            ? "/songs?isMySong=True"
-            : "/songs";
+          // let pushRoute = this.songInfo.isMySong
+          //   ? "/songs?isMySong=True"
+          //   : "/songs";
+
+          let pushRoute=this.songInfo.isMySong ? `/songs/${this.songId}?isMySong=True`:`/songs/${this.songId}`
+
+
           // event.target.classList.add("success");
           // event.target.classList.remove("success");
 
