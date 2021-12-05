@@ -385,7 +385,7 @@ export default {
           // let pushRoute = this.songInfo.isMySong
           //   ? "/songs?isMySong=True"
           //   : "/songs";
-          let pushRoute=this.songInfo.isMySong ? `/songs/${this.songId}?isMySong=True`:`/songs/${this.songId}`
+          let pushRoute=this.songInfo.isMySong ? `/songs/${res}?isMySong=True`:`/songs/${res}`
           // event.target.classList.add("success");
           // event.target.classList.remove("success");
           this.$router.push(pushRoute);
