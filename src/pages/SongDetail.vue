@@ -86,9 +86,9 @@
         <!-- chordsWebsiteLink -->
         <div>
           <div class="link" v-if="songData.chordsWebsiteLink">
-            <b>Resource Link: </b>
+            <b>Website Link: </b>
             <a :href="songData.chordsWebsiteLink" target="_blank"
-              >{{ songData.chordsWebsiteLink }}
+              > Click me
             </a>
           </div>
         </div>
