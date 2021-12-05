@@ -78,7 +78,8 @@ export default {
                 context.commit("insertSong", resp_payload)
             }
         }
-        return true
+        // return true
+        return responseData.song.songId
     },
     async deleteSong(context, payload) {
         let username = context.getters.user.username;

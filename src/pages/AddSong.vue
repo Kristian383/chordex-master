@@ -381,19 +381,15 @@ export default {
       this.$store.dispatch("addNewSong", formData).then((res) => {
         event.target.classList.remove("loading");
 
-        if (res) {
+        if (res != false) {
           // let pushRoute = this.songInfo.isMySong
           //   ? "/songs?isMySong=True"
           //   : "/songs";
-
           let pushRoute=this.songInfo.isMySong ? `/songs/${this.songId}?isMySong=True`:`/songs/${this.songId}`
-
-
           // event.target.classList.add("success");
           // event.target.classList.remove("success");
-
           this.$router.push(pushRoute);
-          //update artists
+          //update artists if there isnt any in app
           let index = this.$store.getters.getArtists.findIndex(
             (artist) =>
               artist.name.toLowerCase() == formData.artist.toLowerCase()
