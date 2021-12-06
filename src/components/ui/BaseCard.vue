@@ -57,6 +57,7 @@ export default {
       showBackToTop: false,
       showLeft: false,
       showRight: false,
+      query: null,
     };
   },
   computed: {
@@ -79,11 +80,17 @@ export default {
     },
     showArrows() {
       if (this.$route.name == "SongDetail") {
-        let index = this.$store.getters.indexOfCurrentSong(
-          this.$route.params.songId
-        );
-        let lenAll = this.$store.getters.getAllSongsLen;
-        
+        let index = this.$store.getters.indexOfCurrentSong({
+          id: this.$route.params.songId,
+          query: this.query,
+        });
+
+        let lenAll;
+        if (this.query) {
+          lenAll = this.$store.getters.getAllMySongsLen;
+        } else {
+          lenAll = this.$store.getters.getAllSongsLen;
+        }
         if (index == 0 && lenAll == 1) {
           return false;
         } else if (index == 0) {
@@ -110,24 +117,39 @@ export default {
       }
     },
     goToSong(direction) {
-      let currentSongIndex = this.$store.getters.indexOfCurrentSong(
-        this.$route.params.songId
-      );
+      let currentSongIndex = this.$store.getters.indexOfCurrentSong({
+        id: this.$route.params.songId,
+        query: this.query,
+      });
       let index;
       if (direction == "next") {
         index = currentSongIndex + 1;
       } else {
         index = currentSongIndex - 1;
       }
-      let songId = this.$store.getters.getAllSongs[index].songId;
-      this.$router.push({ path: `/songs/${songId}` });
+      let songId;
+      if (this.query) {
+        songId = this.$store.getters.getAllMySongs[index].songId;
+      } else {
+        songId = this.$store.getters.getAllSongs[index].songId;
+      }
+
+      let pushRoute = this.query
+        ? `/songs/${songId}?isMySong=True`
+        : `/songs/${songId}`;
+
+      this.$router.push(pushRoute);
     },
   },
+
   mounted() {
     window.addEventListener("scroll", this.showButtonUp);
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.showButtonUp);
+  },
+  beforeMount() {
+    this.query = this.$route.query.isMySong;
   },
 };
 </script>

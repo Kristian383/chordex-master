@@ -14,26 +14,34 @@ export default {
     sidebarIsActive(state) {
         return state.sidebarIsActive;
     },
-    indexOfCurrentSong(state){
-        return id=>{
-            return state.songs.findIndex(song=>song.songId==id)
+    indexOfCurrentSong(state) {
+        return (payload) => {
+            if (payload.query) {
+                return state.mySongs.findIndex(song => song.songId == payload.id)
+            } else
+                return state.songs.findIndex(song => {
+                    return song.songId == payload.id
+                })
         }
     }
     ,
     getAllSongs(state) {
         return state.songs;
     },
-    getAllSongsLen(state){
+    getAllSongsLen(state) {
         return state.songs.length;
+    },
+    getAllMySongsLen(state) {
+        return state.mySongs.length;
     },
     getAllMySongs(state) {
         return state.mySongs;
     },
-    findSong(state){
-        return songId=>{
-            let foundSong=state.songs.find(song=>song.songId==songId)
-            if (!foundSong){
-                foundSong=state.mySongs.find(song=>song.songId==songId)
+    findSong(state) {
+        return songId => {
+            let foundSong = state.songs.find(song => song.songId == songId)
+            if (!foundSong) {
+                foundSong = state.mySongs.find(song => song.songId == songId)
             }
             return foundSong
         }
@@ -131,7 +139,7 @@ export default {
     getTxtAreaHeight(state) {
         return state.usefulResources.txtAreaHeight
     },
-    isMobile(state){
+    isMobile(state) {
         return state.mobile
     }
 
