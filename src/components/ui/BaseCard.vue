@@ -82,10 +82,14 @@ export default {
         let index = this.$store.getters.indexOfCurrentSong(
           this.$route.params.songId
         );
-        if (index == 0) {
+        let lenAll = this.$store.getters.getAllSongsLen;
+        
+        if (index == 0 && lenAll == 1) {
+          return false;
+        } else if (index == 0) {
           return "next";
         }
-        if (index == this.$store.getters.getAllSongsLen - 1) {
+        if (index == lenAll - 1) {
           return "prev";
         } else {
           return "both";
