@@ -186,6 +186,7 @@ export default {
   width: 55px;
   height: 55px;
   border-radius: 50%;
+  object-fit: cover;
 }
 .list-group .list-group-item .details {
   display: flex;

@@ -42,8 +42,8 @@
               @click="toggleMetronome"
             ></font-awesome-icon>
             <audio
-            hidden
-            :muted="!play"
+              hidden
+              :muted="!play"
               ref="metronome"
               src="https://caljer1.github.io/MetronomeLite/sounds/rimshot.mp3"
               type="audio/mp3"
@@ -87,9 +87,7 @@
         <div>
           <div class="link" v-if="songData.chordsWebsiteLink">
             <b>Website Link: </b>
-            <a :href="songData.chordsWebsiteLink" target="_blank"
-              > Click me
-            </a>
+            <a :href="songData.chordsWebsiteLink" target="_blank"> Click me </a>
           </div>
         </div>
         <!-- difficulty -->
@@ -108,7 +106,14 @@
           allowfullscreen
         ></iframe>
 
-        <img v-else :src="songData.imgUrl || 'https://img.freepik.com/free-vector/song-sunset-illustration-vector_167947-75.jpg?size=338&ext=jpg'" alt="" />
+        <img
+          v-else
+          :src="
+            songData.imgUrl ||
+            'https://img.freepik.com/free-vector/song-sunset-illustration-vector_167947-75.jpg?size=338&ext=jpg'
+          "
+          alt=""
+        />
       </div>
 
       <div class="box notebook">
@@ -163,10 +168,10 @@ export default {
       this.$router.go(-1);
     },
     openEdit() {
-        let song=this.$store.getters.findSong(this.songId)
+      let song = this.$store.getters.findSong(this.songId);
       const pushRoute = song.isMySong
         ? `/new/${song.songId}?isMySong=True`
-        : `/new/${song.songId}`; 
+        : `/new/${song.songId}`;
       this.$router.push(pushRoute);
     },
     deleteSong() {
@@ -188,16 +193,14 @@ export default {
       let el = this.$refs.metronome;
       let bpm = this.songData.bpm;
       // let timer = 1 / (bpm / 60 / 1000);
-       let timer = 60000 /bpm;
+      let timer = 60000 / bpm;
       var interval = setInterval(() => {
         el.currentTime = 0;
-        if(!this.play){
-          clearInterval(interval)
+        if (!this.play) {
+          clearInterval(interval);
         }
         el.play();
       }, timer);
-      
-     
     },
   },
   computed: {
@@ -214,17 +217,17 @@ export default {
         return "1fr 1fr";
       }
     },
-    iconType(){
-      if(this.play){
-        return "pause-circle"
-      }else{
-        return "play-circle"
+    iconType() {
+      if (this.play) {
+        return "pause-circle";
+      } else {
+        return "play-circle";
       }
-    }
+    },
   },
-  beforeUnmount(){
-    this.play=false
-  }
+  beforeUnmount() {
+    this.play = false;
+  },
 };
 </script>
 
@@ -256,7 +259,6 @@ export default {
   line-height: 31px;
   order: 3;
   padding-bottom: 52px;
-  
 }
 .box.video {
   text-align: center;
@@ -295,6 +297,7 @@ export default {
 }
 .box.video img {
   height: 100%;
+  max-height: 400px;
   max-width: 100%;
 }
 @media (min-width: 1400px) {
