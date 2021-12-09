@@ -4,10 +4,10 @@
     :class="{ expand_home_section: !sidebarIsActive }"
   >
     <nav>
+      <the-search></the-search>
       <div class="filter_categories">
         <slot name="filters"></slot>
       </div>
-      <the-search></the-search>
     </nav>
     <div class="home-content">
       <div class="sort-section-title">
