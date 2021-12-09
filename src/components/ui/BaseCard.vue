@@ -173,10 +173,9 @@ export default {
 
 .home-section nav {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
-
   gap: 16px;
+  /* justify-content: space-between; */
 
   background: var(--white);
   align-items: center;
@@ -199,6 +198,7 @@ export default {
   .home-section nav {
     flex-direction: row;
     height: 80px;
+    justify-content: center;
   }
 }
 
