@@ -26,7 +26,8 @@
         </div>
         <!-- Artist and learned-->
         <div>
-          <div><b>Artist:</b> {{ songData.artist }}</div>
+          <!-- <div><b>Artist:</b> <router-link :to="'?artist='+songData.artist">{{songData.artist}} </router-link> </div> -->
+          <div class="artist-link"><b>Artist:</b> <router-link :to="{path:'/songs',query:{artist:songData.artist}}"  >{{songData.artist}} </router-link> </div>
           <div class="song-info-box">
             <b>Learned:</b> {{ songData.practicedPrcntg }}%
           </div>
@@ -54,7 +55,7 @@
         <div v-if="songData.firstKey">
           <div class="key"><b>Key:</b> {{ songData.firstKey }}</div>
           <div class="chords">
-            <b>Chords in scale:</b> {{ songData.firstKeyNotes }}
+            <b>Chords in key:</b> {{ songData.firstKeyNotes }}
           </div>
           <div class="guitar" v-if="songData.firstChordProgression">
             <b>Chord progression:</b> {{ songData.firstChordProgression }}
@@ -247,6 +248,14 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   font-size: 18px;
   border-right: 6px solid var(--burgundy);
+}
+.artist-link a{
+  /* text-decoration: none; */
+  color: inherit;
+  font-weight: 600;
+}
+.artist-link a:hover{
+  color: var(--mid_gray);
 }
 
 .box {
