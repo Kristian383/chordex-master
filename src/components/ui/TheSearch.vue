@@ -85,6 +85,8 @@ export default {
   max-width: 350px;
   margin: 0 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  z-index:50;
+
 }
 nav .search-box input {
   height: 100%;
@@ -120,7 +122,6 @@ nav .search-box #search {
   pointer-events: none;
   max-height: 280px;
   overflow-y: auto;
-  z-index: 26;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
@@ -128,6 +129,7 @@ nav .search-box #search {
 .search-box.active .match-list {
   padding: 10px 8px;
   opacity: 1;
+
   pointer-events: auto;
 }
 .match-list li {

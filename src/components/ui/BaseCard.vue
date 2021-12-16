@@ -1,7 +1,7 @@
 <template>
   <section
     class="home-section"
-    :class="{ expand_home_section: !sidebarIsActive }"
+    :class="{ expand_home_section: sidebarIsActive && isDesktop }"
   >
     <nav>
       <the-search></the-search>
@@ -104,6 +104,9 @@ export default {
       }
       return false;
     },
+    isDesktop() {
+      return !this.$store.getters.isMobile;
+    },
   },
   methods: {
     scrollUp() {
@@ -160,38 +163,38 @@ export default {
   background: var(--white);
   min-height: 100vh;
   transition: all 0.5s ease;
-  width: calc(100% - 240px);
-  left: 240px;
-}
-
-.expand_home_section {
-  /* width: calc(100% - 80px);
-  left: 80px; */
-  width: 100%;
-  left: 0;
+  /* width: calc(100% - 240px);
+  left: 240px; */
 }
 
 .home-section nav {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  /* justify-content: space-between; */
-
   background: var(--white);
   align-items: center;
   position: fixed;
-  width: calc(100% - 240px);
-  left: 240px;
+  /* width: calc(100% - 240px);
+  left: 240px; */
+  width: 100%;
   z-index: 37;
   padding: 10px 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s ease;
+  transition: all 0.5s ease-in-out;
+}
+.expand_home_section {
+  left: 240px;
+  width: calc(100% - 240px);
+
+  /* width: 100%;
+  left: 0; */
 }
 .expand_home_section nav {
-  /* width: calc(100% - 80px);
-  left: 80px; */
-  width: 100%;
-  left: 0;
+  left: 240px;
+  width: calc(100% - 240px);
+
+  /* width: 100%;
+  left: 0; */
 }
 
 @media (min-width: 1400px) {
@@ -242,6 +245,7 @@ export default {
 .sort-section-title {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   gap: 14px;
   margin-bottom: 8px;
   color: var(--font_black);

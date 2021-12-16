@@ -3,7 +3,7 @@
     <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
   </div>
   <transition name="fade">
-    <div class="sidebar" v-if="sidebarIsActive">
+    <div class="sidebar" v-if="sidebarIsActive" :class="{desktop:!isMobile}">
       <ul class="nav_list">
         <li>
           <router-link
@@ -175,6 +175,9 @@ export default {
     getUserData() {
       return this.$store.getters.user;
     },
+    isMobile(){
+      return this.$store.getters.isMobile;
+    }
   },
 };
 </script>
@@ -187,7 +190,9 @@ export default {
   height: 100%;
   width: 240px;
   background-color: var(--dark_blue_sidebar);
-  position: fixed;
+  /* position: fixed; */
+  position: absolute;
+
   top: 0;
   left: 0;
   padding: 90px 14px;
@@ -195,6 +200,9 @@ export default {
   z-index: 50;
 }
 
+.sidebar.desktop{
+   position: fixed;
+}
 .hamburger {
   position: fixed;
   top: 24px;
