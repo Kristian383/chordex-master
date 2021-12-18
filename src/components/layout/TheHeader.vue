@@ -95,7 +95,8 @@ export default {
 
 /*  */
 header {
-  background-color: var(--f1_gray);
+  /* background-color: var(--f1_gray); */
+  background-color: var(--burgundy);
   z-index: 70;
   width: 100%;
   transition: 0.5s ease all;
@@ -148,7 +149,7 @@ header .navigation {
 
 header nav ul,
 header nav .link {
-  color: #000;
+  color: #fff;
   font-weight: 600;
   list-style: none;
   text-decoration: none;
@@ -166,14 +167,14 @@ header nav .link {
   border-bottom: 4px solid transparent;
 }
 header nav .link:hover {
-  color: #d8323c;
+  color: var(--teals);
 }
 header nav .link.not_logged {
   color: var(--mid_gray);
   pointer-events: none;
 }
 header nav .link.active {
-  border-color: #d8323c;
+  border-color: #fff;
 }
 header nav .logo {
   display: flex;
@@ -185,7 +186,8 @@ header nav .logo img {
 }
 
 .scrolled-nav {
-  background-color: rgb(218, 218, 218);
+  background-color: var(--levi_red);
+  background-color: #af2121;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
@@ -207,6 +209,5 @@ header nav .logo img {
   transform: translateX(0);
 }
 /*  */
-.app {
-}
+
 </style>
