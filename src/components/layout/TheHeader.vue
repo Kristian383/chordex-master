@@ -95,8 +95,7 @@ export default {
 
 /*  */
 header {
-  /* background-color: var(--f1_gray); */
-  background-color: var(--burgundy);
+   background-color: var(--f1_gray); 
   z-index: 70;
   width: 100%;
   transition: 0.5s ease all;
@@ -149,7 +148,7 @@ header .navigation {
 
 header nav ul,
 header nav .link {
-  color: #fff;
+  color: #000;
   font-weight: 600;
   list-style: none;
   text-decoration: none;
@@ -167,14 +166,14 @@ header nav .link {
   border-bottom: 4px solid transparent;
 }
 header nav .link:hover {
-  color: var(--teals);
+  color: #d8323c;
 }
 header nav .link.not_logged {
   color: var(--mid_gray);
   pointer-events: none;
 }
 header nav .link.active {
-  border-color: #fff;
+  border-color: #d8323c;
 }
 header nav .logo {
   display: flex;
@@ -186,8 +185,7 @@ header nav .logo img {
 }
 
 .scrolled-nav {
-  background-color: var(--levi_red);
-  background-color: #af2121;
+  background-color: rgb(218, 218, 218);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }

@@ -1,7 +1,7 @@
 <template>
-<!-- beta banner -->
-<the-beta-banner v-if="!isLogged"></the-beta-banner>
-<!--  -->
+  <!-- beta banner -->
+  <the-beta-banner v-if="!isLogged"></the-beta-banner>
+  <!--  -->
   <the-header></the-header>
   <the-sidebar></the-sidebar>
   <router-view :key="$route.path" v-slot="{ Component }">
@@ -22,7 +22,8 @@ export default {
   components: {
     TheSidebar,
     TheHeader,
-    TheFooter,TheBetaBanner
+    TheFooter,
+    TheBetaBanner,
   },
   created() {
     this.$store.dispatch("tryLogin");
@@ -31,10 +32,9 @@ export default {
     didAutoLogout() {
       return this.$store.getters.didAutoLogout;
     },
-    isLogged(){
+    isLogged() {
       return this.$store.getters.token;
-
-    }
+    },
   },
   watch: {
     didAutoLogout(curValue, oldValue) {
@@ -74,7 +74,7 @@ html {
   --dark_gray_chips: #242424;
   --font_black: #101114;
   --chips_gray: #e7e7e7;
-  --light_gray: #F5F5F5;
+  --light_gray: #f5f5f5;
   --mid_gray: #888888;
   --dark_gray_font: #424242;
   --form_gray: #eaebea;

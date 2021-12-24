@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .banner {
-  background: var(--font_black);
+  background: var(--burgundy);
 }
 
 .banner__content {

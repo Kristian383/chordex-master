@@ -1,44 +1,97 @@
 <template>
-  <div class="home">
-    <!-- auth -->
-    <div class="form" v-if="!isLogged">
-      <!-- <span><h2>Welcome!</h2></span> -->
-      <user-auth></user-auth>
-    </div>
-    <div class="home-content third" :class="{ logged: isLogged }">
-      <div>
-        <h2>
-          Keep track of your songs and store them at one place with ChordEx.
-        </h2>
+  <section>
+    <div class="home">
+      <!-- auth -->
+      <div class="form" v-if="!isLogged">
+        <!-- <span><h2>Welcome!</h2></span> -->
+        <user-auth></user-auth>
       </div>
-      <div class="photo-div">
-        <img src="@/assets/home.jpg" alt="logo" />
+      <div class="home-content third" :class="{ logged: isLogged }">
+        <div>
+          <h2>
+            Keep track of your songs and store them at one place with ChordEx.
+          </h2>
+        </div>
+        <div>
+          <img src="@/assets/home.jpg" alt="logo" />
+        </div>
+      </div>
+      <!--  -->
+      <div class="home-content" id="songs">
+        <img src="@/assets/home_cards.png" alt="logo" class="home-image" />
+      </div>
+      <div class="smaller">
+        <h4>Do you play piano, guitar or any other instrument?</h4>
+        <h2>Write information about songs:</h2>
+        <ul>
+          <li><h3>Key</h3></li>
+          <li><h3>Chords</h3></li>
+          <li><h3>BPM</h3></li>
+          <li><h3>Chord Progression</h3></li>
+          <li><h3>Youtube link</h3></li>
+          <li><h3>...</h3></li>
+        </ul>
       </div>
     </div>
-    <!--  -->
-
-    <div class="home-content" id="songs">
-      <img src="@/assets/home_cards.png" alt="logo" />
-    </div>
-    <div class="smaller">
-      <h4>Do you play piano, guitar or any other instrument?</h4>
-      <h2>Write information about songs:</h2>
-      <ul>
-        <li><h3>Key</h3></li>
-        <li><h3>Chords</h3></li>
-        <li><h3>BPM</h3></li>
-        <li><h3>Chord Progression</h3></li>
-        <li><h3>Youtube link</h3></li>
-        <li><h3>...</h3></li>
-      </ul>
-    </div>
-    <!-- <div class="home-content">
-      <div class="" id="songs">
-        <img src="@/assets/home_chordex.png" alt="logo" />
+    <!-- items -->
+    <div class="mid-section">
+      <h2>Simple virtual songbook for any musician</h2>
+      <div class="items">
+        <div class="item">
+          <h4>YouTube video integration</h4>
+          <img src="@/assets/yt.png" alt="" />
+          <p>
+            Paste YouTube link of a song or a lesson and have it displayed
+            together with other song details such as chords, tempo etc.
+          </p>
+        </div>
+        <div class="item">
+          <h4>Metronome</h4>
+          <img src="@/assets/metro.png" alt="" />
+          <p>
+            After inserting tempo (BPM) of each song, you get a feature to play
+            metronome and practice at the same time.
+          </p>
+        </div>
+        <div class="item">
+          <h4>Virtual Songbook</h4>
+          <img src="@/assets/book.png" alt="" />
+          <p>
+            Instead of having a book and carrying it all around, you can write
+            it all here.
+          </p>
+        </div>
+        <div class="item">
+          <h4>Faster learning</h4>
+          <img src="@/assets/thinking.png" alt="" />
+          <p>
+            You can keep track of learned songs and easily recall all of them.
+          </p>
+        </div>
       </div>
-    </div> -->
-    <!--  -->
-  </div>
+    </div>
+    <!-- products -->
+    <div class="products-wrapper-bckg">
+      <div class="products">
+        <div class="product">
+          <div class="product-image">
+            <img src="@/assets/full.png" alt="logo" />
+          </div>
+          <div class="product-info">
+            <p>Built in features:</p>
+            <ul>
+              <li>Immediately get a song key and BPM</li>
+              <li>Insert and watch YouTube video of a song/lesson</li>
+              <li>Write and analyze chord progressions</li>
+              <li>Built in metronome</li>
+              <li>Store often used websites in a list</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--  -->
 </template>
 
 <script>
@@ -72,13 +125,12 @@ export default {
   .home {
     grid-template-columns: repeat(3, 1fr);
     row-gap: 56px;
-
-    padding: 0 32px 32px 32px;
+    /* padding: 0 32px 32px 32px; */
   }
 
   .third {
     grid-column: 2/4;
-    padding-top: 26px;
+    padding-top: 90px;
   }
 
   .third.logged {
@@ -108,6 +160,7 @@ export default {
 
 .home-content img {
   width: 100%;
+  padding: 0px 8px;
   height: 100%;
   max-height: 500px;
   object-fit: contain;
@@ -115,94 +168,169 @@ export default {
 
 .smaller {
   border-top: 6px solid #ff4f5a;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  background-color: var(--light_gray);
 }
 @media (min-width: 1000px) {
   .smaller {
     border-left: 6px solid #ff4f5a;
+    margin-left: 25px;
     border-top: 0;
+    /* border-radius: 0px 8px 8px 0px; */
+    border-top-right-radius: 50px;
   }
   .home-content h2 {
-    font-size: 30px;
+    font-size: 40px;
   }
 }
+.smaller ul {
+  color: var(--dark_gray_font);
+}
 .smaller li {
-  padding: 16px;
+  padding: 12px;
   display: block;
   width: 260px;
   margin: 0 auto;
+  display: list-item;
 }
-.smaller h4{
-  text-align: start;
-  padding: 10px 16px;
+
+.smaller h4 {
+  text-align: center;
+  padding: 10px 26px;
   font-size: 21px;
+}
+.smaller h3 {
+  font-weight: 500;
 }
 .smaller h2 {
   padding: 10px 16px;
-  font-size: 18px;
-  text-align: start;
+  font-size: 21px;
+  font-weight: 500;
+  text-align: center;
 }
-/* za produljivati slike */
-/* .home-wrapper {
-  display: flex;
-  flex-direction: column;
+@media (min-width: 1000px) {
+  .smaller h4 {
+    margin: 24px 0px;
+  }
 }
-.home-content {
+/* items */
+.mid-section {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  flex-direction: column;
+  /* align-items: center; */
+  background-color: #f8f8f8;
+  margin-top: 24px;
+  padding: 28px 8px;
+  gap: 24px;
+  text-align: center;
+}
+
+.items {
+  padding: 8px;
+  display: grid;
+  max-width: 1700px;
+  margin: 0 auto;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 34px;
+}
+.items .item {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  flex: 4;
+  border-radius: 8px;
+  gap: 18px;
+  transition: 0.3s ease-in all;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  /* border-bottom: 4px solid #ff4f5a; */
+  cursor: pointer;
+  padding: 14px;
+}
+.items .item:hover {
+  transform: rotateZ(-1deg) scale(1.04);
+}
+.items .item p {
+  text-align: center;
+  color: var(--dark_gray_font);
+  line-height: 24px;
+}
+@media (min-width: 720px) {
+  .items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1350px) {
+  .items {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/*  */
+.products-wrapper-bckg {
+  height: 100%;
+  padding-bottom: 18px;
+}
+.products {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+.product {
+  display: grid;
+  height: 800px;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+}
+.product-image {
   order: 2;
 }
-
-@media (min-width: 700px) {
-  .home-wrapper {
-    min-height: 650px;
-    max-height: 650px;
-    flex-direction: row;
-  }
-  .home-content {
-    order: 1;
-  }
-  .home-content div {
-    padding: 0 24px;
-  }
-}
-
-@media (min-width: 800px) {
-  .home-content {
-    flex: 3;
-  }
-}
-
-.home-content div {
-  max-width: 375px;
-  padding: 72px 24px;
-}
-
-.home-photo {
-  order: 1;
-  flex: 3;
-}
-.home-photo img {
-  display: block;
+.product-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 0px 8px;
 }
-@media (min-width: 700px) {
-  .home-content {
-    flex: 3;
-  }
-  .home-photo {
-    order: 2;
-  }
+.product-info {
+  background-color: #fff;
+  display: flex;
+  color: var(--dark_gray_font);
+
+  flex-direction: column;
+  /* align-items: center; */
+  padding: 24px;
+  border-radius: 8px;
+  font-size: 20px;
+  line-height: 28px;
+  gap: 44px;
+  order: 1;
+  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
+  max-width: 600px;
+}
+.product-info p {
+  font-weight: 600;
+  max-width: 500px;
 }
 
-.home-wrapper:nth-child(even) .home-content {
-  order: 2;
+.product-info ul {
+  list-style: none;
 }
-.home-wrapper:nth-child(even) .home-photo {
-  order: 1;
-} */
+.product-info ul li {
+  padding-top: 8px;
+}
+.product-info ul li:before {
+  /* content: "\2713\0020"; */
+  /* content:"\2611\0020";  */
+  content: "\2714\0020";
+  color: var(--green);
+}
+@media (min-width: 1000px) {
+  .product {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 </style>
