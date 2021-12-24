@@ -90,25 +90,49 @@
         </div>
       </div>
     </div>
+    <!-- scroll top -->
+    <scroll-up  :class="{ show: showBackToTop }"></scroll-up>
   </section>
   <!--  -->
 </template>
 
 <script>
 import UserAuth from "./../components/ui/auth/UserAuth.vue";
+import ScrollUp from "./../components/ui/ScrollUp.vue"
 export default {
   components: {
     UserAuth,
+    ScrollUp
   },
-  mounted() {
-    if (this.$route.path == "/home") {
-      this.$store.commit("removeSidebar");
-    }
+  data() {
+    return {
+      showBackToTop: false,
+    };
   },
   computed: {
     isLogged() {
       return !!this.$store.getters.token;
     },
+  },
+  methods: {
+    showButtonUp() {
+      if (window.scrollY > 800) {
+        this.showBackToTop = true;
+      } else if (window.scrollY < 800) {
+        this.showBackToTop = false;
+      }
+    },
+  },
+  mounted() {
+    if (this.$route.path == "/home") {
+      this.$store.commit("removeSidebar");
+    }
+
+    window.addEventListener("scroll", this.showButtonUp);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.showButtonUp);
   },
 };
 </script>
