@@ -153,7 +153,7 @@
           <input
             class="input-field"
             type="text"
-            placeholder="Chord progression"
+            placeholder="First chord progression"
             v-model.trim="songInfo.firstChordProgression"
           />
           <!-- second key Chord progression-->
@@ -162,7 +162,7 @@
               class="input-field"
               type="text"
               v-if="openSecond"
-              placeholder="Chord progression"
+              placeholder="Second chord progression"
               v-model.trim="songInfo.secondChordProgression"
             />
           </transition>
