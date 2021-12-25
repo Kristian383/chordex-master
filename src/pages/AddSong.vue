@@ -59,9 +59,23 @@
             :class="{ 'error-msg': !artist.isValid }"
             @focus="clearValidity('artist')"
           />
+          <!-- song name -->
+          <input
+            class="input-field"
+            type="text"
+            id="input-song"
+            placeholder="Song name"
+            :class="{ 'error-msg': !song.isValid }"
+            @focus="clearValidity('song')"
+            v-model.trim="song.val"
+          />
           <!-- spotify api and bpm -->
           <div class="grid-2">
-            <div class="find-data" @click="searchSongInfo" v-if="!songInfo.isMySong">
+            <div
+              class="find-data"
+              @click="searchSongInfo"
+              v-if="!songInfo.isMySong"
+            >
               <!-- Not found anything -->
               {{ getSongInfoTxt }}
               <font-awesome-icon icon="question-circle"></font-awesome-icon>
@@ -75,16 +89,7 @@
               placeholder="BPM"
             />
           </div>
-          <!-- song name -->
-          <input
-            class="input-field"
-            type="text"
-            id="input-song"
-            placeholder="Song name"
-            :class="{ 'error-msg': !song.isValid }"
-            @focus="clearValidity('song')"
-            v-model.trim="song.val"
-          />
+
           <!-- easy hard and tuning badges -->
           <div>
             <input
@@ -385,7 +390,9 @@ export default {
           // let pushRoute = this.songInfo.isMySong
           //   ? "/songs?isMySong=True"
           //   : "/songs";
-          let pushRoute=this.songInfo.isMySong ? `/songs/${res}?isMySong=True`:`/songs/${res}`
+          let pushRoute = this.songInfo.isMySong
+            ? `/songs/${res}?isMySong=True`
+            : `/songs/${res}`;
           // event.target.classList.add("success");
           // event.target.classList.remove("success");
           this.$router.push(pushRoute);
@@ -506,7 +513,7 @@ export default {
 
     searchSongInfo() {
       //api call to spotify
-      
+
       if (
         !this.song.val ||
         !this.artist.val ||
@@ -677,6 +684,7 @@ svg {
 .grid-2:nth-child(-n + 2) {
   margin-top: 0;
 }
+
 @media (min-width: 640px) {
   .grid-2 {
     grid-template-columns: repeat(2, 1fr);
