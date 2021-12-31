@@ -14,9 +14,11 @@
         <font-awesome-icon icon="arrow-left"></font-awesome-icon>
       </div>
       <form @submit.prevent autocomplete="off">
-        <p class="error-text">
-          {{ errorMsg }}
-        </p>
+        <div class="error-container" v-if="errorMsg">
+          <p class="error-text">
+            {{ errorMsg }}
+          </p>
+        </div>
         <div class="top-section">
           <font-awesome-icon
             class="heart"
@@ -408,7 +410,7 @@ export default {
           this.formIsValid = false;
           this.song.isValid = false;
           this.errorMsg =
-            "Something went wrong. Check if you already have that song.";
+            "Something went wrong. Check if you already have that song or if you have reached maximum number of songs.";
         }
       });
     },
@@ -425,7 +427,7 @@ export default {
         this.formIsValid = false;
         this.artist.isValid = false;
         this.errorMsg =
-          "Please check if your artist have less than 40 characters. Yours: " +
+          "Please check if your artist has less than 40 characters. Yours: " +
           this.artist.val.length;
         return;
       }
@@ -434,7 +436,7 @@ export default {
         this.formIsValid = false;
         this.song.isValid = false;
         this.errorMsg =
-          "Please check if your song have less than 40 characters. Yours: " +
+          "Please check if your song has less than 40 characters. Yours: " +
           this.song.val.length;
         return;
       }
@@ -643,10 +645,16 @@ svg {
 }
 .top-section .mysong {
   position: absolute;
-  left: 65px;
-  top: 2px;
+  left: 50px;
+  top: 8px;
   cursor: pointer;
   font-weight: 600;
+}
+@media (min-width: 420px) {
+  .top-section .mysong {
+    /* top: 0px; */
+    left: 75px;
+  }
 }
 
 .top-section .delete {
@@ -661,10 +669,20 @@ svg {
   }
 }
 /* error msg */
+.error-container {
+  position: relative;
+  border-radius: 8px;
+  z-index: 23;
+}
 .error-text {
   color: var(--burgundy);
   font-size: 14px;
   text-align: center;
+  border-radius: 8px;
+  background-color: var(--burgundy);
+  color: #fff;
+  padding: 16px;
+  margin-top: 6px;
 }
 
 .top-section .delete:hover {
