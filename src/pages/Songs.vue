@@ -64,7 +64,7 @@ export default {
     },
     sortOptions() {
       return [
-        "Last viewed",
+        "Last added",
         "Oldest",
         "A-Z",
         "Z-A",
