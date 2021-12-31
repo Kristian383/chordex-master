@@ -165,7 +165,7 @@ export default {
   /* width: calc(100% - 240px);
   left: 240px; */
   width: 100%;
-  z-index: 37;
+  z-index: 40;
   padding: 10px 20px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   transition: all 0.5s ease-in-out;
