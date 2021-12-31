@@ -44,7 +44,7 @@ export default {
   width: 180px;
   flex-direction: column;
   position: relative;
-  z-index: 20;
+  z-index: 36;
   user-select: none;
   font-size: 16px;
 }
