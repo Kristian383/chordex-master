@@ -1,6 +1,6 @@
 <template>
   <!-- beta banner -->
-  <the-beta-banner v-if="!isLogged"></the-beta-banner>
+  <!-- <the-beta-banner v-if="!isLogged"></the-beta-banner> -->
   <!--  -->
   <the-header></the-header>
   <the-sidebar></the-sidebar>
@@ -14,7 +14,7 @@
 
 <script>
 import TheSidebar from "./components/layout/TheSidebar.vue";
-import TheBetaBanner from "./components/layout/TheBetaBanner.vue";
+// import TheBetaBanner from "./components/layout/TheBetaBanner.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheFooter from "./components/layout/TheFooter.vue";
 export default {
@@ -23,7 +23,7 @@ export default {
     TheSidebar,
     TheHeader,
     TheFooter,
-    TheBetaBanner,
+    // TheBetaBanner,
   },
   created() {
     this.$store.dispatch("tryLogin");

@@ -91,18 +91,18 @@
       </div>
     </div>
     <!-- scroll top -->
-    <scroll-up  :class="{ show: showBackToTop }"></scroll-up>
+    <scroll-up :class="{ show: showBackToTop }"></scroll-up>
   </section>
   <!--  -->
 </template>
 
 <script>
 import UserAuth from "./../components/ui/auth/UserAuth.vue";
-import ScrollUp from "./../components/ui/ScrollUp.vue"
+import ScrollUp from "./../components/ui/ScrollUp.vue";
 export default {
   components: {
     UserAuth,
-    ScrollUp
+    ScrollUp,
   },
   data() {
     return {
@@ -170,7 +170,7 @@ export default {
   background-color: var(--white);
   position: relative;
   min-height: 500px;
-  padding: 0 24px;
+  padding: 0px 24px;
 }
 
 /*  */
@@ -201,6 +201,7 @@ export default {
     margin-left: 25px;
     border-top: 0;
     /* border-radius: 0px 8px 8px 0px; */
+    margin-right: 8px;
     border-top-right-radius: 50px;
   }
   .home-content h2 {
