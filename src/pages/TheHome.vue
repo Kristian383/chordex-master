@@ -265,6 +265,7 @@ export default {
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
+  background-color: #fff;
   gap: 18px;
   transition: 0.3s ease-in all;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
