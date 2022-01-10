@@ -114,11 +114,11 @@ export default {
       var interval = seconds / 31536000;
 
       if (interval > 1) {
-        return Math.floor(interval) + " years ago";
+        return Math.floor(interval) + " yrs ago";
       }
       interval = seconds / 2592000;
       if (interval > 1) {
-        return Math.floor(interval) + " months ago";
+        return Math.floor(interval) + " mon ago";
       }
       interval = seconds / 86400;
       if (interval > 1) {
