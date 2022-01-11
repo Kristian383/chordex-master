@@ -9,7 +9,7 @@
         </ul>
       </div>
       <!--  -->
-      <p>&copy; Kristian Nenadovic 2021</p>
+      <p>&copy; Kristian Nenadovic</p>
       <div class="spotify-logo">
         <img src="./../../assets/spotify.png" alt="Logo" />
       </div>
