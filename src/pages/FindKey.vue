@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     updateNotes() {
-      if (this.notes.length > 10000) {
+      if (this.notes && this.notes.length > 10000) {
         this.errorMsg =
           "You have exceeded maximum amount of text (10000), you have: " +
           this.notes.length +

@@ -43,7 +43,6 @@
                   id="input-username"
                   :value="getUserData.username"
                   disabled
-
                 />
               </div>
               <!-- email -->
@@ -58,38 +57,58 @@
                   disabled
                 />
               </div>
+              <!-- delete acc -->
+
               <!-- change password -->
-              <!-- <section>
-                <div @click="togglePasswordChange" class="change-psw">
+              <section class="container">
+                <!-- <div @click="togglePasswordChange" class="change-psw">
                 Change password
-              </div>
-              <transition name="fade">
-                <div v-if="changePassword">
-                  <label class="form-control-label" for="input-email"
-                    >Old password</label
-                  >
-                  <input class="input-password" type="password" id="password" />
+              </div> -->
+                <div>
+                  <p class="delete" @click="deleteAccount">
+                    {{ deleteAccText }}
+                  </p>
                 </div>
-              </transition>
-              <transition name="fade">
-                <div v-if="changePassword">
-                  <label class="form-control-label" for="input-email"
-                    >New password</label
+                <transition name="fade">
+                  <div v-if="showPasswordInput">
+                    <label class="form-control-label" for="input-email"
+                      >Password</label
+                    >
+                    <input
+                      class="input-password"
+                      type="password"
+                      id="password"
+                      v-model="password"
+                    />
+                  </div>
+                </transition>
+                <transition name="fade">
+                  <div v-if="showPasswordInput">
+                    <label class="form-control-label" for="input-email"
+                      >Confirm password</label
+                    >
+                    <input
+                      class="input-password"
+                      type="password"
+                      id="password-repeat"
+                      v-model="passwordConfirm"
+                    />
+                  </div>
+                </transition>
+                <div class="delete-acc">
+                  <div
+                    @click="submitDelete"
+                    v-if="showPasswordInput"
+                    class="delete-btn"
                   >
-                  <input
-                    class="input-password"
-                    type="password"
-                    id="password-repeat"
-                  />
+                    Delete
+                  </div>
+                  <div class="loader">
+                    <the-loader v-if="requestIsPending"></the-loader>
+                  </div>
+                  <p>{{ respondMsg }}</p>
                 </div>
-              </transition>
-              <div class="save-pswd">
-                <button-save
-                  @click="saveChanges"
-                  v-if="passwordChanged"
-                ></button-save>
-              </div>
-              </section> -->
+              </section>
               <!--  -->
             </div>
           </div>
@@ -101,34 +120,65 @@
 
 <script>
 import BaseCard from "./../components/ui/BaseCard.vue";
+import TheLoader from "../components/ui/TheLoader.vue";
 // import ButtonSave from "./../components/ui/ButtonSave.vue";
 export default {
   components: {
+    TheLoader,
     BaseCard,
     // ButtonSave,
   },
   data() {
     return {
-      changePassword: false,
+      showPasswordInput: false,
+      requestIsPending: false,
       passwordChanged: true,
+      respondMsg: "",
+      passwordConfirm: "",
+      password: "",
+      deleteAccText: "Delete my account",
     };
   },
   methods: {
-    togglePasswordChange() {
-      this.changePassword = !this.changePassword;
+    deleteAccount() {
+      this.showPasswordInput = !this.showPasswordInput;
+      if (this.showPasswordInput) {
+        this.deleteAccText = "Cancel";
+      } else {
+        this.deleteAccText = "Delete my account";
+      }
     },
-    saveChanges(event) {
-      event.target.classList.toggle("loading");
+    submitDelete() {
+      if (
+        !confirm(
+          "Are you sure? Everything will be deleted and there is no way back."
+        )
+      ) {
+        return;
+      }
+      this.requestIsPending = true;
 
-      setTimeout(() => {
-        event.target.classList.remove("loading");
-        // api call
-        event.target.classList.add("success");
-      }, 1000);
+      if (this.password == "" || this.password != this.passwordConfirm) {
+        this.respondMsg = "Please check your input.";
+        this.requestIsPending = false;
+        return;
+      }
 
-      setTimeout(() => {
-        event.target.classList.remove("success");
-      }, 2500);
+      this.$store
+        .dispatch("deleteAccount", {
+          password: this.password,
+          email: this.getUserData.email,
+        })
+        .then((res) => {
+          if (res === true) {
+            confirm("Your account has been deleted.")
+            this.$store.commit("logoutUserState")
+            this.$router.push("/home");
+          } else {
+            alert(res);
+          }
+          this.requestIsPending = false;
+        });
     },
   },
   computed: {
@@ -267,6 +317,13 @@ section {
   background-color: var(--form_gray);
 }
 
+.delete {
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/**/
 .container > div input:focus {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   background-color: #fff;
@@ -274,15 +331,30 @@ section {
 
 .input-password {
   font-family: caption;
+  padding: 4px;
 }
+
 .change-psw {
   cursor: pointer;
   color: var(--burgundy);
 }
 
-.save-pswd{
+.delete-acc {
   align-items: center !important;
+  gap: 4px;
+  font-size: 14px;
 }
+.delete-acc p {
+  color: var(--green);
+}
+.delete-btn {
+  background-color: var(--burgundy);
+  padding: 8px;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
 .change-psw:hover {
   color: rgb(163, 24, 24);
 }

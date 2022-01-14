@@ -41,8 +41,6 @@ export default {
                     })
                 })
         } catch {
-            // context.commit("removeLoader")
-            //  console.log("There was an error!");
             return "There was an error!"
         }
 
@@ -163,8 +161,8 @@ export default {
         return responseData.message
     }
     ,
-    async contactMe(_, payload) {
-        // console.log("payload", payload);
+    async contactMe(context, payload) {
+        let access_token = context.getters.token;
         let url = `${process.env.VUE_APP_CONTACT_URL}`;
         let response;
         try {
@@ -173,7 +171,7 @@ export default {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-
+                        "Authorization": "Bearer " + access_token
                     },
                     body: JSON.stringify({
                         email: payload.email,
@@ -187,6 +185,34 @@ export default {
         if (!response.ok) {
             return false
         }
+        return true
+    },
+
+    async deleteAccount(_, payload){
+        let url = `${process.env.VUE_APP_DELETEACC_URL}`;
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: payload.email,
+                        password: payload.password
+                    })
+                });
+
+        } catch {
+            return false
+        }
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            responseData.message
+        }
+
         return true
     }
 }

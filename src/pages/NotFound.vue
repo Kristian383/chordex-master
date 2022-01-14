@@ -4,8 +4,9 @@
 
 <script>
 export default {
-    components: {
-    },
+    mounted(){
+    this.$store.commit("removeSidebar")
+  }
 };
 </script>
 
@@ -13,5 +14,6 @@ export default {
 scoped>
 h2{
   text-align: center;
+  margin-top: 50px;
 }
 </style>

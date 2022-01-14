@@ -74,9 +74,11 @@ export default {
       errorText: null,
       requestIsPending: false,
       goodRequest: false,
+      token: "",
+      email: "",
     };
   },
- 
+
   computed: {
     pswdType() {
       return this.show ? "text" : "password";
@@ -105,23 +107,21 @@ export default {
       } else if (this.newPswd.length < 6) {
         this.formIsValid = false;
         this.requestIsPending = false;
-        this.errorText = "Password too short. Please enter longer than 6 chars.";
+        this.errorText =
+          "Password too short. Please enter longer than 6 chars.";
         return;
-
-      }else if(this.newPswd.length>45){
+      } else if (this.newPswd.length > 45) {
         this.formIsValid = false;
         this.requestIsPending = false;
-        this.errorText = "Password too long. Please enter shorter than 45 chars.";
+        this.errorText =
+          "Password too long. Please enter shorter than 45 chars.";
         return;
       }
 
       //api call
-      let token = this.$route.query.token;
-      let email = this.$route.query.email;
-      // this.errorText=null;
-      // this.$store.commit("checkToken",  token )
+
       this.$store
-        .dispatch("resetPassword", { token, new: this.newPswd, email })
+        .dispatch("resetPassword", { token:this.token, new: this.newPswd, email:this.email })
         .then((res) => {
           if (res === "expired") {
             this.errorText = "Link has expired. Type your email again.";
@@ -139,6 +139,16 @@ export default {
           }, 3000);
         });
     },
+  },
+  mounted() {
+    this.token = this.$route.query.token;
+    this.email = this.$route.query.email;
+
+    if (!this.token || !this.email) {
+      this.$router.push("/home");
+    }
+    this.$store.commit("removeSidebar");
+
   },
 };
 </script>

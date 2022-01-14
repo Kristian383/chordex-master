@@ -309,7 +309,7 @@ export default {
   max-height: 400px;
   max-width: 100%;
 }
-@media (min-width: 1400px) {
+@media (min-width: 1500px) {
   .song-detail {
     grid-template-columns: displayAccordingToYT;
   }

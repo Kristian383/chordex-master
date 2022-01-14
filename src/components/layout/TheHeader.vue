@@ -54,7 +54,7 @@ export default {
     // },
     checkScreen() {
       this.windowWidth = window.innerWidth;
-      if (this.windowWidth <= 950) {
+      if (this.windowWidth <= 900) {
         //  this.mobile = true;
         this.$store.commit("setMobile",true)
         this.hideLogo = true;

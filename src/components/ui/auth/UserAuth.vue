@@ -224,7 +224,7 @@ export default {
           // console.log(this.errorText);
           if (res==true) {
             this.errorText =
-              "We received your request. Please check your email.";
+              "We received your request. Please check your email (and spam folder).";
             this.goodRequest = true;
           } else if(!res){
             this.errorText = "User with that email doesnt exist.";
@@ -272,6 +272,8 @@ export default {
         ) {
           this.formIsValid = false;
           this.requestIsPending = false;
+          this.errorText = "Please check your input.";
+
           return;
         }
 

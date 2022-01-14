@@ -67,7 +67,7 @@ export default {
         }
         const responseData = await response.json();
         if (!response.ok) {
-            // window.alert( 'Failed to add song.');
+            //  window.alert( 'Failed to add song.');
             return false
         } else {
             if (payload.songId) {
@@ -276,7 +276,7 @@ export default {
             return
         }
         const responseData = await response.json();
-        console.log("deleteUserWebsite", responseData);
+        // console.log("deleteUserWebsite", responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add user website.');
             return
@@ -337,28 +337,4 @@ export default {
         return responseData
 
     },
-    // async spotifyArtistImgUrl(_,payload){
-    //     let url = `${process.env.VUE_APP_ARTIST_IMG_URL}`;
-    //     let response;
-    //     try {
-    //         response = await fetch(url,
-    //             {
-    //                 method: "POST",
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                 },
-    //                 body: JSON.stringify(
-    //                     payload
-    //                 )
-    //             });
-
-    //     } catch {
-    //         return false
-    //     }
-    //     const responseData = await response.json();
-    //     if (!response.ok) {
-    //         return false
-    //     }
-    //     return responseData
-    // }
 }
