@@ -410,7 +410,7 @@ export default {
           this.formIsValid = false;
           this.song.isValid = false;
           this.errorMsg =
-            "Something went wrong. Check if you already have that song or if you have reached maximum number of songs (50).";
+            "Something went wrong. Check if you already have that song or if you have reached maximum number of songs (25).";
         }
       });
     },
