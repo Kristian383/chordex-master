@@ -11,19 +11,11 @@
     </template>
     <!-- saong list -->
     <div class="song-cards">
-      <!-- <template v-if="AllSongs"> -->
-      <!-- <p v-if="!AllSongs.length">Currently no songs.</p> -->
       <song-card
         v-for="song in AllSongs"
         :key="song.songId"
         :song="song"
       ></song-card>
-      <!-- </template> -->
-      <!-- <skeleton-song-card
-        v-for="skeleton in 2"
-        :key="skeleton"
-        v-else
-      ></skeleton-song-card> -->
     </div>
     <!-- loader -->
     <div class="box" v-if="songsLoading">
@@ -37,22 +29,17 @@ import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import BaseCard from "../components/ui/BaseCard.vue";
 import SortByOptimized from "../components/ui/SortByOptimized.vue";
-// import SkeletonSongCard from "./../components/song/SkeletonSongCard.vue";
 export default {
   components: {
     Filters,
     SongCard,
     BaseCard,
     SortByOptimized,
-    // SkeletonSongCard,
   },
   data() {
     return {
       loading: true,
       filters: [],
-      // itemsAreLoading: false,
-      // el: null,
-      // observer: null,
     };
   },
   computed: {
@@ -95,42 +82,7 @@ export default {
     sortSongs(option) {
       this.$store.commit("sortSongs", option);
     },
-    // handleIntersect(entries) {
-    // if (entries[0].isIntersecting) {
-    // this.itemsAreLoading = true;
-    // this.$store.dispatch("loadMoreSongs").then(()=>{
-    //   this.itemsAreLoading = false;
-    // this.isLoaded = true;
-    // });
-    // this.$store.getters.lazyLoadSongs("songs")
-
-    //     this.filterSongs();
-    //     if (this.$route.params.name) {
-    //       this.$store.state.mySongsLoaded += 2;
-    //     } else {
-    //       this.$store.state.songsLoaded += 2;
-    //     }
-    //     this.isLoaded = true;
-    //   }
-    // },
   },
-  mounted() {
-    // let options = {
-    //   root: null,
-    //   rootMargin: " 0px",
-    //   threshold: 0.5,
-    // };
-    // this.observer = new IntersectionObserver(this.handleIntersect, options);
-    // this.el = document.querySelector(".footer");
-    // this.observer.observe(this.el);
-    // this.$store.dispatch("loadMoreSongs").then(() => {
-    //   this.isLoaded = true;
-    // });
-  },
-  beforeUnmount() {
-    // this.observer.unobserve(this.el);
-  },
-  
 };
 </script>
 

@@ -54,10 +54,7 @@ footer {
   font-weight: 500;
   font-size: 18px;
 }
-/* .spotify-content{
-display: flex;
-gap: 12px;
-} */
+
 
 .spotify-logo {
   width: 95px;

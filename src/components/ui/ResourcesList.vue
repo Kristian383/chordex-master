@@ -1,7 +1,6 @@
 <template>
   <base-card>
     <div class="section">
-      
       <div class="todos">
         <span><h2>Useful websites</h2></span>
         <br />
@@ -59,11 +58,8 @@ export default {
     return {
       website: {
         name: "",
-        // id: null,
         link: "",
       },
-      // notes: null,
-      // txtAreaHeight: null,
       badInput: false,
     };
   },
@@ -99,30 +95,13 @@ export default {
     deleteWebsite(name) {
       this.$store.dispatch("deleteUserWebsite", name);
     },
-
-    // updateNotes() {
-    //   this.$store.dispatch("updateUsersNotes", {
-    //     notes: this.notes,
-    //     txtAreaHeight: this.$refs.txtHeight.offsetHeight,
-    //   });
-    // },
   },
   computed: {
     getWebsites() {
       return this.$store.getters.getUserWebsitesLinks;
     },
-    // getTxtAreaHeight() {
-    //   return this.$store.getters.getTxtAreaHeight;
-    // },
-    // getNotes() {
-    //   return this.$store.getters.getUserNotes;
-    // },
   },
   mounted() {
-    // this.$store.dispatch("loadUsersNotes").then(() => {
-    //   this.notes = this.getNotes;
-    // });
-
     this.$store.dispatch("loadUserWebsites");
   },
 };
@@ -181,13 +160,11 @@ export default {
 input {
   font-size: 21px;
   padding: 14px;
-  /* margin-bottom: 20px; */
   outline: 0;
   width: 100%;
   border-radius: 8px;
   height: 100%;
   border: 2px solid #252934;
-  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
 }
 .todos .inputs {
   display: grid;
@@ -204,7 +181,6 @@ input {
   list-style-type: none;
   display: flex;
   font-weight: 500;
-  /* gap: 18px; */
   align-items: center;
   margin-bottom: 10px;
   padding: 14px;

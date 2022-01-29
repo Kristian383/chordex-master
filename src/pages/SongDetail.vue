@@ -26,7 +26,6 @@
         </div>
         <!-- Artist and learned-->
         <div>
-          <!-- <div><b>Artist:</b> <router-link :to="'?artist='+songData.artist">{{songData.artist}} </router-link> </div> -->
           <div class="artist-link"><b>Artist:</b> <router-link :to="{path:'/songs',query:{artist:songData.artist}}"  >{{songData.artist}} </router-link> </div>
           <div class="song-info-box">
             <b>Learned:</b> {{ songData.practicedPrcntg }}%
@@ -250,7 +249,6 @@ export default {
   border-right: 6px solid var(--burgundy);
 }
 .artist-link a{
-  /* text-decoration: none; */
   color: inherit;
   font-weight: 600;
 }

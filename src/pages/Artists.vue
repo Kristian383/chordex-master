@@ -64,7 +64,6 @@ export default {
       selectedArtist: null,
       list: this.sortList,
       itemsAreLoading: false,
-      // observer:null,
       el: null,
     };
   },
@@ -72,19 +71,6 @@ export default {
     sortArtists(option) {
       this.$store.commit("sortArtists", option);
     },
-
-    // handleIntersect(entries) {
-    //   if (entries[0].isIntersecting) {
-    //     this.itemsAreLoading = true;
-    //     // setTimeout(() => {
-    //     this.$store.dispatch("loadAllArtists").then(() => {
-    //       this.itemsAreLoading = false;
-    //       this.isLoaded = true;
-    //     });
-
-    //     // }, 1000);
-    //   }
-    // },
   },
   computed: {
     dragOptions() {
@@ -107,26 +93,6 @@ export default {
         this.$store.commit("updateArtistsList", newList);
       },
     },
-  },
-  mounted() {
-    // let options = {
-    //   root: null,
-    //   rootMargin: " 0px",
-    //   threshold: 0.5,
-    // };
-    // this.observer = new IntersectionObserver(this.handleIntersect, options);
-    // this.el = document.querySelector(".footer");
-    // this.observer.observe(this.el);
-    // this.$store.dispatch("loadAllArtists")
-    // .then(() => {
-    //   this.isLoaded = true;
-    // });
-    // setTimeout(() => {
-    // }, 1000);
-  },
-  beforeUnmount() {
-    // console.log("unmounting artists component");
-    // this.observer.unobserve(this.el)
   },
 };
 </script>
@@ -198,7 +164,6 @@ export default {
 .list-group .list-group-item .details h2 {
   font-size: 18px;
   color: #111;
-  /* padding: 0px 5px 3px; */
   display: block;
   height: 100%;
 }
@@ -210,8 +175,6 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-
-  /* padding-top: 14px; */
 }
 .list-group .list-group-item .details h2 a:hover {
   color: var(--burgundy);

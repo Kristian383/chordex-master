@@ -23,12 +23,10 @@
 </template>
 
 <script>
-// import TheLoader from "./../components/ui/TheLoader.vue";
 import ContactMe from "./../components/ui/auth/ContactMe.vue";
 
 export default {
   components: {
-    // TheLoader,
     ContactMe
   },
   mounted() {

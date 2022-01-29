@@ -190,7 +190,6 @@ export default {
   height: 100%;
   width: 240px;
   background-color: var(--dark_blue_sidebar);
-  /* position: fixed; */
   position: absolute;
 
   top: 0;
@@ -399,15 +398,6 @@ export default {
   transform: rotate(180deg);
   color: var(--white);
 }
-
-/* .sidebar #logout {
-  position: absolute;
-  left: 35%;
-  bottom: 16px;
-  font-size: 24px;
-  transform: rotate(180deg);
-  transition: all 0.3s ease-in;
-} */
 
 #logout:hover {
   cursor: pointer;

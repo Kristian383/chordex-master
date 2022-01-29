@@ -243,7 +243,6 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  /* align-items: center; */
   background-color: #f8f8f8;
   margin-top: 24px;
   padding: 28px 8px;
@@ -270,7 +269,6 @@ export default {
   gap: 18px;
   transition: 0.3s ease-in all;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  /* border-bottom: 4px solid #ff4f5a; */
   cursor: pointer;
   padding: 14px;
 }
@@ -327,14 +325,12 @@ export default {
   color: var(--dark_gray_font);
 
   flex-direction: column;
-  /* align-items: center; */
   padding: 24px;
   border-radius: 8px;
   font-size: 20px;
   line-height: 28px;
   gap: 44px;
   order: 1;
-  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   max-width: 600px;
 }
 .product-info p {

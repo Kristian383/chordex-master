@@ -49,18 +49,13 @@ export default {
     },
   },
   methods: {
-    // switchMobNav() {
-    //   this.hideLogo = !this.hideLogo;
-    // },
     checkScreen() {
       this.windowWidth = window.innerWidth;
       if (this.windowWidth <= 900) {
-        //  this.mobile = true;
         this.$store.commit("setMobile",true)
         this.hideLogo = true;
         return;
       }
-      //  this.mobile = false;
       this.$store.commit("setMobile",false)
       this.hideLogo = false;
       return;
@@ -101,16 +96,13 @@ header {
   transition: 0.5s ease all;
   position: sticky;
   top: 0;
-  /* padding: 0 1rem; */
 }
 header nav {
   display: flex;
-  /* flex-direction: row; */
   flex-direction: column;
   padding: 12px 0;
   transition: 0.5s ease all;
   margin: 0 auto;
-  /* width: 90%; */
   width: 100%;
   position: relative;
 }
@@ -119,7 +111,6 @@ header .navigation {
   display: flex;
   align-items: center;
   flex: 1;
-  /* justify-content: flex-end; */
   justify-content: center;
 }
 @media (min-width: 1140px) {

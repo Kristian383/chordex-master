@@ -3,10 +3,6 @@
     <div class="card-header">
       <div class="image">
         <img :src="song.imgUrl || 'https://img.freepik.com/free-vector/song-sunset-illustration-vector_167947-75.jpg?size=338&ext=jpg'" alt="Photo" />
-        <!-- <img
-          src="https://i.scdn.co/image/ab67616d00001e0294d08ab63e57b0cae74e8595"
-          alt="Photo"
-        /> -->
       </div>
 
       <div class="icons">

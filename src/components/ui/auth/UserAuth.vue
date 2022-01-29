@@ -496,11 +496,6 @@ export default {
 
 /* show error  */
 
-/* .error-msg {
-  border: var(--burgundy) solid 2px !important;
-  -webkit-animation: shake 0.2s ease-in-out 0s 2;
-  animation: shake 0.2s ease-in-out 0s 2;
-} */
 .error-text {
   color: var(--burgundy);
   font-size: 12px;
@@ -508,36 +503,6 @@ export default {
 .error-text.valid {
   color: var(--green);
 }
-/* 
-@-webkit-keyframes shake {
-  0% {
-    margin-left: 0;
-  }
-  25% {
-    margin-left: 0.5rem;
-  }
-  75% {
-    margin-left: -0.5rem;
-  }
-  100% {
-    margin-left: 0;
-  }
-}
-
-@keyframes shake {
-  0% {
-    margin-left: 0;
-  }
-  25% {
-    margin-left: 0.5rem;
-  }
-  75% {
-    margin-left: -0.5rem;
-  }
-  100% {
-    margin-left: 0;
-  }
-} */
 
 /* loader */
 .tab-content {

@@ -58,8 +58,7 @@ export default {
       let formatedKeys = [];
       this.$store.getters.getMusicKeys.forEach((element) => {
         let each = [];
-        // each.push(element.key, ...element.notes);
-        each.push( ...element.notes);
+        each.push(...element.notes);
         formatedKeys.push(each);
       });
       return formatedKeys;
@@ -135,13 +134,6 @@ tbody tr:nth-last-child(-n + 7) {
 tbody td:nth-child(6) {
   font-weight: 600;
 }
- /* tbody td:nth-child(2), 
-tbody td:nth-child(3), 
-tbody td:nth-child(6) 
-{
-  background-color: #f7f7f7;
-}  */
-
 
 @media (min-width: 720px) {
   table th {
@@ -162,14 +154,9 @@ tr:hover {
 }
 tr:hover td {
   background: #b0b0b0;
-  /* color: #ffffff; */
   cursor: pointer;
 }
-/* tr:hover td:nth-child(2),
-tr:hover td:nth-child(3),
-tr:hover td:nth-child(6){
-  background-color: #ccc;
-} */
+
 tr td:nth-child(6) {
   text-decoration: underline;
 }
@@ -191,14 +178,13 @@ tr td:nth-child(6) {
   width: 100%;
   min-height: 200px;
   line-height: 31px;
-  
+
   font-size: inherit;
 
   margin-top: 3em;
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  /* background-color: var(--f1_gray); */
   background-color: var(--light_gray);
   resize: vertical;
   color: var(--font_black);
