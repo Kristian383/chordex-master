@@ -191,7 +191,7 @@ export default {
   methods: {
     toggleForm() {
       this.login = !this.login;
-
+      this.resetPswd=false;
       this.formIsValid = true;
       this.errorText = null;
     },
