@@ -121,12 +121,10 @@
 <script>
 import BaseCard from "./../components/ui/BaseCard.vue";
 import TheLoader from "../components/ui/TheLoader.vue";
-// import ButtonSave from "./../components/ui/ButtonSave.vue";
 export default {
   components: {
     TheLoader,
     BaseCard,
-    // ButtonSave,
   },
   data() {
     return {
@@ -170,12 +168,16 @@ export default {
           email: this.getUserData.email,
         })
         .then((res) => {
-          if (res === true) {
-            confirm("Your account has been deleted.")
-            this.$store.commit("logoutUserState")
+          if (res == 200) {
+            confirm("Your account has been deleted.");
+            this.$store.dispatch("logout");
             this.$router.push("/home");
+          } else if (res == 401) {
+            alert("Wrong password! Please try again.");
           } else {
-            alert(res);
+            alert(
+              "Looks like something went wrong on our side. Please report a bug :)"
+            );
           }
           this.requestIsPending = false;
         });
