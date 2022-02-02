@@ -74,7 +74,7 @@
               id="ikona"
               icon="question-circle"
             ></font-awesome-icon>
-            <span class="links_name">Find a key </span>
+            <span class="links_name">Keys & Notes</span>
           </router-link>
         </li>
 
