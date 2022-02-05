@@ -48,7 +48,7 @@ export default {
         } else if (option == "Best learned") {
             state.songs.sort((a, b) => b.practicedPrcntg - a.practicedPrcntg)
         }
-        else if (option == "Last viewed") {
+        else if (option == "Last added") {
             state.songs.sort((a, b) => {
                 return new Date(b.lastViewed) - new Date(a.lastViewed)
             })
