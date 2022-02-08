@@ -4,7 +4,8 @@ import Songs from "./pages/Songs.vue"
 import TheHome from "./pages/TheHome.vue"
 import UserProfile from "./pages/UserProfile.vue"
 import SongDetail from "./pages/SongDetail.vue"
-import Artists from "./pages/Artists.vue"
+// import Artists from "./pages/Artists.vue"
+import ArtistsView from "./pages/ArtistsView.vue"
 import AddSong from "./pages/AddSong.vue"
 import ResetPassword from "./pages/ResetPassword.vue"
 import FindKey from "./pages/FindKey.vue"
@@ -24,7 +25,7 @@ const router = createRouter({
     { path: "/songs/:songId", component: SongDetail, name: "SongDetail", meta: { title: "Song Detail | Chordex", requiresAuth: true }, props: true, },
 
     { path: "/profile", component: UserProfile, name: "Account Settings", meta: { title: "My Profile | Chordex", requiresAuth: true } },
-    { path: "/artists", component: Artists, name: "Artists", meta: { title: "Artists | Chordex", requiresAuth: true } },
+    { path: "/artists", component: ArtistsView, name: "Artists", meta: { title: "Artists | Chordex", requiresAuth: true } },
     //{ path: "/artists/:name", component: Songs, name: "Artists Songs", meta: { title: "Artists Songs | Chordex", requiresAuth: true } },//ovo staviti u query /artists?name=:name
     { path: "/new", component: AddSong, name: "Add Song", meta: { title: "Add Song | Chordex", requiresAuth: true } },
     { path: "/new/:songId", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex", requiresAuth: true } },
