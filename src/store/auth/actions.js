@@ -20,9 +20,9 @@ export default {
     async auth(context, payload) {
 
         const mode = payload.mode;
-        let url = `${process.env.VUE_APP_LOGIN_URL}`;
+        let url = `${process.env.VUE_APP_URL}login`;
         if (mode === "signup") {
-            url = `${process.env.VUE_APP_REGISTER_URL}`;
+            url = `${process.env.VUE_APP_URL}signup`;
         }
         // console.log("pay", payload);
         let response;
@@ -108,7 +108,7 @@ export default {
     },
 
     async forgotPassword(_, email) {//context,payload
-        let url = `${process.env.VUE_APP_FORGOTPSWD_URL}`;
+        let url = `${process.env.VUE_APP_URL}forgotpassword`;
         let response;
         try {
             response = await fetch(url,
@@ -135,7 +135,7 @@ export default {
     },
 
     async resetPassword(_, payload) {
-        let url = `${process.env.VUE_APP_RESETPSWD_URL}/${payload.token}`;
+        let url = `${process.env.VUE_APP_URL}resetpassword/${payload.token}`;
         const expiresIn = jwt_decode(payload.token, { header: true }).exp;
         var ts = Math.round((new Date()).getTime() / 1000);
 
@@ -163,7 +163,7 @@ export default {
     ,
     async contactMe(context, payload) {
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_CONTACT_URL}`;
+        let url = `${process.env.VUE_APP_URL}contactme`;
         let response;
         try {
             response = await fetch(url,
@@ -189,7 +189,7 @@ export default {
     },
 
     async deleteAccount(_, payload){
-        let url = `${process.env.VUE_APP_DELETEACC_URL}`;
+        let url = `${process.env.VUE_APP_URL}deleteacc`;
         let response;
         try {
             response = await fetch(url,
