@@ -444,6 +444,7 @@ export default {
 .forgot {
   text-align: right;
   cursor: pointer;
+  font-size: 14px;
 }
 .forgot a {
   color: inherit;
