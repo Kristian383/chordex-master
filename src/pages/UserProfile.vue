@@ -202,7 +202,7 @@ export default {
 
 <style scoped>
 header {
-  background-image: url("../assets/nightcover.jpg");
+  background-image: url("../assets/skycover.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
