@@ -26,7 +26,13 @@
         </div>
         <!-- Artist and learned-->
         <div>
-          <div class="artist-link"><b>Artist:</b> <router-link :to="{path:'/songs',query:{artist:songData.artist}}"  >{{songData.artist}} </router-link> </div>
+          <div class="artist-link">
+            <b>Artist:</b>
+            <router-link
+              :to="{ path: '/songs', query: { artist: songData.artist } }"
+              >{{ songData.artist }}
+            </router-link>
+          </div>
           <div class="song-info-box">
             <b>Learned:</b> {{ songData.practicedPrcntg }}%
           </div>
@@ -106,14 +112,7 @@
           allowfullscreen
         ></iframe>
 
-        <img
-          v-else
-          :src="
-            songData.imgUrl ||
-            'https://img.freepik.com/free-vector/song-sunset-illustration-vector_167947-75.jpg?size=338&ext=jpg'
-          "
-          alt=""
-        />
+        <img v-else :src="songData.imgUrl || imgUrl" alt="" />
       </div>
 
       <div class="box notebook">
@@ -224,6 +223,9 @@ export default {
         return "play-circle";
       }
     },
+    imgUrl() {
+      return require("@/assets/music.png");
+    },
   },
   beforeUnmount() {
     this.play = false;
@@ -248,11 +250,11 @@ export default {
   font-size: 18px;
   border-right: 6px solid var(--burgundy);
 }
-.artist-link a{
+.artist-link a {
   color: inherit;
   font-weight: 600;
 }
-.artist-link a:hover{
+.artist-link a:hover {
   color: var(--mid_gray);
 }
 

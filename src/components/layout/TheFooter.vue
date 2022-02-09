@@ -9,10 +9,11 @@
         </ul>
       </div>
       <!--  -->
-      <p>&copy; Kristian Nenadovic</p>
+      <p>&copy; Kristian Nenadovic 2022</p>
       <div class="spotify-logo">
         <img src="./../../assets/spotify.png" alt="Logo" />
       </div>
+      <a class="contribution" href="https://www.freepik.com/vectors/banner">Photos by Freepik</a>
     </div>
   </footer>
 </template>
@@ -58,6 +59,12 @@ footer {
 
 .spotify-logo {
   width: 95px;
+}
+.contribution{
+  text-decoration: none;
+  color: black;
+  font-size: 12px;
+
 }
 
 .spotify-logo img {

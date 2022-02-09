@@ -2,7 +2,7 @@
   <div class="card" @click="openSongDetail">
     <div class="card-header">
       <div class="image">
-        <img :src="song.imgUrl || 'https://img.freepik.com/free-vector/song-sunset-illustration-vector_167947-75.jpg?size=338&ext=jpg'" alt="Photo" />
+        <img :src="song.imgUrl || imgUrl" alt="Photo" />
       </div>
 
       <div class="icons">
@@ -130,6 +130,9 @@ export default {
       }
       return Math.floor(seconds) + "s ago";
     },
+    imgUrl(){
+      return require("@/assets/music.png");
+    }
   },
   
 };
