@@ -13,7 +13,7 @@
       <div class="spotify-logo">
         <img src="./../../assets/spotify.png" alt="Logo" />
       </div>
-      <a class="contribution" href="https://www.freepik.com/vectors/banner">Photos by Freepik</a>
+      <a class="contribution" target="_blank" href="https://www.freepik.com/vectors/banner">Photos by Freepik</a>
     </div>
   </footer>
 </template>
