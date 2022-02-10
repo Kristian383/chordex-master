@@ -400,7 +400,7 @@ svg {
 }
 .middle-icons .edit {
   position: absolute;
-  right: 40px;
+  right: 50px;
 }
 .middle-icons .delete:hover,
 .middle-icons .edit:hover {
