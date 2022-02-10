@@ -6,15 +6,16 @@
       </div>
 
       <div class="icons">
-        <div class="icon" id="edit" @click.stop="openEditMode">
-          <font-awesome-icon icon="edit"></font-awesome-icon>
-        </div>
+        
         <div
           class="icon"
           @click.stop="toggleFavorite"
           :class="{ is_favorite: isFavorite }"
         >
           <font-awesome-icon icon="heart"></font-awesome-icon>
+        </div>
+        <div class="icon" id="edit" @click.stop="openEditMode">
+          <font-awesome-icon icon="edit"></font-awesome-icon>
         </div>
       </div>
     </div>
