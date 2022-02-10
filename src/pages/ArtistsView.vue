@@ -29,7 +29,7 @@
 import BaseCard from "./../components/ui/BaseCard.vue";
 // import TheLoader from "./../components/ui/TheLoader.vue";
 import SortBy from "../components/ui/SortBy.vue";
-import { ref, computed } from "vue";
+import {  computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: {
