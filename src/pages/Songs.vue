@@ -52,7 +52,7 @@ export default {
         "Oldest",
         "Best learned",
         "Least learned",
-        "Keys",
+        // "Keys",
         "A-Z",
         "Z-A",
       ];
