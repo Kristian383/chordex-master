@@ -4,10 +4,8 @@ export default {
 
     logout(context) {
         localStorage.removeItem("token");
-        // localStorage.removeItem("tokenExpiration");
         localStorage.removeItem("username");
         localStorage.removeItem("email");
-        // clearTimeout(timer);
 
         context.commit("setUser", {
             token: null,
@@ -20,11 +18,13 @@ export default {
     async auth(context, payload) {
 
         const mode = payload.mode;
-        let url = `${process.env.VUE_APP_LOGIN_URL}`;
+        // let url = `${process.env.VUE_APP_URL}login`;
+        let url = new URL(`/login`, process.env.VUE_APP_URL)
+
         if (mode === "signup") {
-            url = `${process.env.VUE_APP_REGISTER_URL}`;
+            // url = `${process.env.VUE_APP_URL}signup`;
+            url = new URL(`/signup`, process.env.VUE_APP_URL)
         }
-        // console.log("pay", payload);
         let response;
         try {
             response = await fetch(url,
@@ -45,7 +45,6 @@ export default {
         }
 
         const responseData = await response.json();
-        //console.log(responseData);
         if (!response.ok) {
             return responseData.message
         }
@@ -65,7 +64,7 @@ export default {
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
-        
+
     },
 
     tryLogin(context) {
@@ -85,18 +84,18 @@ export default {
             const user = {
                 username, email
             }
-            
+
             context.commit("setUser", {
                 token: token,
                 expiresIn,
                 user
             })
             context.dispatch("loadAllSongs")
-            .then(res => {
-                if (res=="There was an error!" || res==false) {
-                    context.dispatch("autoLogout")
-                }
-            });
+                .then(res => {
+                    if (res == "There was an error!" || res == false) {
+                        context.dispatch("autoLogout")
+                    }
+                });
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
             context.commit("activateSidebar");
@@ -108,7 +107,9 @@ export default {
     },
 
     async forgotPassword(_, email) {//context,payload
-        let url = `${process.env.VUE_APP_FORGOTPSWD_URL}`;
+        // let url = `${process.env.VUE_APP_URL}forgotpassword`;
+        let url = new URL(`/forgotpassword`, process.env.VUE_APP_URL)
+
         let response;
         try {
             response = await fetch(url,
@@ -125,7 +126,6 @@ export default {
             console.log("There was an error!");
             return "error"
         }
-        //console.log(responseData);
         if (!response.ok) {
             return false
         } else {
@@ -135,7 +135,9 @@ export default {
     },
 
     async resetPassword(_, payload) {
-        let url = `${process.env.VUE_APP_RESETPSWD_URL}/${payload.token}`;
+        // let url = `${process.env.VUE_APP_URL}resetpassword/${payload.token}`;
+        let url = new URL(`/resetpassword/${payload.token}`, process.env.VUE_APP_URL)
+        
         const expiresIn = jwt_decode(payload.token, { header: true }).exp;
         var ts = Math.round((new Date()).getTime() / 1000);
 
@@ -163,7 +165,9 @@ export default {
     ,
     async contactMe(context, payload) {
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_CONTACT_URL}`;
+        // let url = `${process.env.VUE_APP_URL}contactme`;
+        let url = new URL(`/contactme`, process.env.VUE_APP_URL)
+        
         let response;
         try {
             response = await fetch(url,
@@ -188,8 +192,10 @@ export default {
         return true
     },
 
-    async deleteAccount(_, payload){
-        let url = `${process.env.VUE_APP_DELETEACC_URL}`;
+    async deleteAccount(_, payload) {
+        // let url = `${process.env.VUE_APP_URL}deleteacc`;
+        let url = new URL(`/deleteacc`, process.env.VUE_APP_URL)
+
         let response;
         try {
             response = await fetch(url,

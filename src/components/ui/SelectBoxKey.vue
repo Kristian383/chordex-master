@@ -69,6 +69,9 @@ export default {
     chooseKey(selected) {
       this.selectedKey = selected.key;
       this.chooseKeyIsActive = false;
+      this.selectedQuality = null;
+      // this.$emit("keySelected", false);
+
     },
     chooseQualityKey(quality) {
       if (!this.selectedKey) {

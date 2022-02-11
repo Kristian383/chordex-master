@@ -2,13 +2,10 @@
   <div class="card" @click="openSongDetail">
     <div class="card-header">
       <div class="image">
-        <img :src="song.imgUrl || 'https://img.freepik.com/free-vector/song-sunset-illustration-vector_167947-75.jpg?size=338&ext=jpg'" alt="Photo" />
+        <img :src="song.imgUrl || imgUrl" alt="Photo" />
       </div>
 
       <div class="icons">
-        <div class="icon" id="edit" @click.stop="openEditMode">
-          <font-awesome-icon icon="edit"></font-awesome-icon>
-        </div>
         <div
           class="icon"
           @click.stop="toggleFavorite"
@@ -16,14 +13,20 @@
         >
           <font-awesome-icon icon="heart"></font-awesome-icon>
         </div>
+        <div class="icon" id="edit" @click.stop="openEditMode">
+          <font-awesome-icon icon="edit"></font-awesome-icon>
+        </div>
       </div>
     </div>
 
     <div class="card-body">
       <div class="tags">
-        <span class="tag tag-teal" v-if="song.capo"> Capo</span>
+        <!-- <span class="tag tag-teal" v-if="song.capo"> Capo</span> -->
+        <span class="tag tag-teal" v-if="song.firstKey">
+          {{ showFirstKey }}</span
+        >
         <span
-          class="tag tag-teal"
+          class="tag tag-teal difficulty"
           v-if="song.difficulty"
           :class="skillLevelClass"
           >{{ song.difficulty }}</span
@@ -67,13 +70,16 @@ export default {
       this.$router.push(pushRoute);
     },
     toggleFavorite() {
-      this.$store.commit("toggleFavorite", { songId: this.song.songId ,isMySong:this.$route.query.isMySong});
+      this.$store.commit("toggleFavorite", {
+        songId: this.song.songId,
+        isMySong: this.$route.query.isMySong,
+      });
       this.$store.dispatch("addNewSong", this.song);
     },
     openEditMode() {
       const pushRoute = this.song.isMySong
         ? `/new/${this.song.songId}?isMySong=True`
-        : `/new/${this.song.songId}`; 
+        : `/new/${this.song.songId}`;
       // this.$router.push("/new/" + this.song.songId);
       this.$router.push(pushRoute);
     },
@@ -103,35 +109,79 @@ export default {
       return "#69b34c";
     },
     timeSince() {
-      var seconds = Math.floor(
-        (new Date() - new Date(this.song.lastViewed)) / 1000
-      );
+      const lastViewedDate = +new Date(this.song.lastViewed);
+      var msPerMinute = 60 * 1000;
+      var msPerHour = msPerMinute * 60;
+      var msPerDay = msPerHour * 24;
+      var msPerMonth = msPerDay * 30;
+      var msPerYear = msPerDay * 365;
 
-      var interval = seconds / 31536000;
+      // var elapsed = current - previous;
+      var elapsed = new Date() - lastViewedDate;
 
-      if (interval > 1) {
-        return Math.floor(interval) + " yrs ago";
+      if (elapsed < msPerMinute) {
+        return Math.round(elapsed / 1000) + "s ago";
+      } else if (elapsed < msPerHour) {
+        return Math.round(elapsed / msPerMinute) + " min ago";
+      } else if (elapsed < msPerDay) {
+        return Math.round(elapsed / msPerHour) + "h ago";
+      } else if (elapsed < msPerMonth) {
+        return Math.round(elapsed / msPerDay) + "d ago";
+      } else if (elapsed < msPerYear) {
+        return Math.round(elapsed / msPerMonth) + " mon ago";
+      } else {
+        return Math.round(elapsed / msPerYear) + " yrs ago";
       }
-      interval = seconds / 2592000;
-      if (interval > 1) {
-        return Math.floor(interval) + " mon ago";
+
+      // return 0;
+      // return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
+
+      // var seconds = Math.floor(
+      //   (new Date() - new Date(this.song.lastViewed)) / 1000
+      // );
+
+      // var interval = seconds / 31536000;
+
+      // if (interval > 1) {
+      //   return Math.floor(interval) + " yrs ago";
+      // }
+      // interval = seconds / 2592000;
+      // if (interval > 1) {
+      //   return Math.floor(interval) + " mon ago";
+      // }
+      // interval = seconds / 86400;
+      // if (interval > 1) {
+      //   return Math.floor(interval) + "d ago";
+      // }
+      // interval = seconds / 3600;
+      // if (interval > 1) {
+      //   return Math.floor(interval) + "h ago";
+      // }
+      // interval = seconds / 60;
+      // if (interval > 1) {
+      //   return Math.floor(interval) + " min ago";
+      // }
+      // return Math.floor(seconds) + "s ago";
+    },
+    imgUrl() {
+      return require("@/assets/music.png");
+    },
+    showFirstKey() {
+      // console.log(this.song.firstKey);
+      let key = "";
+      if (this.song.firstKey) {
+        key = this.song.firstKey.split(" ");
+        switch (key[1].toLowerCase()) {
+          case "major":
+            key = key[0] + " maj";
+            break;
+          default:
+            key = key[0] + " min";
+        }
       }
-      interval = seconds / 86400;
-      if (interval > 1) {
-        return Math.floor(interval) + "d ago";
-      }
-      interval = seconds / 3600;
-      if (interval > 1) {
-        return Math.floor(interval) + "h ago";
-      }
-      interval = seconds / 60;
-      if (interval > 1) {
-        return Math.floor(interval) + " min ago";
-      }
-      return Math.floor(seconds) + "s ago";
+      return key;
     },
   },
-  
 };
 </script>
 
@@ -226,7 +276,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 8px 15px 15px 15px;
+  padding: 8px 13px 13px 13px;
   gap: 10px;
   width: 100%;
 }
@@ -241,11 +291,15 @@ export default {
   margin: 0;
   color: var(--white);
   padding: 4px 10px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
+  /* text-transform: capitalize; */
   cursor: pointer;
 }
 .tag-teal {
   background-color: var(--teals);
+}
+.tag.difficulty {
+  text-transform: uppercase;
 }
 .easy {
   background-color: var(--green);

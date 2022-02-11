@@ -3,7 +3,8 @@ export default {
     async loadAllSongs(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_SONGS_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}songs/${username}`;
+        let url = new URL(`/songs/${username}`, process.env.VUE_APP_URL)
 
         context.commit("setLoader")
         let response;
@@ -37,7 +38,9 @@ export default {
     async addNewSong(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_SONG_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}song/${username}`;
+        let url = new URL(`/song/${username}`, process.env.VUE_APP_URL)
+
         const body = {
             username,
             ...payload
@@ -84,7 +87,9 @@ export default {
     async deleteSong(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_SONG_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}song/${username}`;
+        let url = new URL(`/song/${username}`, process.env.VUE_APP_URL)
+
         const body = {
             "songName": payload.songName,
             username,
@@ -117,7 +122,9 @@ export default {
     //
     //
     async loadMusicKeys(context) {
-        let url = `${process.env.VUE_APP_KEYS_URL}`;
+        // let url = `${process.env.VUE_APP_URL}keys`;
+        let url = new URL(`/keys`, process.env.VUE_APP_URL)
+
         let response;
         try {
             response = await fetch(url,
@@ -143,7 +150,9 @@ export default {
     async loadAllArtists(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_ARTISTS_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}artists/${username}`;
+        let url = new URL(`/artists/${username}`, process.env.VUE_APP_URL)
+
         let response;
         try {
             response = await fetch(url,
@@ -170,7 +179,9 @@ export default {
     async loadUsersNotes(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_NOTES_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}notes/${username}`;
+        let url = new URL(`/notes/${username}`, process.env.VUE_APP_URL)
+
         let response;
         try {
             response = await fetch(url,
@@ -198,7 +209,7 @@ export default {
     async updateUsersNotes(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_NOTES_URL}/${username}`;
+        let url = new URL(`/notes/${username}`, process.env.VUE_APP_URL)
         let response;
         try {
             response = await fetch(url,
@@ -229,7 +240,8 @@ export default {
     async addUserWebsite(context, payload) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}website/${username}`;
+        let url = new URL(`/website/${username}`, process.env.VUE_APP_URL)
         let response;
         try {
             response = await fetch(url,
@@ -256,7 +268,9 @@ export default {
     async deleteUserWebsite(context, name) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_WEBSITE_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}website/${username}`;
+        let url = new URL(`/website/${username}`, process.env.VUE_APP_URL)
+
         let response;
         try {
             response = await fetch(url,
@@ -286,7 +300,8 @@ export default {
     async loadUserWebsites(context) {
         let username = context.getters.user.username;
         let access_token = context.getters.token;
-        let url = `${process.env.VUE_APP_WEBSITES_URL}/${username}`;
+        // let url = `${process.env.VUE_APP_URL}websites/${username}`;
+        let url = new URL(`/websites/${username}`, process.env.VUE_APP_URL)
         let response;
         try {
             response = await fetch(url,
@@ -311,7 +326,7 @@ export default {
 
     //SPOTIFY API
     async apiForSongInfo(_, payload) {
-        let url = `${process.env.VUE_APP_SPOTIFY_URL}`;
+        let url = new URL("/spotifyacess", process.env.VUE_APP_URL)
         let response;
         try {
             response = await fetch(url,

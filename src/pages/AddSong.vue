@@ -340,7 +340,11 @@ export default {
       this.isFavorite = !this.isFavorite;
     },
     insertKey(data) {
-      if (data.name == "firstKey") {
+      // if(!data){
+      //   this.songInfo.firstKey = null;
+      //   this.songInfo.firstKeyNotes = null;
+      // }
+       if (data.name == "firstKey") {
         this.openSecond = true;
         this.songInfo.firstKey = data.key;
         this.songInfo.firstKeyNotes = data.notes;
@@ -632,6 +636,7 @@ export default {
   padding-top: 8px;
   gap: 26px;
 }
+
 svg {
   font-size: 24px;
   transition: all 0.2s ease-in;
@@ -651,6 +656,9 @@ svg {
   font-weight: 600;
 }
 @media (min-width: 420px) {
+  .top-section {
+    gap: 35px;
+  }
   .top-section .mysong {
     /* top: 0px; */
     left: 75px;

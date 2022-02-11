@@ -8,7 +8,7 @@
             <div class="photo">
               <img
                 class="profile-photo"
-                src="https://images.pexels.com/photos/1804796/pexels-photo-1804796.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                src="@/assets/home.jpg"
               />
             </div>
             <h4 class="name">{{ getUserData.username }}</h4>
@@ -202,7 +202,7 @@ export default {
 
 <style scoped>
 header {
-  background-image: url("https://images.pexels.com/photos/1731427/pexels-photo-1731427.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+  background-image: url("../assets/skycover.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -243,6 +243,7 @@ section {
 }
 
 .profile-photo {
+  object-fit: cover;
   width: 200px;
   height: 200px;
   margin-top: -120px;

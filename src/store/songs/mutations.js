@@ -53,6 +53,9 @@ export default {
                 return new Date(b.lastViewed) - new Date(a.lastViewed)
             })
         }
+        // else if(option =="Keys"){
+        //     state.songs.sort((a,b)=>a.firstKey.localeCompare(b.firstKey))
+        // }
         else {
             state.songs.sort((a, b) => {
                 return new Date(a.lastViewed) - new Date(b.lastViewed)
