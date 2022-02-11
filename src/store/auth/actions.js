@@ -21,10 +21,12 @@ export default {
 
         const mode = payload.mode;
         let url = `${process.env.VUE_APP_URL}login`;
+        url = new URL(`/login`, process.env.VUE_APP_URL)
+
         if (mode === "signup") {
-            url = `${process.env.VUE_APP_URL}signup`;
+            // url = `${process.env.VUE_APP_URL}signup`;
+            url = new URL(`/signup`, process.env.VUE_APP_URL)
         }
-        // console.log("pay", payload);
         let response;
         try {
             response = await fetch(url,
@@ -65,7 +67,7 @@ export default {
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
-        
+
     },
 
     tryLogin(context) {
@@ -85,18 +87,18 @@ export default {
             const user = {
                 username, email
             }
-            
+
             context.commit("setUser", {
                 token: token,
                 expiresIn,
                 user
             })
             context.dispatch("loadAllSongs")
-            .then(res => {
-                if (res=="There was an error!" || res==false) {
-                    context.dispatch("autoLogout")
-                }
-            });
+                .then(res => {
+                    if (res == "There was an error!" || res == false) {
+                        context.dispatch("autoLogout")
+                    }
+                });
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
             context.commit("activateSidebar");
@@ -108,7 +110,9 @@ export default {
     },
 
     async forgotPassword(_, email) {//context,payload
-        let url = `${process.env.VUE_APP_URL}forgotpassword`;
+        // let url = `${process.env.VUE_APP_URL}forgotpassword`;
+        let url = new URL(`/forgotpassword`, process.env.VUE_APP_URL)
+
         let response;
         try {
             response = await fetch(url,
@@ -188,7 +192,7 @@ export default {
         return true
     },
 
-    async deleteAccount(_, payload){
+    async deleteAccount(_, payload) {
         let url = `${process.env.VUE_APP_URL}deleteacc`;
         let response;
         try {
