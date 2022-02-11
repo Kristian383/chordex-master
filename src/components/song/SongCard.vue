@@ -6,7 +6,6 @@
       </div>
 
       <div class="icons">
-        
         <div
           class="icon"
           @click.stop="toggleFavorite"
@@ -22,9 +21,12 @@
 
     <div class="card-body">
       <div class="tags">
-        <span class="tag tag-teal" v-if="song.capo"> Capo</span>
+        <!-- <span class="tag tag-teal" v-if="song.capo"> Capo</span> -->
+        <span class="tag tag-teal" v-if="song.firstKey">
+          {{ showFirstKey }}</span
+        >
         <span
-          class="tag tag-teal"
+          class="tag tag-teal difficulty"
           v-if="song.difficulty"
           :class="skillLevelClass"
           >{{ song.difficulty }}</span
@@ -164,6 +166,21 @@ export default {
     imgUrl() {
       return require("@/assets/music.png");
     },
+    showFirstKey() {
+      // console.log(this.song.firstKey);
+      let key = "";
+      if (this.song.firstKey) {
+        key = this.song.firstKey.split(" ");
+        switch (key[1].toLowerCase()) {
+          case "major":
+            key = key[0] + " maj";
+            break;
+          default:
+            key = key[0] + " min";
+        }
+      }
+      return key;
+    },
   },
 };
 </script>
@@ -259,7 +276,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 8px 15px 15px 15px;
+  padding: 8px 13px 13px 13px;
   gap: 10px;
   width: 100%;
 }
@@ -274,11 +291,15 @@ export default {
   margin: 0;
   color: var(--white);
   padding: 4px 10px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
+  /* text-transform: capitalize; */
   cursor: pointer;
 }
 .tag-teal {
   background-color: var(--teals);
+}
+.tag.difficulty {
+  text-transform: uppercase;
 }
 .easy {
   background-color: var(--green);
