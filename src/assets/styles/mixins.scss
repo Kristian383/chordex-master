@@ -1,0 +1,54 @@
+
+@mixin xs {
+    @media (min-width:0px) {
+        @content;
+    }
+}
+
+@mixin sm {
+    @media (min-width:480px) {
+        @content;
+    }
+}
+
+@mixin md {
+    @media (min-width:720px) {
+        @content;
+    }
+}
+
+@mixin lg {
+    @media (min-width:960px) {
+        @content;
+    }
+}
+
+@mixin xl {
+    @media (min-width:1200px) {
+        @content;
+    }
+}
+
+// links
+@mixin link-remove-style {
+    // color: #000;
+    color: inherit;
+    font-weight: 600;
+    list-style: none;
+    text-decoration: none;
+}
+
+@mixin btn {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 8px;
+    user-select: none;
+    padding: 12px;
+    text-align: center;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  cursor: pointer
+}
+
+@mixin feedback-text{
+    color: $burgundy;
+    font-size: 12px;
+}
