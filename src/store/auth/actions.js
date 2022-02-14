@@ -22,10 +22,11 @@ export default {
         let url = new URL(`/login`, process.env.VUE_APP_URL)
 
         if (mode === "signup") {
-            // url = `${process.env.VUE_APP_URL}signup`;
-            url = new URL(`/signup`, process.env.VUE_APP_URL)
+            //  url = `${process.env.VUE_APP_URL}signup`;
+            url = new URL(`/register`, process.env.VUE_APP_URL)
         }
         let response;
+        // console.log(url);
         try {
             response = await fetch(url,
                 {
