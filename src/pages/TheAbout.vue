@@ -6,13 +6,18 @@
     <div class="about-text">
       <h2>Why should I use this website?</h2>
       <p>
+        Do you play any <b>instrument</b> such as guitar, piano or bass? If so,
+        then there is a good chance you'd find this website useful!
+      </p>
+      <p>
         What a better way of keeping the information about the songs than having
-        it <u>all in one place</u> just with couple of clicks. ChordEx is
+        it <u>all in one place</u> just with couple of clicks. <b>ChordEx</b> is
         imagined to be a virtual songbook where you can write your own
-        information about songs that you learn. Not only can you easily refresh
-        your memory, but also speed up the learning process and have more songs
-        under your repertoire. <br />
-        <br />
+        information about songs that you learn or make. Not only can you easily
+        refresh your memory, but also speed up the learning process and have
+        more songs under your repertoire.
+      </p>
+      <p>
         Having insight of key and chord progressions of each song will
         eventually help you grasp concepts of writing a song. Keep all the main
         information at one place and learn much quicker!
@@ -27,7 +32,7 @@ import ContactMe from "./../components/ui/auth/ContactMe.vue";
 
 export default {
   components: {
-    ContactMe
+    ContactMe,
   },
   mounted() {
     if (this.$route.path == "/about") {
