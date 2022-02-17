@@ -14,7 +14,7 @@ export default {};
   padding: 12px 12px 12px 28px;
   /* // padding-left: 14px; */
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 4px;
   width: 100%;
   outline: none;
   font-size: 16px;
