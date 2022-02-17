@@ -65,11 +65,26 @@ export default {
             await signInWithPopup(auth, provider).then(function (result) {
                 var user = result.user;
                 response.google_token = user.accessToken
+                response.msg="Success."
             })
         } catch (error) {
-            alert(error);
             response.google_token = false
-            response.msg = error.message
+
+            switch (error.code) {
+                case "auth/user-not-found":
+                    response.msg = "User not found";
+                    break;
+                case "auth/wrong-password":
+                    response.msg = "Wrong password";
+                    break;
+                case "auth/popup-closed-by-user":
+                    response.msg = "You closed the popup window.";
+                    break;
+                default:
+                    response.msg = "Something went wrong";
+                    // response.msg = error;
+
+            }
         }
         return response
     },
@@ -90,7 +105,10 @@ export default {
                     })
                 })
         } catch {
-            return false
+            return {
+                message: "Something went wrong.",
+                success: false
+            }
         }
         const responseData = await response.json();
         if (!response.ok) {
