@@ -1,4 +1,9 @@
 import jwt_decode from "jwt-decode";
+import { auth } from "./firebase";
+import {
+    signInWithPopup,
+    GoogleAuthProvider,
+} from "firebase/auth";
 
 export default {
 
@@ -18,15 +23,12 @@ export default {
     async auth(context, payload) {
 
         const mode = payload.mode;
-        // let url = `${process.env.VUE_APP_URL}login`;
         let url = new URL(`/login`, process.env.VUE_APP_URL)
 
         if (mode === "signup") {
-            //  url = `${process.env.VUE_APP_URL}signup`;
             url = new URL(`/register`, process.env.VUE_APP_URL)
         }
         let response;
-        // console.log(url);
         try {
             response = await fetch(url,
                 {
@@ -50,22 +52,74 @@ export default {
             return responseData.message
         }
 
-        localStorage.setItem("token", responseData.token);
-        localStorage.setItem("username", responseData.user);
-        localStorage.setItem("email", payload.user.email);
+        context.dispatch("setUserAndLoadData", responseData)
+    },
 
+    async signInWithGoogle() {
+        var provider = new GoogleAuthProvider();
+        provider.addScope("profile");
+        provider.addScope("email");
+        let response = {};
+
+        try {
+            await signInWithPopup(auth, provider).then(function (result) {
+                var user = result.user;
+                response.google_token = user.accessToken
+            })
+        } catch (error) {
+            alert(error);
+            response.google_token = false
+            response.msg = error.message
+        }
+        return response
+    },
+
+    async firebaseBackendCall(context, google_token) {
+        let url = new URL(`/firebase`, process.env.VUE_APP_URL);
+        let response;
+
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        google_token
+                    })
+                })
+        } catch {
+            return false
+        }
+        const responseData = await response.json();
+        if (!response.ok) {
+            return {
+                message: responseData.message,
+                success: false
+            }
+        }
+
+        context.dispatch("setUserAndLoadData", responseData)
+        return {
+            success: true,
+            message: "ok"
+        }
+    },
+    setUserAndLoadData(context, payload) {
+        localStorage.setItem("token", payload.token);
+        localStorage.setItem("username", payload.user);
+        localStorage.setItem("email", payload.email);
         context.commit("setUser", {
             user: {
-                username: responseData.user,
-                email: payload.user.email
+                username: payload.user,
+                email: payload.email
             },
-            token: responseData.token
-
+            token: payload.token
         })
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
-
     },
 
     tryLogin(context) {
@@ -107,10 +161,8 @@ export default {
         context.commit("setAutoLogout")
     },
 
-    async forgotPassword(_, email) {//context,payload
-        // let url = `${process.env.VUE_APP_URL}forgotpassword`;
+    async forgotPassword(_, email) {
         let url = new URL(`/forgotpassword`, process.env.VUE_APP_URL)
-
         let response;
         try {
             response = await fetch(url,
@@ -132,13 +184,11 @@ export default {
         } else {
             return true
         }
-
     },
 
     async resetPassword(_, payload) {
-        // let url = `${process.env.VUE_APP_URL}resetpassword/${payload.token}`;
         let url = new URL(`/resetpassword/${payload.token}`, process.env.VUE_APP_URL)
-        
+
         const expiresIn = jwt_decode(payload.token, { header: true }).exp;
         var ts = Math.round((new Date()).getTime() / 1000);
 
@@ -153,7 +203,7 @@ export default {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ new: payload.new, email: payload.email }) //, token: payload.token 
+                    body: JSON.stringify({ new: payload.new, email: payload.email })
                 });
         } catch {
             console.log("There was an error!");
@@ -166,9 +216,8 @@ export default {
     ,
     async contactMe(context, payload) {
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}contactme`;
         let url = new URL(`/contactme`, process.env.VUE_APP_URL)
-        
+
         let response;
         try {
             response = await fetch(url,
@@ -194,7 +243,6 @@ export default {
     },
 
     async deleteAccount(_, payload) {
-        // let url = `${process.env.VUE_APP_URL}deleteacc`;
         let url = new URL(`/deleteacc`, process.env.VUE_APP_URL)
 
         let response;
@@ -219,7 +267,9 @@ export default {
         if (!response.ok) {
             responseData.message
         }
-        // console.log(response.status);
         return response.status
-    }
+    },
+
+
+
 }

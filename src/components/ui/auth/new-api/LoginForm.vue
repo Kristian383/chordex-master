@@ -43,11 +43,7 @@
       </p>
     </div>
     <div class="form-footer">
-      <button
-        @click.prevent="submitForm"
-        class="btn"
-        :disabled="isLoading"
-      >
+      <button @click.prevent="submitForm" class="btn" :disabled="isLoading">
         Log In
       </button>
     </div>
@@ -85,19 +81,40 @@ export default {
 
     function clearValidity() {
       formIsValid.value = true;
+      errorText.value=""
     }
-
-    function googleAuth() {}
 
     const store = useStore();
     const router = useRouter();
+
+    async function googleAuth() {
+      const google_response = await store.dispatch("signInWithGoogle");
+
+      if (!google_response.google_token) {
+        console.log("nismo dobili", google_response.msg);
+        errorText.value=responseFromMyBackend.message;
+
+        return;
+      }
+      let responseFromMyBackend = await store.dispatch(
+        "firebaseBackendCall",
+        google_response.google_token
+      );
+
+      if(responseFromMyBackend.success){
+         router.push("/songs")
+         store.commit("activateSidebar")
+      }else{
+        errorText.value=responseFromMyBackend.message;
+      }
+    }
 
     function submitForm() {
       formIsValid.value = true;
       errorText.value = "";
       goodRequest.value = false;
       emit("isLoading", true);
-      
+
       if (
         !userEmail.value ||
         !userPassword.value ||
@@ -106,7 +123,6 @@ export default {
         formIsValid.value = false;
         // requestIsPending.value = false;
         emit("isLoading", false);
-
         return;
       }
 
@@ -128,7 +144,6 @@ export default {
         }
         // requestIsPending.value = false;
         emit("isLoading", false);
-
       });
     }
 
