@@ -115,7 +115,7 @@ export default {
         padding: 15px;
         background: rgba(160, 179, 176, 0.25);
 
-        color: var(--white);
+        color: $white;
         float: left;
         width: 50%;
         text-align: center;
@@ -127,7 +127,7 @@ export default {
         }
       }
       .active a {
-        background: var(--burgundy);
+        background: $burgundy;
       }
     }
   }
