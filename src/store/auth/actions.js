@@ -51,7 +51,7 @@ export default {
             return responseData.message
         }
 
-        context.dispatch("setUserAndLoadData", responseData)
+        context.dispatch("setUserAndLoadData", {...responseData,email:payload.user.email})
     },
 
     async signInWithGoogle() {
