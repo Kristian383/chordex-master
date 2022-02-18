@@ -35,7 +35,6 @@ export default {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-
                     },
                     body: JSON.stringify({
                         email: payload.user.email,
@@ -83,7 +82,6 @@ export default {
                 default:
                     response.msg = "Something went wrong";
                     // response.msg = error;
-
             }
         }
         return response
@@ -287,7 +285,4 @@ export default {
         }
         return response.status
     },
-
-
-
 }
