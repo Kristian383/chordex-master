@@ -115,8 +115,6 @@ export default {
       var msPerDay = msPerHour * 24;
       var msPerMonth = msPerDay * 30;
       var msPerYear = msPerDay * 365;
-
-      // var elapsed = current - previous;
       var elapsed = new Date() - lastViewedDate;
 
       if (elapsed < msPerMinute) {
@@ -132,36 +130,6 @@ export default {
       } else {
         return Math.round(elapsed / msPerYear) + " yrs ago";
       }
-
-      // return 0;
-      // return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
-
-      // var seconds = Math.floor(
-      //   (new Date() - new Date(this.song.lastViewed)) / 1000
-      // );
-
-      // var interval = seconds / 31536000;
-
-      // if (interval > 1) {
-      //   return Math.floor(interval) + " yrs ago";
-      // }
-      // interval = seconds / 2592000;
-      // if (interval > 1) {
-      //   return Math.floor(interval) + " mon ago";
-      // }
-      // interval = seconds / 86400;
-      // if (interval > 1) {
-      //   return Math.floor(interval) + "d ago";
-      // }
-      // interval = seconds / 3600;
-      // if (interval > 1) {
-      //   return Math.floor(interval) + "h ago";
-      // }
-      // interval = seconds / 60;
-      // if (interval > 1) {
-      //   return Math.floor(interval) + " min ago";
-      // }
-      // return Math.floor(seconds) + "s ago";
     },
     imgUrl() {
       return require("@/assets/music.png");
@@ -189,14 +157,11 @@ export default {
 .card {
   background-color: var(--white);
   border-radius: 2px;
-  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06); */
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   overflow: hidden;
   width: 180px;
   position: relative;
   height: 260px;
-  /* color: #303030; */
   color: var(--font_black);
   transition: 0.3s ease-in all;
   cursor: pointer;
@@ -346,30 +311,5 @@ export default {
   flex-direction: row;
   align-items: center;
   gap: 4px;
-}
-
-/* skeleton load */
-.skeleton {
-  animation: skeleton-loading 1s linear infinite alternate;
-}
-
-@keyframes skeleton-loading {
-  0% {
-    background-color: hsl(200, 20%, 70%);
-  }
-  100% {
-    background-color: hsl(200, 20%, 95%);
-  }
-}
-.skeleton-text {
-  width: 100%;
-  height: 0.5rem;
-  margin-bottom: 0.25rem;
-  border-radius: 0.125rem;
-}
-
-.skeleton-text:last-child {
-  width: 80%;
-  margin-bottom: 0;
 }
 </style>
