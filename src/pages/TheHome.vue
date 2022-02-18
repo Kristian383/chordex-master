@@ -1,10 +1,13 @@
 <template>
   <section>
     <div class="home">
-      <!-- auth -->
       <div class="form" v-if="!isLogged">
+<<<<<<< Updated upstream
         <!-- <span><h2>Welcome!</h2></span> -->
         <user-auth></user-auth>
+=======
+        <new-user-auth></new-user-auth>
+>>>>>>> Stashed changes
       </div>
       <div class="home-content third" :class="{ logged: isLogged }">
         <div>
@@ -93,15 +96,21 @@
     <!-- scroll top -->
     <scroll-up :class="{ show: showBackToTop }"></scroll-up>
   </section>
-  <!--  -->
 </template>
 
 <script>
+<<<<<<< Updated upstream
 import UserAuth from "./../components/ui/auth/UserAuth.vue";
 import ScrollUp from "./../components/ui/ScrollUp.vue";
 export default {
   components: {
     UserAuth,
+=======
+import NewUserAuth from "./../components/ui/auth/new-api/NewUserAuth.vue";
+import ScrollUp from "./../components/ui/ScrollUp.vue";
+export default {
+  components: {
+>>>>>>> Stashed changes
     ScrollUp,
   },
   data() {
@@ -149,7 +158,6 @@ export default {
   .home {
     grid-template-columns: repeat(3, 1fr);
     row-gap: 56px;
-    /* padding: 0 32px 32px 32px; */
   }
 
   .third {
