@@ -21,27 +21,21 @@
         </li>
       </ul>
     </div>
-    <!-- <the-loader class="box" v-if="!sortList"></the-loader> -->
   </base-card>
 </template>
 
 <script>
 import BaseCard from "./../components/ui/BaseCard.vue";
-// import TheLoader from "./../components/ui/TheLoader.vue";
 import SortBy from "../components/ui/SortBy.vue";
-import {  computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: {
     BaseCard,
     SortBy,
-    // TheLoader,
   },
   setup() {
     const store = useStore();
-    // const itemsAreLoading = ref(true);
-    // const artistList = ref([]);
-
     const sortList = computed({
       get: () => {
         return store.getters.getArtists;
@@ -64,7 +58,6 @@ export default {
     return {
       sortArtists,
       getOptions,
-      // itemsAreLoading,
       sortList,
       artistPhoto,
     };
