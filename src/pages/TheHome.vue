@@ -3,7 +3,7 @@
     <div class="home">
       <div class="form" v-if="!isLogged">
         <!-- <span><h2>Welcome!</h2></span> -->
-        <user-auth></user-auth>
+        <new-user-auth></new-user-auth>
       </div>
       <div class="home-content third" :class="{ logged: isLogged }">
         <div>
@@ -95,11 +95,11 @@
 </template>
 
 <script>
-import UserAuth from "./../components/ui/auth/UserAuth.vue";
+import NewUserAuth from "./../components/ui/auth/new-api/NewUserAuth.vue";
 import ScrollUp from "./../components/ui/ScrollUp.vue";
 export default {
   components: {
-    UserAuth,
+    NewUserAuth,
     ScrollUp,
   },
   data() {
