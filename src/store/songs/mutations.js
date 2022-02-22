@@ -158,9 +158,6 @@ export default {
     },
 
     clearVuex(state) {
-        // state.songsLoaded = 2;
-        // state.mySongsLoaded = 2;
-        // state.artistsLoaded = 2;
         state.musicKeys = [];
         state.artists = [];
         state.mySongs = [];

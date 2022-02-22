@@ -81,7 +81,7 @@ export default {
 
     function clearValidity() {
       formIsValid.value = true;
-      errorText.value=""
+      errorText.value = "";
     }
 
     const store = useStore();
@@ -90,21 +90,19 @@ export default {
     async function googleAuth() {
       const google_response = await store.dispatch("signInWithGoogle");
       if (!google_response.google_token) {
-        // console.log("nismo dobili", google_response.msg);
-        errorText.value=google_response.msg;
+        errorText.value = google_response.msg;
         return;
       }
       let responseFromMyBackend = await store.dispatch(
         "firebaseBackendCall",
         google_response.google_token
       );
-      // alert(responseFromMyBackend.message)
-      
-      if(responseFromMyBackend.success){
-         router.push("/songs")
-         store.commit("activateSidebar")
-      }else{
-        errorText.value=responseFromMyBackend.message;
+
+      if (responseFromMyBackend.success) {
+        router.push("/songs");
+        store.commit("activateSidebar");
+      } else {
+        errorText.value = responseFromMyBackend.message;
       }
     }
 
