@@ -27,7 +27,7 @@
         <!-- Artist and learned-->
         <div>
           <div class="artist-link">
-            <b>Artist:</b>
+            <b>Artist: </b>
             <router-link
               :to="{ path: '/songs', query: { artist: songData.artist } }"
               >{{ songData.artist }}

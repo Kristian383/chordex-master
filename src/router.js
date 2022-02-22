@@ -8,6 +8,7 @@ import SongDetail from "./pages/SongDetail.vue"
 import ArtistsView from "./pages/ArtistsView.vue"
 import AddSong from "./pages/AddSong.vue"
 import ResetPassword from "./pages/ResetPassword.vue"
+import DeleteAccount from "./pages/DeleteAccount.vue"
 import FindKey from "./pages/FindKey.vue"
 import TheAbout from "./pages/TheAbout.vue"
 import ResourcesList from "./components/ui/ResourcesList.vue"
@@ -32,6 +33,7 @@ const router = createRouter({
     { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex", requiresAuth: true } },
     { path: "/resources", component: ResourcesList, meta: { title: "Websites | Chordex", requiresAuth: true } },//name: "Useful Websites"
     { path: "/resetpswd", component: ResetPassword, name: "Reset Password", meta: { title: "Reset Password | Chordex", resetPassword: false } },
+    { path: "/delete-acc", component: DeleteAccount, name: "Delete Account", meta: { title: "Delete Account | Chordex" } }, //, deleteAccount: false
     { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
   ],
   scrollBehavior(_, _2, savedPosition) {

@@ -6,10 +6,7 @@
         <div class="row">
           <div class="user-info">
             <div class="photo">
-              <img
-                class="profile-photo"
-                src="@/assets/home.jpg"
-              />
+              <img class="profile-photo" src="@/assets/home.jpg" />
             </div>
             <h4 class="name">{{ getUserData.username }}</h4>
             <p class="mail">{{ getUserData.email }}</p>
@@ -29,7 +26,6 @@
               </div>
             </div>
             <!--  -->
-            <!-- <p>Delete account?</p> -->
           </div>
           <div class="right">
             <div class="container">
@@ -58,61 +54,26 @@
                 />
               </div>
               <!-- delete acc -->
-
-              <!-- change password -->
-              <section class="container">
-                <!-- <div @click="togglePasswordChange" class="change-psw">
-                Change password
-              </div> -->
-                <div>
-                  <p class="delete" @click="deleteAccount">
-                    {{ deleteAccText }}
-                  </p>
+              <div class="container">
+                <p class="delete" @click="openDeleteModal">Delete my account</p>
+                <div class="loader">
+                  <the-loader v-if="requestIsPending"></the-loader>
                 </div>
-                <transition name="fade">
-                  <div v-if="showPasswordInput">
-                    <label class="form-control-label" for="input-email"
-                      >Password</label
-                    >
-                    <input
-                      class="input-password"
-                      type="password"
-                      id="password"
-                      v-model="password"
-                    />
-                  </div>
-                </transition>
-                <transition name="fade">
-                  <div v-if="showPasswordInput">
-                    <label class="form-control-label" for="input-email"
-                      >Confirm password</label
-                    >
-                    <input
-                      class="input-password"
-                      type="password"
-                      id="password-repeat"
-                      v-model="passwordConfirm"
-                    />
-                  </div>
-                </transition>
-                <div class="delete-acc">
-                  <div
-                    @click="submitDelete"
-                    v-if="showPasswordInput"
-                    class="delete-btn"
-                  >
-                    Delete
-                  </div>
-                  <div class="loader">
-                    <the-loader v-if="requestIsPending"></the-loader>
-                  </div>
-                  <p>{{ respondMsg }}</p>
-                </div>
-              </section>
-              <!--  -->
+                <p>
+                  {{ respondMsg }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
+        <!-- delete-modal -->
+        <transition name="fade">
+          <delete-modal
+            v-if="showDeleteModal"
+            @close-modal="closeDeleteModal"
+            @send-delete="submitDeleteRequest"
+          ></delete-modal>
+        </transition>
       </main>
     </section>
   </base-card>
@@ -121,81 +82,85 @@
 <script>
 import BaseCard from "./../components/ui/BaseCard.vue";
 import TheLoader from "../components/ui/TheLoader.vue";
+import DeleteModal from "../components/ui/DeleteModal.vue";
+
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
+
 export default {
   components: {
     TheLoader,
     BaseCard,
+    DeleteModal,
   },
-  data() {
-    return {
-      showPasswordInput: false,
-      requestIsPending: false,
-      passwordChanged: true,
-      respondMsg: "",
-      passwordConfirm: "",
-      password: "",
-      deleteAccText: "Delete my account",
-    };
-  },
-  methods: {
-    deleteAccount() {
-      this.showPasswordInput = !this.showPasswordInput;
-      if (this.showPasswordInput) {
-        this.deleteAccText = "Cancel";
-      } else {
-        this.deleteAccText = "Delete my account";
-      }
-    },
-    submitDelete() {
-      if (
-        !confirm(
-          "Are you sure? Everything will be deleted and there is no way back."
-        )
-      ) {
-        return;
-      }
-      this.requestIsPending = true;
+  setup() {
+    const requestIsPending = ref(false);
+    const respondMsg = ref("");
+    const respondMsgSuccess = ref(false);
 
-      if (this.password == "" || this.password != this.passwordConfirm) {
-        this.respondMsg = "Please check your input.";
-        this.requestIsPending = false;
-        return;
-      }
+    const showDeleteModal = ref(false);
 
-      this.$store
-        .dispatch("deleteAccount", {
-          password: this.password,
-          email: this.getUserData.email,
+    const store = useStore();
+
+    function closeDeleteModal() {
+      showDeleteModal.value = false;
+    }
+
+    function openDeleteModal() {
+      showDeleteModal.value = true;
+    }
+
+    function submitDeleteRequest() {
+      requestIsPending.value = true;
+      showDeleteModal.value = false;
+
+      store
+        .dispatch("requestDeleteAccount", {
+          email: getUserData.value.email,
         })
         .then((res) => {
-          if (res == 200) {
-            confirm("Your account has been deleted.");
-            this.$store.dispatch("logout");
-            this.$router.push("/home");
-          } else if (res == 401) {
-            alert("Wrong password! Please try again.");
+          requestIsPending.value = false;
+          if (res == true) {
+            respondMsg.value =
+              "An email for deleting your account has been sent to you.";
+            respondMsgSuccess.value = true;
           } else {
-            alert(
-              "Looks like something went wrong on our side. Please report a bug :)"
-            );
+            respondMsg.value =
+              "Looks like something went wrong on our side. Please report to admin.";
+            respondMsgSuccess.value = false;
           }
-          this.requestIsPending = false;
         });
-    },
-  },
-  computed: {
-    getUserData() {
-      return this.$store.getters.user;
-    },
-    numOfSongs() {
-      return this.$store.getters.getAllSongs.length;
-    },
-    numOfMySongs() {
-      return this.$store.getters.getAllMySongs.length;
-    },
-    numOfArtists() {
-      return this.$store.getters.getArtists.length;
-    },
+    }
+
+    const getUserData = computed(() => {
+      return store.getters.user;
+    });
+
+    const numOfSongs = computed(() => {
+      return store.getters.getAllSongs.length;
+    });
+
+    const numOfMySongs = computed(() => {
+      return store.getters.getAllMySongs.length;
+    });
+
+    const numOfArtists = computed(() => {
+      return store.getters.getArtists.length;
+    });
+
+    return {
+      requestIsPending,
+      respondMsg,
+      getUserData,
+      numOfSongs,
+      numOfMySongs,
+      numOfArtists,
+      submitDeleteRequest,
+      respondMsgSuccess,
+      closeDeleteModal,
+      openDeleteModal,
+      showDeleteModal,
+    };
   },
 };
 </script>
@@ -210,12 +175,11 @@ header {
   border-top-right-radius: 5px;
   height: 150px;
 }
-section {
-  font-size: 18px;
-}
+
 .row {
   display: grid;
   color: var(--font_black);
+  font-size: 18px;
 }
 
 @media (min-width: 800px) {
@@ -285,7 +249,7 @@ section {
   border-bottom: 1px solid var(--mid_gray);
 }
 
-/* irght */
+/* username, email, pswd */
 .right {
   padding: 14px;
   border-bottom-left-radius: 8px;
@@ -325,23 +289,7 @@ section {
   font-size: 14px;
   cursor: pointer;
 }
-
-/**/
-.container > div input:focus {
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  background-color: #fff;
-}
-
-.input-password {
-  font-family: caption;
-  padding: 4px;
-}
-
-.change-psw {
-  cursor: pointer;
-  color: var(--burgundy);
-}
-
+/* 
 .delete-acc {
   align-items: center !important;
   gap: 4px;
@@ -350,17 +298,17 @@ section {
 .delete-acc p {
   color: var(--green);
 }
-.delete-btn {
+.red-text {
+  color: var(--burgundy);
+} */
+/* .delete-btn {
   background-color: var(--burgundy);
   padding: 8px;
   color: #fff;
   cursor: pointer;
   border-radius: 8px;
-}
+} */
 
-.change-psw:hover {
-  color: rgb(163, 24, 24);
-}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;

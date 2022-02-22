@@ -51,7 +51,7 @@ export default {
             return responseData.message
         }
 
-        context.dispatch("setUserAndLoadData", {...responseData,email:payload.user.email})
+        context.dispatch("setUserAndLoadData", { ...responseData, email: payload.user.email })
     },
 
     async signInWithGoogle() {
@@ -63,8 +63,10 @@ export default {
         try {
             await signInWithPopup(auth, provider).then(function (result) {
                 var user = result.user;
-                response.google_token = user.accessToken
-                response.msg="Success."
+                response.google_token = user.accessToken;
+                response.msg = "Success.";
+                // response.username = user.displayName;
+                // console.log(user);
             })
         } catch (error) {
             response.google_token = false
@@ -81,7 +83,7 @@ export default {
                     break;
                 default:
                     response.msg = "Something went wrong";
-                    // response.msg = error;
+                // response.msg = error;
             }
         }
         return response
@@ -90,7 +92,7 @@ export default {
     async firebaseBackendCall(context, google_token) {
         let url = new URL(`/firebase`, process.env.VUE_APP_URL);
         let response;
-
+        // console.log(payload);
         try {
             response = await fetch(url,
                 {
@@ -100,6 +102,7 @@ export default {
                     },
                     body: JSON.stringify({
                         google_token
+                        // username:payload.username
                     })
                 })
         } catch {
@@ -258,9 +261,42 @@ export default {
         return true
     },
 
-    async deleteAccount(_, payload) {
-        let url = new URL(`/deleteacc`, process.env.VUE_APP_URL)
+    async requestDeleteAccount(context, payload) {
+        let url = new URL(`/delete-acc-request`, process.env.VUE_APP_URL);
+        let access_token = context.getters.token;
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify({ email: payload.email })
+                });
 
+        } catch {
+            console.log("There was an error!");
+            return "error"
+        }
+        if (!response.ok) {
+            return false
+        } else {
+            return true
+        }
+    },
+
+    async deleteAccount(context, payload) {
+        let url = new URL(`/delete-acc/${payload.token}`, process.env.VUE_APP_URL)
+        let access_token = context.getters.token;
+        
+        const expiresIn = jwt_decode(payload.token, { header: true }).exp;
+        let ts = Math.round((new Date()).getTime() / 1000);
+
+        if (expiresIn - ts < 0) {
+            return "expired"
+        }
         let response;
         try {
             response = await fetch(url,
@@ -268,21 +304,29 @@ export default {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
                     },
                     body: JSON.stringify({
                         email: payload.email,
-                        password: payload.password
                     })
                 });
 
         } catch {
-            return false
+            return {success: false}
         }
         const responseData = await response.json();
 
         if (!response.ok) {
-            responseData.message
+            return {
+                message: responseData.message,
+                success: false
+            }
         }
-        return response.status
+        return {
+            success: true,
+            message: "ok"
+        }
     },
+
+
 }

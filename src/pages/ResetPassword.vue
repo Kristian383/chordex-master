@@ -7,9 +7,14 @@
     <form class="tab-content">
       <div class="form-container">
         <div class="input-group">
-          <span> <font-awesome-icon icon="lock"></font-awesome-icon></span>
+          <span>
+            <font-awesome-icon
+              :icon="eyeIconType"
+              @click="showPswd"
+            ></font-awesome-icon>
+          </span>
           <input
-            type="password"
+            :type="pswdType"
             class="form-control"
             placeholder="New password"
             required
@@ -20,14 +25,9 @@
         </div>
 
         <div class="input-group">
-          <span
-            ><font-awesome-icon
-              :icon="eyeIconType"
-              @click="showPswd"
-            ></font-awesome-icon
-          ></span>
+          <span><font-awesome-icon icon="lock"></font-awesome-icon> </span>
           <input
-            :type="pswdType"
+            type="password"
             class="form-control"
             placeholder="Confirm password"
             required
@@ -121,7 +121,11 @@ export default {
       //api call
 
       this.$store
-        .dispatch("resetPassword", { token:this.token, new: this.newPswd, email:this.email })
+        .dispatch("resetPassword", {
+          token: this.token,
+          new: this.newPswd,
+          email: this.email,
+        })
         .then((res) => {
           if (res === "expired") {
             this.errorText = "Link has expired. Type your email again.";
@@ -148,7 +152,6 @@ export default {
       this.$router.push("/home");
     }
     this.$store.commit("removeSidebar");
-
   },
 };
 </script>
