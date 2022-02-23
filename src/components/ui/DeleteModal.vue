@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .delete-modal-wrapper {
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
@@ -54,84 +54,87 @@ export default {
   bottom: 0;
   z-index: 999;
   padding: 8px;
-}
 
-.delete-modal {
-  background-color: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-  position: relative;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  max-width: 450px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  border-top: 6px solid var(--burgundy);
-  color: var(--dark_gray_font);
-  border-radius: 4px;
-  gap: 18px;
-  /* max-width: 95%; */
-}
+  .delete-modal {
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    max-width: 450px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    border-top: 6px solid var(--burgundy);
+    color: var(--dark_gray_font);
+    border-radius: 4px;
+    gap: 18px;
+    /* max-width: 95%; */
+    .modal-header {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-top: 8px;
 
-.modal-header {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding-top: 8px;
-}
+      span {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: -20px;
+        transform: translate(-50%, -50%);
+        padding: 4px;
+        background-color: var(--burgundy);
 
-.modal-header span {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  top: -20px;
-  transform: translate(-50%, -50%);
-  padding: 4px;
-  background-color: var(--burgundy);
-}
-.modal-header .trash-icon {
-  font-size: 28px;
-  color: #fff;
-  margin-top: 6px;
-  margin-left: 1px;
-}
+        .trash-icon {
+          font-size: 28px;
+          color: #fff;
+          margin-top: 6px;
+          margin-left: 1px;
+        }
+      }
+    }
 
-.delete-modal .modal-body p {
-  font-size: 16px;
-  margin-bottom: 18px;
-  /* text-align: start; */
-}
-.modal-footer {
-  display: flex;
-  /* flex-wrap: wrap; */
-  gap: 8px;
-}
-.btn {
-  padding: 12px 8px;
-  border-radius: 8px;
-  width: 100%;
-  outline: none;
-  background-color: #f8f8f8;
-  /* border: 2px solid black; */
-  border: none;
-  cursor: pointer;
-  font-size: inherit;
-  font-weight: 600;
-  transition: 0.2s all ease-in;
-}
-.btn.delete-btn:hover {
-  background-color: var(--levi_red);
-}
+    .modal-body p {
+      font-size: 16px;
+      margin-bottom: 18px;
+      /* text-align: start; */
+    }
 
-.btn.delete-btn {
-  background-color: var(--burgundy);
-  color: #fff;
-}
-.btn.cancel-btn:hover {
-  background-color: var(--chips_gray);
+    .modal-footer {
+      display: flex;
+      /* flex-wrap: wrap; */
+      gap: 8px;
+      .btn {
+        padding: 12px 8px;
+        border-radius: 8px;
+        width: 100%;
+        outline: none;
+        background-color: #f8f8f8;
+        /* border: 2px solid black; */
+        border: none;
+        cursor: pointer;
+        font-size: inherit;
+        font-weight: 600;
+        transition: 0.2s all ease-in;
+      }
+
+      .btn.delete-btn {
+        background-color: var(--burgundy);
+        color: #fff;
+
+        &:hover {
+          background-color: var(--levi_red);
+        }
+      }
+
+      .btn.cancel-btn:hover {
+        background-color: var(--chips_gray);
+      }
+    }
+  }
 }
 </style>

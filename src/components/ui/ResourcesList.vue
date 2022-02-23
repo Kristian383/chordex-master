@@ -213,28 +213,6 @@ input {
 .todos .resource-element:hover {
   cursor: pointer;
 }
-/* 
-
-.notebook {
-  border: 0;
-  outline: 0;
-  padding: 1em;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
-  width: 100%;
-  min-height: 200px;
-  line-height: 31px;
-  font-size: inherit;
-
-  margin-top: 1em;
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  background-color: var(--f1_gray);
-  resize: vertical;
-  color: var(--font_black);
-} */
 
 /* list transitions */
 .list-enter-from {

@@ -29,7 +29,7 @@
         <slot name="select_box"></slot>
       </div>
       <slot></slot>
-    <scroll-up  :class="{ show: showBackToTop }"></scroll-up>
+      <scroll-up :class="{ show: showBackToTop }"></scroll-up>
     </div>
   </section>
 </template>
@@ -37,10 +37,11 @@
 <script>
 // import { onClickOutside } from "@vueuse/core";
 import TheSearch from "./../ui/TheSearch.vue";
-import ScrollUp from "./ScrollUp.vue"
+import ScrollUp from "./ScrollUp.vue";
 export default {
   components: {
-    TheSearch,ScrollUp
+    TheSearch,
+    ScrollUp,
   },
   data() {
     return {
@@ -151,8 +152,6 @@ export default {
   background: var(--white);
   min-height: 100vh;
   transition: all 0.5s ease;
-  /* width: calc(100% - 240px);
-  left: 240px; */
 }
 
 .home-section nav {
@@ -162,8 +161,6 @@ export default {
   background: var(--white);
   align-items: center;
   position: fixed;
-  /* width: calc(100% - 240px);
-  left: 240px; */
   width: 100%;
   z-index: 40;
   padding: 10px 20px;
@@ -173,16 +170,10 @@ export default {
 .expand_home_section {
   left: 240px;
   width: calc(100% - 240px);
-
-  /* width: 100%;
-  left: 0; */
 }
 .expand_home_section nav {
   left: 240px;
   width: calc(100% - 240px);
-
-  /* width: 100%;
-  left: 0; */
 }
 
 @media (min-width: 1400px) {
