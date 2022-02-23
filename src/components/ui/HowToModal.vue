@@ -26,14 +26,6 @@ export default {
 </script>
 
 <style scoped>
-/* .fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-leave-to,
-.fade-enter-from {
-  opacity: 0;
-} */
 
 .modal {
   background-color: #fff;

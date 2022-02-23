@@ -8,7 +8,6 @@
           @close-modal="closeYtModal"
         ></how-to-modal>
       </transition>
-
       <!--  -->
       <div class="go-back" @click="goBack">
         <font-awesome-icon icon="arrow-left"></font-awesome-icon>
