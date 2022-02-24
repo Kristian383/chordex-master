@@ -117,10 +117,8 @@ export default {
         }
         context.commit("deleteSong", payload.songId)
     },
-    //
-    //
+    //MUSIC KEYS
     async loadMusicKeys(context) {
-        // let url = `${process.env.VUE_APP_URL}keys`;
         let url = new URL(`/keys`, process.env.VUE_APP_URL)
 
         let response;
@@ -174,10 +172,9 @@ export default {
 
     //NOTES 
     async loadUsersNotes(context) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}notes/${username}`;
-        let url = new URL(`/notes/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/notes/${user_email}`, process.env.VUE_APP_URL)
 
         let response;
         try {
@@ -204,9 +201,9 @@ export default {
 
     },
     async updateUsersNotes(context, payload) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/notes/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/notes/${user_email}`, process.env.VUE_APP_URL)
         let response;
         try {
             response = await fetch(url,
@@ -235,10 +232,9 @@ export default {
     },
     //websites
     async addUserWebsite(context, payload) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}website/${username}`;
-        let url = new URL(`/website/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/website/${user_email}`, process.env.VUE_APP_URL)
         let response;
         try {
             response = await fetch(url,
@@ -263,10 +259,10 @@ export default {
         context.commit("addUserWebsite", payload)
     },
     async deleteUserWebsite(context, name) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
         // let url = `${process.env.VUE_APP_URL}website/${username}`;
-        let url = new URL(`/website/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/website/${user_email}`, process.env.VUE_APP_URL)
 
         let response;
         try {
@@ -295,10 +291,9 @@ export default {
         context.commit("deleteUserWebsite", name)
     },
     async loadUserWebsites(context) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}websites/${username}`;
-        let url = new URL(`/websites/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/websites/${user_email}`, process.env.VUE_APP_URL)
         let response;
         try {
             response = await fetch(url,
@@ -347,6 +342,5 @@ export default {
         }
         // console.log(responseData);
         return responseData
-
     },
 }
