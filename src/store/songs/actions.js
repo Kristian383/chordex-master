@@ -147,10 +147,9 @@ export default {
 
     //ARTISTS
     async loadAllArtists(context) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}artists/${username}`;
-        let url = new URL(`/artists/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/artists/${user_email}`, process.env.VUE_APP_URL)
 
         let response;
         try {
