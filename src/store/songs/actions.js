@@ -1,10 +1,9 @@
 export default {
 
     async loadAllSongs(context) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}songs/${username}`;
-        let url = new URL(`/songs/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/songs/${user_email}`, process.env.VUE_APP_URL)
 
         context.commit("setLoader")
         let response;
