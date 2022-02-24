@@ -35,13 +35,13 @@ export default {
 
     },
     async addNewSong(context, payload) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
         // let url = `${process.env.VUE_APP_URL}song/${username}`;
-        let url = new URL(`/song/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL)
 
         const body = {
-            username,
+            // user_email,
             ...payload
         }
         let methodType = "POST";
@@ -84,14 +84,13 @@ export default {
         return responseData.song.songId
     },
     async deleteSong(context, payload) {
-        let username = context.getters.user.username;
+        let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}song/${username}`;
-        let url = new URL(`/song/${username}`, process.env.VUE_APP_URL)
+        let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL)
 
         const body = {
+            // username,
             "songName": payload.songName,
-            username,
             "artist": payload.artist
         }
         //console.log("delete body", body);
