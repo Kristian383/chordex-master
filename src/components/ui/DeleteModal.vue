@@ -12,7 +12,7 @@
       </div>
       <div class="modal-body">
         <p>
-          You'll <b>permanently</b> loose all your data and there is no way
+          You'll <b>permanently</b> lose all your data and there is no way
           back.
         </p>
         <p>
