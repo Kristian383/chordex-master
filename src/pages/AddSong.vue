@@ -343,7 +343,7 @@ export default {
       //   this.songInfo.firstKey = null;
       //   this.songInfo.firstKeyNotes = null;
       // }
-       if (data.name == "firstKey") {
+      if (data.name == "firstKey") {
         this.openSecond = true;
         this.songInfo.firstKey = data.key;
         this.songInfo.firstKeyNotes = data.notes;
@@ -613,121 +613,126 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .form-container {
-  background-color: #f5f6fa;
   background-color: #eaebea;
   color: RGB(16, 17, 20);
   padding: 12px 15px;
   max-width: 1100px;
   margin: 0 auto;
   border-radius: 6px;
-  font-family: Arial, sans-serif !important;
   font-size: 18px;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   border-left: 6px solid var(--burgundy);
   position: relative;
-}
-.top-section {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-top: 8px;
-  gap: 26px;
+
+  /* error msg */
+  .error-container {
+    position: relative;
+    border-radius: 8px;
+    z-index: 23;
+
+    .error-text {
+      color: var(--burgundy);
+      font-size: 14px;
+      text-align: center;
+      border-radius: 8px;
+      background-color: var(--burgundy);
+      color: #fff;
+      padding: 16px;
+      margin-top: 6px;
+    }
+  }
+
+  .top-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 8px;
+    gap: 26px;
+
+    .is-favorite {
+      color: var(--burgundy);
+    }
+
+    .heart {
+      position: absolute;
+      left: 20px;
+      top: 33px;
+      cursor: pointer;
+    }
+
+    .mysong {
+      position: absolute;
+      left: 50px;
+      top: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .delete {
+      cursor: pointer;
+      color: RGB(16, 17, 20);
+
+      &:hover {
+        color: black;
+      }
+
+      @media (max-width: 380px) {
+        position: absolute;
+        top: -40px;
+      }
+    }
+  }
+  // fontawesome icons
+  svg {
+    font-size: 24px;
+    transition: all 0.2s ease-in;
+    filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
+  }
 }
 
-svg {
-  font-size: 24px;
-  transition: all 0.2s ease-in;
-  filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
-}
-.top-section .heart {
-  position: absolute;
-  left: 20px;
-  top: 33px;
-  cursor: pointer;
-}
-.top-section .mysong {
-  position: absolute;
-  left: 50px;
-  top: 8px;
-  cursor: pointer;
-  font-weight: 600;
-}
 @media (min-width: 420px) {
   .top-section {
     gap: 35px;
   }
+
   .top-section .mysong {
-    /* top: 0px; */
     left: 75px;
   }
 }
 
-.top-section .delete {
-  cursor: pointer;
-  color: RGB(16, 17, 20);
-}
-
-@media (max-width: 380px) {
-  .delete {
-    position: absolute;
-    top: -40px;
-  }
-}
-/* error msg */
-.error-container {
-  position: relative;
-  border-radius: 8px;
-  z-index: 23;
-}
-.error-text {
-  color: var(--burgundy);
-  font-size: 14px;
-  text-align: center;
-  border-radius: 8px;
-  background-color: var(--burgundy);
-  color: #fff;
-  padding: 16px;
-  margin-top: 6px;
-}
-
-.top-section .delete:hover {
-  color: black;
-}
-
-.is-favorite {
-  color: var(--burgundy);
-}
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 8px;
   margin-top: 18px;
   align-items: center;
-}
-.grid-2:nth-child(-n + 2) {
-  margin-top: 0;
-}
 
-@media (min-width: 640px) {
-  .grid-2 {
+  &:nth-child(-n + 2) {
+    margin-top: 0;
+  }
+
+  @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .find-data {
+    color: rgb(136, 136, 136);
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      color: RGB(16, 17, 20);
+    }
   }
 }
 
-.grid-2 .find-data {
-  color: rgb(136, 136, 136);
-  text-align: center;
-  cursor: pointer;
-}
-.grid-2 .find-data:hover {
-  color: RGB(16, 17, 20);
-}
 .grid-2 > input,
 .grid-2 > div {
   max-width: 500px;
 }
+
 form input:nth-child(-n + 2) {
   margin-top: 10px;
 }
@@ -748,29 +753,31 @@ form .input-field {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   transition: 0.4s;
-
   resize: none;
   color: var(--font_black);
-}
-form .input-field:focus {
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+  &:focus {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
 }
 
 form .notebook {
   resize: vertical;
   line-height: 31px;
 }
+
 #input-bpm {
   width: 100px;
   justify-self: center;
 }
+
 #input-tuning {
   width: 200px;
   justify-self: center;
   padding: 14px;
 }
 
-/* selectbox za key */
+/* selectbox for key */
 .secondOption {
   position: relative;
   display: flex;
@@ -779,10 +786,12 @@ form .notebook {
   align-items: center;
   justify-content: flex-start;
   gap: 26px;
+
+  svg {
+    cursor: pointer;
+  }
 }
-.secondOption svg {
-  cursor: pointer;
-}
+
 /* chips */
 input[type="checkbox"],
 input[type="radio"] {
@@ -816,6 +825,7 @@ input[type="radio"]:checked + label {
 form input:-internal-autofill-selected {
   background-color: #fff !important;
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
@@ -839,40 +849,45 @@ form input:-internal-autofill-selected {
   outline: none;
   padding: 0;
   margin: 0;
-}
-.range-slider__range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--dark_gray_font);
-  cursor: pointer;
-  -webkit-transition: background 0.15s ease-in-out;
-  transition: background 0.15s ease-in-out;
-}
 
-.range-slider__range::-webkit-slider-thumb:hover {
-  background: #888;
-}
-.range-slider__range:active::-webkit-slider-thumb {
-  background: #888;
-}
-.range-slider__range::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border: 0;
-  border-radius: 50%;
-  background: #888;
-  cursor: pointer;
-  -moz-transition: background 0.15s ease-in-out;
-  transition: background 0.15s ease-in-out;
-}
-.range-slider__range::-moz-range-thumb:hover {
-  background: #888;
-}
-.range-slider__range:active::-moz-range-thumb {
-  background: #888;
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--dark_gray_font);
+    cursor: pointer;
+    -webkit-transition: background 0.15s ease-in-out;
+    transition: background 0.15s ease-in-out;
+  }
+
+  &::-webkit-slider-thumb:hover {
+    background: #888;
+  }
+
+  &:active::-webkit-slider-thumb {
+    background: #888;
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    border-radius: 50%;
+    background: #888;
+    cursor: pointer;
+    -moz-transition: background 0.15s ease-in-out;
+    transition: background 0.15s ease-in-out;
+  }
+
+  &::-moz-range-thumb:hover {
+    background: #888;
+  }
+
+  &:active::-moz-range-thumb {
+    background: #888;
+  }
 }
 
 .range-slider__value {
@@ -886,23 +901,29 @@ form input:-internal-autofill-selected {
   background: var(--dark_gray_font);
   padding: 5px 10px;
   margin-left: 8px;
-}
-.range-slider__value:after {
-  position: absolute;
-  top: 8px;
-  left: -7px;
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-  border-right: 7px solid #2c3e50;
-  border-bottom: 7px solid transparent;
-  content: "";
+
+  &:after {
+    position: absolute;
+    top: 8px;
+    left: -7px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-right: 7px solid #2c3e50;
+    border-bottom: 7px solid transparent;
+    content: "";
+  }
 }
 
 ::-moz-range-track {
   background: #d7dcdf;
   border: 0;
 }
+input::-moz-focus-inner,
+input::-moz-focus-outer {
+  border: 0;
+}
+
 /* yt  */
 .yt {
   position: relative;
@@ -921,11 +942,6 @@ form input:-internal-autofill-selected {
   padding-right: 35px;
 }
 
-input::-moz-focus-inner,
-input::-moz-focus-outer {
-  border: 0;
-}
-
 .go-back {
   position: absolute;
   left: 5px;
@@ -938,8 +954,9 @@ input::-moz-focus-outer {
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
-}
-.go-back:hover {
-  background-color: var(--f1_gray);
+
+  &:hover {
+    background-color: var(--f1_gray);
+  }
 }
 </style>
