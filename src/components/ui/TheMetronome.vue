@@ -6,75 +6,176 @@
     <div class="beat-circles">
       <div
         class="circle"
-        :class="{ active: beat == currentBeatCounter }"
-        v-for="beat in numberOfBeats"
+        :class="{ active: beat == beatCounter }"
+        v-for="beat in beatsPerMeasure"
         :key="beat"
       ></div>
     </div>
     <div class="bars-counter">
       <b
-        >Bars counter: <span class="bar-count">{{ currentBarCounter }}</span>
+        >Bars counter: <span class="bar-count">{{ barCounter }}</span>
       </b>
     </div>
     <!--  -->
     <div class="slider-container">
-      <span class="step-circle">- 5</span>
-      <span class="step-circle">- 1</span>
+      <span class="step-circle" @click="changeTempo(false, 5)">- 5</span>
+      <span class="step-circle" @click="changeTempo(false, 1)">- 1</span>
       <!-- slider -->
       <input
         class="range-slider"
         type="range"
         min="30"
         max="250"
-        v-model="bpmNumber"
+        v-model.number="bpmNumber"
       />
-      <span class="step-circle">+ 1</span>
-      <span class="step-circle">+ 5</span>
+      <span class="step-circle" @click="changeTempo(true, 1)">+ 1</span>
+      <span class="step-circle" @click="changeTempo(true, 5)">+ 5</span>
     </div>
     <!--  -->
     <div class="bpm-number">
       <h2>{{ bpmNumber }} BPM</h2>
     </div>
-
-    <div class="btn btn-start">START</div>
+    <p class="toggle-tip">You can use <u>spacebar</u> to toggle metronome!</p>
+    <div class="btn btn-start" @click="toggleMetronome">{{ startOrStop }}</div>
     <div class="btn btn-tap">TAP TEMPO</div>
 
     <div class="beats-in-bar">
       <p>Beats in bar:</p>
       <div class="input-stepper">
-        <button class="minus">
+        <button class="minus" @click="changeBeatsInBar(false)">
           <font-awesome-icon icon="minus"></font-awesome-icon>
         </button>
-        <input type="text" value="4" />
-        <button class="plus">
+        <input type="text" v-model="beatsPerMeasure" />
+        <button class="plus" @click="changeBeatsInBar(true)">
           <font-awesome-icon icon="plus"></font-awesome-icon>
         </button>
       </div>
     </div>
+    <!--  -->
+    <audio
+      ref="firstClickSound"
+      :src="clickFirst"
+      class="audio"
+      preload="auto"
+      type="audio/mp3"
+    ></audio>
+    <audio
+      ref="secondClickSound"
+      :src="clickSecond"
+      class="audio"
+      preload="auto"
+      type="audio/mp3"
+    ></audio>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed, watchEffect, onMounted, onBeforeUnmount } from "vue";
+import Timer from "./TheMetronomeTimer";
 
 export default {
   setup() {
-    const numberOfBeats = ref(4);
-    const beatCounter = ref(4);
-    const currentBarCounter = ref(0); //1
-    const currentBeatCounter = ref(0); //1
-    const bpmNumber = ref(100);
+    const beatsPerMeasure = ref(4);
+    const beatCounter = ref(0);
+    const barCounter = ref(0);
+    const bpmNumber = ref(130);
+    const firstClickSound = ref(null);
+    const secondClickSound = ref(null);
+    const isPlaying = ref(false);
 
-    // = computed(() => {
-    //   return beatCounter.value;
-    // });
+    let clickFirst = require("@/assets/sounds/first.mp3");
+    let clickSecond = require("@/assets/sounds/second.mp3");
+
+    function playClick() {
+      if (beatCounter.value === beatsPerMeasure.value) {
+        beatCounter.value = 0;
+
+        if (barCounter.value == 8) {
+          barCounter.value = 0;
+        }
+
+        barCounter.value++;
+      }
+      if (beatCounter.value === 0) {
+        // tempoEl.value.src = clickFirst;
+        firstClickSound.value.play();
+      } else {
+        // tempoEl.value.src = clickSecond;
+        secondClickSound.value.play();
+      }
+
+      // tempoEl.value.play();
+      beatCounter.value++;
+    }
+    const metronome = new Timer(playClick, 60000 / bpmNumber.value, {
+      immediate: true,
+    });
+
+    //TODO - stop it on beforeunmount?
+    watchEffect(() => {
+      metronome.timeInterval = 60000 / bpmNumber.value;
+    });
+
+    function toggleMetronome() {
+      if (isPlaying.value) {
+        metronome.stop();
+        beatCounter.value = 0;
+        barCounter.value = 0;
+        isPlaying.value = false;
+      } else {
+        metronome.start();
+        isPlaying.value = true;
+      }
+    }
+
+    function changeTempo(sign, step) {
+      if (sign) {
+        bpmNumber.value += step;
+      } else {
+        bpmNumber.value -= step;
+      }
+    }
+
+    function changeBeatsInBar(sign) {
+      barCounter.value = 0;
+      beatCounter.value = 0;
+
+      if (sign) {
+        beatsPerMeasure.value++;
+      } else {
+        beatsPerMeasure.value--;
+      }
+    }
+
+    function handleSpacebar(e) {
+      if (e.keyCode === 32 && e.target === document.body) {
+        e.preventDefault();
+        toggleMetronome();
+      }
+    }
+
+    const startOrStop = computed(() => {
+      return isPlaying.value ? "STOP" : "START";
+    });
+
+    onMounted(() => window.addEventListener("keydown", handleSpacebar));
+    onBeforeUnmount(() =>
+      window.removeEventListener("keydown", handleSpacebar)
+    );
 
     return {
       beatCounter,
-      currentBarCounter,
-      numberOfBeats,
+      barCounter,
+      beatsPerMeasure,
       bpmNumber,
-      currentBeatCounter,
+      toggleMetronome,
+      secondClickSound,
+      firstClickSound,
+      startOrStop,
+      changeTempo,
+      changeBeatsInBar,
+      clickFirst,
+      clickSecond,
     };
   },
 };
@@ -85,7 +186,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 26px;
   max-width: 700px;
   margin: 0 auto;
 
@@ -97,7 +198,6 @@ export default {
     font-size: 48px;
     font-weight: 700;
     border-bottom: 2px solid #ccc;
-
   }
 
   .beat-circles {
@@ -193,6 +293,7 @@ export default {
       font-weight: 600;
       color: #fff;
       padding: 8px;
+      user-select: none;
       // margin: 8px;
       display: inline-block;
       min-width: 35px;
@@ -202,6 +303,11 @@ export default {
         background-color: rgb(43, 42, 42);
       }
     }
+  }
+
+  .toggle-tip {
+    font-size: 14px;
+    text-align: center;
   }
 
   .bpm-number h2 {
@@ -218,6 +324,7 @@ export default {
     text-align: center;
     cursor: pointer;
     transition: 0.2s all ease-in;
+    user-select: none;
 
     &:hover {
       opacity: 0.9;
