@@ -379,7 +379,8 @@ export default {
     background-color: $burgundy;
 
     &:active {
-      transform: translateY(4px);
+      // transform: translateY(4px);
+      transform: scale(0.98);
     }
   }
 
