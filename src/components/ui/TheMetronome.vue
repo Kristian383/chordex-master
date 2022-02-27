@@ -1,7 +1,7 @@
 <template>
   <div class="metronome-container">
     <div class="beat-counter">
-      <h2>{{ beatCounter }}</h2>
+      <h2 id="beat-coutner">{{ beatCounter }}</h2>
     </div>
     <div class="beat-circles">
       <div
@@ -37,7 +37,9 @@
     </div>
     <p class="toggle-tip">You can use <u>spacebar</u> to toggle metronome!</p>
     <div class="btn btn-start" @click="toggleMetronome">{{ startOrStop }}</div>
-    <div class="btn btn-tap">TAP TEMPO</div>
+    <div class="btn btn-tap" @click="tapTempo">TAP TEMPO</div>
+    <!-- <div class="btn btn-tap" @click="resetBpm">Reset</div> -->
+    <p class="reset-bpm" @click="resetBpm">Reset BPM</p>
 
     <div class="beats-in-bar">
       <p>Beats in bar:</p>
@@ -71,14 +73,16 @@
 
 <script>
 import { ref, computed, watchEffect, onMounted, onBeforeUnmount } from "vue";
-import Timer from "./TheMetronomeTimer";
+import Timer from "../../helpers/TheMetronomeTimer";
+// import assignEvents from "../../helpers/TheMetronomeTap";
+import TapBPM from "../../helpers/tapbpm";
 
 export default {
   setup() {
     const beatsPerMeasure = ref(4);
     const beatCounter = ref(0);
     const barCounter = ref(0);
-    const bpmNumber = ref(130);
+    const bpmNumber = ref(100);
     const firstClickSound = ref(null);
     const secondClickSound = ref(null);
     const isPlaying = ref(false);
@@ -116,6 +120,14 @@ export default {
       metronome.timeInterval = 60000 / bpmNumber.value;
     });
 
+    function changeTempo(sign, step) {
+      if (sign) {
+        bpmNumber.value += step;
+      } else {
+        bpmNumber.value -= step;
+      }
+    }
+
     function toggleMetronome() {
       if (isPlaying.value) {
         metronome.stop();
@@ -128,12 +140,19 @@ export default {
       }
     }
 
-    function changeTempo(sign, step) {
-      if (sign) {
-        bpmNumber.value += step;
-      } else {
-        bpmNumber.value -= step;
+    const tapBpm = new TapBPM();
+
+    function tapTempo() {
+      tapBpm.assignEvents();
+
+      let average = tapBpm.showCurrentBPM();
+      if (average) {
+        bpmNumber.value = average;
       }
+      // let average = assignEvents();
+      // if (average) {
+      //   bpmNumber.value = average;
+      // }
     }
 
     function changeBeatsInBar(sign) {
@@ -148,10 +167,15 @@ export default {
     }
 
     function handleSpacebar(e) {
-      if (e.keyCode === 32 && e.target === document.body) {
+      if (e.keyCode === 32) {
         e.preventDefault();
         toggleMetronome();
       }
+    }
+
+    function resetBpm() {
+      tapBpm.resetBpm();
+      bpmNumber.value = 100;
     }
 
     const startOrStop = computed(() => {
@@ -176,6 +200,8 @@ export default {
       changeBeatsInBar,
       clickFirst,
       clickSecond,
+      tapTempo,
+      resetBpm,
     };
   },
 };
@@ -323,7 +349,7 @@ export default {
     width: 180px;
     text-align: center;
     cursor: pointer;
-    transition: 0.2s all ease-in;
+    transition: background-color 0.2s ease-in-out;
     user-select: none;
 
     &:hover {
@@ -338,6 +364,18 @@ export default {
 
   .btn-tap {
     background-color: $burgundy;
+
+    &:active {
+      transform: translateY(4px);
+    }
+  }
+
+  .reset-bpm {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .beats-in-bar {
