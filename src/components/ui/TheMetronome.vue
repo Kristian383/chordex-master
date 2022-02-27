@@ -149,7 +149,9 @@ export default {
       let average = tapBpm.showCurrentBPM();
 
       if (average) {
-        bpmNumber.value = average;
+        if (average >= 250) bpmNumber.value = 250;
+        // else if (average <= 30) bpmNumber.value = 250;
+        else bpmNumber.value = average;
       }
     }
 
