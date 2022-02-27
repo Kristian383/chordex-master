@@ -3,7 +3,7 @@
     class="home-section"
     :class="{ expand_home_section: sidebarIsActive && isDesktop }"
   >
-    <nav>
+    <nav v-if="hideSearchForMetronomeView">
       <the-search></the-search>
       <div class="filter_categories">
         <slot name="filters"></slot>
@@ -99,6 +99,9 @@ export default {
     isDesktop() {
       return !this.$store.getters.isMobile;
     },
+    hideSearchForMetronomeView(){
+      return this.$route.path == "/metronome" ? false:true;
+    }
   },
   methods: {
     showButtonUp() {

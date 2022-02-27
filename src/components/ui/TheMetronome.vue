@@ -1,7 +1,7 @@
 <template>
   <div class="metronome-container">
     <div class="beat-counter">
-      <h2 id="beat-coutner">{{ beatCounter }}</h2>
+      <h2 id="beat-coutner">{{ showBPM }}</h2>
     </div>
     <div class="beat-circles">
       <div
@@ -52,7 +52,10 @@
         </button>
       </div>
     </div>
-    <p class="toggle-tip">You can use <u>spacebar</u> to toggle metronome!</p>
+    <p class="toggle-tip">
+      You can use <u>spacebar</u> to toggle metronome and &#8592; &#8594; to
+      change <u>speed</u>!
+    </p>
 
     <!--  -->
     <audio
@@ -75,8 +78,7 @@
 <script>
 import { ref, computed, watchEffect, onMounted, onBeforeUnmount } from "vue";
 import Timer from "../../helpers/TheMetronomeTimer";
-// import assignEvents from "../../helpers/TheMetronomeTap";
-import TapBPM from "../../helpers/tapbpm";
+import TapBPM from "../../helpers/TheMetronomeTap";
 
 export default {
   setup() {
@@ -144,16 +146,11 @@ export default {
     const tapBpm = new TapBPM();
 
     function tapTempo() {
-      tapBpm.assignEvents();
-
       let average = tapBpm.showCurrentBPM();
+
       if (average) {
         bpmNumber.value = average;
       }
-      // let average = assignEvents();
-      // if (average) {
-      //   bpmNumber.value = average;
-      // }
     }
 
     function changeBeatsInBar(sign) {
@@ -167,10 +164,18 @@ export default {
       }
     }
 
-    function handleSpacebar(e) {
+    function handleKeyPress(e) {
       if (e.keyCode === 32) {
         e.preventDefault();
         toggleMetronome();
+      } else if (e.keyCode === 37) {
+        if (bpmNumber.value === 30) return;
+
+        bpmNumber.value--;
+      } else if (e.keyCode === 39) {
+        if (bpmNumber.value === 250) return;
+
+        bpmNumber.value++;
       }
     }
 
@@ -183,9 +188,13 @@ export default {
       return isPlaying.value ? "STOP" : "START";
     });
 
-    onMounted(() => window.addEventListener("keydown", handleSpacebar));
+    const showBPM = computed(() => {
+      return beatCounter.value == 0 ? "--" : beatCounter.value;
+    });
+
+    onMounted(() => window.addEventListener("keydown", handleKeyPress));
     onBeforeUnmount(() =>
-      window.removeEventListener("keydown", handleSpacebar)
+      window.removeEventListener("keydown", handleKeyPress)
     );
 
     return {
@@ -203,6 +212,7 @@ export default {
       clickSecond,
       tapTempo,
       resetBpm,
+      showBPM,
     };
   },
 };
