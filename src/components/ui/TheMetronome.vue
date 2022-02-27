@@ -35,7 +35,6 @@
     <div class="bpm-number">
       <h2>{{ bpmNumber }} BPM</h2>
     </div>
-    <p class="toggle-tip">You can use <u>spacebar</u> to toggle metronome!</p>
     <div class="btn btn-start" @click="toggleMetronome">{{ startOrStop }}</div>
     <div class="btn btn-tap" @click="tapTempo">TAP TEMPO</div>
     <!-- <div class="btn btn-tap" @click="resetBpm">Reset</div> -->
@@ -53,6 +52,8 @@
         </button>
       </div>
     </div>
+    <p class="toggle-tip">You can use <u>spacebar</u> to toggle metronome!</p>
+
     <!--  -->
     <audio
       ref="firstClickSound"
