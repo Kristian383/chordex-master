@@ -6,9 +6,13 @@
     <div class="beat-circles">
       <div
         class="circle"
-        :class="{ active: beat == beatCounter }"
+        :class="{
+          active: beat == beatCounter,
+          sincopated: beat == 1 && isSincopated ? true : false,
+        }"
         v-for="beat in beatsPerMeasure"
         :key="beat"
+        @click="toggleSincopation"
       ></div>
     </div>
     <div class="bars-counter">
@@ -89,6 +93,7 @@ export default {
     const firstClickSound = ref(null);
     const secondClickSound = ref(null);
     const isPlaying = ref(false);
+    const isSincopated = ref(true);
 
     let clickFirst = require("@/assets/sounds/first.mp3");
     let clickSecond = require("@/assets/sounds/second.mp3");
@@ -103,9 +108,11 @@ export default {
 
         barCounter.value++;
       }
-      if (beatCounter.value === 0) {
-        // tempoEl.value.src = clickFirst;
+      if (beatCounter.value === 0 && isSincopated.value) {
         firstClickSound.value.play();
+        // tempoEl.value.src = clickFirst;
+        // if (isSincopated.value) firstClickSound.value.play();
+        // else secondClickSound.value.play()
       } else {
         // tempoEl.value.src = clickSecond;
         secondClickSound.value.play();
@@ -181,6 +188,10 @@ export default {
       }
     }
 
+    function toggleSincopation() {
+      isSincopated.value = !isSincopated.value;
+    }
+
     function resetBpm() {
       tapBpm.resetBpm();
       bpmNumber.value = 100;
@@ -215,6 +226,8 @@ export default {
       tapTempo,
       resetBpm,
       showBPM,
+      toggleSincopation,
+      isSincopated,
     };
   },
 };
@@ -250,6 +263,15 @@ export default {
       width: 20px;
       height: 20px;
       background-color: #ccc;
+    }
+
+    .circle:first-child {
+      cursor: pointer;
+    }
+
+    .circle.sincopated {
+      border: 2px solid black;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     }
 
     .circle.active {
@@ -427,6 +449,7 @@ export default {
         text-align: center;
         width: 50px;
         outline: none;
+        margin: 0px 6px;
       }
     }
   }
