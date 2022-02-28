@@ -90,6 +90,18 @@
             <span class="links_name">Websites </span>
           </router-link>
         </li>
+        <li>
+          <router-link
+            to="/metronome"
+            v-bind:class="{ active_item: $route.path == '/metronome' }"
+          >
+            <font-awesome-icon
+              id="ikona"
+              icon="drum"
+            ></font-awesome-icon>
+            <span class="links_name">Metronome </span>
+          </router-link>
+        </li>
 
         <li @click="logOutUser">
           <router-link to="/home">

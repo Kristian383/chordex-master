@@ -3,13 +3,16 @@
     class="home-section"
     :class="{ expand_home_section: sidebarIsActive && isDesktop }"
   >
-    <nav>
+    <nav v-if="!isMetronomeView">
       <the-search></the-search>
       <div class="filter_categories">
         <slot name="filters"></slot>
       </div>
     </nav>
-    <div class="home-content">
+    <div
+      class="home-content"
+      :class="{ reduce_content_padding: isMetronomeView }"
+    >
       <div class="sort-section-title">
         <h2 class="title">
           <span
@@ -98,6 +101,9 @@ export default {
     },
     isDesktop() {
       return !this.$store.getters.isMobile;
+    },
+    isMetronomeView() {
+      return this.$route.path == "/metronome" ? true : false;
     },
   },
   methods: {
@@ -218,6 +224,9 @@ export default {
   .home-section .home-content {
     padding: 110px 15px 15px 15px;
   }
+}
+.home-content.reduce_content_padding {
+  padding: 15px;
 }
 
 /*  */

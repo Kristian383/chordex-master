@@ -28,6 +28,11 @@
             >About</router-link
           >
         </li>
+        <li>
+          <router-link class="link" active-class="active" to="/metronome"
+            >Metronome</router-link
+          >
+        </li>
       </ul>
     </nav>
   </header>
@@ -111,8 +116,14 @@ header .navigation {
   display: flex;
   align-items: center;
   flex: 1;
-  justify-content: center;
+  overflow-x: auto;
+
 }
+/*  */
+header .navigation::-webkit-scrollbar {
+  display: none;
+}
+/*  */
 @media (min-width: 1140px) {
   header nav {
     max-width: 1140px;

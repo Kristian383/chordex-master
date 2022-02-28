@@ -13,6 +13,7 @@ import FindKey from "./pages/FindKey.vue"
 import TheAbout from "./pages/TheAbout.vue"
 import ResourcesList from "./components/ui/ResourcesList.vue"
 import NotFound from "./pages/NotFound.vue"
+import MetronomeView from "./pages/MetronomeView.vue"
 import store from "./store/index";
 
 
@@ -32,6 +33,7 @@ const router = createRouter({
     { path: "/new/:songId", component: AddSong, name: "EditSong", meta: { title: "Edit Song | Chordex", requiresAuth: true } },
     { path: "/find-key", component: FindKey, name: "Music Keys", meta: { title: "Find Key | Chordex", requiresAuth: true } },
     { path: "/resources", component: ResourcesList, meta: { title: "Websites | Chordex", requiresAuth: true } },//name: "Useful Websites"
+    { path: "/metronome", component: MetronomeView, meta: { title: "Metronome | Chordex" } },
     { path: "/resetpswd", component: ResetPassword, name: "Reset Password", meta: { title: "Reset Password | Chordex", resetPassword: false } },
     { path: "/delete-acc", component: DeleteAccount, name: "Delete Account", meta: { title: "Delete Account | Chordex" } }, //, deleteAccount: false
     { path: "/:notFound(.*)*", component: NotFound, meta: { title: "Not Found" } },
