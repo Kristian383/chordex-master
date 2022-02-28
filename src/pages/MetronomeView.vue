@@ -1,6 +1,10 @@
 <template>
   <base-card>
     <section>
+      <h2 class="title-metronome">
+        Metronome and Tap Tempo / Beats Per Minute 
+      </h2>
+
       <div class="metronome-view">
         <!-- :class="{ 'reduce-width': sidebarIsActive && isDesktop }" -->
         <the-metronome></the-metronome>
@@ -16,8 +20,9 @@
           </p>
           <p>
             Common uses of the metronome are helping you to maintain an
-            established <u>tempo</u> while practicing, recording and learning difficult
-            licks and riffs. You can also use the feature with <b>"Tap Tempo"</b> button to find out the rythm of a song. 
+            established <u>tempo</u> while practicing, recording and learning
+            difficult licks and riffs. You can also use the feature with
+            <b>"Tap Tempo"</b> button to find out the rythm of a song.
           </p>
         </div>
         <div class="about-usage">
@@ -92,6 +97,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.title-metronome{
+  text-align: center;
+}
+
 .metronome-view {
   margin: 25px auto;
   background-color: #f1f1f1;
