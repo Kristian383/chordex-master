@@ -8,7 +8,7 @@
           </div>
           <div class="middle-icons">
             <font-awesome-icon
-              :icon="iconName"
+              :icon="favoriteIconName"
               style="pointer-events: none"
               :class="{ 'is-favorite': isFavorite }"
             ></font-awesome-icon>
@@ -42,18 +42,18 @@
           <div class="song-name"><b>Song:</b> {{ songData.songName }}</div>
           <div class="song-info-box" v-if="songData.bpm">
             <b> BPM:</b> {{ songData.bpm }}
-            <font-awesome-icon
+            <!-- <font-awesome-icon
               class="metronome"
-              :icon="iconType"
+              :icon="metronomeIconType"
               @click="toggleMetronome"
-            ></font-awesome-icon>
-            <audio
+            ></font-awesome-icon> -->
+            <!-- <audio
               hidden
-              :muted="!play"
+              :muted="!playMetronome"
               ref="metronome"
               src="https://caljer1.github.io/MetronomeLite/sounds/rimshot.mp3"
               type="audio/mp3"
-            ></audio>
+            ></audio> -->
           </div>
         </div>
         <!-- keys -->
@@ -120,12 +120,32 @@
         <br />
         <pre>{{ songData.songText }}</pre>
       </div>
+      <!--  -->
+      <!-- <audio
+        ref="secondClickSound"
+        :src="clickSecond"
+        class="audio"
+        preload="auto"
+        type="audio/mp3"
+      ></audio> -->
     </div>
   </base-card>
 </template>
 
 <script>
 import BaseCard from "../components/ui/BaseCard.vue";
+// import Timer from "@/helpers/TheMetronomeTimer";
+
+import {
+  ref,
+  toRefs,
+  onMounted,
+  computed,
+  // onBeforeUnmount,
+  // watchEffect,
+} from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
   name: "SongDetail",
@@ -133,102 +153,131 @@ export default {
     BaseCard,
   },
   props: ["songId"],
-  data() {
-    return {
-      id: null,
-      isFavorite: null,
-      songData: null,
-      play: false,
-    };
-  },
-  mounted() {
-    this.id = this.songId;
-    let songData;
-    if (this.$route.query.isMySong) {
-      songData = this.$store.getters.getAllMySongs.find((song) => {
-        return song.songId == this.id;
-      });
-    } else {
-      songData = this.$store.getters.getAllSongs.find((song) => {
-        return song.songId == this.id;
-      });
+  setup(props) {
+    const { songId } = toRefs(props);
+    const songData = ref(null);
+    const router = useRouter();
+    const route = useRoute();
+    const store = useStore();
+    const isFavorite = ref(null);
+
+    onMounted(() => {
+      if (route.query.isMySong) {
+        songData.value = store.getters.getAllMySongs.find((song) => {
+          return song.songId == songId.value;
+        });
+      } else {
+        songData.value = store.getters.getAllSongs.find((song) => {
+          return song.songId == songId.value;
+        });
+      }
+      if (songData.value) {
+        isFavorite.value = songData.value.isFavorite;
+        store.commit("setSongDetailTitle", songData.value.songName);
+      } else {
+        router.push("/songs");
+      }
+    });
+
+    function goBack() {
+      router.go(-1);
     }
 
-    if (songData) {
-      this.songData = songData;
-      this.isFavorite = songData.isFavorite;
-      this.$store.commit("setSongDetailTitle", songData.songName);
-    } else {
-      this.$router.push("/songs");
-    }
-  },
-  methods: {
-    goBack() {
-      this.$router.go(-1);
-    },
-    openEdit() {
-      let song = this.$store.getters.findSong(this.songId);
+    function openEdit() {
+      let song = store.getters.findSong(songId.value);
       const pushRoute = song.isMySong
         ? `/new/${song.songId}?isMySong=True`
         : `/new/${song.songId}`;
-      this.$router.push(pushRoute);
-    },
-    deleteSong() {
+      router.push(pushRoute);
+    }
+
+    function deleteSong() {
       if (window.confirm("Are you sure?")) {
         const payload = {
-          songName: this.songData.songName,
-          artist: this.songData.artist,
-          songId: this.songData.songId,
+          songName: songData.value.songName,
+          artist: songData.value.artist,
+          songId: songData.value.songId,
         };
-        this.$store.dispatch("deleteSong", payload).then(() => {
-          this.$router.push(
-            this.songData.isMySong ? "/songs?isMySong=True" : "/songs"
+        store.dispatch("deleteSong", payload).then(() => {
+          router.push(
+            songData.value.isMySong ? "/songs?isMySong=True" : "/songs"
           );
         });
       }
-    },
-    toggleMetronome() {
-      this.play = !this.play;
-      let el = this.$refs.metronome;
-      let bpm = this.songData.bpm;
-      // let timer = 1 / (bpm / 60 / 1000);
-      let timer = 60000 / bpm;
-      var interval = setInterval(() => {
-        el.currentTime = 0;
-        if (!this.play) {
-          clearInterval(interval);
-        }
-        el.play();
-      }, timer);
-    },
-  },
-  computed: {
-    iconName() {
-      if (!this.isFavorite) {
+    }
+
+    const favoriteIconName = computed(() => {
+      if (!isFavorite.value) {
         return ["far", "heart"];
       }
       return "heart";
-    },
-    displayAccordingToYT() {
-      if (this.songData.yt_link) {
+    });
+
+    const displayAccordingToYT = computed(() => {
+      if (songData.value.yt_link) {
         return "1fr";
       } else {
         return "1fr 1fr";
       }
-    },
-    iconType() {
-      if (this.play) {
-        return "pause-circle";
-      } else {
-        return "play-circle";
-      }
-    },
-    imgUrl() {
+    });
+    
+    const imgUrl = computed(() => {
       return require("@/assets/music.png");
-    },
-  },
-  beforeUnmount() {
-    this.play = false;
+    });
+    // const metronomeIconType = computed(() => {
+    //   if (playMetronome.value) {
+    //     return "pause-circle";
+    //   } else {
+    //     return "play-circle";
+    //   }
+    // });
+    
+
+    // const secondClickSound = ref(null);
+    // const playMetronome = ref(false);
+    // let clickSecond = require("@/assets/sounds/second.mp3");
+
+    // function playClick() {
+    //   secondClickSound.value.play();
+    // }
+
+    // const metronome = new Timer(playClick, 60000 / songData.value.bpm, {
+    //   immediate: true,
+    // });
+
+    // function toggleMetronome() {
+    //   if (playMetronome.value) {
+    //     metronome.stop();
+    //     playMetronome.value = false;
+    //   } else {
+    //     metronome.start();
+    //     playMetronome.value = true;
+    //   }
+    // }
+
+    // watchEffect(() => {
+    //   metronome.timeInterval = 60000 / songData.value.bpm;
+    // });
+
+    // onBeforeUnmount(() => {
+    //   playMetronome.value = false;
+    // });
+
+    return {
+      goBack,
+      openEdit,
+      deleteSong,
+      favoriteIconName,
+      displayAccordingToYT,
+      imgUrl,
+      songData,
+      isFavorite,
+      // iconType,
+      // toggleMetronome,
+      // playMetronome,
+      // secondClickSound,
+      // clickSecond,
+    };
   },
 };
 </script>
