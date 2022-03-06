@@ -33,8 +33,8 @@
           <register-form  @is-loading="setRequestLoading" :request-is-loading="reqIsLoading"></register-form>
         </div>
       </transition>
-      <div class="loader">
-        <the-loader v-if="reqIsLoading"></the-loader>
+      <div class="loader" v-if="reqIsLoading">
+        <the-loader ></the-loader>
       </div>
     </div>
   </div>
