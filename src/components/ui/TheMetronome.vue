@@ -167,8 +167,12 @@ export default {
       beatCounter.value = 0;
 
       if (sign) {
+        if (beatsPerMeasure.value == 12) return;
+
         beatsPerMeasure.value++;
       } else {
+        if (beatsPerMeasure.value == 1) return;
+
         beatsPerMeasure.value--;
       }
     }
