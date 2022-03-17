@@ -7,16 +7,8 @@
           @click.prevent="openLoginForm"
           :class="{ active: showLogin }"
         >
-          <!-- <a href="">ChordEx</a> -->
           <p>ChordEx</p>
         </li>
-        <!-- <li
-          class="tab"
-          @click.prevent="openRegisterForm"
-          :class="{ active: !showLogin && !showReset }"
-        >
-          <a href="">Sign Up</a>
-        </li> -->
       </ul>
     </div>
     <div class="tab-content">
@@ -56,7 +48,6 @@
 import TheLoader from "./../../TheLoader.vue";
 import ForgotForm from "./ForgotForm.vue";
 import LoginForm from "./LoginForm.vue";
-// import RegisterForm from "./RegisterForm.vue";
 
 import { ref } from "vue";
 export default {
@@ -64,17 +55,11 @@ export default {
     TheLoader,
     ForgotForm,
     LoginForm,
-    // RegisterForm,
   },
   setup() {
     const showLogin = ref(true);
     const showReset = ref(false);
     const reqIsLoading = ref(false);
-
-    // function openRegisterForm() {
-    //   showReset.value = false;
-    //   showLogin.value = false;
-    // }
 
     function openLoginForm() {
       showLogin.value = true;
@@ -94,7 +79,6 @@ export default {
       setRequestLoading,
       openResetForm,
       openLoginForm,
-      // openRegisterForm,
       reqIsLoading,
     };
   },
