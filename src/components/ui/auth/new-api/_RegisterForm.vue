@@ -60,10 +60,9 @@
 <script>
 import { ref, computed, toRefs } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 
 export default {
-
   props: ["requestIsLoading"],
   setup(props, { emit }) {
     const userEmail = ref("");
@@ -74,7 +73,7 @@ export default {
     const formIsValid = ref(true);
 
     const { requestIsLoading } = toRefs(props);
-    
+
     const isLoading = computed(() => {
       return requestIsLoading.value;
     });
@@ -84,7 +83,7 @@ export default {
     }
 
     const store = useStore();
-    const router = useRouter();
+    // const router = useRouter();
 
     function submitForm() {
       formIsValid.value = true;
@@ -129,20 +128,32 @@ export default {
         mode: "signup",
       };
 
-      store.dispatch("auth", payload).then((res) => {
-        if (store.getters.token) {
-          router.push("/songs");
-          store.commit("activateSidebar");
-          errorText.value = "Successfully registered.";
-          goodRequest.value = true;
-        } else {
-          userName.value = "";
-          userEmail.value = "";
-          errorText.value = res;
-        }
-        // requestIsPending.value = false;
-        emit("isLoading", false);
-      });
+      console.log("payload", payload);
+      // store.dispatch("auth", payload).then((res) => {
+      //   if (store.getters.token) {
+      //     router.push("/songs");
+      //     store.commit("activateSidebar");
+      //     errorText.value = "Successfully registered.";
+      //     goodRequest.value = true;
+      //   } else {
+      //     userName.value = "";
+      //     userEmail.value = "";
+      //     errorText.value = res;
+      //   }
+      //   // requestIsPending.value = false;
+      //   emit("isLoading", false);
+      // });
+
+      // firebase email sender
+      store
+        .dispatch("registerEmailVerification", userEmail.value)
+        .then((res) => {
+          if (res) {
+            console.log("dobarr");
+          } else {
+            console.log("lose");
+          }
+        });
     }
 
     const showPswd = ref(false);

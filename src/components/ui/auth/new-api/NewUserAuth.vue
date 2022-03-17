@@ -7,34 +7,46 @@
           @click.prevent="openLoginForm"
           :class="{ active: showLogin }"
         >
-          <a href="">Log In</a>
+          <!-- <a href="">ChordEx</a> -->
+          <p>ChordEx</p>
         </li>
-        <li
+        <!-- <li
           class="tab"
           @click.prevent="openRegisterForm"
           :class="{ active: !showLogin && !showReset }"
         >
           <a href="">Sign Up</a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="tab-content">
       <transition name="fade" tag="section" mode="out-in">
         <!-- login -->
         <div id="login" key="login" v-if="showLogin">
-          <login-form @open-reset-form="openResetForm" @is-loading="setRequestLoading" :request-is-loading="reqIsLoading"></login-form>
+          <login-form
+            @open-reset-form="openResetForm"
+            @is-loading="setRequestLoading"
+            :request-is-loading="reqIsLoading"
+          ></login-form>
         </div>
         <!-- reset -->
         <div id="reset" key="reset" v-else-if="showReset">
-          <forgot-form @open-login="openLoginForm" @is-loading="setRequestLoading" :request-is-loading="reqIsLoading"></forgot-form>
+          <forgot-form
+            @open-login="openLoginForm"
+            @is-loading="setRequestLoading"
+            :request-is-loading="reqIsLoading"
+          ></forgot-form>
         </div>
         <!-- ="signup" -->
-        <div id="signup" key="signup" v-else>
-          <register-form  @is-loading="setRequestLoading" :request-is-loading="reqIsLoading"></register-form>
-        </div>
+        <!-- <div id="signup" key="signup" v-else>
+          <register-form
+            @is-loading="setRequestLoading"
+            :request-is-loading="reqIsLoading"
+          ></register-form>
+        </div> -->
       </transition>
       <div class="loader" v-if="reqIsLoading">
-        <the-loader ></the-loader>
+        <the-loader></the-loader>
       </div>
     </div>
   </div>
@@ -44,7 +56,7 @@
 import TheLoader from "./../../TheLoader.vue";
 import ForgotForm from "./ForgotForm.vue";
 import LoginForm from "./LoginForm.vue";
-import RegisterForm from "./RegisterForm.vue";
+// import RegisterForm from "./RegisterForm.vue";
 
 import { ref } from "vue";
 export default {
@@ -52,17 +64,18 @@ export default {
     TheLoader,
     ForgotForm,
     LoginForm,
-    RegisterForm,
+    // RegisterForm,
   },
   setup() {
     const showLogin = ref(true);
     const showReset = ref(false);
-     const reqIsLoading = ref(false);
+    const reqIsLoading = ref(false);
 
-    function openRegisterForm() {
-      showReset.value = false;
-      showLogin.value = false;
-    }
+    // function openRegisterForm() {
+    //   showReset.value = false;
+    //   showLogin.value = false;
+    // }
+
     function openLoginForm() {
       showLogin.value = true;
       showReset.value = false;
@@ -72,7 +85,6 @@ export default {
       showReset.value = true;
     }
     function setRequestLoading(data) {
-      // console.log("Is loading?",data);
       reqIsLoading.value = data;
     }
 
@@ -82,8 +94,8 @@ export default {
       setRequestLoading,
       openResetForm,
       openLoginForm,
-      openRegisterForm,
-      reqIsLoading
+      // openRegisterForm,
+      reqIsLoading,
     };
   },
 };
@@ -109,22 +121,22 @@ export default {
         display: table;
         clear: both;
       }
-      li a {
+      li p {
         display: block;
         text-decoration: none;
         padding: 15px;
-        background: rgba(160, 179, 176, 0.25);
+        background: $burgundy;
 
         color: $white;
-        float: left;
-        width: 50%;
+        // float: left;
+        // width: 50%;
         text-align: center;
-        cursor: pointer;
-        -webkit-transition: 0.3s ease;
-        transition: 0.3s ease;
-        &:hover {
-          background: #b62730;
-        }
+        // cursor: pointer;
+        // -webkit-transition: 0.3s ease;
+        // transition: 0.3s ease;
+        // // &:hover {
+        //   background: #b62730;
+        // }
       }
       .active a {
         background: $burgundy;
