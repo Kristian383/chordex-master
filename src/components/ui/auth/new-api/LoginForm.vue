@@ -61,6 +61,7 @@ export default {
     GoogleBtn,
   },
   props: ["requestIsLoading"],
+  emits: ["openResetForm", "isLoading"],
 
   setup(props, { emit }) {
     const userEmail = ref("");
@@ -68,7 +69,6 @@ export default {
     const errorText = ref("");
     const goodRequest = ref(false);
     const formIsValid = ref(true);
-    // const requestIsPending = ref(false);
     const { requestIsLoading } = toRefs(props);
 
     const isLoading = computed(() => {
@@ -88,9 +88,13 @@ export default {
     const router = useRouter();
 
     async function googleAuth() {
+      emit("isLoading", true);
+
       const google_response = await store.dispatch("signInWithGoogle");
       if (!google_response.google_token) {
         errorText.value = google_response.msg;
+        emit("isLoading", false);
+
         return;
       }
       let responseFromMyBackend = await store.dispatch(
@@ -99,6 +103,8 @@ export default {
       );
 
       if (responseFromMyBackend.success) {
+        emit("isLoading", false);
+
         router.push("/songs");
         store.commit("activateSidebar");
       } else {
@@ -118,7 +124,7 @@ export default {
         !userEmail.value.includes("@")
       ) {
         formIsValid.value = false;
-        // requestIsPending.value = false;
+
         emit("isLoading", false);
         return;
       }
@@ -139,7 +145,7 @@ export default {
           formIsValid.value = false;
           errorText.value = res;
         }
-        // requestIsPending.value = false;
+
         emit("isLoading", false);
       });
     }
@@ -169,6 +175,7 @@ export default {
       googleAuth,
       submitForm,
       isLoading,
+      // requestIsLoading,
     };
   },
 };
@@ -201,6 +208,13 @@ export default {
   .feedback-text.valid {
     color: $green;
   }
+}
+
+form .loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 50%;
 }
 
 .form-footer {

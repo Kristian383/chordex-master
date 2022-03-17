@@ -59,7 +59,7 @@
             in each measure, while the <b>bottom</b> number tells you what note
             values those beats are. The <u>most used time</u> signature is
             <b>4/4.</b> If the bottom number is a 4, it means the beats are
-            quarter notes (four quarter notes in a measure).<mark></mark>
+            quarter notes (four quarter notes in a measure).
           </p>
         </div>
       </div>

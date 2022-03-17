@@ -50,7 +50,7 @@
         <button class="minus" @click="changeBeatsInBar(false)">
           <font-awesome-icon icon="minus"></font-awesome-icon>
         </button>
-        <input type="text" v-model="beatsPerMeasure" />
+        <span class="bpm-value">{{ beatsPerMeasure }}</span>
         <button class="plus" @click="changeBeatsInBar(true)">
           <font-awesome-icon icon="plus"></font-awesome-icon>
         </button>
@@ -166,11 +166,18 @@ export default {
       barCounter.value = 0;
       beatCounter.value = 0;
 
-      if (sign) {
+      if (sign === true) {
+        if (beatsPerMeasure.value == 12) return;
+
         beatsPerMeasure.value++;
-      } else {
+      } else if (sign === false) {
+        if (beatsPerMeasure.value == 1) return;
+
         beatsPerMeasure.value--;
       }
+      //  else {
+      //   beatsPerMeasure.value = sign.target.value;
+      // }
     }
 
     function handleKeyPress(e) {
@@ -440,16 +447,12 @@ export default {
         opacity: 0.4;
       }
 
-      input {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        border: none;
+      .bpm-value {
         font-size: 20px;
-        text-align: center;
         width: 50px;
-        outline: none;
-        margin: 0px 6px;
+        margin: 0px 12px;
+        text-align: center;
+        user-select: none;
       }
     }
   }

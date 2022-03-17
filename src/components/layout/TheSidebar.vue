@@ -254,6 +254,26 @@ export default {
 
 .sidebar .nav_list {
   margin-top: 20px;
+  overflow-y: scroll;
+  padding-right: 4px;
+  height: 100%;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    background: rgb(56, 55, 55);
+    border-radius: 0 8px 8px 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(82, 80, 80);
+
+    border-radius: 0 8px 8px 0;
+  }
+
+  @include md {
+    overflow-y: hidden;
+    padding-right: 0px;
+  }
 
   li {
     list-style: none;
