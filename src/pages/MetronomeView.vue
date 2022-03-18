@@ -2,7 +2,7 @@
   <base-card>
     <section>
       <h2 class="title-metronome">
-        Metronome and Tap Tempo / Beats Per Minute 
+        Metronome and Tap Tempo / Beats Per Minute
       </h2>
 
       <div class="metronome-view">
@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import BaseCard from "../components/ui/BaseCard.vue";
+// import BaseCard from "../components/ui/BaseCard.vue";
 import TheMetronome from "../components/ui/TheMetronome.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: {
-    BaseCard,
+    // BaseCard,
     TheMetronome,
   },
   setup() {
@@ -97,8 +97,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.title-metronome{
+.title-metronome {
   text-align: center;
 }
 

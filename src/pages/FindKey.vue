@@ -41,11 +41,11 @@
 </template>
 
 <script>
-import BaseCard from "../components/ui/BaseCard.vue";
+// import BaseCard from "../components/ui/BaseCard.vue";
 export default {
-  components: {
-    BaseCard,
-  },
+  // components: {
+  //   BaseCard,
+  // },
   data() {
     return {
       notes: "",

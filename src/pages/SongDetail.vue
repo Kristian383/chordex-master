@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import BaseCard from "../components/ui/BaseCard.vue";
+// import BaseCard from "../components/ui/BaseCard.vue";
 // import Timer from "@/helpers/TheMetronomeTimer";
 
 import {
@@ -149,9 +149,9 @@ import { useStore } from "vuex";
 
 export default {
   name: "SongDetail",
-  components: {
-    BaseCard,
-  },
+  // components: {
+  //   BaseCard,
+  // },
   props: ["songId"],
   setup(props) {
     const { songId } = toRefs(props);
@@ -220,7 +220,7 @@ export default {
         return "1fr 1fr";
       }
     });
-    
+
     const imgUrl = computed(() => {
       return require("@/assets/music.png");
     });
@@ -231,7 +231,6 @@ export default {
     //     return "play-circle";
     //   }
     // });
-    
 
     // const secondClickSound = ref(null);
     // const playMetronome = ref(false);

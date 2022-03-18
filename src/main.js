@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router.js"
 import store from "./store/index.js"
+import BaseCard from "./components/ui/BaseCard.vue"
 
 import { faHeart as HeartRegular, faTimesCircle } from "@fortawesome/free-regular-svg-icons"
 
@@ -14,6 +15,8 @@ library.add(faBars, faEye, faSearch, faPenSquare, faMusic, faSignOutAlt, faHeart
 const app = createApp(App);
 
 app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('base-card', BaseCard)
+
 
 app.use(router);
 app.use(store);

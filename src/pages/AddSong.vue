@@ -250,13 +250,13 @@
 </template>
 
 <script>
-import BaseCard from "../components/ui/BaseCard.vue";
+// import BaseCard from "../components/ui/BaseCard.vue";
 import ButtonSave from "../components/ui/ButtonSave.vue";
 import SelectBoxKey from "../components/ui/SelectBoxKey.vue";
 import HowToModal from "../components/ui/HowToModal.vue";
 export default {
   components: {
-    BaseCard,
+    // BaseCard,
     SelectBoxKey,
     ButtonSave,
     HowToModal,

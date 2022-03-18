@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import BaseCard from "./../components/ui/BaseCard.vue";
+// import BaseCard from "./../components/ui/BaseCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: {
-    BaseCard,
+    // BaseCard,
     SortBy,
   },
   setup() {
