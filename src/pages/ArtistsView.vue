@@ -70,39 +70,47 @@ export default {
   max-width: 800px;
   margin: 0 auto;
 }
+
 @media (min-width: 720px) {
   .artists {
     padding: 25px;
   }
 }
+
 .flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
 }
+
 .list-group {
   width: 100%;
   background: #fff;
 }
+
 .list-group .list-group-item {
   display: flex;
   border-bottom: 1px solid #ccc;
   list-style: none;
   height: 80px;
 }
+
 .list-group .list-group-item > div {
   padding: 15px 0px;
 }
+
 .list-group .list-group-item .thumbnail {
   padding: 0px 10px;
 }
+
 .list-group .list-group-item .thumbnail img {
   width: 55px;
   height: 55px;
   border-radius: 50%;
   object-fit: cover;
 }
+
 .list-group .list-group-item .details {
   display: flex;
   align-items: center;
@@ -116,6 +124,7 @@ export default {
   display: block;
   height: 100%;
 }
+
 .list-group .list-group-item .details h2 a {
   text-decoration: none;
   color: inherit;
@@ -125,19 +134,23 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .list-group .list-group-item .details h2 a:hover {
   color: var(--burgundy);
 }
+
 .list-group .list-group-item .details p {
   color: #555;
   font-size: 14px;
   padding: 0px 5px;
 }
+
 .list-group .list-group-item .btn {
   width: 50px;
   color: #aaa;
   cursor: pointer;
 }
+
 .list-group .list-group-item .btn:hover {
   color: #111;
 }

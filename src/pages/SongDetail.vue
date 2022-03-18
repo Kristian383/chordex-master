@@ -42,18 +42,6 @@
           <div class="song-name"><b>Song:</b> {{ songData.songName }}</div>
           <div class="song-info-box" v-if="songData.bpm">
             <b> BPM:</b> {{ songData.bpm }}
-            <!-- <font-awesome-icon
-              class="metronome"
-              :icon="metronomeIconType"
-              @click="toggleMetronome"
-            ></font-awesome-icon> -->
-            <!-- <audio
-              hidden
-              :muted="!playMetronome"
-              ref="metronome"
-              src="https://caljer1.github.io/MetronomeLite/sounds/rimshot.mp3"
-              type="audio/mp3"
-            ></audio> -->
           </div>
         </div>
         <!-- keys -->
@@ -121,37 +109,17 @@
         <pre>{{ songData.songText }}</pre>
       </div>
       <!--  -->
-      <!-- <audio
-        ref="secondClickSound"
-        :src="clickSecond"
-        class="audio"
-        preload="auto"
-        type="audio/mp3"
-      ></audio> -->
     </div>
   </base-card>
 </template>
 
 <script>
-// import BaseCard from "../components/ui/BaseCard.vue";
-// import Timer from "@/helpers/TheMetronomeTimer";
-
-import {
-  ref,
-  toRefs,
-  onMounted,
-  computed,
-  // onBeforeUnmount,
-  // watchEffect,
-} from "vue";
+import { ref, toRefs, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 
 export default {
   name: "SongDetail",
-  // components: {
-  //   BaseCard,
-  // },
   props: ["songId"],
   setup(props) {
     const { songId } = toRefs(props);
@@ -224,43 +192,6 @@ export default {
     const imgUrl = computed(() => {
       return require("@/assets/music.png");
     });
-    // const metronomeIconType = computed(() => {
-    //   if (playMetronome.value) {
-    //     return "pause-circle";
-    //   } else {
-    //     return "play-circle";
-    //   }
-    // });
-
-    // const secondClickSound = ref(null);
-    // const playMetronome = ref(false);
-    // let clickSecond = require("@/assets/sounds/second.mp3");
-
-    // function playClick() {
-    //   secondClickSound.value.play();
-    // }
-
-    // const metronome = new Timer(playClick, 60000 / songData.value.bpm, {
-    //   immediate: true,
-    // });
-
-    // function toggleMetronome() {
-    //   if (playMetronome.value) {
-    //     metronome.stop();
-    //     playMetronome.value = false;
-    //   } else {
-    //     metronome.start();
-    //     playMetronome.value = true;
-    //   }
-    // }
-
-    // watchEffect(() => {
-    //   metronome.timeInterval = 60000 / songData.value.bpm;
-    // });
-
-    // onBeforeUnmount(() => {
-    //   playMetronome.value = false;
-    // });
 
     return {
       goBack,
@@ -271,11 +202,6 @@ export default {
       imgUrl,
       songData,
       isFavorite,
-      // iconType,
-      // toggleMetronome,
-      // playMetronome,
-      // secondClickSound,
-      // clickSecond,
     };
   },
 };
