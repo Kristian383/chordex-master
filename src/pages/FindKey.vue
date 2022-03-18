@@ -41,57 +41,62 @@
 </template>
 
 <script>
-// import BaseCard from "../components/ui/BaseCard.vue";
+import { ref, computed, onMounted } from "vue"; //onMounted
+import { useStore } from "vuex";
+
 export default {
-  // components: {
-  //   BaseCard,
-  // },
-  data() {
-    return {
-      notes: "",
-      txtAreaHeight: null,
-      errorMsg: "",
-    };
-  },
-  computed: {
-    allKeys() {
+  setup() {
+    const notes = ref("");
+    const errorMsg = ref("");
+    const txtHeight = ref(null);
+
+    const store = useStore();
+
+    const allKeys = computed(() => {
       let formatedKeys = [];
-      this.$store.getters.getMusicKeys.forEach((element) => {
+      store.getters.getMusicKeys.forEach((element) => {
         let each = [];
         each.push(...element.notes);
         formatedKeys.push(each);
       });
-      return formatedKeys;
-    },
 
-    getTxtAreaHeight() {
-      return this.$store.getters.getTxtAreaHeight;
-    },
-    getNotes() {
-      return this.$store.getters.getUserNotes;
-    },
-  },
-  methods: {
-    updateNotes() {
-      if (this.notes && this.notes.length > 10000) {
-        this.errorMsg =
+      return formatedKeys;
+    });
+
+    const getTxtAreaHeight = computed(() => {
+      return store.getters.getTxtAreaHeight;
+    });
+
+    function updateNotes() {
+      if (notes.value && notes.value.length > 10000) {
+        errorMsg.value =
           "You have exceeded maximum amount of text (10000), you have: " +
-          this.notes.length +
+          notes.value.length +
           ".   Please shorten, otherwise it won't be saved.";
 
         return;
       }
-      this.errorMsg = "";
-      this.$store.dispatch("updateUsersNotes", {
-        notes: this.notes,
-        txtAreaHeight: this.$refs.txtHeight.offsetHeight,
+      errorMsg.value = "";
+      store.dispatch("updateUsersNotes", {
+        notes: notes.value,
+        txtAreaHeight: txtHeight.value.offsetHeight,
       });
-    },
-  },
-  mounted() {
-    this.$store.dispatch("loadUsersNotes").then(() => {
-      this.notes = this.getNotes;
+    }
+
+    onMounted(() => {
+      store.dispatch("loadUsersNotes").then(() => {
+        notes.value = store.getters.getUserNotes;
+      });
     });
+
+    return {
+      notes,
+      errorMsg,
+      allKeys,
+      getTxtAreaHeight,
+      txtHeight,
+      updateNotes,
+    };
   },
 };
 </script>
