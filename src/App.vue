@@ -4,11 +4,13 @@
   <!--  -->
   <the-header></the-header>
   <the-sidebar></the-sidebar>
-  <router-view :key="$route.path" v-slot="{ Component }">
-    <keep-alive>
-      <component :is="Component" />
+
+  <router-view v-slot="{ Component }">
+    <keep-alive :max="3">
+      <component :is="Component" :key="$route.fullPath" />
     </keep-alive>
   </router-view>
+
   <the-footer></the-footer>
 </template>
 
