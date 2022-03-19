@@ -6,7 +6,7 @@
   <the-sidebar></the-sidebar>
 
   <router-view v-slot="{ Component }">
-    <keep-alive :max="3">
+    <keep-alive :max="3" exclude="Add Song">
       <component :is="Component" :key="$route.fullPath" />
     </keep-alive>
   </router-view>
