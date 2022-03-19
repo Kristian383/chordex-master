@@ -137,11 +137,10 @@ export default {
             let [key, quality] = song.firstKey.toLowerCase().split(" ");
             const songData = { songId: song.songId, songName: song.songName, artist: song.artist, songKey: song.firstKey, imgUrl: song.imgUrl };
 
-            if (quality === "MINOR") {
+            if (quality === "minor") {
                 let relativeMajor = keys.filter(item => {
-                    return item.relativeMinor === key
-                })[0].key;
-                // console.log(keys, relativeMajor)
+                    return item.relativeMinor.toLowerCase() === key
+                })[0].key.toLowerCase();
 
                 if (sortedSongs[relativeMajor]) sortedSongs[relativeMajor].push(songData)
                 else sortedSongs[relativeMajor] = [songData]
