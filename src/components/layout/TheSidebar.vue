@@ -41,6 +41,17 @@
 
         <li>
           <router-link
+            to="/song-keys"
+            v-bind:class="{ active_item: $route.path == '/song-keys' }"
+          >
+            <font-awesome-icon id="ikona" icon="list-ul"></font-awesome-icon>
+
+            <span class="links_name">Songs by Key</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link
             to="/new"
             v-bind:class="{ active_item: $route.path == '/new' }"
           >

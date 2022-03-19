@@ -125,6 +125,34 @@ export default {
         }
     },
 
+    getSongsByKey(state) {
+        const keys = state.musicKeys;
+        const sortedSongs = {}
+        const songs = state.songs;
+        if (!keys.length) return
+
+        songs.forEach(song => {
+            if (!song.firstKey) return;
+
+            let [key, quality] = song.firstKey.toLowerCase().split(" ");
+            const songData = { songId: song.songId, songName: song.songName, artist: song.artist, songKey: song.firstKey, imgUrl: song.imgUrl };
+
+            if (quality === "minor") {
+                let relativeMajor = keys.filter(item => {
+                    return item.relativeMinor.toLowerCase() === key
+                })[0].key.toLowerCase();
+
+                if (sortedSongs[relativeMajor]) sortedSongs[relativeMajor].push(songData)
+                else sortedSongs[relativeMajor] = [songData]
+
+            } else {
+                if (sortedSongs[key]) sortedSongs[key].push(songData)
+                else sortedSongs[key] = [songData]
+            }
+        })
+        return sortedSongs
+    },
+
     getArtists(state) {
         return state.artists;
     },

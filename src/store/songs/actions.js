@@ -196,6 +196,7 @@ export default {
             window.alert(responseData.message || 'Failed to load user notes.');
             return
         }
+        // console.log(responseData)
         context.commit("updateUserNotes", responseData.notes)
         context.commit("updateTxtAreaHeight", responseData.txtAreaHeight)
 

@@ -58,7 +58,7 @@ export default {
     let response = {};
 
     try {
-      await signInWithPopup(auth, provider).then(function(result) {
+      await signInWithPopup(auth, provider).then(function (result) {
         var user = result.user;
         response.google_token = user.accessToken;
         response.msg = "Success.";
@@ -167,6 +167,7 @@ export default {
       context.dispatch("loadMusicKeys");
       context.dispatch("loadAllArtists");
       context.commit("activateSidebar");
+
     }
   },
   autoLogout(context) {

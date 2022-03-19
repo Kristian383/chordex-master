@@ -22,14 +22,14 @@
 <script>
 import Filters from "../components/ui/Filters.vue";
 import SongCard from "./../components/song/SongCard.vue";
-import BaseCard from "../components/ui/BaseCard.vue";
+// import BaseCard from "../components/ui/BaseCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
 import TheLoader from "../components/ui/TheLoader.vue";
 export default {
   components: {
     Filters,
     SongCard,
-    BaseCard,
+    // BaseCard,
     SortBy,
     TheLoader,
   },

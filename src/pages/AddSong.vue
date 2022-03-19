@@ -250,13 +250,14 @@
 </template>
 
 <script>
-import BaseCard from "../components/ui/BaseCard.vue";
+// import BaseCard from "../components/ui/BaseCard.vue";
 import ButtonSave from "../components/ui/ButtonSave.vue";
 import SelectBoxKey from "../components/ui/SelectBoxKey.vue";
 import HowToModal from "../components/ui/HowToModal.vue";
 export default {
+  name: "Add Song",
   components: {
-    BaseCard,
+    // BaseCard,
     SelectBoxKey,
     ButtonSave,
     HowToModal,
@@ -504,8 +505,6 @@ export default {
     handleYTLink(link) {
       let linkArr = link.split(/[/=]+/);
       let id = linkArr[linkArr.length - 1];
-      //console.log(id);
-      // let id = link.split("https://www.youtube.com/watch?v=")[1];
       return `https://www.youtube.com/embed/${id}`;
     },
     setArtist(e) {

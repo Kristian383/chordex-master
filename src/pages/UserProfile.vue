@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import BaseCard from "./../components/ui/BaseCard.vue";
+// import BaseCard from "./../components/ui/BaseCard.vue";
 import TheLoader from "../components/ui/TheLoader.vue";
 import DeleteModal from "../components/ui/DeleteModal.vue";
 
@@ -90,7 +90,7 @@ import { useStore } from "vuex";
 export default {
   components: {
     TheLoader,
-    BaseCard,
+    // BaseCard,
     DeleteModal,
   },
   setup() {
