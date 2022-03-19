@@ -367,7 +367,15 @@ svg {
   width: 600px;
   outline: none;
   color: var(--dark_gray_chips);
+  padding: 0px 18px;
 }
+
+@media (min-width: 720px) {
+  .middle-icons {
+    padding: 0px;
+  }
+}
+
 .middle-icons .delete {
   position: absolute;
   right: 0;

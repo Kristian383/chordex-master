@@ -48,6 +48,7 @@ export default {
     const getOptions = computed(() => {
       return ["A-Z", "Z-A"];
     });
+
     const artistPhoto = computed(() => {
       return require("../assets/guitar.svg");
     });
