@@ -16,18 +16,6 @@
                 :key="song"
                 :song="song"
               ></song-by-key>
-              <!--<li v-for="song in value" :key="song">
-                <span
-                  ><router-link :to="'/songs?artist=' + song.artist">{{
-                    song.artist
-                  }}</router-link>
-                </span>
-                <span
-                  ><router-link :to="'/songs/' + song.songId">{{
-                    song.songName
-                  }}</router-link>
-                </span>
-              </li>-->
             </ul>
           </div>
         </div>
@@ -40,7 +28,6 @@
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import SongByKey from "./../components/song/SongByKey.vue";
-// import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -48,7 +35,6 @@ export default {
   },
   setup() {
     const store = useStore();
-    // const router = useRouter();
 
     const musicKeys = ref([]);
     const songs = ref([]);
