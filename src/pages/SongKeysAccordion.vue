@@ -30,6 +30,7 @@ import { useStore } from "vuex";
 import SongByKey from "./../components/song/SongByKey.vue";
 
 export default {
+  name: "Song Keys",
   components: {
     SongByKey,
   },
