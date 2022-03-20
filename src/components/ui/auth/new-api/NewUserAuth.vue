@@ -7,7 +7,14 @@
           @click.prevent="openLoginForm"
           :class="{ active: showLogin }"
         >
-          <p>ChordEx</p>
+          <a href="">Log In</a>
+        </li>
+        <li
+          class="tab"
+          @click.prevent="openRegisterForm"
+          :class="{ active: !showLogin && !showReset }"
+        >
+          <a href="">Sign Up</a>
         </li>
       </ul>
     </div>
@@ -30,12 +37,12 @@
           ></forgot-form>
         </div>
         <!-- ="signup" -->
-        <!-- <div id="signup" key="signup" v-else>
+        <div id="signup" key="signup" v-else>
           <register-form
             @is-loading="setRequestLoading"
             :request-is-loading="reqIsLoading"
           ></register-form>
-        </div> -->
+        </div>
       </transition>
       <div class="loader" v-if="reqIsLoading">
         <the-loader></the-loader>
@@ -48,6 +55,7 @@
 import TheLoader from "./../../TheLoader.vue";
 import ForgotForm from "./ForgotForm.vue";
 import LoginForm from "./LoginForm.vue";
+import RegisterForm from "./RegisterForm.vue";
 
 import { ref } from "vue";
 export default {
@@ -55,12 +63,17 @@ export default {
     TheLoader,
     ForgotForm,
     LoginForm,
+    RegisterForm,
   },
   setup() {
     const showLogin = ref(true);
     const showReset = ref(false);
     const reqIsLoading = ref(false);
 
+    function openRegisterForm() {
+      showReset.value = false;
+      showLogin.value = false;
+    }
     function openLoginForm() {
       showLogin.value = true;
       showReset.value = false;
@@ -70,6 +83,7 @@ export default {
       showReset.value = true;
     }
     function setRequestLoading(data) {
+      // console.log("Is loading?",data);
       reqIsLoading.value = data;
     }
 
@@ -79,6 +93,7 @@ export default {
       setRequestLoading,
       openResetForm,
       openLoginForm,
+      openRegisterForm,
       reqIsLoading,
     };
   },
@@ -105,22 +120,22 @@ export default {
         display: table;
         clear: both;
       }
-      li p {
+      li a {
         display: block;
         text-decoration: none;
         padding: 15px;
-        background: $burgundy;
+        background: rgba(160, 179, 176, 0.25);
 
         color: $white;
-        // float: left;
-        // width: 50%;
+        float: left;
+        width: 50%;
         text-align: center;
-        // cursor: pointer;
-        // -webkit-transition: 0.3s ease;
-        // transition: 0.3s ease;
-        // // &:hover {
-        //   background: #b62730;
-        // }
+        cursor: pointer;
+        -webkit-transition: 0.3s ease;
+        transition: 0.3s ease;
+        &:hover {
+          background: #b62730;
+        }
       }
       .active a {
         background: $burgundy;
