@@ -166,7 +166,7 @@ export default {
 .form {
   background-color: var(--white);
   position: relative;
-  min-height: 500px;
+  min-height: 600px;
   padding: 0px 24px;
 }
 
