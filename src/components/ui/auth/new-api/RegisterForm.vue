@@ -48,6 +48,7 @@
       <p class="feedback-text" v-if="errorText" :class="{ valid: goodRequest }">
         {{ errorText }}
       </p>
+      <re-captcha @recaptcha-check="setReCaptchaValidity"></re-captcha>
     </div>
     <div class="form-footer">
       <button @click.prevent="submitForm" :disabled="isLoading" class="btn">
@@ -61,8 +62,12 @@
 import { ref, computed, toRefs } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import ReCaptcha from "./../ReCaptcha.vue";
 
 export default {
+  components: {
+    ReCaptcha,
+  },
   props: ["requestIsLoading"],
   setup(props, { emit }) {
     const userEmail = ref("");
@@ -71,6 +76,7 @@ export default {
     const errorText = ref("");
     const goodRequest = ref(false);
     const formIsValid = ref(true);
+    const recaptchaIsValid = ref(false);
 
     const { requestIsLoading } = toRefs(props);
 
@@ -80,6 +86,10 @@ export default {
 
     function clearValidity() {
       formIsValid.value = true;
+    }
+
+    function setReCaptchaValidity(validity) {
+      recaptchaIsValid.value = validity;
     }
 
     const store = useStore();
@@ -95,25 +105,23 @@ export default {
         !userEmail.value ||
         !userName.value ||
         !userPassword.value ||
-        !userEmail.value.includes("@")
+        !userEmail.value.includes("@") ||
+        !recaptchaIsValid.value
       ) {
         formIsValid.value = false;
-        // requestIsPending.value = false;
         emit("isLoading", false);
-        errorText.value = "Please check your input.";
+        errorText.value = "Please check your input and recaptcha.";
         return;
       }
 
       if (userName.value.length < 3) {
         formIsValid.value = false;
-        // requestIsPending.value = false;
         emit("isLoading", false);
         errorText.value = "Username must have atleast 3 characters.";
         return;
       }
       if (userPassword.value.length < 6) {
         formIsValid.value = false;
-        // requestIsPending.value = false;
         emit("isLoading", false);
         errorText.value = "Password must have atleast 6 characters.";
         return;
@@ -139,18 +147,20 @@ export default {
           userEmail.value = "";
           errorText.value = res;
         }
-        // requestIsPending.value = false;
         emit("isLoading", false);
       });
     }
 
     const showPswd = ref(false);
+
     function togglePassword() {
       showPswd.value = !showPswd.value;
     }
+
     const lockType = computed(() => {
       return showPswd.value ? "lock-open" : "lock";
     });
+
     const pswdType = computed(() => {
       return showPswd.value ? "text" : "password";
     });
@@ -163,12 +173,12 @@ export default {
       goodRequest,
       formIsValid,
       clearValidity,
-      //   requestIsLoading,
       isLoading,
       submitForm,
       lockType,
       togglePassword,
       pswdType,
+      setReCaptchaValidity,
     };
   },
 };
