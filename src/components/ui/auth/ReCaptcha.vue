@@ -46,6 +46,7 @@ export default {
 .captcha-container {
   display: flex;
   justify-content: center;
+  //   overflow: hidden;
 }
 </style>
 

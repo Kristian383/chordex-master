@@ -29,7 +29,7 @@
           :class="{ 'error-msg': !message.isValid }"
         ></textarea>
       </div>
-      <!--  -->
+      <re-captcha @recaptcha-check="setReCaptchaValidity"></re-captcha>
       <!--  -->
       <button @click.prevent="submitForm" :disabled="isSending" class="btn">
         Send
@@ -46,10 +46,12 @@
 
 <script>
 import TheLoader from "./../TheLoader.vue";
+import ReCaptcha from "./ReCaptcha.vue";
 
 export default {
   components: {
     TheLoader,
+    ReCaptcha,
   },
   data() {
     return {
@@ -64,14 +66,18 @@ export default {
       infoMsg: "",
       isSending: false,
       goodRequest: false,
+      recaptchaIsValid: false,
     };
   },
   methods: {
+    setReCaptchaValidity(validity) {
+      this.recaptchaIsValid = validity;
+    },
     async submitForm() {
       this.goodRequest = false;
       //
-      if (!this.email.val.includes("@")) {
-        this.infoMsg = "Please insert valid email.";
+      if (!this.email.val.includes("@") || !this.recaptchaIsValid) {
+        this.infoMsg = "Please insert valid email and check recaptcha.";
         this.email.isValid = false;
         return;
       } else if (this.message.val.length > 900) {
@@ -84,7 +90,9 @@ export default {
         this.message.isValid = false;
         return;
       } else if (this.message.val.length < 30) {
-        this.infoMsg = "Please insert more than 30 characters. You have: "+this.message.val.length;
+        this.infoMsg =
+          "Please insert more than 30 characters. You have: " +
+          this.message.val.length;
         this.message.isValid = false;
         return;
       } else {
@@ -112,7 +120,6 @@ export default {
     clearValidity(input) {
       this[input].isValid = true;
     },
-    
   },
 };
 </script>
@@ -121,9 +128,8 @@ export default {
 .contact {
   max-width: 1280px;
   width: 100%;
-
+  position: relative;
   margin: 0 auto;
-  padding: 18px;
 }
 
 .contact h1 {
@@ -139,14 +145,19 @@ export default {
   grid-template-columns: 1fr;
   grid-gap: 16px;
   background-color: #fff;
-  padding: 32px;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  padding: 12px;
 }
 @media (min-width: 768px) {
   .contact form {
     -ms-grid-columns: (1fr);
     grid-template-columns: repeat(2, 1fr);
+    padding: 32px;
+  }
+
+  .contact {
+    padding: 18px;
   }
 }
 .contact form .form-group.full {
