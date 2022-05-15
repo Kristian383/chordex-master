@@ -1,4 +1,5 @@
 # chordex
+As a guitarist in my free time, i've come with an idea of making an web app named *ChordEx* which is  imagined to be a virtual songbook where you can write your own information about songs that you learn or make.
 
 ## Project setup
 ```
