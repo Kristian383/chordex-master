@@ -14,3 +14,5 @@ npm install
 npm run serve
 ```
 
+© Kristian Nenadovic 2022
+
