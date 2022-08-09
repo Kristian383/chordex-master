@@ -14,21 +14,21 @@
       :class="{ reduce_content_padding: isMetronomeView }"
     >
       <div class="sort-section-title">
-        <h2 class="title">
+        <div class="title">
           <span
             class="arrow-left"
             @click="goToSong('prev')"
             v-if="showArrows == 'both' || showArrows == 'prev'"
             ><font-awesome-icon icon="angle-left"></font-awesome-icon
           ></span>
-          <span>{{ Title }}</span>
+          <span class="title-text">{{ Title }}</span>
           <span
             class="arrow-right"
             @click="goToSong('next')"
             v-if="showArrows == 'both' || showArrows == 'next'"
             ><font-awesome-icon icon="angle-right"></font-awesome-icon
           ></span>
-        </h2>
+        </div>
         <slot name="select_box"></slot>
       </div>
       <slot></slot>
@@ -238,9 +238,11 @@ export default {
   margin-bottom: 8px;
   color: var(--font_black);
 }
-.sort-section-title h2 {
+.sort-section-title .title {
   flex-shrink: 0; /*  this doesnt remove arrows down */
   padding-top: 8px;
+  font-size: 21px;
+  font-weight: 600;
 }
 
 /* arrows for song */
