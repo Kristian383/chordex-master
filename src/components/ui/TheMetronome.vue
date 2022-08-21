@@ -131,6 +131,11 @@ export default {
     });
 
     function changeTempo(sign, step) {
+      if (
+        (sign && bpmNumber.value === 250) ||
+        (!sign && bpmNumber.value === 30)
+      )
+        return;
       if (sign) {
         bpmNumber.value += step;
       } else {
