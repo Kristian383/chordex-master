@@ -1,30 +1,33 @@
 <template>
   <li class="song-item">
-    <div class="thumbnail flex-center">
+    <div class="thumbnail">
       <img :src="song.imgUrl || artistPhoto" alt="Artist" />
     </div>
-    <router-link :to="'/songs?artist=' + song.artist">{{
-      song.artist
-    }}</router-link>
-    <router-link :to="'/songs/' + song.songId">{{ song.songName }}</router-link>
+    <router-link :to="artistSongsRoute">
+      {{ song.artist }}
+    </router-link>
+    <router-link :to="artistSongRoute">
+      {{ song.songName }}
+    </router-link>
     <div class="key-info">{{ song.songKey }}</div>
   </li>
 </template>
 
-<script>
+<script setup>
 import { computed } from "vue";
-export default {
-  props: ["song"],
-  setup() {
-    const artistPhoto = computed(() => {
-      return require("../../assets/guitar.svg");
-    });
+const props = defineProps(["song"]);
 
-    return {
-      artistPhoto,
-    };
-  },
-};
+const artistPhoto = computed(() => {
+  return require("../../assets/guitar.svg");
+});
+
+const artistSongsRoute = computed(() => {
+  return `/songs?artist=${props.song.artist}`;
+});
+
+const artistSongRoute = computed(() => {
+  return `/songs/${props.song.songId}`;
+});
 </script>
 
 <style lang="scss" scoped>
