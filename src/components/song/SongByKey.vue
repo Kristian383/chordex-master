@@ -43,7 +43,7 @@ const artistSongRoute = computed(() => {
   }
 
   .thumbnail {
-    padding: 0px 10px;
+    padding: 0 10px;
   }
 
   .thumbnail img {

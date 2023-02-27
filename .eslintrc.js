@@ -4,6 +4,12 @@ module.exports = {
 	],
 	rules: {
 		'vue/singleline-html-element-content-newline': 'off',
+		// 'vue/multiline-html-element-content-newline': 'off',
+		// "vue/multiline-html-element-content-newline": ["error", {
+		// 	"ignoreWhenEmpty": true,
+		// 	"ignores": ["pre", "textarea", ...INLINE_ELEMENTS],
+		// 	"allowEmptyLines": false
+		// }],
 		"vue/max-attributes-per-line": ["error", {
 			"singleline": {
 				"max": 3
