@@ -1,26 +1,27 @@
 <template>
   <footer>
     <div class="container footer">
-      <div class="logo"><img src="./../../assets/guitar.svg" alt="Logo" /></div>
+      <div class="logo"><img src="@/assets/guitar.svg" alt="Logo" /></div>
       <div>
         <ul>
           <li><router-link to="/home">Home</router-link></li>
           <li><router-link to="/about">About</router-link></li>
         </ul>
       </div>
-      <!--  -->
-      <p>&copy; Kristian Nenadovic 2022</p>
+      <p>&copy; Kristian Nenadovic 2023</p>
       <div class="spotify-logo">
         <img src="./../../assets/spotify.png" alt="Logo" />
       </div>
-      <a class="contribution" target="_blank" href="https://www.freepik.com/vectors/banner">Photos by Freepik</a>
+      <a
+        class="contribution"
+        target="_blank"
+        href="https://www.freepik.com/vectors/banner"
+      >
+        Photos by Freepik
+      </a>
     </div>
   </footer>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style scoped>
 footer {
@@ -30,22 +31,22 @@ footer {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
   align-items: center;
-  padding: 20px;
-  max-width: 1140px;
+  padding: 1.25rem;
+  max-width: 71.25rem;
   margin: 0 auto;
 }
 
 .logo {
-  width: 50px;
+  width: 3.125rem;
 }
 .logo img {
   width: 100%;
 }
 
 .container ul {
-  gap: 16px;
+  gap: 1rem;
   list-style: none;
   display: flex;
 }
@@ -56,15 +57,13 @@ footer {
   font-size: 18px;
 }
 
-
 .spotify-logo {
-  width: 95px;
+  width: 6rem;
 }
-.contribution{
+.contribution {
   text-decoration: none;
   color: black;
-  font-size: 12px;
-
+  font-size: 0.75rem;
 }
 
 .spotify-logo img {
