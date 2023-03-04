@@ -63,65 +63,43 @@ export default {
 
     filterSongs(state, getters) {
         return (filters, query = null) => {
-
-            //  in case of displaying all  songs from artist
+            // in case of displaying all songs from artist
             if (!filters.length && query.artist) {
                 return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase())
             }
-            //in case of displaying all songs 
-            if (!filters.length || filters == "all") {
-
-                if (query.isMySong) {
-                    return state.mySongs
-                } else {
-                    return state.songs
-                }
+            // in case of displaying all songs 
+            if (!filters.length || filters == "all") { // can't use === because "filters" is Proxy object
+                if (query.isMySong) return state.mySongs
+                return state.songs
             }
-
-            //in case when we need to filter songs
+            // in case when we need to filter songs when filter option is !== "all"
             if (query.isMySong) {
-                // console.log("imamo query");
-                return state.mySongs.filter(song => {
-                    return getters.filterHelper(filters, song)
-                })
+                return state.mySongs.filter(song => getters.shouldFilterSong(filters, song));
             } else if (query.artist) {
-                return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase()).filter(song => {
-                    return getters.filterHelper(filters, song)
+                return state.songs.filter(song => song.artist.toLowerCase() === query.artist.toLowerCase()).filter(song => {
+                    return getters.shouldFilterSong(filters, song)
                 })
-                // return state.songs.filter(song => {
-                //     return getters.filterHelper(filters, song)
-                // })
             } else {
                 return state.songs.filter(song => {
-                    return getters.filterHelper(filters, song)
+                    return getters.shouldFilterSong(filters, song)
                 })
             }
         }
     },
-    filterHelper() {
-
+    shouldFilterSong() {
         return (filters, song) => {
-            let songIsValid = true;
-
-            filters.forEach(el => {
-                if (el == "favorites") {
-                    songIsValid = songIsValid && song.isFavorite
+            return filters.every(filterOption => {
+                if (filterOption === "favorites") {
+                  return song.isFavorite;
                 }
-                if (el == "easy") {
-                    songIsValid = songIsValid && song.difficulty == "easy" ? true : false;
-                } else if (el == "medium") {
-                    songIsValid = songIsValid && song.difficulty == "medium" ? true : false;
-                } else if (el == "hard") {
-                    songIsValid = songIsValid && song.difficulty == "hard" ? true : false;
+                if (filterOption === "acoustic") {
+                  return song.acoustic;
                 }
-                if (el == "acoustic") {
-                    songIsValid = songIsValid && song.acoustic
+                if (filterOption === "electric") {
+                  return song.electric;
                 }
-                if (el == "electric") {
-                    songIsValid = songIsValid && song.electric
-                }
-            });
-            return songIsValid
+                return song.difficulty === filterOption;
+              });
         }
     },
 

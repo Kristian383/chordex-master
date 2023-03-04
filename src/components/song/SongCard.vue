@@ -83,11 +83,11 @@ const showFirstKey = computed(() => {
   if (props.song.firstKey) {
     key = props.song.firstKey.split(" ");
     switch (key[1].toLowerCase()) {
-      case "major":
-        key = key[0] + " maj";
-        break;
-      default:
-        key = key[0] + " min";
+    case "major":
+      key = key[0] + " maj";
+      break;
+    default:
+      key = key[0] + " min";
     }
   }
   return key;
@@ -260,7 +260,7 @@ function chooseArtist() {
 .tag.difficulty {
   text-transform: uppercase;
 }
-/* .easy {
+.easy {
   background-color: var(--green);
 }
 .medium {
@@ -268,7 +268,7 @@ function chooseArtist() {
 }
 .hard {
   background: var(--burgundy);
-} */
+}
 .artist,
 .song_name {
   text-transform: capitalize;
