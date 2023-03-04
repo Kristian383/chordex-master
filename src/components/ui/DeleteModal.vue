@@ -1,13 +1,8 @@
 <template>
-  <div class="delete-modal-wrapper open" id="modal" ref="modal">
+  <div id="modal" ref="modal" class="delete-modal-wrapper open">
     <div class="delete-modal">
       <div class="modal-header">
-        <span
-          ><font-awesome-icon
-            icon="trash-alt"
-            class="trash-icon"
-          ></font-awesome-icon
-        ></span>
+        <span><font-awesome-icon icon="trash-alt" class="trash-icon" /></span>
         <h3>Delete account?</h3>
       </div>
       <div class="modal-body">
@@ -21,7 +16,9 @@
         </p>
       </div>
       <div class="modal-footer">
-        <button class="btn cancel-btn" @click="closeDeleteModal">Cancel</button>
+        <button class="btn cancel-btn" @click="closeDeleteModal">
+          Cancel
+        </button>
         <button class="btn delete-btn" @click="sendDeleteEmail">
           Send delete email
         </button>
@@ -53,7 +50,7 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 999;
-  padding: 8px;
+  padding: 0.5rem;
 
   .delete-modal {
     background-color: #fff;
@@ -63,34 +60,34 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    max-width: 450px;
-    padding: 16px;
+    max-width: 28.125rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    border-top: 6px solid var(--burgundy);
+    border-top: 0.375rem solid var(--burgundy);
     color: var(--dark_gray_font);
-    border-radius: 4px;
-    gap: 18px;
-    /* max-width: 95%; */
+    border-radius: 0.25rem;
+    gap: 1.125rem;
+
     .modal-header {
       display: flex;
       flex-direction: column;
       position: relative;
-      padding-top: 8px;
+      padding-top: 0.5rem;
 
       span {
-        width: 50px;
-        height: 50px;
+        width: 3.125rem;
+        height: 3.125rem;
         border-radius: 50%;
         position: absolute;
         left: 50%;
-        top: -20px;
+        top: -1.25rem;
         transform: translate(-50%, -50%);
-        padding: 4px;
+        padding: 0.25rem;
         background-color: var(--burgundy);
 
         .trash-icon {
-          font-size: 28px;
+          font-size: 1.75rem;
           color: #fff;
           margin-top: 6px;
           margin-left: 1px;
@@ -99,22 +96,19 @@ export default {
     }
 
     .modal-body p {
-      font-size: 16px;
-      margin-bottom: 18px;
-      /* text-align: start; */
+      font-size: 1rem;
+      margin-bottom: 1.125rem;
     }
 
     .modal-footer {
       display: flex;
-      /* flex-wrap: wrap; */
-      gap: 8px;
+      gap: 0.5rem;
       .btn {
-        padding: 12px 8px;
-        border-radius: 8px;
+        padding: 0.75rem 0.5rem;
+        border-radius: 0.5rem;
         width: 100%;
         outline: none;
         background-color: #f8f8f8;
-        /* border: 2px solid black; */
         border: none;
         cursor: pointer;
         font-size: inherit;
