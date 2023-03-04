@@ -36,7 +36,7 @@ const router = createRouter({
     {
       path: "/songs",
       component: Songs,
-      name: "Songs",
+      name: "All Songs",
       meta: { title: "Songs | Chordex", requiresAuth: true },
     },
     {
@@ -56,7 +56,7 @@ const router = createRouter({
     {
       path: "/artists",
       component: ArtistsView,
-      name: "Artists",
+      name: "All Artists",
       meta: { title: "Artists | Chordex", requiresAuth: true },
     },
     //{ path: "/artists/:name", component: Songs, name: "Artists Songs", meta: { title: "Artists Songs | Chordex", requiresAuth: true } },//ovo staviti u query /artists?name=:name
@@ -81,17 +81,19 @@ const router = createRouter({
     {
       path: "/song-keys",
       component: SongKeysAccordion,
-      name: "Song Keys",
+      name: "Songs by Keys",
       meta: { title: "Song Keys | Chordex", requiresAuth: true },
     },
     {
       path: "/resources",
       component: ResourcesList,
+      name: "Useful websites",
       meta: { title: "Websites | Chordex", requiresAuth: true },
     }, //name: "Useful Websites"
     {
       path: "/metronome",
       component: MetronomeView,
+      name: "Metronome and Tap Tempo / Beats Per Minute",
       meta: { title: "Metronome | Chordex" },
     },
     {

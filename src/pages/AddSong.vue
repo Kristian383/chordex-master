@@ -12,8 +12,8 @@
       <div class="go-back" @click="goBack">
         <font-awesome-icon icon="arrow-left"></font-awesome-icon>
       </div>
-      <form @submit.prevent autocomplete="off">
-        <div class="error-container" v-if="errorMsg">
+      <form autocomplete="off" @submit.prevent>
+        <div v-if="errorMsg" class="error-container">
           <p class="error-text">
             {{ errorMsg }}
           </p>
@@ -29,10 +29,10 @@
           <div class="mysong">
             <template v-if="!songId">
               <input
-                type="checkbox"
-                name="my-song"
                 id="my-song"
                 v-model="songInfo.isMySong"
+                type="checkbox"
+                name="my-song"
                 @click="setArtist"
               /><label for="my-song">My song</label>
             </template>
@@ -40,9 +40,9 @@
           </div>
           <!--  -->
           <font-awesome-icon
-            @click="deleteSong"
             class="delete"
             icon="trash-alt"
+            @click="deleteSong"
           ></font-awesome-icon>
 
           <button-save name="Save" @click="submitSong"></button-save>
@@ -51,31 +51,31 @@
         <div class="grid-2">
           <!-- artist name -->
           <input
+            id="input-artist"
+            v-model.trim="artist.val"
             class="input-field"
             type="text"
-            id="input-artist"
             placeholder="Artist name"
             :disabled="songInfo.isMySong || songId"
-            v-model.trim="artist.val"
             :class="{ 'error-msg': !artist.isValid }"
             @focus="clearValidity('artist')"
           />
           <!-- song name -->
           <input
+            id="input-song"
+            v-model.trim="song.val"
             class="input-field"
             type="text"
-            id="input-song"
             placeholder="Song name"
             :class="{ 'error-msg': !song.isValid }"
             @focus="clearValidity('song')"
-            v-model.trim="song.val"
           />
           <!-- spotify api and bpm -->
           <div class="grid-2">
             <div
+              v-if="!songInfo.isMySong"
               class="find-data"
               @click="searchSongInfo"
-              v-if="!songInfo.isMySong"
             >
               <!-- Not found anything -->
               {{ getSongInfoTxt }}
@@ -83,10 +83,10 @@
             </div>
             <!--  -->
             <input
+              id="input-bpm"
               v-model="songInfo.bpm"
               class="input-field"
               type="number"
-              id="input-bpm"
               placeholder="BPM"
             />
           </div>
@@ -94,40 +94,40 @@
           <!-- easy hard and tuning badges -->
           <div>
             <input
+              id="easy"
+              v-model="songInfo.difficulty"
               value="easy"
               type="radio"
               name="radio"
-              id="easy"
-              v-model="songInfo.difficulty"
             /><label for="easy">Easy</label>
             <input
+              id="medium"
+              v-model="songInfo.difficulty"
               type="radio"
               name="radio"
-              id="medium"
               value="medium"
-              v-model="songInfo.difficulty"
             /><label for="medium">Medium</label>
             <input
+              id="hard"
+              v-model="songInfo.difficulty"
               type="radio"
               name="radio"
-              id="hard"
               value="hard"
-              v-model="songInfo.difficulty"
             /><label for="hard">Hard</label>
             <input
+              id="input-tuning"
               v-model="songInfo.tuning"
               class="input-field"
               type="text"
-              id="input-tuning"
               placeholder="Tuning: Standard"
             />
           </div>
           <!-- first key -->
           <div class="grid-2">
             <select-box-key
-              @key-selected="insertKey"
               name="firstKey"
               :spotify-key="getSpotifyKey"
+              @key-selected="insertKey"
             ></select-box-key>
             {{ songInfo.firstKeyNotes }}
           </div>
@@ -135,57 +135,57 @@
           <div class="grid-2">
             <transition name="fade">
               <select-box-key
+                v-if="openSecond"
                 name="secondKey"
                 @key-selected="insertKey"
-                v-if="openSecond"
               ></select-box-key>
             </transition>
             <transition name="fade">
-              <div class="secondOption" v-if="openSecond">
+              <div v-if="openSecond" class="secondOption">
                 {{ songInfo.secondKeyNotes }}
                 <font-awesome-icon
-                  @click="removeSecondKeySelect"
                   :icon="['far', 'times-circle']"
+                  @click="removeSecondKeySelect"
                 ></font-awesome-icon>
               </div>
             </transition>
           </div>
           <!-- first key Chord progression-->
           <input
+            v-model.trim="songInfo.firstChordProgression"
             class="input-field"
             type="text"
             placeholder="First chord progression"
-            v-model.trim="songInfo.firstChordProgression"
           />
           <!-- second key Chord progression-->
           <transition name="fade">
             <input
+              v-if="openSecond"
+              v-model.trim="songInfo.secondChordProgression"
               class="input-field"
               type="text"
-              v-if="openSecond"
               placeholder="Second chord progression"
-              v-model.trim="songInfo.secondChordProgression"
             />
           </transition>
           <!-- guitar types -->
           <div>
             <input
-              type="checkbox"
-              name="choice"
               id="electric"
               v-model="songInfo.electric"
-            /><label for="electric">Electric</label>
-            <input
               type="checkbox"
               name="choice"
+            /><label for="electric">Electric</label>
+            <input
               id="acoustic"
               v-model="songInfo.acoustic"
+              type="checkbox"
+              name="choice"
             /><label for="acoustic">Acoustic</label>
             <input
+              id="capo"
               v-model="haveCapo"
               type="checkbox"
               name="choice"
-              id="capo"
               @click="checkCapo"
             /><label for="capo">Capo</label>
             <input
@@ -200,15 +200,15 @@
           <!-- slider -->
           <div class="range-slider">
             <input
+              v-model="songInfo.practicedPrcntg"
               class="range-slider__range"
               type="range"
               min="0"
               max="100"
-              v-model="songInfo.practicedPrcntg"
             />
-            <span class="range-slider__value"
-              >{{ songInfo.practicedPrcntg }}%</span
-            >
+            <span class="range-slider__value">
+              {{ songInfo.practicedPrcntg }}%
+            </span>
           </div>
           <!-- yt link -->
           <div class="yt">
@@ -218,9 +218,9 @@
               type="text"
               placeholder="YouTube Link: https://www.youtube.com/..."
             />
-            <span class="yt_questionmark" @click="displayYtModal"
-              ><font-awesome-icon icon="question-circle"></font-awesome-icon
-            ></span>
+            <span class="yt_questionmark" @click="displayYtModal">
+              <font-awesome-icon icon="question-circle"></font-awesome-icon>
+            </span>
           </div>
           <!-- chords website link -->
 
@@ -235,9 +235,9 @@
         <!-- song notes -->
         <div>
           <textarea
-            class="notebook"
-            v-model="songInfo.songText"
             id="txt_area"
+            v-model="songInfo.songText"
+            class="notebook"
             name=""
             rows="20"
             placeholder="Notes about this song..."
@@ -317,6 +317,62 @@ export default {
     getSpotifyKey() {
       return this.songInfo.firstKey;
     },
+  },
+  mounted() {
+    const songId = this.$route.params.songId;
+    this.songId = songId;
+    let mysong = false;
+    if (this.$route.query.isMySong) {
+      {
+        mysong = true;
+      }
+    }
+
+    let songData;
+    if (songId) {
+      if (mysong) {
+        songData = this.$store.getters.getAllMySongs.find((song) => {
+          return song.songId == songId;
+        });
+      } else {
+        songData = this.$store.getters.getAllSongs.find((song) => {
+          return song.songId == songId;
+        });
+      }
+
+      if (!songData) {
+        this.$router.push("/songs");
+        return;
+      }
+
+      this.songInfo.songText = songData.songText;
+      this.songInfo.practicedPrcntg = songData.practicedPrcntg;
+      this.songInfo.bpm = songData.bpm;
+      this.songInfo.capo = songData.capo;
+      this.songInfo.electric = songData.electric;
+      this.songInfo.acoustic = songData.acoustic;
+      this.songInfo.firstChordProgression = songData.firstChordProgression;
+      this.songInfo.chordsWebsiteLink = songData.chordsWebsiteLink;
+      this.songInfo.ytLink = songData.ytLink;
+      this.songInfo.firstKeyNotes = songData.firstKeyNotes;
+      this.songInfo.tuning = songData.tuning;
+      this.songInfo.isMySong = songData.isMySong;
+      this.isFavorite = songData.isFavorite;
+      this.haveCapo = !!songData.capo;
+      this.artist.val = songData.artist;
+      this.song.val = songData.songName;
+      this.songInfo.difficulty = songData.difficulty;
+      this.songInfo.firstKey = songData.firstKey;
+      this.songInfo.lastViewed = songData.lastViewed;
+      this.songInfo.imgUrl = songData.imgUrl;
+
+      if (songData.secondKey) {
+        this.openSecond = true;
+        this.songInfo.secondKey = songData.secondKey;
+        this.songInfo.secondKeyNotes = songData.secondKeyNotes;
+        this.songInfo.secondChordProgression = songData.secondChordProgression;
+      }
+    }
   },
   methods: {
     deleteSong() {
@@ -552,62 +608,6 @@ export default {
         }, 2000);
       });
     },
-  },
-  mounted() {
-    const songId = this.$route.params.songId;
-    this.songId = songId;
-    let mysong = false;
-    if (this.$route.query.isMySong) {
-      {
-        mysong = true;
-      }
-    }
-
-    let songData;
-    if (songId) {
-      if (mysong) {
-        songData = this.$store.getters.getAllMySongs.find((song) => {
-          return song.songId == songId;
-        });
-      } else {
-        songData = this.$store.getters.getAllSongs.find((song) => {
-          return song.songId == songId;
-        });
-      }
-
-      if (!songData) {
-        this.$router.push("/songs");
-        return;
-      }
-
-      this.songInfo.songText = songData.songText;
-      this.songInfo.practicedPrcntg = songData.practicedPrcntg;
-      this.songInfo.bpm = songData.bpm;
-      this.songInfo.capo = songData.capo;
-      this.songInfo.electric = songData.electric;
-      this.songInfo.acoustic = songData.acoustic;
-      this.songInfo.firstChordProgression = songData.firstChordProgression;
-      this.songInfo.chordsWebsiteLink = songData.chordsWebsiteLink;
-      this.songInfo.ytLink = songData.ytLink;
-      this.songInfo.firstKeyNotes = songData.firstKeyNotes;
-      this.songInfo.tuning = songData.tuning;
-      this.songInfo.isMySong = songData.isMySong;
-      this.isFavorite = songData.isFavorite;
-      this.haveCapo = !!songData.capo;
-      this.artist.val = songData.artist;
-      this.song.val = songData.songName;
-      this.songInfo.difficulty = songData.difficulty;
-      this.songInfo.firstKey = songData.firstKey;
-      this.songInfo.lastViewed = songData.lastViewed;
-      this.songInfo.imgUrl = songData.imgUrl;
-
-      if (songData.secondKey) {
-        this.openSecond = true;
-        this.songInfo.secondKey = songData.secondKey;
-        this.songInfo.secondKeyNotes = songData.secondKeyNotes;
-        this.songInfo.secondChordProgression = songData.secondChordProgression;
-      }
-    }
   },
 };
 </script>

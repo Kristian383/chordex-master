@@ -30,43 +30,21 @@ const props = defineProps({
 const emit = defineEmits(["logOut"]);
 
 function emitLogOut() {
-  if (props.iconName !== "sign-out-alt") {
-    return;
-  }
+  if (props.iconName !== "sign-out-alt") return;
   emit("logOut");
 }
-
-// const labels = [
-//   "Account",
-//   "Songs",
-//   "Artists",
-//   "Songs by Key",
-//   "Add New Song",
-//   "My Songs",
-//   "Keys & Notes",
-//   "Websites",
-//   "Metronome",
-//   "Logout",
-// ];
-// const sidebarLinks = [
-//   {
-//     label: "Account",
-//     routeName: "profile",
-//     iconName: "user-alt",
-//   },
-// ];
 </script>
 
 <style lang="scss" scoped>
 li {
   list-style: none;
-  height: 50px;
+  height: 3.125rem;
   position: relative;
   width: 100%;
-  margin: 5px 0;
+  margin: 0.3125rem 0;
 
   .cx-icon {
-    height: 50px;
+    height: 3.125rem;
     text-align: center;
     cursor: pointer;
 
@@ -80,21 +58,16 @@ li {
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 1.5rem;
     transition: all 0.4s ease;
-    border-radius: 12px;
-    padding-left: 16px;
+    border-radius: 0.75rem;
+    padding-left: 1rem;
     white-space: nowrap;
-    font-size: 16px;
+    font-size: 1rem;
 
     &:hover {
       color: #11101d;
       background: #f1f1f1;
-    }
-
-    .artist-icon {
-      width: 21px;
-      height: 21px;
     }
 
     .links_name {
