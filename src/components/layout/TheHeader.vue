@@ -38,52 +38,6 @@
   </header>
 </template>
 
-<!-- <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { useStore } from "vuex";
-
-const store = useStore();
-
-const scrolledNav = ref(null);
-const hideLogo = ref(null);
-const windowWidth = ref(null);
-
-const isLogged = computed(() => {
-  return !store.getters.token;
-});
-
-const checkScreen = () => {
-  windowWidth.value = window.innerWidth;
-  if (windowWidth.value <= 900) {
-    store.commit("setMobile", true);
-    hideLogo.value = true;
-    return;
-  }
-  store.commit("setMobile", false);
-  hideLogo.value = false;
-  return;
-};
-
-const updateScroll = () => {
-  const scrollPosition = window.scrollY;
-  if (scrollPosition >= 50) {
-    scrolledNav.value = true;
-    return;
-  }
-  scrolledNav.value = false;
-};
-
-onMounted(() => {
-  window.addEventListener("resize", checkScreen);
-  checkScreen();
-  window.addEventListener("scroll", updateScroll);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", checkScreen);
-  window.removeEventListener("scroll", updateScroll);
-});
-</script> -->
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
