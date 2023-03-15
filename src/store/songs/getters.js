@@ -1,7 +1,7 @@
 export default {
-    isDarkMode(state) {
-        return state.darkMode;
-    },
+    // isDarkMode(state) {
+    //     return state.darkMode;
+    // },
     songsLoading(state) {
         return state.songsLoading
     },

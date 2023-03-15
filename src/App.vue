@@ -27,9 +27,6 @@ export default {
     TheFooter,
     // TheBetaBanner,
   },
-  created() {
-    this.$store.dispatch("tryLogin");
-  },
   computed: {
     didAutoLogout() {
       return this.$store.getters.didAutoLogout;
@@ -44,6 +41,9 @@ export default {
         this.$router.replace("/home");
       }
     },
+  },
+  created() {
+    this.$store.dispatch("tryLogin");
   },
 };
 </script>
@@ -128,4 +128,35 @@ html {
     margin-left: 0rem;
   }
 }
+
+/* chips */
+.form-input-chk-field,
+.form-input-radio-field {
+  display: none;
+}
+
+.form-input-chk-field + label,
+.form-input-radio-field + label {
+  transition: all 500ms ease;
+  cursor: pointer;
+  border-radius: 50px;
+  background-color: #fff;
+  padding: 10px 16px;
+  margin-right: 7px;
+  border: none;
+  display: inline-block;
+  user-select: none;
+  text-transform: capitalize;
+  word-wrap: none;
+  white-space: nowrap;
+  margin-top: 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.form-input-chk-field:checked + label,
+.form-input-radio-field:checked + label {
+  transition: all 500ms ease;
+  background-color: var(--dark_gray_font);
+  color: #fff;
+}
+
 </style>

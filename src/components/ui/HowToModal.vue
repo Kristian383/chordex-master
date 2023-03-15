@@ -1,28 +1,25 @@
 <template>
-    <div class="modal-wrapper open" id="modal" ref="modal">
-      <div class="modal">
-        <div class="modal-header">
-          <h3>How to insert valid Youtube link</h3>
-        </div>
-        <div class="modal-body">
-          <img src="@/assets/yt_link.png" alt="" />
-        </div>
-        <div class="modal-footer">
-          <button id="closeModalBtn" @click="closeYtModal">Close</button>
-        </div>
+  <div id="modal" ref="modal" class="modal-wrapper open">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>How to insert valid Youtube link</h3>
+      </div>
+      <div class="modal-body">
+        <img src="@/assets/yt_link.png" alt="How to insert youtube link" />
+      </div>
+      <div class="modal-footer">
+        <button id="closeModalBtn" @click="closeYtModal">Close</button>
       </div>
     </div>
+  </div>
 </template>
 
-<script>
-export default {
-  emits: ["closeModal"],
-  methods: {
-    closeYtModal() {
-      this.$emit("closeModal");
-    },
-  },
-};
+<script setup>
+
+const emit = defineEmits(["closeModal"])
+function closeYtModal() {
+  emit("closeModal");
+}
 </script>
 
 <style scoped>
@@ -35,7 +32,7 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  width: 380px;
+  width: 23.75rem;
   max-width: 95%;
 
 }
@@ -52,13 +49,13 @@ export default {
 
 @media (min-width: 768px) {
   .modal {
-    width: 800px;
+    width: 50rem;
   }
 }
 .modal-header {
   background: var(--burgundy);
   color: #fff;
-  padding: 15px 0;
+  padding: 1rem 0;
 }
 
 .modal-header h3 {
@@ -66,7 +63,7 @@ export default {
 }
 
 .modal-body {
-  padding: 15px 20px;
+  padding: 1rem 1.25rem;
 }
 
 .modal-body img {
@@ -76,17 +73,17 @@ export default {
 
 .modal-footer {
   background-color: #eee;
-  padding: 15px 0;
+  padding: 1rem 0;
 }
 
 button {
   background-color: var(--burgundy);
-  border-radius: 50px;
+  border-radius: 3.125rem;
   border: 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   color: #fff;
   cursor: pointer;
-  padding: 10px 25px;
+  padding: 0.625rem 1.5625rem;
   transition: all 0.1s ease-in-out;
 }
 
