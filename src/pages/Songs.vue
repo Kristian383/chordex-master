@@ -64,11 +64,11 @@ const sortOptions = computed(() => {
 <style scoped>
 .song-cards {
   padding-top: 0.625rem;
-  max-width: 170106.25rem0px;
+  max-width: 106.25rem;
   margin: auto;
   display: grid;
   gap: 0.5rem;
-  grid-template-columns: repeat(auto-fill, 180px);
+  grid-template-columns: repeat(auto-fill, 11.25rem);
   justify-content: center;
 }
 </style>
