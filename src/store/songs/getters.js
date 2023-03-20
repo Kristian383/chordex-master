@@ -134,7 +134,9 @@ export default {
     getArtists(state) {
         return state.artists;
     },
-
+    getPlaylists(state) {
+        return state.playlists;
+    },
     // resources
     getUserNotes(state) {
         return state.usefulResources.notes
@@ -148,6 +150,4 @@ export default {
     isMobile(state) {
         return state.mobile
     }
-
-
 }

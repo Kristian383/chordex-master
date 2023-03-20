@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 * {
@@ -85,7 +85,6 @@ html {
   --orange: #ff4500;
   --green: #69b34c;
   --save_button_green: #6fc982;
-
   --levi_blue: #1b233a;
   --levi_red: #b0253c;
 }
@@ -101,7 +100,7 @@ html {
 
 @-webkit-keyframes shake {
   0% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
   25% {
     margin-left: 0.5rem;
@@ -110,13 +109,13 @@ html {
     margin-left: -0.5rem;
   }
   100% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
 }
 
 @keyframes shake {
   0% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
   25% {
     margin-left: 0.5rem;
@@ -125,7 +124,7 @@ html {
     margin-left: -0.5rem;
   }
   100% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
 }
 
@@ -159,4 +158,41 @@ html {
   color: #fff;
 }
 
+/* song card popup dropdown */
+.v-popper__popper.v-popper--theme-dropdown {
+    z-index: 37;
+    
+    .v-popper__inner {
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+
+    .dropdown-popup-item {
+        padding: 0.625rem;
+        cursor: pointer;
+        color: var(--font_black);
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+
+        &:hover {
+          background-color: var(--f1_gray);
+        }
+
+        .popup-item-icon {
+          width: 1rem;
+        }
+    }
+    .dropdown-popup-item.delete {
+      background-color: #fbe9e9;
+      color: var(--burgundy);
+      color: rgb(224, 68, 68);
+      border-top: 2px solid #fecaca;
+      
+      &:hover {
+        background-color: #fecaca;
+      } 
+    }
+  }
 </style>

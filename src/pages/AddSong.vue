@@ -331,15 +331,17 @@ function insertKey(data) {
 }
 
 async function deleteSong() {
-  if (window.confirm(`Are you sure you want to delete ${song.val}?`)) {
-    const payload = {
-      songName: song.val,
-      artist: artist.val,
-      songId: +songId.value,
-    };
-    await store.dispatch("deleteSong", payload);
-    router.push(songInfo.isMySong ? "/songs?isMySong=True" : "/songs");
-  }
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${song.val}?`);
+  if (!shouldDelete) return;
+
+  const payload = {
+    songName: song.val,
+    artist: artist.val,
+    songId: +songId.value,
+  };
+  await store.dispatch("deleteSong", payload);
+  const routePath = songInfo.isMySong ? "/songs?isMySong=True" : "/songs";
+  router.push(routePath);
 }
 
 function toggleFavorite() {

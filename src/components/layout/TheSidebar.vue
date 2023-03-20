@@ -1,6 +1,6 @@
 <template>
   <div v-if="isAuthenticated" class="hamburger" @click="toggleSidebar">
-    <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
+    <font-awesome-icon id="btn" icon="bars" />
   </div>
   <transition name="fade">
     <aside v-if="sidebarIsActive" class="sidebar">
@@ -10,6 +10,7 @@
           :key="sidebarLink.label"
           v-bind="sidebarLink"
           :is-active="$route.fullPath === `/${sidebarLink.routeName}`"
+          :playlists="getPlaylists"
           @log-out="logOutUser"
         />
         <!-- <li>
@@ -71,6 +72,12 @@ const sidebarLinks = [
     iconName: "list-ul",
   },
   {
+    label: "My Playlists",
+    routeName: "playlists",
+    iconName: "list-ul",
+    isDropdown: true
+  },
+  {
     label: "Add New Song",
     routeName: "new",
     iconName: "plus-square",
@@ -103,6 +110,8 @@ const sidebarLinks = [
 ];
 
 const store = useStore();
+
+const getPlaylists = computed(() => store.getters.getPlaylists);
 
 const isAuthenticated = computed(() => {
   return store.getters.token;
@@ -179,7 +188,6 @@ function logOutUser() {
 
   &::-webkit-scrollbar-thumb {
     background: rgb(82, 80, 80);
-
     border-radius: 0.5rem 0 0 0.5rem;
   }
 

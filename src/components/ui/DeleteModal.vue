@@ -1,5 +1,5 @@
 <template>
-  <div id="modal" ref="modal" class="delete-modal-wrapper open">
+  <div class="delete-modal-wrapper" @click.self="closeDeleteModal">
     <div class="delete-modal">
       <div class="modal-header">
         <span><font-awesome-icon icon="trash-alt" class="trash-icon" /></span>
@@ -43,23 +43,10 @@ export default {
 
 <style lang="scss" scoped>
 .delete-modal-wrapper {
-  background-color: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 999;
-  padding: 0.5rem;
+  @include modal-wrapper;
 
   .delete-modal {
-    background-color: #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    @include center-inner-modal;
     max-width: 28.125rem;
     padding: 1rem;
     display: flex;
@@ -125,8 +112,12 @@ export default {
         }
       }
 
-      .btn.cancel-btn:hover {
-        background-color: var(--chips_gray);
+      .btn.cancel-btn {
+        border: 1px solid var(--chips_gray);
+
+        &:hover {
+          background-color: var(--chips_gray);
+        }
       }
     }
   }

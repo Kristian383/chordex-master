@@ -1,5 +1,23 @@
 <template>
-  <li @click="emitLogOut">
+  <li v-if="isDropdown" class="cx-sidebar-dropdown-link-li">
+    <div
+      class="cx-sidebar-dropdown-li"
+      tabindex="0"
+      @click="toggleDropdown"
+      @keydown="toggleDropdown"
+    >
+      <font-awesome-icon icon="list-ul" />
+      <font-awesome-icon class="cx-dropdown-chevron" :icon="dropdownIconName" />
+      <span class="link_name">Playlists</span>
+    </div>
+    <ul v-if="isDropdownOpen" class="cx-sidebar-dropdown-list">
+      <li v-for="playlist in playlists" :key="playlist" class="cx-dropdown-list-item"><a href="#">{{ playlist }}</a></li>
+      <li class="cx-dropdown-list-item"><a href="#">Some long as title of a playlist</a></li>
+      <li class="cx-dropdown-list-item"><a href="#">Red hot chili pepprs</a></li>
+      <li class="cx-dropdown-list-item"><a href="#">Favorites</a></li>
+    </ul>
+  </li>
+  <li v-else class="cx-sidebar-link-li" @click="emitLogOut">
     <router-link :to="`/${routeName}`" :class="{ 'cx-active_item': isActive }">
       <font-awesome-icon :icon="iconName" class="cx-icon" />
       <span class="links_name">{{ label }}</span>
@@ -8,6 +26,9 @@
 </template>
 
 <script setup>
+import { computed, ref } from "vue";
+
+const emit = defineEmits(["logOut"]);
 const props = defineProps({
   label: {
     type: String,
@@ -25,18 +46,33 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  isDropdown: {
+    type: Boolean,
+    required: false
+  },
+  playlists: {
+    type: Array,
+    required: false,
+    default: () => []
+  }
 });
 
-const emit = defineEmits(["logOut"]);
+const isDropdownOpen = ref(false);
+
+const dropdownIconName = computed(() => isDropdownOpen.value ? "chevron-up" : "chevron-down");
 
 function emitLogOut() {
   if (props.iconName !== "sign-out-alt") return;
   emit("logOut");
 }
+
+function toggleDropdown() {
+  isDropdownOpen.value = !isDropdownOpen.value
+}
 </script>
 
 <style lang="scss" scoped>
-li {
+.cx-sidebar-link-li {
   list-style: none;
   height: 3.125rem;
   position: relative;
@@ -59,15 +95,13 @@ li {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    transition: all 0.4s ease;
     border-radius: 0.75rem;
     padding-left: 1rem;
     white-space: nowrap;
     font-size: 1rem;
 
     &:hover {
-      color: #11101d;
-      background: #f1f1f1;
+      background: #1d2634;
     }
 
     .links_name {
@@ -76,6 +110,71 @@ li {
     }
   }
 }
+  
+.cx-sidebar-dropdown-link-li {
+    cursor: pointer;
+    min-height: 3.125rem;
+    border-radius: 0.75rem;
+    transition: all 0.4s ease;
+
+    &:hover {
+      background: #1d2634;
+    }
+
+    .cx-sidebar-dropdown-li {
+      display: flex;
+      height: 3.125rem;
+      color: var(--f1_gray);
+      gap: 1.5rem;
+      align-items: center;
+      padding-left: 1rem;
+      white-space: nowrap;
+      user-select: none;
+      font-size: 1rem;
+      position: relative;
+
+      .cx-dropdown-chevron {
+        position: absolute;
+        top: 1.125rem;
+        right: 1rem;
+      }
+    }
+
+    .cx-sidebar-dropdown-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      max-height: 18.75rem;
+      overflow-y: auto;
+      @include scrollbar;
+
+      .cx-dropdown-list-item {
+        padding: 0.5rem;
+        width: 100%;
+        padding-left: 3.5rem;
+
+        a {
+          text-decoration: none;
+          color: var(--f1_gray);
+          font-size: 0.875rem;
+
+          display: inline-block;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-word;
+        }
+        
+        &:hover {
+          background-color: var(--dark_blue_sidebar);
+        }
+      }
+    }
+}
+
 .cx-active_item {
   background: var(--burgundy);
 

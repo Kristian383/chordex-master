@@ -1,5 +1,4 @@
 export default {
-
     async loadAllSongs(context) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
@@ -344,4 +343,29 @@ export default {
         // console.log(responseData);
         return responseData
     },
+    async loadPlaylists(context) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/playlists/${user_email}`, process.env.VUE_APP_URL)
+
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                });
+        } catch {
+            return
+        }
+        if (!response.ok) {
+            console.log(response.message);
+            return false
+        }
+        const responseData = await response.json();
+        context.commit("setPlaylists", responseData.playlists)
+    }
 }

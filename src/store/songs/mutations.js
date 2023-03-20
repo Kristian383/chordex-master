@@ -1,5 +1,18 @@
 
 export default {
+    clearVuex(state) {
+        state.musicKeys = [];
+        state.artists = [];
+        state.mySongs = [];
+        state.songs = [];
+        state.songDetailTitle = null;
+
+        state.usefulResources = {
+            notes: null,
+            websitesLinks: [],
+            txtAreaHeight: 400
+        };
+    },
     setMobile(state, payload) {
         state.mobile = payload
     },
@@ -135,7 +148,6 @@ export default {
     updateArtistsList(state, payload) {
         state.artists = payload
     },
-
     // resources
     storeMusicKeys(state, payload) {
         state.musicKeys = payload
@@ -154,21 +166,9 @@ export default {
         state.usefulResources.txtAreaHeight = payload;
     },
     setUserWebsites(state, payload) {
-        state.usefulResources.websitesLinks = payload
+        state.usefulResources.websitesLinks = payload;
     },
-
-    clearVuex(state) {
-        state.musicKeys = [];
-        state.artists = [];
-        state.mySongs = [];
-        state.songs = [];
-        state.songDetailTitle = null;
-
-        state.usefulResources = {
-            notes: null,
-            websitesLinks: [],
-            txtAreaHeight: 400
-        };
-    }
-
+    setPlaylists(state, payload) {
+        state.playlists = payload;
+    },
 }

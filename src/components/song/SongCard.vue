@@ -12,9 +12,32 @@
         >
           <font-awesome-icon icon="heart" />
         </div>
-        <div id="edit" class="icon" @click.stop="openEditMode">
-          <font-awesome-icon icon="edit" />
-        </div>
+        <!-- dropdown popper -->
+        <VDropdown
+          :dispose-timeout="1000"
+          :distance="13"
+          :container="containerEl || 'body'"
+        >
+          <div class="icon" @click.stop>
+            <font-awesome-icon icon="ellipsis-v" />
+          </div>
+          <template #popper>
+            <ul class="dropdown-popup">
+              <li class="dropdown-popup-item" @click="openEditMode">
+                <font-awesome-icon class="popup-item-icon" icon="edit" />
+                <span>Edit</span>
+              </li>
+              <li class="dropdown-popup-item">
+                <font-awesome-icon class="popup-item-icon" icon="plus" />
+                <span>Playlist</span>
+              </li>
+              <li class="dropdown-popup-item delete" @click="deleteSong">
+                <font-awesome-icon class="popup-item-icon" icon="trash-alt" />
+                <span>Delete</span>
+              </li>
+            </ul>
+          </template>
+        </VDropdown>
       </div>
     </div>
 
@@ -57,7 +80,7 @@ import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 
-const props = defineProps(["song"]);
+const props = defineProps(["song", "containerEl"]);
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
@@ -147,12 +170,24 @@ function openEditMode() {
   router.push(pushRoute);
 }
 
+async function deleteSong() {
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${props.song.songName}?`);
+  if (!shouldDelete) return;
+
+  const payload = {
+    songName: props.song.songName,
+    artist: props.song.artist,
+    songId: props.song.songId,
+  };
+  await store.dispatch("deleteSong", payload);
+}
+
 function chooseArtist() {
   if (!props.song.isMySong) router.push("/songs?artist=" + props.song.artist);
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
   background-color: var(--white);
   border-radius: 0.125rem;
@@ -164,67 +199,74 @@ function chooseArtist() {
   color: var(--font_black);
   transition: 0.3s ease-in all;
   cursor: pointer;
-}
-.card:focus {
-  outline: none;
-}
-.card:hover {
-  transform: rotateZ(-1deg) scale(1.04);
-}
-.card-header img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.image {
-  width: 100%;
-  height: 6.25rem;
-  text-align: center;
-}
 
-.progress {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  top: 0;
-}
+  &:focus {
+    outline: none;
+  }
 
-.progress:before {
-  animation: slideIn 2s ease-out;
-  background-color: v-bind(barColor);
-  bottom: 0;
-  left: 0;
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 0.375rem;
-  border-radius: 0 0 2px 2px;
-}
+  &:hover {
+    transform: rotateZ(-1deg) scale(1.04);
+  }
 
-.icons {
-  display: flex;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  justify-content: space-between;
-  padding: 0.25rem;
-  z-index: 14;
-}
-.icons .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.125rem;
-  height: 2.125rem;
-  border-radius: 50%;
-  background-color: var(--white);
-  transition: all 0.5s ease;
-}
+  .card-header {
+    .image {
+      width: 100%;
+      height: 6.25rem;
+      text-align: center;
 
-@media (min-width: 720px) {
-  .icons .icon:hover {
-    background-color: #303030;
-    color: var(--white);
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .icons {
+      display: flex;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      justify-content: space-between;
+      padding: 0.25rem;
+      z-index: 14;
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.125rem;
+        height: 2.125rem;
+        border-radius: 50%;
+        background-color: var(--white);
+        transition: all 0.5s ease;
+
+        @media (min-width: 720px) {
+          &:hover {
+            background-color: #303030;
+            color: var(--white);
+          }
+        }
+      }
+    } 
+  }
+
+  .progress {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    &:before {
+      animation: slideIn 2s ease-out;
+      background-color: v-bind(barColor);
+      bottom: 0;
+      left: 0;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0.375rem;
+      border-radius: 0 0 2px 2px;
+    }
   }
 }
 

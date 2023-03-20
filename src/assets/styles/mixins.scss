@@ -52,3 +52,36 @@
     color: $burgundy;
     font-size: 12px;
 }
+
+@mixin modal-wrapper {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+@mixin center-inner-modal {
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+@mixin scrollbar {
+    &::-webkit-scrollbar {
+        width: 0.25rem;
+        background: rgb(56, 55, 55);
+        border-radius: 0.5rem 0 0 0.5rem;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: rgb(82, 80, 80);
+        border-radius: 0.5rem 0 0 0.5rem;
+    }
+}

@@ -11,7 +11,8 @@
         v-for="song in AllSongs"
         :key="song.songId"
         :song="song"
-      ></song-card>
+        :container-el="getContainer"
+      />
     </div>
     <the-loader v-if="songsLoading" />
   </base-card>
@@ -48,6 +49,8 @@ function sortSongs(option) {
   store.commit("sortSongs", option);
 }
     
+const getContainer = computed(() => document.getElementById('app'));
+
 const songsLoading = computed(() => {
   return store.getters.songsLoading;
 })
@@ -61,7 +64,7 @@ const sortOptions = computed(() => {
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .song-cards {
   padding-top: 0.625rem;
   max-width: 106.25rem;
@@ -70,5 +73,39 @@ const sortOptions = computed(() => {
   gap: 0.5rem;
   grid-template-columns: repeat(auto-fill, 11.25rem);
   justify-content: center;
+
+  // song card dropdown
+  // ::v-deep .v-popper__popper {
+  //   z-index: 37;
+    
+  //   .v-popper__inner {
+  //     border: none;
+  //     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  //   }
+
+  //   .dropdown-popup-item {
+  //       padding: 0.625rem;
+  //       cursor: pointer;
+  //       color: var(--font_black);
+  //       font-size: 0.875rem;
+  //       display: flex;
+  //       align-items: center;
+  //       gap: 1rem;
+
+  //       &:hover {
+  //         background-color: var(--f1_gray);
+  //       }
+  //   }
+  //   .dropdown-popup-item.delete {
+  //     background-color: #fbe9e9;
+  //     color: var(--burgundy);
+  //     color: rgb(224, 68, 68);
+  //     border-top: 2px solid #fecaca;
+      
+  //     &:hover {
+  //       background-color: #fecaca;
+  //     } 
+  //   }
+  // }
 }
 </style>

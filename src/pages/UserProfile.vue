@@ -1,7 +1,7 @@
 <template>
   <base-card>
     <section>
-      <header></header>
+      <header /> <!-- background-image -->
       <main>
         <div class="row">
           <div class="user-info">

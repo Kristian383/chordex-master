@@ -172,6 +172,7 @@ export default {
                 });
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
+            context.dispatch("loadPlaylists");
             context.commit("activateSidebar");
         }
     },

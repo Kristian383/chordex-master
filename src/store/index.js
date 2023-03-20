@@ -17,6 +17,7 @@ const store = createStore({
             artists: [],
             mySongs: [],
             songs: [],
+            playlists: [],
             usefulResources: {
                 notes: null,
                 websitesLinks: [],
