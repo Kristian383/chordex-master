@@ -99,7 +99,7 @@ watch(
 );
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -194,16 +194,6 @@ watch(
 .select-box .options-container.active + .selected:before {
   top: 18px;
   transform: rotate(-225deg);
-}
-.select-box .options-container::-webkit-scrollbar {
-  width: 8px;
-  background: #ccc;
-  border-radius: 0 8px 8px 0;
-}
-
-.select-box .options-container::-webkit-scrollbar-thumb {
-  background: #292828;
-  border-radius: 0 8px 8px 0;
 }
 .select-box .option,
 .selected {

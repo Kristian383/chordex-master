@@ -180,16 +180,7 @@ function logOutUser() {
   padding-right: 0.25rem;
   height: 100%;
 
-  &::-webkit-scrollbar {
-    width: 0.25rem;
-    background: rgb(56, 55, 55);
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgb(82, 80, 80);
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
+  @include scrollbar;
 
   @include md {
     overflow-y: hidden;

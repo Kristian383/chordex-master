@@ -1,7 +1,5 @@
 <template>
-  <!-- beta banner -->
-  <!-- <the-beta-banner v-if="!isLogged"></the-beta-banner> -->
-  <!--  -->
+  <!-- <the-beta-banner v-if="" /> -->
   <the-header></the-header>
   <the-sidebar></the-sidebar>
 
@@ -15,8 +13,8 @@
 </template>
 
 <script>
-import TheSidebar from "./components/layout/TheSidebar.vue";
 // import TheBetaBanner from "./components/layout/TheBetaBanner.vue";
+import TheSidebar from "./components/layout/TheSidebar.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheFooter from "./components/layout/TheFooter.vue";
 export default {
@@ -25,7 +23,7 @@ export default {
     TheSidebar,
     TheHeader,
     TheFooter,
-    // TheBetaBanner,
+    TheBetaBanner,
   },
   computed: {
     didAutoLogout() {
@@ -76,6 +74,7 @@ html {
   --dark_gray_chips: #242424;
   --font_black: #101114;
   --chips_gray: #e7e7e7;
+  --chips_gray_hover: #e4e4e7;
   --light_gray: #f5f5f5;
   --mid_gray: #888888;
   --dark_gray_font: #424242;
@@ -87,6 +86,7 @@ html {
   --save_button_green: #6fc982;
   --levi_blue: #1b233a;
   --levi_red: #b0253c;
+  --light_blue: #1f75fe;
 }
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

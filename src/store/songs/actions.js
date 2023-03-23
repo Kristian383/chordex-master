@@ -346,7 +346,7 @@ export default {
     async loadPlaylists(context) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/playlists/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/playlists/${user_email}`, process.env.VUE_APP_URL);
 
         let response;
         try {
@@ -358,8 +358,9 @@ export default {
                         "Authorization": "Bearer " + access_token
                     },
                 });
-        } catch {
-            return
+        } catch(error) {
+            console.error(error);
+            return;
         }
         if (!response.ok) {
             console.log(response.message);
@@ -367,5 +368,63 @@ export default {
         }
         const responseData = await response.json();
         context.commit("setPlaylists", responseData.playlists)
+    },
+    async fetchSongPlaylists(context, songId) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/song-in-playlists/${user_email}/${songId}`, process.env.VUE_APP_URL);
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                });
+        } catch(error) {
+            return;
+        }
+        if (!response.ok) {
+            console.log(response.message);
+            return
+        }
+        const responseData = await response.json();
+        return responseData.playlists;
+    }
+    ,
+    async createPlaylist(context, payload) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/playlists/${user_email}`, process.env.VUE_APP_URL);
+        // console.log(JSON.stringify({songId: payload}));
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify({songId: payload})
+                });
+        } catch(error) {
+            console.error(error);
+            return
+        }
+        if (!response.ok) {
+            console.log(response.message);
+            return false
+        }
+        const responseData = await response.json();
+        console.log("responseData", responseData);
+        // nakon što se kreira playlista trebamo napraviti novi dispatcher da ju dodamo u nju
+        // context.dispatch("createPlaylist", )
+
+    },
+    async addSongToPlaylist(context, payload) {
+
     }
 }

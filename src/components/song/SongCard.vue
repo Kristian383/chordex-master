@@ -27,7 +27,7 @@
                 <font-awesome-icon class="popup-item-icon" icon="edit" />
                 <span>Edit</span>
               </li>
-              <li class="dropdown-popup-item">
+              <li class="dropdown-popup-item" @click="$emit('openPlaylistModal', song.songId)">
                 <font-awesome-icon class="popup-item-icon" icon="plus" />
                 <span>Playlist</span>
               </li>
@@ -76,14 +76,16 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, defineEmits, defineProps, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 
 const props = defineProps(["song", "containerEl"]);
+const emits = defineEmits(["openPlaylistModal"]);
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
+
 
 const skillLevelClass = computed(() => {
   return props.song.difficulty;
@@ -185,6 +187,21 @@ async function deleteSong() {
 function chooseArtist() {
   if (!props.song.isMySong) router.push("/songs?artist=" + props.song.artist);
 }
+
+// PLAYLISTS - todo: 
+// const playlistMap = reactive(new Map());
+
+// async function fetchPlaylistsOfSong() {
+//   const playlistsOfSong = await store.dispatch("fetchSongPlaylists", props.song.songId);
+//   // mappedPlaylists.value = props.playlists.map({ name: element, checked: playlistsOfSong.includes(element) });
+//   store.getters.getPlaylists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)))
+// }
+// const emitPlaylistData = reactive({
+//   songId: props.song.songId,
+//   playlistMap: playlistMap.value
+// })
+
+// }
 </script>
 
 <style lang="scss" scoped>
