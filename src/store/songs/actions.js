@@ -340,7 +340,6 @@ export default {
         if (!response.ok) {
             return false
         }
-        // console.log(responseData);
         return responseData
     },
     async loadPlaylists(context) {
@@ -372,7 +371,7 @@ export default {
     async fetchSongPlaylists(context, songId) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/song-in-playlists/${user_email}/${songId}`, process.env.VUE_APP_URL);
+        let url = new URL(`/song-playlists/${user_email}/${songId}`, process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -392,8 +391,49 @@ export default {
         }
         const responseData = await response.json();
         return responseData.playlists;
-    }
-    ,
+    },
+    async deleteSongFromPlaylist(context, payload) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/playlist/${user_email}`, process.env.VUE_APP_URL);
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(payload)
+                });
+        } catch(error) {
+            console.error(error);
+            return false
+        }
+        return response.ok
+    },
+    async addSongToPlaylist(context, payload) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/playlist/${user_email}`, process.env.VUE_APP_URL);
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(payload)
+                });
+        } catch(error) {
+            console.error(error);
+            return false
+        }
+        return response.ok
+    },
     async createPlaylist(context, payload) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
@@ -422,9 +462,6 @@ export default {
         console.log("responseData", responseData);
         // nakon što se kreira playlista trebamo napraviti novi dispatcher da ju dodamo u nju
         // context.dispatch("createPlaylist", )
-
-    },
-    async addSongToPlaylist(context, payload) {
 
     }
 }

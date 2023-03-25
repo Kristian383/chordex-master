@@ -23,7 +23,7 @@ export default {
     TheSidebar,
     TheHeader,
     TheFooter,
-    TheBetaBanner,
+    // TheBetaBanner,
   },
   computed: {
     didAutoLogout() {

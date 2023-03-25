@@ -24,12 +24,16 @@
             class="playlist-item"
           >
             <input
-              type="checkbox" class="checkbox" :checked="playlist[1]"
-              @input="updatePlaylist(playlist[0], $event)"
+              type="checkbox"
+              class="checkbox"
+              :checked="playlist[1]"
+              :disabled="isLoading"
+              @change="updatePlaylist(playlist[0], $event)"
             />
             {{ playlist[0] }}
           </label>
         </div>
+        <!-- <the-loader v-if="isLoading" class="playlist-modal-loader" /> -->
         <div
           v-if="!inputIsOpen"
           tabindex="0" 
@@ -47,12 +51,15 @@
             type="text"
             tabindex="0" 
             placeholder="Enter playlist name"
-            @focus="clearValidity()"
+            @focus="clearValidity"
           />
           <span :class="{'invalid-input-border': !inputIsValid}" class="focus-border" />
-          <span :class="{'invalid-input': playlistNameChars > 50}" class="name-char-counter">
+          <span class="name-char-counter">
             {{ playlistNameChars }}/50
           </span>
+          <p v-if="inputIsValid" class="playlist-input-error">
+            {{ errorMsg }}
+          </p>
           <div
             tabindex="0"
             class="create-btn"
@@ -76,17 +83,33 @@ const props = defineProps(["playlists", "songId"]);
 const store = useStore();
 
 const playlistMap = reactive(new Map());
-
+const isLoading = ref(false);
+const errorMsg = ref("");
 // todo: podici logiku u Songs.vue
 async function fetchPlaylistsOfSong() {
   const playlistsOfSong = await store.dispatch("fetchSongPlaylists", props.songId);
   props.playlists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)))
 }
 
-function updatePlaylist(name, event) {
-  playlistMap.set(name, event.target.checked);
+async function updatePlaylist(name, {target: {checked}}) {
+  //disable all checkboxes or add loading spinner
+  playlistMap.set(name, checked);
   // todo: send api request and
-  // console.log(name, event.target.checked);
+  const payload = { playlist_name: name, song_id: props.songId };
+  isLoading.value = true;
+  let response;
+  if (checked) {
+    // send api to add
+    response = await store.dispatch("addSongToPlaylist", payload);
+  } else {
+    // send api to delete
+    response = await store.dispatch("deleteSongFromPlaylist", payload);
+  }
+  // todo
+  // check if response is true or false and according to that display confirmation
+  // temporary solution - revert back changes
+  if (!response) playlistMap.set(name, !checked)
+  isLoading.value = false;
 }
 
 onMounted(fetchPlaylistsOfSong);
@@ -106,8 +129,14 @@ function clearValidity() {
 }
 
 async function createPlaylist() {
-  if (playlistNameChars.value > 50 || playlistMap.has(playlistName.value)) { // dodati "or" gdje provjerimmo u mappedPlaylists jeli 
+  inputIsValid.value = true;
+  if (playlistNameChars.value > 50) {
     inputIsValid.value = false;
+    errorMsg.value = "Character limit exceeded."
+    return;
+  } else if (props.playlists.includes(playlistName.value)) {
+    inputIsValid.value = false;
+    errorMsg.value = "Playlist name already exists."
     return;
   }
 
@@ -115,11 +144,16 @@ async function createPlaylist() {
   // nakon sto se kreira playlista, dodati tu pjesmu u nju i zatvoriti modal
 }
 
-
 </script>
 
 <style lang="scss" scoped>
 
+.playlist-modal-loader {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .add-to-playlist-modal-wrapper {
   @include modal-wrapper;
 
@@ -161,7 +195,10 @@ async function createPlaylist() {
       gap: 0.625rem;
       max-height: 20rem;
       overflow-y: auto;
-      
+
+      // &.blur {
+      //   filter: blur(2px);
+      // }
       .playlist-item {
         text-align: start;
         min-height: 1.375rem;
@@ -177,6 +214,10 @@ async function createPlaylist() {
 
         &:hover {
           color: var(--dark_gray_chips);
+          background-color: #FCFDFD;
+          input {
+            box-shadow: rgba(149, 157, 165, 0.2) 0 0.5rem 1.5rem;
+          }
         }
       }
     }
@@ -222,7 +263,12 @@ async function createPlaylist() {
           transition: 0.4s;
         }
       }
-
+      .playlist-input-error {
+        font-size: 0.75rem;
+        padding-right: 1rem;
+        text-align: start;
+        color: var(--burgundy);
+      }
       .name-char-counter {
         position: absolute;
         right: 0;
