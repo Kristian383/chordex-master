@@ -73,6 +73,7 @@ html {
   --f1_gray: #f1f1f1;
   --dark_gray_chips: #242424;
   --font_black: #101114;
+  --text_gray: #878787;
   --chips_gray: #e7e7e7;
   --chips_gray_hover: #e4e4e7;
   --light_gray: #f5f5f5;

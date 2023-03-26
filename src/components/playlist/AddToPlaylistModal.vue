@@ -3,7 +3,7 @@
     <div
       class="add-to-playlist-modal-wrapper"
       @click.self="$emit('closeModal')"
-      @keydown.esc="$emit('closeModal')"
+      @keydown.esc.capture="$emit('closeModal')"
     >
       <div class="add-to-playlist-container">
         <div class="add-to-playlist-header">
@@ -32,7 +32,6 @@
             {{ playlist[0] }}
           </label>
         </div>
-        <!-- <the-loader v-if="isLoading" class="playlist-modal-loader" /> -->
         <div
           v-if="!inputIsOpen"
           tabindex="0" 
@@ -72,28 +71,32 @@
       </div>
     </div>
   </teleport>
-  <!-- <the-toast
-    v-if="toastActive"
-    :message="toastMessage"
-    :status="toastStatus"
-    :is-active="toastActive"
-    @update:isActive="toastActive = $event"
-  /> -->
+  <teleport to="#app">
+    <div v-if="toastsComponents.length" id="toast-container">
+      <component
+        :is="toast.component"
+        v-for="toast in toastsComponents"
+        v-bind="toast.props"
+        :key="toast.id"
+        @close="handleToastUpdate(toast.id)"
+      />
+    </div>
+  </teleport>
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, reactive, computed, onMounted } from 'vue';
+import { ref, markRaw, defineProps, defineEmits, reactive, computed, onMounted, defineAsyncComponent } from 'vue';
 import { useStore } from 'vuex';
-// import TheToast from '../ui/TheToast.vue';
+const TheToast = defineAsyncComponent(() => import('../ui/TheToast.vue'));
 
-defineEmits(["closeModal"]);
+const emits = defineEmits(["closeModal"]);
 const props = defineProps(["playlists", "songId"]);
 const store = useStore();
 
 const playlistMap = reactive(new Map());
 const isLoading = ref(false);
 const errorMsg = ref("");
-// todo: podici logiku u Songs.vue
+// todo: raise logic to Songs.vue?
 async function fetchPlaylistsOfSong() {
   const playlistsOfSong = await store.dispatch("fetchSongPlaylists", props.songId);
   props.playlists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)))
@@ -104,11 +107,7 @@ onMounted(fetchPlaylistsOfSong);
 const inputIsOpen = ref(false);
 const inputIsValid = ref(true);
 const playlistName = ref("");
-const toastActive = ref(true);
-// const toastMessage = ref("");
-// const toastStatus = ref("");
-// const toastsComponents = ref([]);
-// const toasts = ref(null);
+const toastsComponents = ref([]);
 
 const playlistNameChars = computed(() => playlistName.value.length)
 
@@ -123,18 +122,20 @@ async function updatePlaylist(name, {target: {checked}}) {
   playlistMap.set(name, checked);
   const payload = { playlist_name: name, song_id: props.songId };
   isLoading.value = true;
-  let response;
-  if (checked) {
-    response = await store.dispatch("addSongToPlaylist", payload);
-  } else {
-    response = await store.dispatch("deleteSongFromPlaylist", payload);
+  const response = checked
+    ? await store.dispatch('addSongToPlaylist', payload)
+    : await store.dispatch('deleteSongFromPlaylist', payload);
+
+  if (!response) {
+    // revert back changes
+    playlistMap.set(name, !checked);
+    addToast("Error", `Can't ${checked ? 'add': 'remove'} the song${checked ? '': ' from the playlist'}. Try reloading the page.`)
+    isLoading.value = false;
+    return;
   }
-  // todo
-  // check if response is true or false and according to that display confirmation
-  // temporary solution - revert back changes
-  if (!response) playlistMap.set(name, !checked)
+
   isLoading.value = false;
-  // return response
+  addToast(checked ? "Add" : "Delete", `Song ${checked ? "added to" : "removed from"} '${name}'.`);
 }
 async function createPlaylist() {
   inputIsValid.value = true;
@@ -151,23 +152,38 @@ async function createPlaylist() {
     errorMsg.value = "Please enter a playlist name.";
     return;
   }
-  // nakon sto se kreira playlista, dodati tu pjesmu u nju i zatvoriti modal
-  let response = await store.dispatch("createPlaylist", playlistName.value);
+
+  const response = await store.dispatch("createPlaylist", playlistName.value);
   if (!response) {
     inputIsValid.value = false;
     errorMsg.value = "Playlist creation failed. Please try again.";
     return;
   }
+
   updatePlaylist(playlistName.value, {target: {checked: true}});
+  playlistName.value = "";
 }
 
-// function showToast() {
-//   toastActive.value = true;
-// }
 
-// function closeToast() {
-//   toastActive.value = false;
-// }
+const addToast = (status, msg) => {
+  const uniqueId = Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+  const toastProps = {
+    message: msg,
+    status: status
+  }
+  toastsComponents.value.push({
+    id: uniqueId,
+    component: markRaw(TheToast),
+    props: toastProps,
+  })
+};
+
+const handleToastUpdate = (id) => {
+  const toastIndex = toastsComponents.value.findIndex((toast) => toast.id === id);
+  if (toastIndex > -1) {
+    toastsComponents.value.splice(toastIndex, 1);
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -189,7 +205,6 @@ async function createPlaylist() {
     flex-direction: column;
     border-radius: 0.5rem;
     color: var(--dark_gray_font);
-    // border-top: 0.375rem solid var(--burgundy);
     gap: 1.125rem;
 
     .add-to-playlist-header {
@@ -219,10 +234,6 @@ async function createPlaylist() {
       gap: 0.625rem;
       max-height: 20rem;
       overflow-y: auto;
-
-      // &.blur {
-      //   filter: blur(2px);
-      // }
       .playlist-item {
         text-align: start;
         min-height: 1.375rem;
@@ -247,7 +258,6 @@ async function createPlaylist() {
     }
 
     .create-new-input-container {
-      // margin-bottom: 1rem;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -271,10 +281,6 @@ async function createPlaylist() {
           height: 2px;
           background-color: var(--light_blue);
           transition: 0.4s;
-          
-          // &.invalid-input-border {
-          //   background-color: var(--burgundy);
-          // }
         }
         &:focus ~ .focus-border {
           width: 100%;
@@ -307,7 +313,6 @@ async function createPlaylist() {
       .create-btn {
         margin: 0.5rem 0.5rem 0 0;
         background-color: var(--chips_gray);
-        // border-radius: 1rem;
         border: none;
         width: 7rem;
         align-self: center;
@@ -344,5 +349,15 @@ async function createPlaylist() {
       }
     }
   }
+}
+
+#toast-container {
+  position: fixed;
+	top: 1rem;
+	right: 1rem;
+	display: flex;
+	flex-direction: column;
+  gap: 0.875rem;
+	z-index: 10000;
 }
 </style>
