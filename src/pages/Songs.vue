@@ -30,7 +30,6 @@ import AddToPlaylistModal from "../components/playlist/AddToPlaylistModal.vue";
 import SongsFilters from "../components/ui/SongsFilters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
-import TheLoader from "../components/ui/TheLoader.vue";
 import { ref, watch, computed } from "vue";
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';

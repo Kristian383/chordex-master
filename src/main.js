@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from "./router.js"
 import store from "./store/index.js"
 import BaseCard from "./components/ui/BaseCard.vue"
+import TheLoader from "./components/ui/TheLoader.vue"
 
 import { Dropdown } from 'floating-vue'
 import 'floating-vue/dist/style.css';
@@ -28,6 +29,7 @@ const app = createApp(App);
 
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.component('BaseCard', BaseCard)
+app.component('TheLoader', TheLoader)
 app.component('VDropdown', Dropdown)
 
 app.use(router);

@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import TheLoader from "../components/ui/TheLoader.vue";
 import DeleteModal from "../components/ui/DeleteModal.vue";
 
 import { ref, computed } from "vue";
@@ -86,7 +85,6 @@ import { useStore } from "vuex";
 
 export default {
   components: {
-    TheLoader,
     DeleteModal,
   },
   setup() {
