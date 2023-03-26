@@ -429,16 +429,15 @@ export default {
                     body: JSON.stringify(payload)
                 });
         } catch(error) {
-            console.error(error);
+            // console.error(error);
             return false
         }
         return response.ok
     },
-    async createPlaylist(context, payload) {
+    async createPlaylist(context, name) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
         let url = new URL(`/playlists/${user_email}`, process.env.VUE_APP_URL);
-        // console.log(JSON.stringify({songId: payload}));
         let response;
         try {
             response = await fetch(url,
@@ -448,20 +447,14 @@ export default {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + access_token
                     },
-                    body: JSON.stringify({songId: payload})
+                    body: JSON.stringify({playlist_name: name})
                 });
         } catch(error) {
             console.error(error);
             return
         }
-        if (!response.ok) {
-            console.log(response.message);
-            return false
-        }
-        const responseData = await response.json();
-        console.log("responseData", responseData);
-        // nakon što se kreira playlista trebamo napraviti novi dispatcher da ju dodamo u nju
-        // context.dispatch("createPlaylist", )
-
+        if(!response.ok) return false
+        context.commit("addPlaylist", name)
+        return true
     }
 }

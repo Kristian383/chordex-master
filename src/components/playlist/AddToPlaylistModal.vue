@@ -27,7 +27,6 @@
               type="checkbox"
               class="checkbox"
               :checked="playlist[1]"
-              :disabled="isLoading"
               @change="updatePlaylist(playlist[0], $event)"
             />
             {{ playlist[0] }}
@@ -49,34 +48,43 @@
             v-model.trim="playlistName"
             class="create-new-input"
             type="text"
-            tabindex="0" 
             placeholder="Enter playlist name"
+            :disabled="isLoading"
             @focus="clearValidity"
+            @keydown.enter="createPlaylist"
           />
           <span :class="{'invalid-input-border': !inputIsValid}" class="focus-border" />
           <span class="name-char-counter">
             {{ playlistNameChars }}/50
           </span>
-          <p v-if="inputIsValid" class="playlist-input-error">
+          <p v-if="!inputIsValid" class="playlist-input-error">
             {{ errorMsg }}
           </p>
-          <div
-            tabindex="0"
+          <button
             class="create-btn"
+            :disabled="isLoading"
             @click="createPlaylist"
             @keydown.enter="createPlaylist"
           >
             Create
-          </div>
+          </button>
         </div>
       </div>
     </div>
   </teleport>
+  <!-- <the-toast
+    v-if="toastActive"
+    :message="toastMessage"
+    :status="toastStatus"
+    :is-active="toastActive"
+    @update:isActive="toastActive = $event"
+  /> -->
 </template>
 
 <script setup>
 import { ref, defineProps, defineEmits, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+// import TheToast from '../ui/TheToast.vue';
 
 defineEmits(["closeModal"]);
 const props = defineProps(["playlists", "songId"]);
@@ -91,32 +99,16 @@ async function fetchPlaylistsOfSong() {
   props.playlists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)))
 }
 
-async function updatePlaylist(name, {target: {checked}}) {
-  //disable all checkboxes or add loading spinner
-  playlistMap.set(name, checked);
-  // todo: send api request and
-  const payload = { playlist_name: name, song_id: props.songId };
-  isLoading.value = true;
-  let response;
-  if (checked) {
-    // send api to add
-    response = await store.dispatch("addSongToPlaylist", payload);
-  } else {
-    // send api to delete
-    response = await store.dispatch("deleteSongFromPlaylist", payload);
-  }
-  // todo
-  // check if response is true or false and according to that display confirmation
-  // temporary solution - revert back changes
-  if (!response) playlistMap.set(name, !checked)
-  isLoading.value = false;
-}
-
 onMounted(fetchPlaylistsOfSong);
 
 const inputIsOpen = ref(false);
 const inputIsValid = ref(true);
 const playlistName = ref("");
+const toastActive = ref(true);
+// const toastMessage = ref("");
+// const toastStatus = ref("");
+// const toastsComponents = ref([]);
+// const toasts = ref(null);
 
 const playlistNameChars = computed(() => playlistName.value.length)
 
@@ -127,23 +119,55 @@ function openCreatePlaylist() {
 function clearValidity() {
   inputIsValid.value = true;
 }
-
+async function updatePlaylist(name, {target: {checked}}) {
+  playlistMap.set(name, checked);
+  const payload = { playlist_name: name, song_id: props.songId };
+  isLoading.value = true;
+  let response;
+  if (checked) {
+    response = await store.dispatch("addSongToPlaylist", payload);
+  } else {
+    response = await store.dispatch("deleteSongFromPlaylist", payload);
+  }
+  // todo
+  // check if response is true or false and according to that display confirmation
+  // temporary solution - revert back changes
+  if (!response) playlistMap.set(name, !checked)
+  isLoading.value = false;
+  // return response
+}
 async function createPlaylist() {
   inputIsValid.value = true;
   if (playlistNameChars.value > 50) {
-    inputIsValid.value = false;
+    inputIsValid.value = false;;
     errorMsg.value = "Character limit exceeded."
     return;
   } else if (props.playlists.includes(playlistName.value)) {
     inputIsValid.value = false;
-    errorMsg.value = "Playlist name already exists."
+    errorMsg.value = "Playlist name already exists.";
+    return;
+  }  else if (playlistName.value === "") {
+    inputIsValid.value = false;
+    errorMsg.value = "Please enter a playlist name.";
     return;
   }
-
-  // disable create button?
   // nakon sto se kreira playlista, dodati tu pjesmu u nju i zatvoriti modal
+  let response = await store.dispatch("createPlaylist", playlistName.value);
+  if (!response) {
+    inputIsValid.value = false;
+    errorMsg.value = "Playlist creation failed. Please try again.";
+    return;
+  }
+  updatePlaylist(playlistName.value, {target: {checked: true}});
 }
 
+// function showToast() {
+//   toastActive.value = true;
+// }
+
+// function closeToast() {
+//   toastActive.value = false;
+// }
 </script>
 
 <style lang="scss" scoped>
@@ -160,7 +184,7 @@ async function createPlaylist() {
   .add-to-playlist-container {
     @include center-inner-modal;
     max-width: 18rem;
-    padding: 1rem 1rem 0 1.5rem;
+    padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
     border-radius: 0.5rem;
@@ -281,9 +305,10 @@ async function createPlaylist() {
         }
       }
       .create-btn {
-        margin: 0.5rem 0.5rem 0.5rem 0;
+        margin: 0.5rem 0.5rem 0 0;
         background-color: var(--chips_gray);
-        border-radius: 1rem;
+        // border-radius: 1rem;
+        border: none;
         width: 7rem;
         align-self: center;
         @include btn;
@@ -301,8 +326,7 @@ async function createPlaylist() {
       display: flex;
       gap: 1rem;
       align-items: center;
-      cursor: pointer;
-      padding: 1rem;
+      justify-content: center;
 
       &:hover {
         color: var(--dark_gray_chips);        

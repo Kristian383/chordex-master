@@ -6,6 +6,7 @@ export default {
         state.mySongs = [];
         state.songs = [];
         state.songDetailTitle = null;
+        state.playlists = [];
 
         state.usefulResources = {
             notes: null,
@@ -171,4 +172,7 @@ export default {
     setPlaylists(state, payload) {
         state.playlists = payload;
     },
+    addPlaylist(state, payload) {
+        state.playlists.push(payload)
+    }
 }
