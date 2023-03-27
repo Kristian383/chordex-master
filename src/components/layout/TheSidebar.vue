@@ -5,7 +5,7 @@
   <transition name="fade">
     <aside v-if="sidebarIsActive" class="sidebar">
       <ul class="nav_list">
-        <the-sidebar-link
+        <the-sidebar-playlist-link
           v-for="sidebarLink in sidebarLinks"
           :key="sidebarLink.label"
           v-bind="sidebarLink"
@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import TheSidebarLink from "./TheSidebarLink.vue";
+import TheSidebarPlaylistLink from "./TheSidebarPlaylistLink.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 
@@ -176,16 +176,11 @@ function logOutUser() {
 
 .sidebar .nav_list {
   margin-top: 1.25rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-right: 0.25rem;
   height: 100%;
 
   @include scrollbar;
-
-  @include md {
-    overflow-y: hidden;
-    padding-right: 0;
-  }
 }
 
 // dark mode

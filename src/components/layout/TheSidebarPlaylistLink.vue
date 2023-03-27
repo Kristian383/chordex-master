@@ -1,20 +1,19 @@
 <template>
-  <li v-if="isDropdown" class="cx-sidebar-dropdown-link-li">
+  <li v-if="isDropdown" class="cx-sidebar-playlist-dropdown-li">
     <div
-      class="cx-sidebar-dropdown-li"
+      class="cx-sidebar-dropdown-toggle"
       tabindex="0"
       @click="toggleDropdown"
-      @keydown="toggleDropdown"
+      @keydown.enter="toggleDropdown"
     >
       <font-awesome-icon icon="list-ul" />
       <font-awesome-icon class="cx-dropdown-chevron" :icon="dropdownIconName" />
       <span class="link_name">Playlists</span>
     </div>
     <ul v-if="isDropdownOpen" class="cx-sidebar-dropdown-list">
-      <li v-for="playlist in playlists" :key="playlist" class="cx-dropdown-list-item"><a href="#">{{ playlist }}</a></li>
-      <li class="cx-dropdown-list-item"><a href="#">Some long as title of a playlist</a></li>
-      <li class="cx-dropdown-list-item"><a href="#">Red hot chili pepprs</a></li>
-      <li class="cx-dropdown-list-item"><a href="#">Favorites</a></li>
+      <li v-for="playlist in playlists" :key="playlist" class="cx-dropdown-list-item">
+        <a href="#">{{ playlist }}</a>
+      </li>
     </ul>
   </li>
   <li v-else class="cx-sidebar-link-li" @click="emitLogOut">
@@ -111,7 +110,7 @@ function toggleDropdown() {
   }
 }
   
-.cx-sidebar-dropdown-link-li {
+.cx-sidebar-playlist-dropdown-li {
     cursor: pointer;
     min-height: 3.125rem;
     border-radius: 0.75rem;
@@ -121,7 +120,7 @@ function toggleDropdown() {
       background: #1d2634;
     }
 
-    .cx-sidebar-dropdown-li {
+    .cx-sidebar-dropdown-toggle {
       display: flex;
       height: 3.125rem;
       color: var(--f1_gray);
@@ -146,8 +145,8 @@ function toggleDropdown() {
       justify-content: center;
       align-items: center;
       list-style: none;
-      max-height: 18.75rem;
-      overflow-y: auto;
+      // max-height: 18.75rem;
+      // overflow-y: auto;
       @include scrollbar;
 
       .cx-dropdown-list-item {
