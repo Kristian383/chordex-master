@@ -5,7 +5,7 @@
 <script>
 export default {
   mounted(){
-    this.$store.commit("removeSidebar")
+    this.$store.commit("removeSidebar");
   }
 };
 </script>

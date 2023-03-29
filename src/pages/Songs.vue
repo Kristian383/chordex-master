@@ -3,7 +3,7 @@
     <template #filters>
       <songs-filters @filters-changed="setFilters" />
     </template>
-    <template #select_box>
+    <template #sort_select_box>
       <sort-by :options="sortOptions" @changeSort="sortSongs" />
     </template>
     <div class="song-cards">
@@ -26,13 +26,15 @@
 </template>
 
 <script setup>
-import AddToPlaylistModal from "../components/playlist/AddToPlaylistModal.vue";
 import SongsFilters from "../components/ui/SongsFilters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, defineAsyncComponent } from "vue";
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+
+const AddToPlaylistModal = defineAsyncComponent(() => import('../components/playlist/AddToPlaylistModal.vue'));
+
 
 const store = useStore();
 const route = useRoute();
@@ -41,10 +43,6 @@ const filters = ref([]);
 const songId = ref(null);
 const filteredSongs = ref([]);
 const openModal = ref(false);
-
-function filterSongs() {
-  return store.getters.filterSongs(filters.value, route.query);
-}
 
 watch(filters, () => {
   filteredSongs.value = store.getters.filterSongs(filters.value, route.query);
@@ -72,15 +70,15 @@ const getPlaylists = computed(() => store.getters.getPlaylists);
 
 const songsLoading = computed(() => {
   return store.getters.songsLoading;
-})
+});
 
 const AllSongs = computed(() => {
-  return filterSongs();
-})
+  return store.getters.filterSongs(filters.value, route.query);
+});
 
 const sortOptions = computed(() => {
   return ["Last added", "Oldest", "Best learned", "Least learned", "A-Z", "Z-A"];
-})
+});
 </script>
 
 <style lang="scss" scoped>

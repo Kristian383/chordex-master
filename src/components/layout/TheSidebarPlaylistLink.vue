@@ -66,7 +66,7 @@ function emitLogOut() {
 }
 
 function toggleDropdown() {
-  isDropdownOpen.value = !isDropdownOpen.value
+  isDropdownOpen.value = !isDropdownOpen.value;
 }
 </script>
 

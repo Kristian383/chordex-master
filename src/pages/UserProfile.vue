@@ -78,10 +78,9 @@
 </template>
 
 <script>
-import DeleteModal from "../components/ui/DeleteModal.vue";
-
-import { ref, computed } from "vue";
+import { ref, computed, defineAsyncComponent } from "vue";
 import { useStore } from "vuex";
+const DeleteModal = defineAsyncComponent(() => import('../components/ui/DeleteModal.vue'));
 
 export default {
   components: {

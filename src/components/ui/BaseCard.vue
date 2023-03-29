@@ -4,15 +4,12 @@
     :class="{ expand_home_section: sidebarIsActive && isDesktop }"
   >
     <nav v-if="!isMetronomeView">
-      <the-search></the-search>
+      <the-search />
       <div class="filter_categories">
-        <slot name="filters"></slot>
+        <slot name="filters" />
       </div>
     </nav>
-    <div
-      class="home-content"
-      :class="{ reduce_content_padding: isMetronomeView }"
-    >
+    <div class="home-content" :class="{ reduce_content_padding: isMetronomeView }">
       <div class="sort-section-title">
         <div class="title">
           <span
@@ -31,20 +28,20 @@
             <font-awesome-icon icon="angle-right" />
           </span>
         </div>
-        <slot name="select_box"></slot>
+        <slot name="sort_select_box" />
       </div>
-      <slot></slot>
-      <scroll-up :class="{ show: showBackToTop }"></scroll-up>
+      <slot />
+      <scroll-up :class="{ show: showBackToTop }" />
     </div>
   </section>
 </template>
 
 <script setup>
-import TheSearch from "./../ui/TheSearch.vue";
-import ScrollUp from "./ScrollUp.vue";
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, defineAsyncComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
+
+const TheSearch = defineAsyncComponent(() => import('./../ui/TheSearch.vue'));
 
 const route = useRoute();
 const router = useRouter();

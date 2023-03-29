@@ -63,7 +63,7 @@ const selectedQuality = ref(null);
 
 const allMusicKeys = computed(() => {
   return store.getters.getMusicKeys;
-})
+});
 
 function toggleDropdown() {
   dropdownIsOpen.value = !dropdownIsOpen.value;
@@ -74,7 +74,7 @@ function setKey(data) {
   showQualities.value = true;
   toggleDropdown();
   if (selectedQuality.value) {
-    callEmit()
+    callEmit();
   }
 }
 
@@ -85,14 +85,14 @@ function setKeyWithQuality(quality) {
 
 function callEmit() {
   const newKey = selectedKey.value + ' ' + selectedQuality.value;
-  emit('keySelected', { keyWithQuality: newKey, keyNumber: props.keyNumber})
+  emit('keySelected', { keyWithQuality: newKey, keyNumber: props.keyNumber});
 }
 
 watch(
   () => props.musicKey,
   (newsongKey) => {
     if(newsongKey) {
-      [selectedKey.value, selectedQuality.value] = props.musicKey.split(' ')
+      [selectedKey.value, selectedQuality.value] = props.musicKey.split(' ');
       showQualities.value = true;
     }
   }

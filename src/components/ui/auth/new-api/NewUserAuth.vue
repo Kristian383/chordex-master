@@ -52,11 +52,11 @@
 </template>
 
 <script>
-import ForgotForm from "./ForgotForm.vue";
-import LoginForm from "./LoginForm.vue";
-import RegisterForm from "./RegisterForm.vue";
+import { defineAsyncComponent, ref } from "vue";
+const ForgotForm = defineAsyncComponent(() => import('./ForgotForm.vue'));
+const LoginForm = defineAsyncComponent(() => import('./LoginForm.vue'));
+const RegisterForm = defineAsyncComponent(() => import('./RegisterForm.vue'));
 
-import { ref } from "vue";
 export default {
   components: {
     ForgotForm,

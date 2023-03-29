@@ -1,20 +1,22 @@
 <template>
   <base-card>
-    <template v-slot:select_box>
-      <sort-by @changeSort="sortArtists" :options="getOptions"></sort-by>
+    <template #sort_select_box>
+      <sort-by :options="getOptions" @changeSort="sortArtists" />
     </template>
     <div class="artists">
       <ul class="list-group">
-        <li class="list-group-item" v-for="artist in sortList" :key="artist">
+        <li v-for="artist in sortList" :key="artist" class="list-group-item">
           <div class="thumbnail flex-center">
             <img :src="artist.artistImg || artistPhoto" alt="Artist" />
           </div>
 
           <div class="details">
             <h2>
-              <router-link :to="'/songs?artist=' + artist.name">{{
-                artist.name
-              }}</router-link>
+              <router-link :to="'/songs?artist=' + artist.name">
+                {{
+                  artist.name
+                }}
+              </router-link>
             </h2>
             <p>Songs: {{ artist.totalSongs }}</p>
           </div>
@@ -25,13 +27,11 @@
 </template>
 
 <script>
-// import BaseCard from "./../components/ui/BaseCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: {
-    // BaseCard,
     SortBy,
   },
   setup() {

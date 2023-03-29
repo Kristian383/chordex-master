@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { computed, defineEmits, defineProps, reactive } from "vue";
+import { computed, defineEmits, defineProps } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 

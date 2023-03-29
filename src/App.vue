@@ -1,15 +1,16 @@
 <template>
   <!-- <the-beta-banner v-if="" /> -->
-  <the-header></the-header>
-  <the-sidebar></the-sidebar>
+  <the-header />
+  <the-sidebar />
 
-  <router-view v-slot="{ Component }">
-    <keep-alive :max="3" include="Song Keys">
+  <router-view />
+  <!-- <router-view v-slot="{ Component }">
+    <keep-alive>
       <component :is="Component" :key="$route.fullPath" />
     </keep-alive>
-  </router-view>
+  </router-view> -->
 
-  <the-footer></the-footer>
+  <the-footer />
 </template>
 
 <script>
@@ -17,6 +18,7 @@
 import TheSidebar from "./components/layout/TheSidebar.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheFooter from "./components/layout/TheFooter.vue";
+
 export default {
   name: "App",
   components: {
