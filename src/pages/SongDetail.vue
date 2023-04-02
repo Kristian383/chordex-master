@@ -1,36 +1,24 @@
 <template>
   <base-card>
-    <div class="song-detail" v-if="songData">
+    <the-loader v-if="songsLoading" />
+    <div v-else-if="showDetails" class="song-detail">
       <div class="box song-info">
         <div class="top-icons">
-          <div class="go-back" @click="goBack">
-            <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+          <div class="go-back" @click="$router.go(-1)">
+            <font-awesome-icon icon="arrow-left" />
           </div>
           <div class="middle-icons">
-            <font-awesome-icon
-              :icon="favoriteIconName"
-              style="pointer-events: none"
-              :class="{ 'is-favorite': isFavorite }"
-            ></font-awesome-icon>
-            <font-awesome-icon
-              icon="edit"
-              @click="openEdit"
-              class="edit"
-            ></font-awesome-icon>
-            <font-awesome-icon
-              icon="trash-alt"
-              class="delete"
-              @click="deleteSong"
-            ></font-awesome-icon>
+            <font-awesome-icon :icon="favoriteIconName" style="pointer-events: none" :class="{ 'is-favorite': isFavorite }" />
+            <font-awesome-icon icon="edit" class="edit" @click="openEdit" />
+            <font-awesome-icon icon="trash-alt" class="delete" @click="deleteSong" />
           </div>
         </div>
         <!-- Artist and learned-->
         <div>
           <div class="artist-link">
             <b>Artist: </b>
-            <router-link
-              :to="{ path: '/songs', query: { artist: songData.artist } }"
-              >{{ songData.artist }}
+            <router-link :to="artistRoute">
+              {{ songData.artist }}
             </router-link>
           </div>
           <div class="song-info-box">
@@ -40,7 +28,7 @@
         <!-- Song and bpm -->
         <div>
           <div class="song-name"><b>Song:</b> {{ songData.songName }}</div>
-          <div class="song-info-box" v-if="songData.bpm">
+          <div v-if="songData.bpm" class="song-info-box">
             <b> BPM:</b> {{ songData.bpm }}
           </div>
         </div>
@@ -50,7 +38,7 @@
           <div class="chords">
             <b>Chords in key:</b> {{ songData.firstKeyNotes }}
           </div>
-          <div class="guitar" v-if="songData.firstChordProgression">
+          <div v-if="songData.firstChordProgression" class="guitar">
             <b>Chord progression:</b> {{ songData.firstChordProgression }}
           </div>
         </div>
@@ -59,27 +47,27 @@
           <div class="chords">
             <b>Chords in scale:</b> {{ songData.secondKeyNotes }}
           </div>
-          <div class="guitar" v-if="songData.secondChordProgression">
+          <div v-if="songData.secondChordProgression" class="guitar">
             <b>Chord progression:</b> {{ songData.secondChordProgression }}
           </div>
         </div>
         <!-- capo  tuning guitar-->
         <div>
-          <div class="capo" v-if="songData.capo">
+          <div v-if="songData.capo" class="capo">
             <b>Capo:</b> {{ songData.capo }}
           </div>
           <div class="tuning">
             <b>Tuning:</b> {{ songData.tuning ? songData.tuning : "Standard" }}
           </div>
 
-          <div class="guitar" v-if="songData.acoustic || songData.electric">
+          <div v-if="songData.acoustic || songData.electric" class="guitar">
             <b>Guitar type:</b> {{ songData.acoustic ? "Acoustic" : "" }}
             {{ songData.electric ? "Eletric" : "" }}
           </div>
         </div>
         <!-- chordsWebsiteLink -->
         <div>
-          <div class="link" v-if="songData.chordsWebsiteLink">
+          <div v-if="songData.chordsWebsiteLink" class="link">
             <b>Website Link: </b>
             <a :href="songData.chordsWebsiteLink" target="_blank"> Click me </a>
           </div>
@@ -90,7 +78,7 @@
         </div>
       </div>
       <!-- yt video  -->
-      <div class="box video">
+      <div class="box video"> 
         <iframe
           v-if="songData.ytLink"
           :src="songData.ytLink"
@@ -98,8 +86,7 @@
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
-        ></iframe>
-
+        />
         <img v-else :src="songData.imgUrl || imgUrl" alt="" />
       </div>
 
@@ -108,48 +95,52 @@
         <br />
         <pre>{{ songData.songText }}</pre>
       </div>
-      <!--  -->
     </div>
   </base-card>
 </template>
 
 <script>
-import { ref, toRefs, onMounted, computed } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 
 export default {
   name: "SongDetail",
-  props: ["songId"],
-  setup(props) {
-    const { songId } = toRefs(props);
-    const songData = ref(null);
+  setup() {
     const router = useRouter();
     const route = useRoute();
     const store = useStore();
-    const isFavorite = ref(null);
+  
+    const showDetails = ref(false);
+    const imgUrl = computed(() => require("@/assets/music.png"));
+    const isFavorite = computed(() => songData.value?.isFavorite);
+    const songId = computed(() => route.params.songId);
+    const isMySong = computed(() => route.query.isMySong === "True");
 
-    onMounted(() => {
-      if (route.query.isMySong) {
-        songData.value = store.getters.getAllMySongs.find((song) => {
-          return song.songId == songId.value;
-        });
-      } else {
-        songData.value = store.getters.getAllSongs.find((song) => {
-          return song.songId == songId.value;
-        });
-      }
-      if (songData.value) {
-        isFavorite.value = songData.value.isFavorite;
-        store.commit("setSongDetailTitle", songData.value.songName);
-      } else {
-        router.push("/songs");
-      }
+    const allSongs = computed(() => isMySong.value ? store.getters.getAllMySongs : store.getters.getAllSongs);
+    const songsLoading = computed(() => {
+      return store.getters.songsLoading;
     });
 
-    function goBack() {
-      router.go(-1);
-    }
+    const getSong = (id) => {
+      const song = allSongs.value.find((song) => song.songId == id);
+      return song;
+    };
+
+    const songData = computed(() => {
+      const song = getSong(songId.value);
+      return song;
+    });
+
+    watchEffect(() => {
+      // already loaded but song doesn't exist
+      if ((!songsLoading.value && !songData.value)) {
+        router.push("/songs");
+      } else if (!songsLoading.value && songData.value) {
+        showDetails.value = true;
+        store.commit("setSongDetailTitle", songData.value.songName);
+      }
+    });
 
     function openEdit() {
       let song = store.getters.findSong(songId.value);
@@ -182,19 +173,18 @@ export default {
     });
 
     const displayAccordingToYT = computed(() => {
-      if (songData.value.yt_link) {
-        return "1fr";
-      } else {
-        return "1fr 1fr";
-      }
+      if (songData.value.yt_link) return "1fr";
+      else return "1fr 1fr";
     });
 
-    const imgUrl = computed(() => {
-      return require("@/assets/music.png");
+    const artistRoute = computed(() => {
+      const { isMySong, artist } = songData.value;
+      const path = "/songs";
+      const query = isMySong ? { isMySong: "True" } : { artist };
+      return { path, query };
     });
 
     return {
-      goBack,
       openEdit,
       deleteSong,
       favoriteIconName,
@@ -202,6 +192,9 @@ export default {
       imgUrl,
       songData,
       isFavorite,
+      showDetails,
+      songsLoading, 
+      artistRoute
     };
   },
 };

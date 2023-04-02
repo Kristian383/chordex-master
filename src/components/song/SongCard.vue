@@ -1,5 +1,9 @@
 <template>
-  <div class="card" @click="openSongDetail">
+  <div 
+    class="card"
+    @click.prevent="openSongDetail"
+    @mousedown.middle.prevent="openSongDetail"
+  >
     <div class="card-header">
       <div class="image">
         <img :src="song.imgUrl || imgUrl" alt="Photo" />
@@ -150,11 +154,18 @@ const timeSince = computed(() => {
   }
 });
 
-function openSongDetail() {
-  const pushRoute = props.song.isMySong
+function openSongDetail(event) {
+  const routePath = props.song.isMySong
     ? `/songs/${props.song.songId}?isMySong=True`
     : `/songs/${props.song.songId}`;
-  router.push(pushRoute);
+  // Check if the ctrl key is pressed (or cmd key on Mac)
+  if (event.ctrlKey || event.metaKey || event.button === 1) {
+    event.preventDefault();
+    const routeURL = router.resolve(routePath).href;
+    window.open(routeURL, '_blank');
+  } else {
+    router.push(routePath);
+  }
 }
 
 function toggleFavorite() {

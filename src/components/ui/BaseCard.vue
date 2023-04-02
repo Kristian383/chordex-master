@@ -10,6 +10,7 @@
       </div>
     </nav>
     <div class="home-content" :class="{ reduce_content_padding: isMetronomeView }">
+      <!-- TODO: add slot here and move this logic in songdetail -->
       <div class="sort-section-title">
         <div class="title">
           <span
@@ -79,7 +80,7 @@ const hasQuery2 = computed(() => {
 });
 
 const indexOfCurrentSong = computed(() => {
-  return store.getters.indexOfCurrentSong({ id: route.params.songId, query: Object.keys(route.query).length > 0 })
+  return store.getters.indexOfCurrentSong({ id: route.params.songId, query: Object.keys(route.query).length > 0 });
 });
 
 const showArrows = computed(() => {

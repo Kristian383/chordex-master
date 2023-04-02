@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
-import getters from "./songs/getters.js"
-import actions from "./songs/actions"
-import mutations from "./songs/mutations.js"
+import getters from "./songs/getters.js";
+import actions from "./songs/actions";
+import mutations from "./songs/mutations.js";
 import authModule from './auth/index.js';
 
 const store = createStore({
@@ -11,7 +11,7 @@ const store = createStore({
             sidebarIsActive: false,
             songDetailTitle: null,
             // darkMode: false,
-            songsLoading:false,
+            songsLoading: false,
             mobile:null,
             musicKeys: [],
             artists: [],
@@ -23,11 +23,11 @@ const store = createStore({
                 websitesLinks: [],
                 txtAreaHeight: 600
             }
-        }
+        };
     },
     getters,
     mutations,
     actions
-})
+});
 
 export default store;
