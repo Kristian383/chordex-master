@@ -237,7 +237,7 @@ function chooseArtist() {
   overflow: hidden;
   width: 11.25rem;
   position: relative;
-  height: 16.25rem;
+  height: 15rem;
   color: var(--font_black);
   transition: 0.3s ease-in all;
   cursor: pointer;
@@ -317,7 +317,7 @@ function chooseArtist() {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+  padding: 0.5rem 0.75rem 0 0.75rem;
   gap: 0.625rem;
   width: 100%;
 }
@@ -368,6 +368,7 @@ function chooseArtist() {
   flex-direction: row;
   align-items: center;
   gap: 0.25rem;
-  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+  margin-top: 0.5rem;
 }
 </style>
