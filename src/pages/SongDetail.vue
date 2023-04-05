@@ -4,7 +4,12 @@
     <div v-else-if="showDetails" class="song-detail">
       <div class="box song-info">
         <div class="top-icons">
-          <div class="go-back" @click="$router.go(-1)">
+          <div
+            class="go-back"
+            tabindex="0"
+            @keydown.enter="$router.go(-1)"
+            @click="$router.go(-1)"
+          >
             <font-awesome-icon icon="arrow-left" />
           </div>
           <div class="middle-icons">

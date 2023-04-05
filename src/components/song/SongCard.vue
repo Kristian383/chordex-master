@@ -1,7 +1,9 @@
 <template>
   <div 
     class="card"
+    tabindex="0"
     @click.prevent="openSongDetail"
+    @keydown.enter="openSongDetail"
     @mousedown.middle.prevent="openSongDetail"
   >
     <div class="card-header">
@@ -12,7 +14,9 @@
         <div
           class="icon"
           :class="{ is_favorite: isFavorite }"
+          tabindex="0"
           @click.stop="toggleFavorite"
+          @keydown.enter.stop="toggleFavorite"
         >
           <font-awesome-icon icon="heart" />
         </div>
@@ -22,12 +26,22 @@
           :distance="13"
           :container="containerEl || 'body'"
         >
-          <div class="icon" @click.stop>
+          <div
+            class="icon"
+            tabindex="0"
+            @click.stop
+            @keydown.enter.stop
+          >
             <font-awesome-icon icon="ellipsis-v" />
           </div>
           <template #popper>
             <ul class="dropdown-popup">
-              <li class="dropdown-popup-item" @click="openEditMode">
+              <li
+                class="dropdown-popup-item"
+                tabindex="0"
+                @keydown.enter="openEditMode"
+                @click="openEditMode"
+              >
                 <font-awesome-icon class="popup-item-icon" icon="edit" />
                 <span>Edit</span>
               </li>
@@ -227,10 +241,6 @@ function chooseArtist() {
   color: var(--font_black);
   transition: 0.3s ease-in all;
   cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
 
   &:hover {
     transform: rotateZ(-1deg) scale(1.04);
