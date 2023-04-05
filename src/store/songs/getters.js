@@ -46,29 +46,14 @@ export default {
             return foundSong;
         };
     },
-    // lazyLoadSongs(state) {
-
-    //     return (type) => {
-
-    //         if (type == "songs") {
-
-    //             return state.songs.slice(0, state.songsLoaded)
-    //         } else {
-    //             return state.songs.slice(0, state.mySongsLoaded)
-
-    //         }
-    //     }
-
-    // },
-
     filterSongs(state, getters) {
         return (filters, query = null) => {
             // in case of displaying all songs from artist
-            if (!filters.length && query.artist) {
+            if (filters[0] === "all" && query.artist) {
                 return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase());
             }
             // in case of displaying all songs 
-            if (!filters.length || filters == "all") { // can't use === because "filters" is Proxy object
+            if (filters[0] === "all") {
                 if (query.isMySong) return state.mySongs;
                 return state.songs;
             }
@@ -86,6 +71,9 @@ export default {
             }
         };
     },
+    getActiveFilters(state) {
+        return state.activeFilters;
+    },
     shouldFilterSong() {
         return (filters, song) => {
             return filters.every(filterOption => {
@@ -102,7 +90,6 @@ export default {
               });
         };
     },
-
     getSongsByKey(state) {
         const keys = state.musicKeys;
         const sortedSongs = {};

@@ -1,7 +1,7 @@
 <template>
   <base-card>
     <template #filters>
-      <songs-filters @filters-changed="setFilters" />
+      <songs-filters />
     </template>
     <template #sort_select_box>
       <sort-by :options="sortOptions" @changeSort="sortSongs" />
@@ -29,7 +29,7 @@
 import SongsFilters from "../components/ui/SongsFilters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
-import { ref, watch, computed, defineAsyncComponent } from "vue";
+import { ref, computed, defineAsyncComponent } from "vue";
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -39,18 +39,9 @@ const AddToPlaylistModal = defineAsyncComponent(() => import('../components/play
 const store = useStore();
 const route = useRoute();
 
-const filters = ref([]);
+const filters = computed(() => store.getters.getActiveFilters);
 const songId = ref(null);
-const filteredSongs = ref([]);
 const openModal = ref(false);
-
-watch(filters, () => {
-  filteredSongs.value = store.getters.filterSongs(filters.value, route.query);
-}, { immediate: true });
-
-function setFilters(updatedFilters) {
-  filters.value = updatedFilters;
-}
 
 function sortSongs(option) {
   store.commit("sortSongs", option);

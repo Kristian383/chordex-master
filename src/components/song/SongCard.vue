@@ -210,7 +210,7 @@ async function deleteSong() {
 }
 
 function chooseArtist() {
-  if (!props.song.isMySong) router.push("/songs?artist=" + props.song.artist);
+  if (!props.song.isMySong) router.push("/songs?artist=" + encodeURIComponent(props.song.artist));
 }
 
 // PLAYLISTS - todo: 

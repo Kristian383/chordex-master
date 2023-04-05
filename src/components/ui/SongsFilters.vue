@@ -17,7 +17,9 @@
 
 <script setup>
 import { reactive } from "vue";
-const emit = defineEmits(['filters-changed'])
+import { useStore } from 'vuex';
+
+const store = useStore(); 
 
 const allFilters = ["all", "favorites", "acoustic", "electric", "easy", "medium", "hard"];
 const filters = reactive({
@@ -48,7 +50,7 @@ function setFilter(filter) {
     filters["all"] = true;
     activeFilters = ["all"];
   }
-  emit('filters-changed', activeFilters)
+  store.commit("setActiveFilters", activeFilters);
 }
 </script>
 
