@@ -99,7 +99,7 @@ const errorMsg = ref("");
 // todo: raise logic to Songs.vue?
 async function fetchPlaylistsOfSong() {
   const playlistsOfSong = await store.dispatch("fetchSongPlaylists", props.songId);
-  props.playlists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)))
+  props.playlists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)));
 }
 
 onMounted(fetchPlaylistsOfSong);
@@ -109,7 +109,7 @@ const inputIsValid = ref(true);
 const playlistName = ref("");
 const toastsComponents = ref([]);
 
-const playlistNameChars = computed(() => playlistName.value.length)
+const playlistNameChars = computed(() => playlistName.value.length);
 
 function openCreatePlaylist() {
   inputIsOpen.value = true;
@@ -129,7 +129,7 @@ async function updatePlaylist(name, {target: {checked}}) {
   if (!response) {
     // revert back changes
     playlistMap.set(name, !checked);
-    addToast("Error", `Can't ${checked ? 'add': 'remove'} the song${checked ? '': ' from the playlist'}. Try reloading the page.`)
+    addToast("Error", `Can't ${checked ? 'add': 'remove'} the song${checked ? '': ' from the playlist'}. Try reloading the page.`);
     isLoading.value = false;
     return;
   }
@@ -141,7 +141,7 @@ async function createPlaylist() {
   inputIsValid.value = true;
   if (playlistNameChars.value > 50) {
     inputIsValid.value = false;;
-    errorMsg.value = "Character limit exceeded."
+    errorMsg.value = "Character limit exceeded.";
     return;
   } else if (props.playlists.includes(playlistName.value)) {
     inputIsValid.value = false;
@@ -170,12 +170,12 @@ const addToast = (status, msg) => {
   const toastProps = {
     message: msg,
     status: status
-  }
+  };
   toastsComponents.value.push({
     id: uniqueId,
     component: markRaw(TheToast),
     props: toastProps,
-  })
+  });
 };
 
 const handleToastUpdate = (id) => {

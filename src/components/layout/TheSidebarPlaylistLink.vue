@@ -12,7 +12,7 @@
     </div>
     <ul v-if="isDropdownOpen" class="cx-sidebar-dropdown-list">
       <li v-for="playlist in playlists" :key="playlist" class="cx-dropdown-list-item">
-        <a href="#">{{ playlist }}</a>
+        <router-link :to="getPlaylistUrl(playlist)">{{ playlist }}</router-link>
       </li>
     </ul>
   </li>
@@ -59,6 +59,10 @@ const props = defineProps({
 const isDropdownOpen = ref(false);
 
 const dropdownIconName = computed(() => isDropdownOpen.value ? "chevron-up" : "chevron-down");
+
+const getPlaylistUrl = computed(() => (playlistName) => {
+  return "/songs?playlist=" + encodeURIComponent(playlistName);
+});
 
 function emitLogOut() {
   if (props.iconName !== "sign-out-alt") return;
@@ -145,26 +149,21 @@ function toggleDropdown() {
       justify-content: center;
       align-items: center;
       list-style: none;
-      // max-height: 18.75rem;
-      // overflow-y: auto;
       @include scrollbar;
 
       .cx-dropdown-list-item {
-        padding: 0.5rem;
         width: 100%;
-        padding-left: 3.5rem;
 
         a {
           text-decoration: none;
           color: var(--f1_gray);
           font-size: 0.875rem;
-
-          display: inline-block;
-          width: 100%;
+          display: block;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           word-break: break-word;
+          padding: 0.5rem 0.5rem 0.5rem 3.5rem;
         }
         
         &:hover {

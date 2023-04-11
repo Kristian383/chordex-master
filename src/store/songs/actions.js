@@ -2,9 +2,9 @@ export default {
     async loadAllSongs(context) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/songs/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/songs/${user_email}`, process.env.VUE_APP_URL);
 
-        context.commit("setLoader")
+        context.commit("setLoader");
         let response;
         try {
             response = await fetch(url,
@@ -18,34 +18,34 @@ export default {
                 });
         } catch {
             // console.log("There was an error!");
-            context.commit("removeLoader")
-            return "There was an error!"
+            context.commit("removeLoader");
+            return "There was an error!";
         }
         const responseData = await response.json();
 
         if (!response.ok) {
             // window.alert(responseData.message || 'Failed to load more songs.');
-            context.commit("removeLoader")
-            return false
+            context.commit("removeLoader");
+            return false;
         }
 
-        context.commit("setAllSongs", responseData.songs)
-        context.commit("removeLoader")
+        context.commit("setAllSongs", responseData.songs);
+        context.commit("removeLoader");
 
     },
     async addNewSong(context, payload) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
         // let url = `${process.env.VUE_APP_URL}song/${username}`;
-        let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL);
 
         const body = {
             // user_email,
             ...payload
-        }
+        };
         let methodType = "POST";
         if (payload.songId) {
-            methodType = "PUT"
+            methodType = "PUT";
         }
         let lastViewed = new Date().toLocaleString();
         body.lastViewed = lastViewed;
@@ -64,34 +64,34 @@ export default {
                     )
                 });
         } catch {
-            return false
+            return false;
         }
         const responseData = await response.json();
         if (!response.ok) {
             //  window.alert( 'Failed to add song.');
-            return false
+            return false;
         } else {
             if (payload.songId) {
-                context.commit("updateSong", payload)
+                context.commit("updateSong", payload);
             } else {
                 const resp_payload = responseData.song;
-                resp_payload.artist = responseData.artist.name
-                context.commit("insertSong", resp_payload)
+                resp_payload.artist = responseData.artist.name;
+                context.commit("insertSong", resp_payload);
             }
         }
         // return true
-        return responseData.song.songId
+        return responseData.song.songId;
     },
     async deleteSong(context, payload) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL);
 
         const body = {
             // username,
             "songName": payload.songName,
             "artist": payload.artist
-        }
+        };
         //console.log("delete body", body);
         let response;
         try {
@@ -107,18 +107,18 @@ export default {
                     )
                 });
         } catch {
-            return
+            return;
         }
         const responseData = await response.json();
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to delete song.');
-            return
+            return;
         }
-        context.commit("deleteSong", payload.songId)
+        context.commit("deleteSong", payload.songId);
     },
     //MUSIC KEYS
     async loadMusicKeys(context) {
-        let url = new URL(`/keys`, process.env.VUE_APP_URL)
+        let url = new URL(`/keys`, process.env.VUE_APP_URL);
 
         let response;
         try {
@@ -130,22 +130,22 @@ export default {
                     },
                 });
         } catch {
-            return
+            return;
         }
         const responseData = await response.json();
 
         if (!response.ok) {
             // window.alert(responseData.message || 'Failed to load more songs.');
-            return
+            return;
         }
-        context.commit("storeMusicKeys", responseData.musicKeys)
+        context.commit("storeMusicKeys", responseData.musicKeys);
     },
 
     //ARTISTS
     async loadAllArtists(context) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/artists/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/artists/${user_email}`, process.env.VUE_APP_URL);
 
         let response;
         try {
@@ -158,22 +158,22 @@ export default {
                     },
                 });
         } catch {
-            return
+            return;
         }
         const responseData = await response.json();
 
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to load more artists.');
-            return
+            return;
         }
-        context.commit("setAllArtists", responseData.artists)
+        context.commit("setAllArtists", responseData.artists);
     },
 
     //NOTES 
     async loadUsersNotes(context) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/notes/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/notes/${user_email}`, process.env.VUE_APP_URL);
 
         let response;
         try {
@@ -193,17 +193,17 @@ export default {
         //console.log("userNotes", responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to load user notes.');
-            return
+            return;
         }
         // console.log(responseData)
-        context.commit("updateUserNotes", responseData.notes)
-        context.commit("updateTxtAreaHeight", responseData.txtAreaHeight)
+        context.commit("updateUserNotes", responseData.notes);
+        context.commit("updateTxtAreaHeight", responseData.txtAreaHeight);
 
     },
     async updateUsersNotes(context, payload) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/notes/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/notes/${user_email}`, process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -224,17 +224,17 @@ export default {
         const responseData = await response.json();
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to update user notes.');
-            return
+            return;
         }
-        context.commit("updateUserNotes", responseData.notes)
-        context.commit("updateTxtAreaHeight", responseData.txtAreaHeight)
+        context.commit("updateUserNotes", responseData.notes);
+        context.commit("updateTxtAreaHeight", responseData.txtAreaHeight);
 
     },
     //websites
     async addUserWebsite(context, payload) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/website/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/website/${user_email}`, process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -249,20 +249,20 @@ export default {
                     )
                 });
         } catch {
-            return
+            return;
         }
         const responseData = await response.json();
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add user website.');
-            return
+            return;
         }
-        context.commit("addUserWebsite", payload)
+        context.commit("addUserWebsite", payload);
     },
     async deleteUserWebsite(context, name) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
         // let url = `${process.env.VUE_APP_URL}website/${username}`;
-        let url = new URL(`/website/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/website/${user_email}`, process.env.VUE_APP_URL);
 
         let response;
         try {
@@ -280,20 +280,20 @@ export default {
                 });
         } catch {
             console.log("There was an error!");
-            return
+            return;
         }
         const responseData = await response.json();
         // console.log("deleteUserWebsite", responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add user website.');
-            return
+            return;
         }
-        context.commit("deleteUserWebsite", name)
+        context.commit("deleteUserWebsite", name);
     },
     async loadUserWebsites(context) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/websites/${user_email}`, process.env.VUE_APP_URL)
+        let url = new URL(`/websites/${user_email}`, process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -307,18 +307,18 @@ export default {
                 });
         } catch {
             console.log("There was an error!");
-            return
+            return;
         }
         const responseData = await response.json();
         if (!response.ok) {
-            return
+            return;
         }
-        context.commit("setUserWebsites", responseData.websites)
+        context.commit("setUserWebsites", responseData.websites);
     },
 
     //SPOTIFY API
     async apiForSongInfo(_, payload) {
-        let url = new URL("/spotifyacess", process.env.VUE_APP_URL)
+        let url = new URL("/spotifyacess", process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -334,13 +334,13 @@ export default {
 
         } catch {
             console.log("There was an error!");
-            return false
+            return false;
         }
         const responseData = await response.json();
         if (!response.ok) {
-            return false
+            return false;
         }
-        return responseData
+        return responseData;
     },
     async loadPlaylists(context) {
         let user_email = context.getters.user.email;
@@ -363,10 +363,10 @@ export default {
         }
         if (!response.ok) {
             console.log(response.message);
-            return false
+            return false;
         }
         const responseData = await response.json();
-        context.commit("setPlaylists", responseData.playlists)
+        context.commit("setPlaylists", responseData.playlists);
     },
     async fetchSongPlaylists(context, songId) {
         let user_email = context.getters.user.email;
@@ -387,7 +387,7 @@ export default {
         }
         if (!response.ok) {
             console.log(response.message);
-            return
+            return;
         }
         const responseData = await response.json();
         return responseData.playlists;
@@ -395,7 +395,7 @@ export default {
     async deleteSongFromPlaylist(context, payload) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/playlist/${user_email}`, process.env.VUE_APP_URL);
+        let url = new URL(`/playlist/${user_email}/${payload.playlist_name}`, process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -405,18 +405,18 @@ export default {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + access_token
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({song_id: payload.song_id})
                 });
         } catch(error) {
             console.error(error);
-            return false
+            return false;
         }
-        return response.ok
+        return response.ok;
     },
     async addSongToPlaylist(context, payload) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        let url = new URL(`/playlist/${user_email}`, process.env.VUE_APP_URL);
+        let url = new URL(`/playlist/${user_email}/${payload.playlist_name}`, process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -426,13 +426,13 @@ export default {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + access_token
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({song_id: payload.song_id})
                 });
         } catch(error) {
             // console.error(error);
-            return false
+            return false;
         }
-        return response.ok
+        return response.ok;
     },
     async createPlaylist(context, name) {
         let user_email = context.getters.user.email;
@@ -451,10 +451,33 @@ export default {
                 });
         } catch(error) {
             console.error(error);
-            return
+            return;
         }
-        if(!response.ok) return false
-        context.commit("addPlaylist", name)
-        return true
+        if(!response.ok) return false;
+        context.commit("addPlaylist", name);
+        return true;
+    },
+    async fetchSongsForPlaylist(context, name) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/playlist/${user_email}/${name}`, process.env.VUE_APP_URL);
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                });
+        } catch(error) {
+            console.error(error);
+            return;
+        }
+        if(!response.ok) return false;
+
+        const responseData = await response.json();
+        context.commit("addSongsForPlaylist", responseData.songs);
     }
-}
+};

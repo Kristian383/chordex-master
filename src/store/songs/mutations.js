@@ -178,7 +178,7 @@ export default {
     setActiveFilters(state, payload) {
         state.activeFilters = payload;
     },
-    setActivePlaylist(state, payload) {
-        state.activePlaylist = payload;
+    addSongsForPlaylist(state, payload) {
+        state.activePlaylistSongs = payload;
     }
 };

@@ -19,7 +19,7 @@ const store = createStore({
             songs: [],
             playlists: [],
             activeFilters: ["all"],
-            activePlaylist: [],
+            activePlaylistSongs: [],
             usefulResources: {
                 notes: null,
                 websitesLinks: [],

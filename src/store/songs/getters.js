@@ -71,9 +71,6 @@ export default {
             }
         };
     },
-    getActiveFilters(state) {
-        return state.activeFilters;
-    },
     shouldFilterSong() {
         return (filters, song) => {
             return filters.every(filterOption => {
@@ -89,6 +86,13 @@ export default {
                 return song.difficulty === filterOption;
               });
         };
+    },
+    getSongsFromPlaylist(state) {
+        const activePlaylistSongs = state.activePlaylistSongs; 
+        return state.songs.filter(song =>  activePlaylistSongs.includes(song.songId));
+    },
+    getActiveFilters(state) {
+        return state.activeFilters;
     },
     getSongsByKey(state) {
         const keys = state.musicKeys;
