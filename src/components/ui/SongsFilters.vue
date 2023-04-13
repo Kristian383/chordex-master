@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
 import { useStore } from 'vuex';
 
 const store = useStore(); 
@@ -35,6 +35,13 @@ const filters = reactive({
 function clearFilter() {
   for (const item in filters) filters[item] = false;
 }
+
+onMounted(() => {
+  const activeFilters = store.getters.getActiveFilters;
+  for (const filter in filters) {
+    filters[filter] = activeFilters.includes(filter);
+  }
+});
 
 function setFilter(filter) {
   if (filter === "all") {
