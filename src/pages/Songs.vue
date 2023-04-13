@@ -70,7 +70,7 @@ const showEmptySongsMessage = computed(() => !songsAreLoading.value && AllSongs.
 const AllSongs = computed(() => {
   const queryName = route.query;
   if(queryName?.playlist) {
-    return store.getters.getSongsFromPlaylist;
+    return store.getters.getSongsFromPlaylist(filters.value);
   }
   return store.getters.filterSongs(filters.value, queryName);
 });

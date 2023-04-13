@@ -87,9 +87,12 @@ export default {
               });
         };
     },
-    getSongsFromPlaylist(state) {
-        const activePlaylistSongs = state.activePlaylistSongs; 
-        return state.songs.filter(song =>  activePlaylistSongs.includes(song.songId));
+    getSongsFromPlaylist(state, getters) {
+        return (filters) => {
+            const activePlaylistSongs = state.activePlaylistSongs;
+            if (filters[0] === "all") return state.songs.filter(song => activePlaylistSongs.includes(song.songId));
+            return state.songs.filter(song =>  activePlaylistSongs.includes(song.songId) && getters.shouldFilterSong(filters, song));
+        };
     },
     getActiveFilters(state) {
         return state.activeFilters;
