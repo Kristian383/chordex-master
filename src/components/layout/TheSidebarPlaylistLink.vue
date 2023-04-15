@@ -12,7 +12,12 @@
     </div>
     <ul v-if="isDropdownOpen" class="cx-sidebar-dropdown-list">
       <li v-for="playlist in playlists" :key="playlist" class="cx-dropdown-list-item">
-        <router-link :to="getPlaylistUrl(playlist)">{{ playlist }}</router-link>
+        <router-link 
+          :to="getPlaylistUrl(playlist)"
+          :class="{'active-playlist-link': $route.query?.playlist === playlist}"
+        >
+          {{ playlist }}
+        </router-link>
       </li>
     </ul>
   </li>
@@ -168,6 +173,11 @@ function toggleDropdown() {
         
         &:hover {
           background-color: var(--dark_blue_sidebar);
+        }
+
+        .active-playlist-link {
+          text-decoration: underline;
+          text-underline-offset: 0.3125rem;
         }
       }
     }
