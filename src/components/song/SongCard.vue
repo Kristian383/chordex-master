@@ -1,237 +1,312 @@
 <template>
-  <div class="card" @click="openSongDetail">
+  <div 
+    class="card"
+    tabindex="0"
+    @click.prevent="openSongDetail"
+    @keydown.enter="openSongDetail"
+    @mousedown.middle.prevent="openSongDetail"
+  >
     <div class="card-header">
       <div class="image">
         <img :src="song.imgUrl || imgUrl" alt="Photo" />
       </div>
-
       <div class="icons">
         <div
           class="icon"
-          @click.stop="toggleFavorite"
           :class="{ is_favorite: isFavorite }"
+          tabindex="0"
+          @click.stop="toggleFavorite"
+          @keydown.enter.stop="toggleFavorite"
         >
-          <font-awesome-icon icon="heart"></font-awesome-icon>
+          <font-awesome-icon icon="heart" />
         </div>
-        <div class="icon" id="edit" @click.stop="openEditMode">
-          <font-awesome-icon icon="edit"></font-awesome-icon>
-        </div>
+        <!-- dropdown popper -->
+        <VDropdown
+          :dispose-timeout="1000"
+          :distance="13"
+          :container="containerEl || 'body'"
+        >
+          <div
+            class="icon"
+            tabindex="0"
+            @click.stop
+            @keydown.enter.stop
+          >
+            <font-awesome-icon icon="ellipsis-v" />
+          </div>
+          <template #popper>
+            <ul class="dropdown-popup">
+              <li
+                class="dropdown-popup-item"
+                @keydown.enter="openEditMode"
+                @click="openEditMode"
+              >
+                <font-awesome-icon class="popup-item-icon" icon="edit" />
+                <span>Edit</span>
+              </li>
+              <li class="dropdown-popup-item" @click="$emit('openPlaylistModal', song.songId)">
+                <font-awesome-icon class="popup-item-icon" icon="plus" />
+                <span>Playlist</span>
+              </li>
+              <li class="dropdown-popup-item delete" @click="deleteSong">
+                <font-awesome-icon class="popup-item-icon" icon="trash-alt" />
+                <span>Delete</span>
+              </li>
+            </ul>
+          </template>
+        </VDropdown>
       </div>
     </div>
 
     <div class="card-body">
       <div class="tags">
-        <!-- <span class="tag tag-teal" v-if="song.capo"> Capo</span> -->
-        <span class="tag tag-teal" v-if="song.firstKey">
-          {{ showFirstKey }}</span
-        >
+        <span v-if="song.firstKey" class="tag tag-teal">{{
+          showFirstKey
+        }}</span>
         <span
-          class="tag tag-teal difficulty"
           v-if="song.difficulty"
+          class="tag tag-teal difficulty"
           :class="skillLevelClass"
-          >{{ song.difficulty }}</span
         >
-        <span v-if="!song.capo && !song.difficulty" style="height: 24px"></span>
+          {{ song.difficulty }}
+        </span>
+        <span v-if="!song.capo && !song.difficulty" style="height: 24px" />
       </div>
-      <!-- <div  > -->
       <h3
         class="artist"
-        @click.stop="chooseArtist"
         :aria-label="song.artist"
         :title="song.artist"
+        @click.stop="chooseArtist"
       >
         {{ song.artist }}
       </h3>
-      <!-- </div> -->
       <h4 class="song_name" :aria-label="song.songName" :title="song.songName">
         {{ song.songName }}
       </h4>
-      <div class="info">
-        <div class="history-info">
-          <font-awesome-icon icon="history"></font-awesome-icon>
-          <small>{{ timeSince }}</small>
-        </div>
-        <h5>Learned: {{ practicePercentage }}</h5>
+      <div class="history-info">
+        <font-awesome-icon icon="history" />
+        <small>{{ timeSince }}</small>
       </div>
     </div>
-    <div class="progress" :style="{ width: practicePercentage }"></div>
+    <div class="progress" :style="{ width: practicePercentage }" />
   </div>
 </template>
 
-<script>
-export default {
-  name: "SongCard",
-  props: ["song"],
-  methods: {
-    openSongDetail() {
-      const pushRoute = this.song.isMySong
-        ? `/songs/${this.song.songId}?isMySong=True`
-        : `/songs/${this.song.songId}`;
-      this.$router.push(pushRoute);
-    },
-    toggleFavorite() {
-      this.$store.commit("toggleFavorite", {
-        songId: this.song.songId,
-        isMySong: this.$route.query.isMySong,
-      });
-      this.$store.dispatch("addNewSong", this.song);
-    },
-    openEditMode() {
-      const pushRoute = this.song.isMySong
-        ? `/new/${this.song.songId}?isMySong=True`
-        : `/new/${this.song.songId}`;
-      // this.$router.push("/new/" + this.song.songId);
-      this.$router.push(pushRoute);
-    },
-    chooseArtist() {
-      if (!this.song.isMySong)
-        this.$router.push("/songs?artist=" + this.song.artist);
-    },
-  },
-  computed: {
-    skillLevelClass() {
-      return this.song.difficulty;
-    },
-    practicePercentage() {
-      return this.song.practicedPrcntg + "%";
-    },
-    isFavorite() {
-      return this.song.isFavorite;
-    },
-    barColor() {
-      if (this.song.practicedPrcntg <= 40) return "rgb(194, 42, 42)";
-      else if (
-        this.song.practicedPrcntg > 34 &&
-        this.song.practicedPrcntg <= 80
-      )
-        return "#ff4500";
+<script setup>
+import { computed, defineEmits, defineProps } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useStore } from "vuex";
 
-      return "#69b34c";
-    },
-    timeSince() {
-      const lastViewedDate = +new Date(this.song.lastViewed);
-      var msPerMinute = 60 * 1000;
-      var msPerHour = msPerMinute * 60;
-      var msPerDay = msPerHour * 24;
-      var msPerMonth = msPerDay * 30;
-      var msPerYear = msPerDay * 365;
-      var elapsed = new Date() - lastViewedDate;
+const props = defineProps(["song", "containerEl"]);
+const emits = defineEmits(["openPlaylistModal"]);
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
 
-      if (elapsed < msPerMinute) {
-        return Math.round(elapsed / 1000) + "s ago";
-      } else if (elapsed < msPerHour) {
-        return Math.round(elapsed / msPerMinute) + " min ago";
-      } else if (elapsed < msPerDay) {
-        return Math.round(elapsed / msPerHour) + "h ago";
-      } else if (elapsed < msPerMonth) {
-        return Math.round(elapsed / msPerDay) + "d ago";
-      } else if (elapsed < msPerYear) {
-        return Math.round(elapsed / msPerMonth) + " mon ago";
-      } else {
-        return Math.round(elapsed / msPerYear) + " yrs ago";
-      }
-    },
-    imgUrl() {
-      return require("@/assets/music.png");
-    },
-    showFirstKey() {
-      // console.log(this.song.firstKey);
-      let key = "";
-      if (this.song.firstKey) {
-        key = this.song.firstKey.split(" ");
-        switch (key[1].toLowerCase()) {
-          case "major":
-            key = key[0] + " maj";
-            break;
-          default:
-            key = key[0] + " min";
-        }
-      }
-      return key;
-    },
-  },
-};
+
+const skillLevelClass = computed(() => {
+  return props.song.difficulty;
+});
+
+const practicePercentage = computed(() => {
+  return props.song.practicedPrcntg + "%";
+});
+
+const isFavorite = computed(() => {
+  return props.song.isFavorite;
+});
+
+const imgUrl = computed(() => {
+  return require("@/assets/music.png");
+});
+
+const showFirstKey = computed(() => {
+  let key;
+  if (props.song.firstKey) {
+    key = props.song.firstKey.split(" ");
+    switch (key[1].toLowerCase()) {
+    case "major":
+      key = key[0] + " maj";
+      break;
+    default:
+      key = key[0] + " min";
+    }
+  }
+  return key;
+});
+
+const barColor = computed(() => {
+  if (props.song.practicedPrcntg <= 40) return "rgb(194, 42, 42)";
+  else if (props.song.practicedPrcntg > 34 && props.song.practicedPrcntg <= 80)
+    return "#ff4500";
+
+  return "#69b34c";
+});
+
+const timeSince = computed(() => {
+  const lastViewedDate = +new Date(props.song.lastViewed);
+  var msPerMinute = 60 * 1000;
+  var msPerHour = msPerMinute * 60;
+  var msPerDay = msPerHour * 24;
+  var msPerMonth = msPerDay * 30;
+  var msPerYear = msPerDay * 365;
+  var elapsed = new Date() - lastViewedDate;
+
+  if (elapsed < msPerMinute) {
+    return Math.round(elapsed / 1000) + "s ago";
+  } else if (elapsed < msPerHour) {
+    return Math.round(elapsed / msPerMinute) + " min ago";
+  } else if (elapsed < msPerDay) {
+    return Math.round(elapsed / msPerHour) + "h ago";
+  } else if (elapsed < msPerMonth) {
+    return Math.round(elapsed / msPerDay) + "d ago";
+  } else if (elapsed < msPerYear) {
+    return Math.round(elapsed / msPerMonth) + " mon ago";
+  } else {
+    return Math.round(elapsed / msPerYear) + " yrs ago";
+  }
+});
+
+function openSongDetail(event) {
+  const routePath = props.song.isMySong
+    ? `/songs/${props.song.songId}?isMySong=True`
+    : `/songs/${props.song.songId}`;
+  // Check if the ctrl key is pressed (or cmd key on Mac)
+  if (event.ctrlKey || event.metaKey || event.button === 1) {
+    event.preventDefault();
+    const routeURL = router.resolve(routePath).href;
+    window.open(routeURL, '_blank');
+  } else {
+    router.push(routePath);
+  }
+}
+
+function toggleFavorite() {
+  store.commit("toggleFavorite", {
+    songId: props.song.songId,
+    isMySong: route.query.isMySong,
+  });
+  store.dispatch("addNewSong", props.song);
+}
+
+function openEditMode() {
+  const pushRoute = props.song.isMySong
+    ? `/new/${props.song.songId}?isMySong=True`
+    : `/new/${props.song.songId}`;
+  router.push(pushRoute);
+}
+
+async function deleteSong() {
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${props.song.songName}?\n\nThis song will be removed from the entire app.`);
+  if (!shouldDelete) return;
+
+  const payload = {
+    songName: props.song.songName,
+    artist: props.song.artist,
+    songId: props.song.songId,
+  };
+  await store.dispatch("deleteSong", payload);
+}
+
+function chooseArtist() {
+  if (!props.song.isMySong) router.push("/songs?artist=" + encodeURIComponent(props.song.artist));
+}
+
+// PLAYLISTS - todo: 
+// const playlistMap = reactive(new Map());
+
+// async function fetchPlaylistsOfSong() {
+//   const playlistsOfSong = await store.dispatch("fetchSongPlaylists", props.song.songId);
+//   // mappedPlaylists.value = props.playlists.map({ name: element, checked: playlistsOfSong.includes(element) });
+//   store.getters.getPlaylists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)))
+// }
+// const emitPlaylistData = reactive({
+//   songId: props.song.songId,
+//   playlistMap: playlistMap.value
+// })
+
+// }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
   background-color: var(--white);
-  border-radius: 2px;
+  border-radius: 0.125rem;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   overflow: hidden;
-  width: 180px;
+  width: 11.25rem;
   position: relative;
-  height: 260px;
+  height: 15rem;
   color: var(--font_black);
   transition: 0.3s ease-in all;
   cursor: pointer;
-}
-.card:focus {
-  outline: none;
-}
-.card:hover {
-  transform: rotateZ(-1deg) scale(1.04);
-}
-.card-header img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.image {
-  width: 100%;
-  height: 100px;
-  text-align: center;
-}
 
-.progress {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-.progress:before {
-  animation: slideIn 2s ease-out;
-  background-color: v-bind(barColor);
-  bottom: 0;
-  left: 0;
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 6px;
-  border-radius: 0 0 2px 2px;
-}
-/*  ikonice*/
-.icons {
-  display: flex;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  justify-content: space-between;
-  padding: 4px;
-  z-index: 14;
-}
-.icons .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-color: var(--white);
-  transition: all 0.5s ease;
-}
+  &:hover {
+    transform: rotateZ(-1deg) scale(1.04);
+  }
 
-@media (min-width: 720px) {
-  .icons .icon:hover {
-    background-color: #303030;
-    color: var(--white);
+  .card-header {
+    .image {
+      width: 100%;
+      height: 6.25rem;
+      text-align: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .icons {
+      display: flex;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      justify-content: space-between;
+      padding: 0.25rem;
+      z-index: 14;
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.125rem;
+        height: 2.125rem;
+        border-radius: 50%;
+        background-color: var(--white);
+        transition: all 0.5s ease;
+
+        @media (min-width: 720px) {
+          &:hover {
+            background-color: #303030;
+            color: var(--white);
+          }
+        }
+      }
+    } 
+  }
+
+  .progress {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    &:before {
+      animation: slideIn 2s ease-out;
+      background-color: v-bind(barColor);
+      bottom: 0;
+      left: 0;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0.375rem;
+      border-radius: 0 0 2px 2px;
+    }
   }
 }
-.favorite,
-.edit {
-  height: 15px;
-  width: auto;
-}
+
 .is_favorite {
   color: var(--burgundy);
 }
@@ -241,23 +316,21 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 8px 13px 13px 13px;
-  gap: 10px;
+  padding: 0.5rem 0.75rem 0 0.75rem;
+  gap: 0.625rem;
   width: 100%;
 }
 
 .tags {
   display: flex;
-  gap: 4px;
+  gap: 0.25rem;
 }
 .tag {
-  border-radius: 50px;
-  font-size: 12px;
+  border-radius: 1.25rem;
+  font-size: 0.75rem;
   margin: 0;
   color: var(--white);
-  padding: 4px 10px;
-  /* text-transform: uppercase; */
-  /* text-transform: capitalize; */
+  padding: 0.25rem 0.625rem;
   cursor: pointer;
 }
 .tag-teal {
@@ -279,37 +352,22 @@ export default {
 .song_name {
   text-transform: capitalize;
   z-index: 35;
-  /* overflow: hidden; */
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  /* white-space: normal; */
-  /* display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; */
   width: 100%;
 }
-/*  */
 
 .artist:hover {
   color: var(--burgundy);
 }
 
-.info {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 8px;
-}
 .history-info {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
+  font-size: 0.9375rem;
+  margin-top: 0.5rem;
 }
 </style>

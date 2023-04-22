@@ -1,9 +1,9 @@
 <template>
   <base-card>
     <section>
-      <h2 class="title-metronome">
+      <!-- <h2 class="title-metronome">
         Metronome and Tap Tempo / Beats Per Minute
-      </h2>
+      </h2> -->
 
       <div class="metronome-view">
         <!-- :class="{ 'reduce-width': sidebarIsActive && isDesktop }" -->
@@ -68,13 +68,11 @@
 </template>
 
 <script>
-// import BaseCard from "../components/ui/BaseCard.vue";
 import TheMetronome from "../components/ui/TheMetronome.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: {
-    // BaseCard,
     TheMetronome,
   },
   setup() {

@@ -1,159 +1,120 @@
 <template>
   <div class="grid-2">
     <div class="select-box">
-      <div class="options-container" :class="{ active: chooseKeyIsActive }">
+      <div class="options-container" :class="{ active: dropdownIsOpen }">
         <div
+          v-for="songKey in allMusicKeys"
+          :key="keyNumber + songKey.key"
           class="option"
-          v-for="songKey in songKeysWithUniqueId"
-          :key="songKey.id"
-          :name="name"
-          @click="chooseKey(songKey)"
+          :name="keyNumber"
+          @click="setKey(songKey)"
         >
-          <input type="radio" id="songKey.key" class="radio" name="category" />
-          <label :for="songKey.key">{{ songKey.key }}</label>
+          <input
+            :id="keyNumber + songKey.key" 
+            type="radio" 
+            class="radio"
+            name="category"
+          />
+          <label :for="keyNumber + songKey.key">{{ songKey.key }}</label>
         </div>
       </div>
-      <div class="selected" @click="toggleChoose">
-        <span v-if="name == 'secondKey'">Change:</span>
-        <span v-else>Key:</span>
-        {{ selectedKey }}
+      <div class="selected" @click="toggleDropdown">
+        <span>Key{{ keyNumber === 'secondKey' ? ' 2' : null }}: {{ selectedKey }}</span>
       </div>
     </div>
-    <div class="qualities" v-if="selectedKey">
+    <div v-if="showQualities" class="qualities">
       <input
+        :id="keyNumber + 'major'"
         value="major"
         type="radio"
-        :name="name"
-        :id="qualities.major"
-        v-model="selectedQuality"
-      /><label :for="qualities.major" @click="chooseQualityKey('major')"
-        >Maj
+        :name="keyNumber"
+        :checked="selectedQuality === 'major'"
+      />
+      <label :for="keyNumber + 'major'" @click="setKeyWithQuality('major')">
+        Maj
       </label>
       <input
+        :id="keyNumber + 'minor'"
         type="radio"
-        :name="name"
-        :id="qualities.minor"
+        :name="keyNumber"
         value="minor"
-        v-model="selectedQuality"
-      /><label :for="qualities.minor" @click="chooseQualityKey('minor')"
-        >Min</label
-      >
+        :checked="selectedQuality === 'minor'"
+      />
+      <label :for="keyNumber + 'minor'" @click="setKeyWithQuality('minor')">
+        Min
+      </label>
     </div>
   </div>
+  <span style="margin-top:auto">{{ keyNotes }}</span>
 </template>
 
-<script>
-export default {
-  props: ["name", "spotifyKey"],
-  emits: ["keySelected"],
-  data() {
-    return {
-      selectedKey: null,
-      chooseKeyIsActive: false,
-      qualities: {
-        major: Math.random().toString(36).substring(2),
-        minor: Math.random().toString(36).substring(2),
-      },
-      selectedQuality: null,
-      payload: {
-        notes: [],
-        key: "",
-        name: "",
-      },
-    };
-  },
-  methods: {
-    toggleChoose() {
-      this.chooseKeyIsActive = !this.chooseKeyIsActive;
-    },
-    chooseKey(selected) {
-      this.selectedKey = selected.key;
-      this.chooseKeyIsActive = false;
-      this.selectedQuality = null;
-      // this.$emit("keySelected", false);
+<script setup>
+import { ref, computed, defineProps, defineEmits, watch } from "vue";
+import { useStore} from "vuex";
 
-    },
-    chooseQualityKey(quality) {
-      if (!this.selectedKey) {
-        return;
-      }
+const store = useStore();
+const props = defineProps( ["keyNumber", "musicKey", "keyNotes"]); // 
+const emit = defineEmits(["keySelected"]);
 
-      let notes = this.$store.getters.getMusicKeys;
-      try {
-        if (quality == "major") {
-          notes = notes.filter((key) => key.key == this.selectedKey)[0].notes;
-        } else {
-          notes = notes.filter((key) => {
-            if (this.selectedKey == "Db") {
-              return key.relativeMinor == "C#";
-            } else if (this.selectedKey == "Gb") {
-              return key.relativeMinor == "F#";
-            } else if (this.selectedKey == "Cb") {
-              return key.relativeMinor == "G#";
-            } else {
-              return key.relativeMinor == this.selectedKey;
-            }
-          })[0].notes;
-        }
-      } catch {
-        return;
-      }
+const dropdownIsOpen = ref(false);
+const showQualities = ref(false);
+const selectedKey = ref(null);
+const selectedQuality = ref(null);
 
-      this.payload.notes = notes.map((el) => el).join(" ");
-      this.payload.name = this.name;
-      this.payload.key = this.selectedKey + " " + quality;
+const allMusicKeys = computed(() => {
+  return store.getters.getMusicKeys;
+});
 
-      this.$emit("keySelected", this.payload);
-    },
-  },
-  computed: {
-    songKeysWithUniqueId() {
-      const songKeysCopy = this.$store.getters.getMusicKeys.map((el) => el);
+function toggleDropdown() {
+  dropdownIsOpen.value = !dropdownIsOpen.value;
+}
 
-      return songKeysCopy;
-    },
-  },
-  watch: {
-    spotifyKey: function () {
-      if (this.spotifyKey) {
-        const payload = {
-          key: this.spotifyKey.split(" ")[0],
-          quality: this.spotifyKey.split(" ")[1],
-        };
-        // console.log(this.spotifyKey);
-        let exceptions = ["A#", "D#", "G#", "C#", "F#"];
-        let index = exceptions.indexOf(payload.key);
+function setKey(data) {
+  selectedKey.value = data.key;
+  showQualities.value = true;
+  toggleDropdown();
+  if (selectedQuality.value) {
+    callEmit();
+  }
+}
 
-        if (payload.quality == "major" && index != -1) {
-          let translated_eceptions = ["Bb", "Eb", "Ab", "Db", "Gb"];
-          payload.key = translated_eceptions[index];
-        }
-        this.selectedQuality = payload.quality;
-        this.chooseKey(payload);
-        this.chooseQualityKey(payload.quality);
-      }
-    },
-  },
-};
+function setKeyWithQuality(quality) {
+  selectedQuality.value = quality;
+  callEmit();
+}
+
+function callEmit() {
+  const newKey = selectedKey.value + ' ' + selectedQuality.value;
+  emit('keySelected', { keyWithQuality: newKey, keyNumber: props.keyNumber});
+}
+
+watch(
+  () => props.musicKey,
+  (newsongKey) => {
+    if(newsongKey) {
+      [selectedKey.value, selectedQuality.value] = props.musicKey.split(' ');
+      showQualities.value = true;
+    }
+  }
+);
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
 }
-
 .qualities {
   display: flex;
   flex-direction: row;
   gap: 4px;
+  align-items: end;
 }
-
 .qualities input[type="checkbox"],
 .qualities input[type="radio"] {
   display: none;
 }
-
 .qualities input[type="checkbox"] + label,
 .qualities input[type="radio"] + label {
   transition: all 500ms ease;
@@ -182,7 +143,7 @@ export default {
 /*  */
 .select-box {
   display: flex;
-  width: 150px;
+  width: 10.875rem;
   flex-direction: column;
   position: relative;
   z-index: 20;
@@ -233,16 +194,6 @@ export default {
 .select-box .options-container.active + .selected:before {
   top: 18px;
   transform: rotate(-225deg);
-}
-.select-box .options-container::-webkit-scrollbar {
-  width: 8px;
-  background: #ccc;
-  border-radius: 0 8px 8px 0;
-}
-
-.select-box .options-container::-webkit-scrollbar-thumb {
-  background: #292828;
-  border-radius: 0 8px 8px 0;
 }
 .select-box .option,
 .selected {

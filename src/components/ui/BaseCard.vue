@@ -4,155 +4,130 @@
     :class="{ expand_home_section: sidebarIsActive && isDesktop }"
   >
     <nav v-if="!isMetronomeView">
-      <the-search></the-search>
+      <the-search />
       <div class="filter_categories">
-        <slot name="filters"></slot>
+        <slot name="filters" />
       </div>
     </nav>
-    <div
-      class="home-content"
-      :class="{ reduce_content_padding: isMetronomeView }"
-    >
-      <div class="sort-section-title">
+    <div class="home-content" :class="{ reduce_content_padding: isMetronomeView }">
+      <!-- TODO: add slot here and move this logic in songdetail -->
+      <div :style="{ justifyContent: $route.path !== '/songs' ? 'space-around' : 'space-between' }" class="sort-section-title">
+        <slot name="playlist_name_edit" />
         <div class="title">
           <span
+            v-if="showArrows == 'both' || showArrows == 'prev'"
             class="arrow-left"
             @click="goToSong('prev')"
-            v-if="showArrows == 'both' || showArrows == 'prev'"
-            ><font-awesome-icon icon="angle-left"></font-awesome-icon
-          ></span>
-          <span class="title-text">{{ Title }}</span>
+          >
+            <font-awesome-icon icon="angle-left" />
+          </span>
+          <span class="title-text">{{ getTitle }}</span>
           <span
+            v-if="showArrows == 'both' || showArrows == 'next'"
             class="arrow-right"
             @click="goToSong('next')"
-            v-if="showArrows == 'both' || showArrows == 'next'"
-            ><font-awesome-icon icon="angle-right"></font-awesome-icon
-          ></span>
+          >
+            <font-awesome-icon icon="angle-right" />
+          </span>
         </div>
-        <slot name="select_box"></slot>
+        <slot name="sort_select_box" />
       </div>
-      <slot></slot>
-      <scroll-up :class="{ show: showBackToTop }"></scroll-up>
+      <slot />
+      <scroll-up :class="{ show: showBackToTop }" />
     </div>
   </section>
 </template>
 
-<script>
-// import { onClickOutside } from "@vueuse/core";
-import TheSearch from "./../ui/TheSearch.vue";
-import ScrollUp from "./ScrollUp.vue";
-export default {
-  components: {
-    TheSearch,
-    ScrollUp,
-  },
-  data() {
-    return {
-      title: "",
-      showBackToTop: false,
-      showLeft: false,
-      showRight: false,
-      query: null,
-    };
-  },
-  computed: {
-    sidebarIsActive() {
-      return this.$store.getters.sidebarIsActive;
-    },
-    Title() {
-      const route = this.$route.name;
-      let artist = this.$route.query.artist;
-      if (route == "SongDetail") {
-        return this.$store.getters.getSongDetailTitle;
-      } else if (artist) {
-        return "Songs by: " + artist;
-      } else if (route == "Songs") {
-        return "All Songs";
-      } else if (route == "Artists") {
-        return "All Artists";
-      }
-      return route;
-    },
-    showArrows() {
-      if (this.$route.name == "SongDetail") {
-        let index = this.$store.getters.indexOfCurrentSong({
-          id: this.$route.params.songId,
-          query: this.query,
-        });
+<script setup>
+import { ref, computed, onMounted, onBeforeUnmount, defineAsyncComponent } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
 
-        let lenAll;
-        if (this.query) {
-          lenAll = this.$store.getters.getAllMySongsLen;
-        } else {
-          lenAll = this.$store.getters.getAllSongsLen;
-        }
-        if (index == 0 && lenAll == 1) {
-          return false;
-        } else if (index == 0) {
-          return "next";
-        }
-        if (index == lenAll - 1) {
-          return "prev";
-        } else {
-          return "both";
-        }
-      }
-      return false;
-    },
-    isDesktop() {
-      return !this.$store.getters.isMobile;
-    },
-    isMetronomeView() {
-      return this.$route.path == "/metronome" ? true : false;
-    },
-  },
-  methods: {
-    showButtonUp() {
-      if (window.scrollY > 800) {
-        this.showBackToTop = true;
-      } else if (window.scrollY < 800) {
-        this.showBackToTop = false;
-      }
-    },
-    goToSong(direction) {
-      let currentSongIndex = this.$store.getters.indexOfCurrentSong({
-        id: this.$route.params.songId,
-        query: this.query,
-      });
-      let index;
-      if (direction == "next") {
-        index = currentSongIndex + 1;
-      } else {
-        index = currentSongIndex - 1;
-      }
-      let songId;
-      if (this.query) {
-        songId = this.$store.getters.getAllMySongs[index].songId;
-      } else {
-        songId = this.$store.getters.getAllSongs[index].songId;
-      }
+const TheSearch = defineAsyncComponent(() => import('./../ui/TheSearch.vue'));
 
-      let pushRoute = this.query
-        ? `/songs/${songId}?isMySong=True`
-        : `/songs/${songId}`;
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const showBackToTop = ref(false);
 
-      this.$router.push(pushRoute);
-    },
-  },
+const sidebarIsActive = computed(() => {
+  return store.getters.sidebarIsActive;
+});
 
-  mounted() {
-    window.addEventListener("scroll", this.showButtonUp);
-  },
-  beforeUnmount() {
-    window.removeEventListener("scroll", this.showButtonUp);
-  },
-  beforeMount() {
-    this.query = this.$route.query.isMySong;
-  },
+const isDesktop = computed(() => {
+  return !store.getters.isMobile;
+});
+
+const isMetronomeView = computed(() => {
+  return route.path == "/metronome" ? true : false;
+});
+
+const getTitle = computed(() => {
+  const { name, query } = route;
+
+  if (name === "SongDetail") {
+    return store.getters.getSongDetailTitle;
+  }
+
+  if (query?.artist) {
+    return `Songs by: ${query?.artist}`;
+  }
+
+  if(query?.playlist) return;
+
+  return name;
+});
+
+const hasQuery2 = computed(() => {
+  return Object.keys(route.query).length > 0;
+});
+
+const indexOfCurrentSong = computed(() => {
+  return store.getters.indexOfCurrentSong({ id: route.params.songId, query: Object.keys(route.query).length > 0 });
+});
+
+const showArrows = computed(() => {
+  if (route.name !== "SongDetail") return false;
+
+  const index = indexOfCurrentSong.value;
+
+  const lenAll = hasQuery2.value ? store.getters.getAllMySongsLen : store.getters.getAllSongsLen;
+
+  if (index === 0) {
+    return lenAll === 1 ? false : "next";
+  } else if (index === lenAll - 1) {
+    return "prev";
+  } else {
+    return "both";
+  }
+});
+
+function showButtonUp() {
+  if (window.scrollY > 800) {
+    showBackToTop.value = true;
+  } else if (window.scrollY < 800) {
+    showBackToTop.value = false;
+  }
 };
+
+function goToSong(direction) {
+  const currentSongIndex = indexOfCurrentSong.value;
+  const goToIndex = direction === "next" ? currentSongIndex + 1 : currentSongIndex - 1; 
+  const goToSongId = hasQuery2.value ? store.getters.getAllMySongs[goToIndex].songId : store.getters.getAllSongs[goToIndex].songId;
+  const pushRoute = hasQuery2.value ? `/songs/${goToSongId}?isMySong=True` : `/songs/${goToSongId}`;
+  router.push(pushRoute);
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", showButtonUp);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", showButtonUp);
+});
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home-section {
   position: relative;
   background: var(--white);
@@ -163,46 +138,46 @@ export default {
 .home-section nav {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
   background: var(--white);
   align-items: center;
   position: fixed;
   width: 100%;
   z-index: 40;
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   transition: all 0.5s ease-in-out;
 }
 .expand_home_section {
-  left: 240px;
-  width: calc(100% - 240px);
+  left: 15rem;
+  width: calc(100% - 15rem);
 }
 .expand_home_section nav {
-  left: 240px;
-  width: calc(100% - 240px);
+  left: 15rem;
+  width: calc(100% - 15rem);
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 87.5rem) {
   .home-section nav {
     flex-direction: row;
-    height: 80px;
+    height: 5rem;
     justify-content: center;
   }
 }
 
 .filter_categories {
-  min-width: 250px;
-  max-width: 800px;
+  min-width: 15.625rem;
+  max-width: 50rem;
   display: flex;
   width: 100%;
   order: 2;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0 20px;
-  gap: 4px;
+  padding: 0 1.25rem;
+  gap: 0.25rem;
 }
-@media (min-width: 1400px) {
+@media (min-width: 87.5rem) {
   .filter_categories {
     order: 0;
   }
@@ -214,34 +189,38 @@ export default {
 /* Content under header */
 .home-section .home-content {
   position: relative;
-  padding: 140px 15px 15px 15px;
+  padding: 8.75rem 1rem 1rem 1rem;
   margin: 0 auto;
   background-color: var(--white);
   height: 100%;
-  max-width: 1700px;
+  max-width: 106.25rem;
 }
 @media (min-width: 1400px) {
   .home-section .home-content {
-    padding: 110px 15px 15px 15px;
+    padding: 6rem 1rem 1rem 1rem;
   }
 }
 .home-content.reduce_content_padding {
-  padding: 15px;
+  padding: 1rem;
 }
 
 /*  */
 .sort-section-title {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 8px;
+  gap: 0.875rem;
+  margin-bottom: 0.5rem;
   color: var(--font_black);
+  align-items: center;
+  padding: 0 2rem;
+  
+  @media (min-width: 90rem) {
+    padding-left: 2.5rem;
+  }
 }
 .sort-section-title .title {
   flex-shrink: 0; /*  this doesnt remove arrows down */
-  padding-top: 8px;
-  font-size: 21px;
+  font-size: 1.3125rem;
   font-weight: 600;
 }
 
@@ -249,7 +228,7 @@ export default {
 .arrow-right,
 .arrow-left {
   display: inline-block;
-  width: 50px;
+  width: 3.125rem;
   text-align: center;
   color: var(--burgundy);
   transition: all ease-in 0.3s;
@@ -258,14 +237,5 @@ export default {
 .arrow-left:hover {
   cursor: pointer;
   color: #222;
-}
-
-/* list of all songs - song-cards  */
-.home-section .song-cards {
-  padding-top: 20px;
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(auto-fill, 180px);
-  justify-content: center;
 }
 </style>

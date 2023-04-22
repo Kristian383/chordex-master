@@ -5,11 +5,11 @@
       <div class="form-group">
         <label for="email">Email address*</label>
         <input
+          id="email"
+          v-model.trim="email.val"
           type="email"
           name="email"
-          id="email"
           required
-          v-model.trim="email.val"
           class="form-element"
           placeholder="user@gmail.com"
           :class="{ 'error-msg': !email.isValid }"
@@ -19,19 +19,19 @@
       <div class="form-group full">
         <label for="message">Message:</label>
         <textarea
-          name="message"
           id="message"
           v-model.trim="message.val"
+          name="message"
           class="form-element"
           placeholder="Write me"
           rows="10"
-          @focus="clearValidity('message')"
           :class="{ 'error-msg': !message.isValid }"
+          @focus="clearValidity('message')"
         ></textarea>
       </div>
       <re-captcha @recaptcha-check="setReCaptchaValidity"></re-captcha>
       <!--  -->
-      <button @click.prevent="submitForm" :disabled="isSending" class="btn">
+      <button :disabled="isSending" class="btn" @click.prevent="submitForm">
         Send
       </button>
       <!-- -->
@@ -45,12 +45,10 @@
 </template>
 
 <script>
-import TheLoader from "./../TheLoader.vue";
 import ReCaptcha from "./ReCaptcha.vue";
 
 export default {
   components: {
-    TheLoader,
     ReCaptcha,
   },
   data() {

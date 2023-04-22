@@ -1,89 +1,197 @@
 <template>
   <base-card>
-    <template v-slot:filters>
-      <filters @filters-changed="setFilters"></filters>
+    <template #filters>
+      <songs-filters />
     </template>
-    <template v-slot:select_box>
-      <sort-by @changeSort="sortSongs" :options="sortOptions"></sort-by>
+    <template v-if="playlistQueryName" #playlist_name_edit>
+      <div v-if="!playlistNameEdit" class="playlist-name-container">
+        <VDropdown
+          :distance="8"
+          :dispose-timeout="1000"
+          :container="getContainer"
+        >
+          <span
+            tabindex="0"
+            class="edit-icon"
+            @click.stop
+            @keydown.enter.stop
+          >
+            <font-awesome-icon icon="cog" />
+          </span>
+          <template #popper>
+            <ul class="dropdown-popup">
+              <li
+                class="dropdown-popup-item"
+                tabindex="0"
+                @keydown.enter="openPlaylistEdit"
+                @click="openPlaylistEdit"
+              >
+                <font-awesome-icon class="popup-item-icon" icon="pen" />
+                <span>Edit title</span>
+              </li>
+              <li class="dropdown-popup-item delete" @click="deletePlaylist">
+                <font-awesome-icon class="popup-item-icon" icon="trash-alt" />
+                <span>Delete</span>
+              </li>
+            </ul>
+          </template>
+        </VDropdown>
+        <h2 class="playlist-title">{{ playlistQueryName }}</h2>
+      </div>
+      <add-playlist-input
+        v-else 
+        :playlist="playlistQueryName" 
+        :playlists="getPlaylists" 
+        @cancel-edit="closePlaylistEdit"
+      />
     </template>
-    <!-- songg list -->
-    <div class="song-cards">
+    <template #sort_select_box>
+      <sort-by :options="sortOptions" @changeSort="sortSongs" />
+    </template>
+    <div v-if="AllSongs.length" class="song-cards">
       <song-card
         v-for="song in AllSongs"
         :key="song.songId"
         :song="song"
-      ></song-card>
+        :container-el="getContainer"
+        @open-playlist-modal="openPlaylistModal"
+      />
     </div>
-    <!-- loader -->
-    <the-loader v-if="songsLoading"></the-loader>
+    <the-loader v-if="songsAreLoading" />
+    <div 
+      v-else-if="showEmptySongsMessage" 
+      class="empty-songs"
+    >
+      Playlist <b>{{ playlistQueryName }}</b> is empty.
+    </div>
+    <add-to-playlist-modal
+      v-if="openModal"
+      :playlists="getPlaylists"
+      :song-id="songId"
+      @close-modal="closePlaylistModal"
+    />
   </base-card>
 </template>
 
-<script>
-import Filters from "../components/ui/Filters.vue";
+<script setup>
+import SongsFilters from "../components/ui/SongsFilters.vue";
 import SongCard from "./../components/song/SongCard.vue";
-// import BaseCard from "../components/ui/BaseCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
-import TheLoader from "../components/ui/TheLoader.vue";
-export default {
-  components: {
-    Filters,
-    SongCard,
-    // BaseCard,
-    SortBy,
-    TheLoader,
-  },
-  data() {
-    return {
-      loading: true,
-      filters: [],
-    };
-  },
-  computed: {
-    songsLoading() {
-      return this.$store.getters.songsLoading;
-    },
-    AllSongs() {
-      return this.filterSongs();
-    },
-    sortOptions() {
-      return [
-        "Last added",
-        "Oldest",
-        "Best learned",
-        "Least learned",
-        // "Keys",
-        "A-Z",
-        "Z-A",
-      ];
-    },
-  },
-  methods: {
-    setLoader() {
-      this.loading = false;
-    },
-    filterSongs() {
-      return this.$store.getters.filterSongs(this.filters, this.$route.query);
-    },
-    setFilters(filters) {
-      this.filters = filters;
-    },
-    sortSongs(option) {
-      this.$store.commit("sortSongs", option);
-    },
-  },
-};
+import { ref, computed, defineAsyncComponent, watch, onBeforeUnmount } from "vue";
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+
+const AddToPlaylistModal = defineAsyncComponent(() => import('../components/playlist/AddToPlaylistModal.vue'));
+const AddPlaylistInput = defineAsyncComponent(() => import('../components/playlist/AddPlaylistInput.vue'));
+
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+const filters = computed(() => store.getters.getActiveFilters);
+const playlistQueryName = computed(() => route.query?.playlist);
+const songId = ref(null);
+const openModal = ref(false);
+const playlistNameEdit = ref(false);
+
+function sortSongs(option) {
+  store.commit("sortSongs", option);
+}
+
+function openPlaylistModal(id) {
+  songId.value = id;
+  openModal.value = true;
+}
+
+function closePlaylistModal() {
+  openModal.value = false;
+}
+
+function closePlaylistEdit() {
+  playlistNameEdit.value = false;
+}
+function openPlaylistEdit() {
+  playlistNameEdit.value = true;
+}
+
+const sortOptions = computed(() => ["Last added", "Oldest", "Best learned", "Least learned", "A-Z", "Z-A"]);
+const getContainer = computed(() => document.getElementById('app'));
+const getPlaylists = computed(() => store.getters.getPlaylists);
+const songsAreLoading = computed(() => store.getters.songsLoading);
+const showEmptySongsMessage = computed(() => !songsAreLoading.value && AllSongs.value.length === 0);
+
+const AllSongs = computed(() => {
+  const queryName = route.query;
+  //TODO: set loader here?
+  if(queryName?.playlist) {
+    return store.getters.getSongsFromPlaylist(filters.value);
+  }
+  return store.getters.filterSongs(filters.value, queryName);
+});
+
+const unwatch = watch(() => route.query?.playlist, async (newVal) => {
+  if (newVal) {
+    closePlaylistEdit();
+    await store.dispatch("fetchSongsForPlaylist", route.query?.playlist);
+  } 
+}, {immediate: true});
+onBeforeUnmount(unwatch);
+
+async function deletePlaylist() {
+  if (!playlistQueryName.value) return;
+  if(window.confirm(`Are you sure you want to DELETE the playlist "${playlistQueryName.value}"?\n\nSongs from playlist will NOT be removed from your account.`)) {
+    store.commit("setLoader");
+    const response = await store.dispatch("deletePlaylist", playlistQueryName.value);
+    store.commit("removeLoader");
+    if(!response) window.alert("Something went wrong upon deleteing a playlist. Please refresh.");
+    else router.push("/songs");
+  }
+}
+
 </script>
 
-<style scoped>
-/*  */
+<style lang="scss" scoped>
 .song-cards {
-  padding-top: 10px;
-  max-width: 1700px;
+  padding-top: 0.625rem;
+  max-width: 106.25rem;
   margin: auto;
   display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(auto-fill, 180px);
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, 11.25rem);
   justify-content: center;
+}
+
+.empty-songs {
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.playlist-name-container {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+
+  .playlist-title {
+    max-width: 18rem;
+    @include ellipsis-text;
+
+    @media (min-width: 62rem) {
+      max-width: 35rem;
+    }
+  }
+
+  .edit-icon {
+    cursor: pointer;
+    padding: 0.5rem;
+    background-color: var(--f1_gray);
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+      background-color: var(--chips_gray);
+    }
+  }
 }
 </style>

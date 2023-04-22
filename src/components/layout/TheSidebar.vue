@@ -1,127 +1,18 @@
 <template>
-  <div class="hamburger" @click="toggleSidebar" v-if="isAuthenticated">
-    <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
+  <div v-if="isAuthenticated" class="hamburger" @click="toggleSidebar">
+    <font-awesome-icon id="btn" icon="bars" />
   </div>
   <transition name="fade">
-    <div class="sidebar" v-if="sidebarIsActive">
-      <!-- :class="{ desktop: !isMobile }" -->
+    <aside v-if="sidebarIsActive" class="sidebar">
       <ul class="nav_list">
-        <li>
-          <router-link
-            to="/profile"
-            v-bind:class="{ active_item: $route.path == '/profile' }"
-          >
-            <font-awesome-icon id="ikona" icon="user-alt"></font-awesome-icon>
-            <span class="links_name">Account</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/songs"
-            v-bind:class="{
-              active_item:
-                $route.path == '/songs' && $route.query.isMySong != 'True',
-            }"
-          >
-            <font-awesome-icon id="ikona" icon="music"></font-awesome-icon>
-            <span class="links_name">Songs</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/artists"
-            v-bind:class="{ active_item: $route.path == '/artists' }"
-          >
-            <img id="ikona" class="artist-icon" src="@/assets/mic.svg" alt="" />
-            <span class="links_name">Artists</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/song-keys"
-            v-bind:class="{ active_item: $route.path == '/song-keys' }"
-          >
-            <font-awesome-icon id="ikona" icon="list-ul"></font-awesome-icon>
-
-            <span class="links_name">Songs by Key</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/new"
-            v-bind:class="{ active_item: $route.path == '/new' }"
-          >
-            <font-awesome-icon
-              id="ikona"
-              class="new_song"
-              icon="plus-square"
-            ></font-awesome-icon>
-            <span class="links_name">Add New Song</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/songs?isMySong=True"
-            v-bind:class="{ active_item: $route.query.isMySong == 'True' }"
-          >
-            <font-awesome-icon
-              id="ikona"
-              icon="clipboard-list"
-            ></font-awesome-icon>
-            <span class="links_name">My Songs</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/find-key"
-            v-bind:class="{ active_item: $route.path == '/find-key' }"
-          >
-            <font-awesome-icon
-              id="ikona"
-              icon="question-circle"
-            ></font-awesome-icon>
-            <span class="links_name">Keys & Notes</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/resources"
-            v-bind:class="{ active_item: $route.path == '/resources' }"
-          >
-            <font-awesome-icon
-              id="ikona"
-              icon="sticky-note"
-            ></font-awesome-icon>
-            <span class="links_name">Websites </span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            to="/metronome"
-            v-bind:class="{ active_item: $route.path == '/metronome' }"
-          >
-            <font-awesome-icon id="ikona" icon="drum"></font-awesome-icon>
-            <span class="links_name">Metronome </span>
-          </router-link>
-        </li>
-        <li @click="logOutUser">
-          <router-link to="/home">
-            <font-awesome-icon
-              id="ikona"
-              icon="sign-out-alt"
-            ></font-awesome-icon>
-            <span class="links_name">Logout </span>
-          </router-link>
-        </li>
-
+        <the-sidebar-playlist-link
+          v-for="sidebarLink in sidebarLinks"
+          :key="sidebarLink.label"
+          v-bind="sidebarLink"
+          :is-active="$route.fullPath === `/${sidebarLink.routeName}`"
+          :playlists="getPlaylists"
+          @log-out="logOutUser"
+        />
         <!-- <li>
           <div class="toggle-mode">
             <input
@@ -145,68 +36,111 @@
             <img src="@/assets/guitar.svg" alt="" />
             <div class="name">{{ getUserData.username }}</div>
           </div>
-          <!-- <font-awesome-icon
-            id="logout"
-            icon="sign-out-alt"
-            @click="logOutUser"
-          ></font-awesome-icon> -->
         </div>
       </div>
-    </div>
+    </aside>
   </transition>
 </template>
 
-<script>
-import { dom } from "@fortawesome/fontawesome-svg-core";
+<script setup>
+import TheSidebarPlaylistLink from "./TheSidebarPlaylistLink.vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
 
-export default {
-  data() {
-    return {};
+import { dom } from "@fortawesome/fontawesome-svg-core";
+dom.watch();
+
+const sidebarLinks = [
+  {
+    label: "Account",
+    routeName: "profile",
+    iconName: "user-alt",
   },
-  methods: {
-    toggleSidebar() {
-      this.$store.commit("toggleSidebar");
-    },
-    toggleDarkMode() {
-      console.log("toggleDarkMode");
-      this.$store.commit("toggleDarkMode");
-    },
-    closeSidebar() {
-      this.$store.commit("removeSidebar");
-    },
-    logOutUser() {
-      this.$store.dispatch("logout");
-      this.$store.commit("removeSidebar");
-      // if (this.sidebarIsActive) {
-      // }
-    },
+  {
+    label: "Songs",
+    routeName: "songs",
+    iconName: "music",
   },
-  created() {
-    dom.watch();
+  {
+    label: "Artists",
+    routeName: "artists",
+    iconName: "users",
   },
-  computed: {
-    isAuthenticated() {
-      return this.$store.getters.token;
-    },
-    sidebarIsActive() {
-      return this.$store.getters.sidebarIsActive;
-    },
-    getUserData() {
-      return this.$store.getters.user;
-    },
-    isMobile() {
-      return this.$store.getters.isMobile;
-    },
+  {
+    label: "Songs by Key",
+    routeName: "song-keys",
+    iconName: "sort-amount-down-alt",
   },
-};
+  {
+    label: "My Playlists",
+    routeName: "playlists",
+    iconName: "list-ul",
+    isDropdown: true
+  },
+  {
+    label: "Add New Song",
+    routeName: "new",
+    iconName: "plus-square",
+  },
+  {
+    label: "My Songs",
+    routeName: "songs?isMySong=True",
+    iconName: "clipboard-list",
+  },
+  {
+    label: "Keys & Notes",
+    routeName: "find-key",
+    iconName: "question-circle",
+  },
+  {
+    label: "Websites",
+    routeName: "resources",
+    iconName: "sticky-note",
+  },
+  {
+    label: "Metronome",
+    routeName: "metronome",
+    iconName: "drum",
+  },
+  {
+    label: "Logout",
+    routeName: "home",
+    iconName: "sign-out-alt",
+  },
+];
+
+const store = useStore();
+
+const getPlaylists = computed(() => store.getters.getPlaylists);
+
+const isAuthenticated = computed(() => {
+  return store.getters.token;
+});
+
+const sidebarIsActive = computed(() => {
+  return store.getters.sidebarIsActive;
+});
+
+const getUserData = computed(() => {
+  return store.getters.user;
+});
+
+function toggleSidebar() {
+  store.commit("toggleSidebar");
+}
+
+function logOutUser() {
+  store.dispatch("logout");
+  store.commit("removeSidebar");
+}
 </script>
 
 <style lang="scss" scoped>
 .hamburger {
   position: fixed;
-  top: 24px;
-  left: 24px;
-  font-size: 24px;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 1.5rem;
   z-index: 102;
   cursor: pointer;
 
@@ -215,18 +149,15 @@ export default {
   }
 }
 
-.favorite {
-  color: var(--burgundy);
-}
 .sidebar {
   height: 100%;
-  width: 240px;
+  width: 15rem;
   background-color: var(--dark_blue_sidebar);
   // position: absolute;
   position: fixed;
   top: 0;
   left: 0;
-  padding: 90px 14px;
+  padding: 5.625rem 0.875rem;
   transition: all 0.3s ease;
   z-index: 50;
 }
@@ -235,98 +166,21 @@ export default {
   color: var(--f1_gray);
   position: absolute;
   left: 90%;
-  top: 26px;
-  font-size: 24px;
+  top: 1.625rem;
+  font-size: 1.5rem;
   text-align: center;
   transform: translateX(-50%);
   cursor: pointer;
   transition: 0.8s ease all;
 }
-// .sidebar.desktop {
-//   position: fixed;
-// }
-
-/*  */
-.active_item {
-  background: var(--burgundy);
-
-  svg {
-    color: #f1f1f1;
-  }
-}
-.new_song {
-  color: var(--green);
-}
-
-.logo .logo_name {
-  font-size: 20px;
-  font-weight: 400;
-}
 
 .sidebar .nav_list {
-  margin-top: 20px;
-  overflow-y: scroll;
-  padding-right: 4px;
+  margin-top: 1.25rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
   height: 100%;
 
-  &::-webkit-scrollbar {
-    width: 4px;
-    background: rgb(56, 55, 55);
-    border-radius: 0 8px 8px 0;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgb(82, 80, 80);
-
-    border-radius: 0 8px 8px 0;
-  }
-
-  @include md {
-    overflow-y: hidden;
-    padding-right: 0px;
-  }
-
-  li {
-    list-style: none;
-    height: 50px;
-    position: relative;
-    width: 100%;
-    margin: 5px 0;
-
-    #ikona {
-      height: 50px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    a {
-      color: var(--f1_gray);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      transition: all 0.4s ease;
-      border-radius: 12px;
-      padding-left: 16px;
-      white-space: nowrap;
-      font-size: 16px;
-
-      &:hover {
-        color: #11101d;
-        background: #f1f1f1;
-      }
-
-      .artist-icon {
-        width: 21px;
-        height: 21px;
-      }
-
-      .links_name {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    }
-  }
+  @include scrollbar;
 }
 
 // dark mode
@@ -415,16 +269,6 @@ export default {
     }
   }
 }
-
-// #logout {
-//   position: absolute;
-//   left: 80%;
-//   bottom: 16px;
-//   font-size: 24px;
-//   transform: rotate(180deg);
-//   color: var(--white);
-//   cursor: pointer;
-// }
 
 .fade-enter-active,
 .fade-leave-active {

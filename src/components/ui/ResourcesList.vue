@@ -2,23 +2,23 @@
   <base-card>
     <div class="section">
       <div class="todos">
-        <span><h2>Useful websites</h2></span>
+        <!-- <span><h2>Useful websites</h2></span> -->
         <br />
         <div class="inputs">
           <input
-            type="text"
-            v-on:keyup.enter="$event.target.nextElementSibling.focus()"
             v-model.trim="website.name"
+            type="text"
             placeholder="Website name"
             :class="{ error: badInput }"
+            @keyup.enter="$event.target.nextElementSibling.focus()"
             @blur="badInput = false"
           />
           <input
-            type="text"
             v-model.trim="website.link"
-            @keypress.enter="addTodo"
+            type="text"
             placeholder="Website link: https://...."
             :class="{ error: badInput }"
+            @keypress.enter="addTodo"
             @blur="badInput = false"
           />
         </div>
@@ -30,17 +30,17 @@
               class="resource-element"
             >
               {{ website.name }}
-              <a :href="website.link" target="_blank"
-                >Go to {{ website.name }}</a
-              >
+              <a :href="website.link" target="_blank">
+                Go to {{ website.name }}
+              </a>
               <font-awesome-icon
-                @click="deleteWebsite(website.name)"
                 :icon="['far', 'times-circle']"
+                @click="deleteWebsite(website.name)"
               ></font-awesome-icon>
             </li>
           </transition-group>
         </div>
-        <div class="example" v-else>
+        <div v-else class="example">
           <i>Currently no websites saved.</i><br />
         </div>
       </div>
@@ -62,6 +62,14 @@ export default {
       },
       badInput: false,
     };
+  },
+  computed: {
+    getWebsites() {
+      return this.$store.getters.getUserWebsitesLinks;
+    },
+  },
+  mounted() {
+    this.$store.dispatch("loadUserWebsites");
   },
 
   methods: {
@@ -95,14 +103,6 @@ export default {
     deleteWebsite(name) {
       this.$store.dispatch("deleteUserWebsite", name);
     },
-  },
-  computed: {
-    getWebsites() {
-      return this.$store.getters.getUserWebsitesLinks;
-    },
-  },
-  mounted() {
-    this.$store.dispatch("loadUserWebsites");
   },
 };
 </script>

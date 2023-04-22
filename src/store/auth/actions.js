@@ -139,25 +139,21 @@ export default {
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
+        context.dispatch("loadPlaylists");
     },
 
     tryLogin(context) {
         const token = localStorage.getItem("token");
         const username = localStorage.getItem("username")
         const email = localStorage.getItem("email")
-        if (!token) {
-            return
-        }
+        if (!token) return;
+
         const expiresIn = jwt_decode(token).exp;
         var ts = Math.round((new Date()).getTime() / 1000);
         if (expiresIn - ts < 0) {
             context.dispatch("autoLogout")
-
         } else {
-
-            const user = {
-                username, email
-            }
+            const user = { username, email }
 
             context.commit("setUser", {
                 token: token,
@@ -172,6 +168,7 @@ export default {
                 });
             context.dispatch("loadMusicKeys");
             context.dispatch("loadAllArtists");
+            context.dispatch("loadPlaylists");
             context.commit("activateSidebar");
         }
     },
