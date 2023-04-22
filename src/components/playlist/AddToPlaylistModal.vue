@@ -162,6 +162,11 @@ async function createPlaylist() {
   }
 
   const response = await store.dispatch("createPlaylist", playlistName.value);
+  if (response === 403) {
+    inputIsValid.value = false;
+    errorMsg.value = "Limit of playlists exceeded.";
+    return;
+  }
   if (!response) {
     inputIsValid.value = false;
     errorMsg.value = "Playlist creation failed. Please try again.";

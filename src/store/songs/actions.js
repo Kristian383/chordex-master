@@ -452,6 +452,7 @@ export default {
             console.error(error);
             return;
         }
+        if (response.status === 403) return 403;
         if(!response.ok) return false;
         context.commit("addPlaylist", name);
         return true;

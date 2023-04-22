@@ -169,7 +169,7 @@ async function deletePlaylist() {
 .playlist-name-container {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.875rem;
 
   .playlist-title {
     max-width: 18rem;
