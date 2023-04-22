@@ -1,60 +1,59 @@
 <template>
-  <div id="search_box" class="search-box" :class="searchIsActive">
-    <input
-      type="text"
-      placeholder="Search song or artist"
-      @input="searchTextBox"
-    />
-    <div class="match-list">
-      <transition-group name="list">
-        <li v-for="match in searchMatch" :key="match">
-          <router-link :to="'/songs/' + match.songId">
-            <b>{{ match.artist }} - {{ match.songName }}</b>
-          </router-link>
-        </li>
-      </transition-group>
-    </div>
+  <div 
+    ref="searchBoxRef"
+    class="search-box" 
+    :class="searchIsActive">
+      <input
+        type="text"
+        placeholder="Search song or artist"
+        @input="searchTextBox"
+      />
+      <div class="match-list">
+        <transition-group name="list">
+          <li v-for="match in searchMatch" :key="match">
+            <router-link :to="'/songs/' + match.songId">
+              <b>{{ match.artist }} - {{ match.songName }}</b>
+            </router-link>
+          </li>
+        </transition-group>
+      </div>
     <font-awesome-icon id="search" icon="search"> </font-awesome-icon>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, onMounted } from "vue";
 import { onClickOutside } from "@vueuse/core";
-export default {
-  //   emits: ["searchText"],
-  data() {
-    return {
-      searchMatch: [],
-    };
-  },
-  computed: {
-    searchIsActive() {
-      return this.searchMatch.length ? "active" : "";
-    },
-  },
-  mounted() {
-    let target = document.getElementById("search_box");
-    onClickOutside(target, () => {
-      target.classList.remove("active");
-      this.searchMatch = [];
-      target.firstElementChild.value = "";
-    });
-  },
-  methods: {
-    searchTextBox(e) {
-      let textValue = e.target.value;
+import { useStore } from 'vuex';
 
-      let foundData = this.$store.getters.getAllSongs.filter((song) => {
-        const regex = new RegExp(`${textValue}`, "gi");
-        return song.songName.match(regex) || song.artist.match(regex);
-      });
-      if (textValue.length === 0) {
-        foundData = [];
-      }
-      this.searchMatch = foundData;
-    },
-  },
-};
+const store = useStore();
+const searchMatch = ref([]);
+const searchBoxRef = ref(null)
+
+const searchIsActive = computed(() => {
+  return searchMatch.value.length ? "active" : "";
+});
+onMounted(() => {
+  onClickOutside(searchBoxRef.value, () => {
+    searchBoxRef.value.classList.remove('active');
+    searchMatch.value = [];
+    searchBoxRef.value.firstElementChild.value = "";
+  });
+});
+
+const searchTextBox = (e) => {
+  const textValue = e.target.value;
+
+  let foundData = store.getters.getAllSongs.filter((song) => {
+    const regex = new RegExp(`${textValue}`, "gi");
+    return song.songName.match(regex) || song.artist.match(regex);
+  });
+  if (textValue.length === 0) {
+    foundData = [];
+  }
+  searchMatch.value = foundData;
+}; 
+
 </script>
 
 <style scoped>
