@@ -86,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, markRaw, defineProps, defineEmits, reactive, computed, onMounted, defineAsyncComponent } from 'vue';
+import { ref, nextTick, markRaw, defineProps, defineEmits, reactive, computed, onMounted, defineAsyncComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 const TheToast = defineAsyncComponent(() => import('../ui/TheToast.vue'));
@@ -117,6 +117,7 @@ const playlistNameChars = computed(() => playlistName.value.length);
 
 function openCreatePlaylist() {
   inputIsOpen.value = true;
+  nextTick(() => playlistNameInput.value?.focus());
 }
 
 function clearValidity() {
@@ -124,6 +125,7 @@ function clearValidity() {
 }
 
 const currentPlaylist = ref(route.query?.playlist);
+
 async function updatePlaylist(name, {target: {checked}}) {
   playlistMap.set(name, checked);
   const payload = { playlist_name: name, song_id: props.songId };
@@ -133,24 +135,23 @@ async function updatePlaylist(name, {target: {checked}}) {
     : await store.dispatch('deleteSongFromPlaylist', payload);
 
     
+  isLoading.value = false;
   if (!response) {
     // this revert back changes
     playlistMap.set(name, !checked);
     addToast("Error", `Can't ${checked ? 'add': 'remove'} the song${checked ? '': ' from the playlist'}. Try reloading the page.`);
-    isLoading.value = false;
     return;
   }
     
-  isLoading.value = false;
   addToast(checked ? "Add" : "Delete", `Song ${checked ? "added to" : "removed from"} '${name}'.`);
   if(!checked && currentPlaylist.value === name) store.commit("deleteSongFromPlaylist", props.songId);
   if(checked && currentPlaylist.value === name) store.commit("addSongInPlaylist", props.songId);
+  nextTick(() => playlistNameInput.value?.focus());
 }
-
 
 async function createPlaylist() {
   inputIsValid.value = true;
-  playlistNameInput.value.focus();
+  playlistNameInput.value?.focus();
   if (playlistNameChars.value > 50) {
     inputIsValid.value = false;;
     errorMsg.value = "Character limit exceeded.";
@@ -164,7 +165,7 @@ async function createPlaylist() {
     errorMsg.value = "Please enter a playlist name.";
     return;
   }
-
+  
   const response = await store.dispatch("createPlaylist", playlistName.value);
   if (response === 403) {
     inputIsValid.value = false;
