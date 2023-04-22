@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { ref, computed, watchEffect } from "vue";
+import { ref, computed, onBeforeUnmount, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -123,9 +123,7 @@ export default {
     const isMySong = computed(() => route.query.isMySong === "True");
 
     const allSongs = computed(() => isMySong.value ? store.getters.getAllMySongs : store.getters.getAllSongs);
-    const songsLoading = computed(() => {
-      return store.getters.songsLoading;
-    });
+    const songsLoading = computed(() => store.getters.songsLoading);
 
     const getSong = (id) => {
       const song = allSongs.value.find((song) => song.songId == id);
@@ -137,15 +135,20 @@ export default {
       return song;
     });
 
-    watchEffect(() => {
-      // already loaded but song doesn't exist
-      if ((!songsLoading.value && !songData.value)) {
+    const unwatch = watch([songsLoading, songData], ([loading, data]) => {
+      // This watcher will get called whenever songsLoading or songData changes. 
+      // If the route change also causes a change in songsLoading or songData,
+      // then the watcher will get called.
+      if(!songId.value) return;
+      if (!loading && !data) {
         router.push("/songs");
-      } else if (!songsLoading.value && songData.value) {
+      } else if (!loading && data) {
         showDetails.value = true;
-        store.commit("setSongDetailTitle", songData.value.songName);
+        store.commit("setSongDetailTitle", data.songName);
       }
-    });
+    }, {immediate: true});
+
+    onBeforeUnmount(unwatch);
 
     function openEdit() {
       let song = store.getters.findSong(songId.value);
@@ -199,7 +202,7 @@ export default {
       isFavorite,
       showDetails,
       songsLoading, 
-      artistRoute
+      artistRoute,
     };
   },
 };
@@ -330,8 +333,7 @@ svg {
 .go-back {
   position: absolute;
   left: -5px;
-  top: -50px;
-  top: 0px;
+  top: -2.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   width: 40px;
@@ -344,7 +346,6 @@ svg {
 @media (min-width: 720px) {
   .go-back {
     left: 15px;
-    top: -50px;
   }
 }
 .go-back a {

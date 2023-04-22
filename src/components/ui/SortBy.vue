@@ -67,7 +67,7 @@ export default {
 }
 .selected {
   background: #11101d;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   color: #f1f1f1;
   position: relative;
   order: 0;

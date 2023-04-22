@@ -164,11 +164,6 @@ html {
 /* song card popup dropdown */
 .v-popper__popper.v-popper--theme-dropdown {
     z-index: 37;
-    
-    .v-popper__inner {
-      border: none;
-      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    }
 
     .dropdown-popup-item {
         padding: 0.625rem;
@@ -180,7 +175,7 @@ html {
         gap: 0.875rem;
 
         &:hover {
-          background-color: var(--f1_gray);
+          background-color: var(--light_gray);
         }
 
         .popup-item-icon {

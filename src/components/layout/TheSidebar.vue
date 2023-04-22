@@ -69,7 +69,7 @@ const sidebarLinks = [
   {
     label: "Songs by Key",
     routeName: "song-keys",
-    iconName: "list-ul",
+    iconName: "sort-amount-down-alt",
   },
   {
     label: "My Playlists",

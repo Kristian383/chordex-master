@@ -11,7 +11,8 @@
     </nav>
     <div class="home-content" :class="{ reduce_content_padding: isMetronomeView }">
       <!-- TODO: add slot here and move this logic in songdetail -->
-      <div class="sort-section-title">
+      <div :style="{ justifyContent: $route.path !== '/songs' ? 'space-around' : 'space-between' }" class="sort-section-title">
+        <slot name="playlist_name_edit" />
         <div class="title">
           <span
             v-if="showArrows == 'both' || showArrows == 'prev'"
@@ -72,6 +73,8 @@ const getTitle = computed(() => {
     return `Songs by: ${query?.artist}`;
   }
 
+  if(query?.playlist) return;
+
   return name;
 });
 
@@ -124,7 +127,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home-section {
   position: relative;
   background: var(--white);
@@ -194,7 +197,7 @@ onBeforeUnmount(() => {
 }
 @media (min-width: 1400px) {
   .home-section .home-content {
-    padding: 6.875rem 1rem 1rem 1rem;
+    padding: 6rem 1rem 1rem 1rem;
   }
 }
 .home-content.reduce_content_padding {
@@ -204,15 +207,19 @@ onBeforeUnmount(() => {
 /*  */
 .sort-section-title {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
   gap: 0.875rem;
   margin-bottom: 0.5rem;
   color: var(--font_black);
+  align-items: center;
+  padding: 0 2rem;
+  
+  @media (min-width: 90rem) {
+    padding-left: 2.5rem;
+  }
 }
 .sort-section-title .title {
   flex-shrink: 0; /*  this doesnt remove arrows down */
-  padding-top: 0.5rem;
   font-size: 1.3125rem;
   font-weight: 600;
 }

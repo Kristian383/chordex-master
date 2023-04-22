@@ -75,7 +75,6 @@ export default {
                 return new Date(a.lastViewed) - new Date(b.lastViewed);
             });
         }
-        // console.log(state.songs);
     },
     deleteSong(state, id) {
         let index;
@@ -105,16 +104,11 @@ export default {
         } else {
             state.songs.unshift(payload);
         }
-        // console.log(payload);
     },
     setAllSongs(state, payload) {
-        // state.songs=[]
-
         for (let i = 0; i < payload.length; i++) {
-            // state.songs.unshift(payload[i])
             if (payload[i].isMySong) {
                 state.mySongs.push(payload[i]);
-
             } else {
 
                 state.songs.push(payload[i]);
@@ -126,11 +120,9 @@ export default {
     setAllArtists(state, payload) {
         state.artists = [];
         for (let i = 0; i < payload.length; i++) {
-            // state.songs.unshift(payload[i])
             if (payload[i].name == state.auth.user.username) {
                 continue;
             }
-            // payload[i].imgUrl=
             state.artists.push(payload[i]);
         }
 
@@ -180,5 +172,25 @@ export default {
     },
     addSongsForPlaylist(state, payload) {
         state.activePlaylistSongs = payload;
+    },
+    addSongInPlaylist(state, payload) {
+        state.activePlaylistSongs.push(payload);
+    },
+    deleteSongFromPlaylist(state, songId) {
+        const index = state.activePlaylistSongs.findIndex(elem => elem === songId);
+        if (index !== -1) state.activePlaylistSongs.splice(index, 1);
+    },
+    updatePlaylistName(state, payload) {
+        const index = state.playlists.findIndex(elem => elem === payload.playlist_name);
+        if (index !== -1) {
+            state.playlists[index] = payload.new_playlist_name;
+        }
+    },
+    deletePlaylist(state, name) {
+        const index = state.playlists.findIndex(elem => elem === name);
+        if (index !== -1) {
+            state.playlists.splice(index, 1);
+            state.activePlaylistSongs = [];
+        }
     }
 };

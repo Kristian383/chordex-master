@@ -36,27 +36,27 @@ const props = defineProps({
 
 const getStatusIcon = computed(() => {
   if (props.status === "Error") {
-    return 'exclamation-circle'
+    return 'exclamation-circle';
   } else if (props.status === "Add") {
-    return 'check-circle'
+    return 'check-circle';
   }
-  return 'minus'
+  return 'minus';
 });
 
 const getStatusText = computed(() => {
-  if (props.status === "Error") return "Error"
-  else if (props.status === "Add") return "Success"
-  return "Deleted"
-})
+  if (props.status === "Error") return "Error";
+  else if (props.status === "Add") return "Success";
+  return "Deleted";
+});
   
 const emits = defineEmits(['close']);
   
 const closeToast = () => {
   emits('close');
-}
+};
 
 
-onBeforeMount(() => document.body.style.overflowX = 'hidden')
+onBeforeMount(() => document.body.style.overflowX = 'hidden');
 onMounted(() => {
   const timer = setTimeout(() => {
     closeToast();

@@ -86,12 +86,14 @@
 
 <script setup>
 import { ref, markRaw, defineProps, defineEmits, reactive, computed, onMounted, defineAsyncComponent } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 const TheToast = defineAsyncComponent(() => import('../ui/TheToast.vue'));
 
 const emits = defineEmits(["closeModal"]);
 const props = defineProps(["playlists", "songId"]);
 const store = useStore();
+const route = useRoute();
 
 const playlistMap = reactive(new Map());
 const isLoading = ref(false);
@@ -118,6 +120,8 @@ function openCreatePlaylist() {
 function clearValidity() {
   inputIsValid.value = true;
 }
+
+const currentPlaylist = ref(route.query?.playlist);
 async function updatePlaylist(name, {target: {checked}}) {
   playlistMap.set(name, checked);
   const payload = { playlist_name: name, song_id: props.songId };
@@ -126,17 +130,21 @@ async function updatePlaylist(name, {target: {checked}}) {
     ? await store.dispatch('addSongToPlaylist', payload)
     : await store.dispatch('deleteSongFromPlaylist', payload);
 
+    
   if (!response) {
-    // revert back changes
+    // this revert back changes
     playlistMap.set(name, !checked);
     addToast("Error", `Can't ${checked ? 'add': 'remove'} the song${checked ? '': ' from the playlist'}. Try reloading the page.`);
     isLoading.value = false;
     return;
   }
-
+    
   isLoading.value = false;
   addToast(checked ? "Add" : "Delete", `Song ${checked ? "added to" : "removed from"} '${name}'.`);
+  if(!checked && currentPlaylist.value === name) store.commit("deleteSongFromPlaylist", props.songId);
+  if(checked && currentPlaylist.value === name) store.commit("addSongInPlaylist", props.songId);
 }
+
 async function createPlaylist() {
   inputIsValid.value = true;
   if (playlistNameChars.value > 50) {
@@ -203,7 +211,7 @@ const handleToastUpdate = (id) => {
     padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    border-radius: 0.5rem;
+    border-radius: 0.875rem;
     color: var(--dark_gray_font);
     gap: 1.125rem;
 
@@ -263,41 +271,11 @@ const handleToastUpdate = (id) => {
       flex-direction: column;
       
       .create-new-input {
-        border: 0;
-        padding: 0.5rem 0;
-        font-size: 1rem;
-        border-bottom: 1px solid #ccc;
-        width: 100%;
-        position: relative;
-        
-        &:focus {
-          outline: none;
-        }
-        & ~ .focus-border {
-          position: absolute;
-          top: 2.1875rem;
-          left: 50%;
-          width: 0;
-          height: 2px;
-          background-color: var(--light_blue);
-          transition: 0.4s;
-        }
-        &:focus ~ .focus-border {
-          width: 100%;
-          transition: 0.4s;
-          left: 0;
-        }
-        &:focus ~ .focus-border,
-        &.has-content ~ .focus-border {
-          width: 100%;
-          transition: 0.4s;
-        }
+        @include playlist-input;
       }
       .playlist-input-error {
-        font-size: 0.75rem;
         padding-right: 1rem;
-        text-align: start;
-        color: var(--burgundy);
+        @include input-error-msg;
       }
       .name-char-counter {
         position: absolute;
@@ -332,6 +310,7 @@ const handleToastUpdate = (id) => {
       gap: 1rem;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
 
       &:hover {
         color: var(--dark_gray_chips);        

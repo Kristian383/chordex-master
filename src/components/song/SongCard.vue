@@ -38,7 +38,6 @@
             <ul class="dropdown-popup">
               <li
                 class="dropdown-popup-item"
-                tabindex="0"
                 @keydown.enter="openEditMode"
                 @click="openEditMode"
               >
@@ -198,7 +197,7 @@ function openEditMode() {
 }
 
 async function deleteSong() {
-  const shouldDelete = window.confirm(`Are you sure you want to delete ${props.song.songName}?`);
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${props.song.songName}?\n\nThis song will be removed from the entire app.`);
   if (!shouldDelete) return;
 
   const payload = {

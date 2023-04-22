@@ -5,19 +5,18 @@
     </div>
     <div class="beat-circles">
       <div
+        v-for="beat in beatsPerMeasure"
+        :key="beat"
         class="circle"
         :class="{
           active: beat == beatCounter,
           sincopated: beat == 1 && isSincopated ? true : false,
         }"
-        v-for="beat in beatsPerMeasure"
-        :key="beat"
         @click="toggleSincopation"
       ></div>
     </div>
     <div class="bars-counter">
-      <b
-        >Bars counter: <span class="bar-count">{{ barCounter }}</span>
+      <b>Bars counter: <span class="bar-count">{{ barCounter }}</span>
       </b>
     </div>
     <!--  -->
@@ -26,11 +25,11 @@
       <span class="step-circle" @click="changeTempo(false, 1)">- 1</span>
       <!-- slider -->
       <input
+        v-model.number="bpmNumber"
         class="range-slider"
         type="range"
         min="30"
         max="250"
-        v-model.number="bpmNumber"
       />
       <span class="step-circle" @click="changeTempo(true, 1)">+ 1</span>
       <span class="step-circle" @click="changeTempo(true, 5)">+ 5</span>
@@ -125,10 +124,10 @@ export default {
       immediate: true,
     });
 
-    //TODO - stop it on beforeunmount?
-    watchEffect(() => {
+    const unwatch = watchEffect(() => {
       metronome.timeInterval = 60000 / bpmNumber.value;
     });
+    onBeforeUnmount(unwatch);
 
     function changeTempo(sign, step) {
       if (sign) {
@@ -450,7 +449,7 @@ export default {
       .bpm-value {
         font-size: 20px;
         width: 50px;
-        margin: 0px 12px;
+        margin: 0 12px;
         text-align: center;
         user-select: none;
       }

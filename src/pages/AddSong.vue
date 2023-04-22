@@ -504,6 +504,10 @@ async function searchSongInfo() {
   border-left: 0.375rem solid var(--burgundy);
   position: relative;
 
+  @media (min-width: 87.5rem) {
+    margin: 1rem auto 0;
+  }
+
   /* error msg */
   .error-container {
     position: relative;

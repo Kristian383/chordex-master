@@ -429,7 +429,6 @@ export default {
                     body: JSON.stringify({song_id: payload.song_id})
                 });
         } catch(error) {
-            // console.error(error);
             return false;
         }
         return response.ok;
@@ -479,5 +478,51 @@ export default {
 
         const responseData = await response.json();
         context.commit("addSongsForPlaylist", responseData.songs);
+    },
+    async updatePlaylistName(context, payload) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/playlists/${user_email}`, process.env.VUE_APP_URL);
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify(payload)
+                });
+        } catch(error) {
+            console.error(error);
+            return;
+        }
+        if(!response.ok) return false;
+        context.commit("updatePlaylistName", payload);
+        return true;
+    },
+    async deletePlaylist(context, name) {
+        let user_email = context.getters.user.email;
+        let access_token = context.getters.token;
+        let url = new URL(`/playlists/${user_email}`, process.env.VUE_APP_URL);
+        let response;
+        try {
+            response = await fetch(url,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + access_token
+                    },
+                    body: JSON.stringify({playlist_name: name})
+                });
+        } catch(error) {
+            console.error(error);
+            return;
+        }
+        if(!response.ok) return false;
+        context.commit("deletePlaylist", name);
+        return true;
     }
 };
