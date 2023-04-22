@@ -6,29 +6,29 @@
         <div class="input-group">
           <span><font-awesome-icon icon="envelope"></font-awesome-icon></span>
           <input
+            v-model.trim="userEmail"
             type="email"
             class="form-control"
             placeholder="Email address"
             required
-            v-model.trim="userEmail"
             :class="{ 'error-msg': !formIsValid }"
             @focus="clearValidity"
           />
         </div>
 
         <div class="input-group">
-          <span class="icon"
-            ><font-awesome-icon
-              :icon="lockType"
-              @click="togglePassword"
-            ></font-awesome-icon
-          ></span>
+          <span
+            class="icon"
+          ><font-awesome-icon
+            :icon="lockType"
+            @click="togglePassword"
+          ></font-awesome-icon></span>
           <input
+            v-model.trim="userPassword"
             :type="pswdType"
             required
             class="form-control"
             placeholder="Password"
-            v-model.trim="userPassword"
             :class="{ 'error-msg': !formIsValid }"
             @focus="clearValidity"
           />
@@ -38,12 +38,12 @@
         </div>
       </section>
       <p class="forgot" @click="openResetForm">Forgot password?</p>
-      <p class="feedback-text" :class="{ valid: goodRequest }" v-if="errorText">
+      <p v-if="errorText" class="feedback-text" :class="{ valid: goodRequest }">
         {{ errorText }}
       </p>
     </div>
     <div class="form-footer">
-      <button @click.prevent="submitForm" class="btn" :disabled="isLoading">
+      <button class="btn" :disabled="isLoading" @click.prevent="submitForm">
         Log In
       </button>
     </div>

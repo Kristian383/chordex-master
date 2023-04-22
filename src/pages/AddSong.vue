@@ -3,193 +3,163 @@
     <div class="form-container">
       <!-- yt modal -->
       <transition name="fade">
-        <how-to-modal
-          v-if="showYtModal"
-          @close-modal="closeYtModal"
-        ></how-to-modal>
+        <how-to-modal v-if="openYTModal" @close-modal="closeYtModal" />
       </transition>
-      <!--  -->
-      <div class="go-back" @click="goBack">
-        <font-awesome-icon icon="arrow-left"></font-awesome-icon>
+      <div class="go-back" @click="$router.go(-1)">
+        <font-awesome-icon icon="arrow-left" />
       </div>
-      <form @submit.prevent autocomplete="off">
-        <div class="error-container" v-if="errorMsg">
-          <p class="error-text">
-            {{ errorMsg }}
-          </p>
+      <form autocomplete="off" @submit.prevent>
+        <div v-if="errorMsg" class="error-container">
+          <p class="error-text">{{ errorMsg }}</p>
         </div>
-        <div class="top-section">
+        <div class="top-section" tabindex="-1">
           <font-awesome-icon
             class="heart"
-            :icon="iconName"
+            :icon="favoriteIconName"
             :class="{ 'is-favorite': isFavorite }"
             @click.prevent="toggleFavorite"
-          ></font-awesome-icon>
-          <!-- my song checkbox  -->
+          />
+          <!-- my song checkbox -->
           <div class="mysong">
             <template v-if="!songId">
               <input
-                type="checkbox"
-                name="my-song"
                 id="my-song"
                 v-model="songInfo.isMySong"
-                @click="setArtist"
-              /><label for="my-song">My song</label>
+                type="checkbox"
+                name="my-song"
+                class="form-input-chk-field"
+                @click="setMySongArist"
+              />
+              <label for="my-song">My song</label>
             </template>
-            <!-- <label for="my-song">My Song</label> -->
           </div>
-          <!--  -->
+          <!-- delete and save btns -->
           <font-awesome-icon
+            tabindex="0" class="delete" icon="trash-alt"
             @click="deleteSong"
-            class="delete"
-            icon="trash-alt"
-          ></font-awesome-icon>
-
-          <button-save name="Save" @click="submitSong"></button-save>
+          />
+          <button-save tabindex="0" name="Save" @click="submitSong" />
         </div>
-
         <div class="grid-2">
           <!-- artist name -->
           <input
+            id="input-artist"
+            v-model.trim="artist.val"
             class="input-field"
             type="text"
-            id="input-artist"
             placeholder="Artist name"
             :disabled="songInfo.isMySong || songId"
-            v-model.trim="artist.val"
             :class="{ 'error-msg': !artist.isValid }"
             @focus="clearValidity('artist')"
           />
           <!-- song name -->
           <input
+            id="input-song"
+            v-model.trim="song.val"
             class="input-field"
             type="text"
-            id="input-song"
             placeholder="Song name"
             :class="{ 'error-msg': !song.isValid }"
             @focus="clearValidity('song')"
-            v-model.trim="song.val"
           />
           <!-- spotify api and bpm -->
           <div class="grid-2">
             <div
-              class="find-data"
-              @click="searchSongInfo"
               v-if="!songInfo.isMySong"
+              class="find-data"
+              tabindex="0"
+              @click="searchSongInfo"
+              @keydown.enter="searchSongInfo"
             >
-              <!-- Not found anything -->
               {{ getSongInfoTxt }}
-              <font-awesome-icon icon="question-circle"></font-awesome-icon>
+              <font-awesome-icon icon="question-circle" />
             </div>
-            <!--  -->
             <input
+              id="input-bpm"
               v-model="songInfo.bpm"
               class="input-field"
               type="number"
-              id="input-bpm"
               placeholder="BPM"
             />
           </div>
-
           <!-- easy hard and tuning badges -->
           <div>
+            <difficulty-chips v-model="songInfo.difficulty" />
             <input
-              value="easy"
-              type="radio"
-              name="radio"
-              id="easy"
-              v-model="songInfo.difficulty"
-            /><label for="easy">Easy</label>
-            <input
-              type="radio"
-              name="radio"
-              id="medium"
-              value="medium"
-              v-model="songInfo.difficulty"
-            /><label for="medium">Medium</label>
-            <input
-              type="radio"
-              name="radio"
-              id="hard"
-              value="hard"
-              v-model="songInfo.difficulty"
-            /><label for="hard">Hard</label>
-            <input
+              id="input-tuning"
               v-model="songInfo.tuning"
               class="input-field"
               type="text"
-              id="input-tuning"
               placeholder="Tuning: Standard"
             />
           </div>
           <!-- first key -->
           <div class="grid-2">
             <select-box-key
+              key-number="firstKey"
+              :music-key="songInfo.firstKey"
+              :key-notes="songInfo.firstKeyNotes"
               @key-selected="insertKey"
-              name="firstKey"
-              :spotify-key="getSpotifyKey"
-            ></select-box-key>
-            {{ songInfo.firstKeyNotes }}
+            />
           </div>
           <!-- second key -->
           <div class="grid-2">
-            <transition name="fade">
-              <select-box-key
-                name="secondKey"
-                @key-selected="insertKey"
-                v-if="openSecond"
-              ></select-box-key>
-            </transition>
-            <transition name="fade">
-              <div class="secondOption" v-if="openSecond">
-                {{ songInfo.secondKeyNotes }}
-                <font-awesome-icon
-                  @click="removeSecondKeySelect"
-                  :icon="['far', 'times-circle']"
-                ></font-awesome-icon>
-              </div>
-            </transition>
+            <select-box-key
+              v-if="openSecond"
+              key-number="secondKey"
+              :music-key="songInfo.secondKey"
+              :key-notes="songInfo.secondKeyNotes"
+              @key-selected="insertKey"
+            />
+            <font-awesome-icon
+              v-if="openSecond"
+              class="remove-second-key-btn"
+              :icon="['far', 'times-circle']"
+              @click="removeSecondKeySelect"
+            />
           </div>
           <!-- first key Chord progression-->
           <input
+            v-model.trim="songInfo.firstChordProgression"
             class="input-field"
             type="text"
             placeholder="First chord progression"
-            v-model.trim="songInfo.firstChordProgression"
           />
           <!-- second key Chord progression-->
           <transition name="fade">
             <input
+              v-if="openSecond"
+              v-model.trim="songInfo.secondChordProgression"
               class="input-field"
               type="text"
-              v-if="openSecond"
               placeholder="Second chord progression"
-              v-model.trim="songInfo.secondChordProgression"
             />
           </transition>
           <!-- guitar types -->
           <div>
             <input
-              type="checkbox"
-              name="choice"
               id="electric"
               v-model="songInfo.electric"
+              type="checkbox"
+              name="choice"
+              class="form-input-chk-field"
             /><label for="electric">Electric</label>
             <input
-              type="checkbox"
-              name="choice"
               id="acoustic"
               v-model="songInfo.acoustic"
-            /><label for="acoustic">Acoustic</label>
-            <input
-              v-model="haveCapo"
               type="checkbox"
               name="choice"
+              class="form-input-chk-field"
+            /><label for="acoustic">Acoustic</label>
+            <input
               id="capo"
-              @click="checkCapo"
+              v-model="hasCapo"
+              type="checkbox"
+              name="choice"
+              class="form-input-chk-field"
             /><label for="capo">Capo</label>
             <input
-              v-if="haveCapo"
+              v-if="hasCapo"
               v-model="songInfo.capo"
               class="input-field"
               style="width: 100px !important"
@@ -200,15 +170,15 @@
           <!-- slider -->
           <div class="range-slider">
             <input
+              v-model="songInfo.practicedPrcntg"
               class="range-slider__range"
               type="range"
               min="0"
               max="100"
-              v-model="songInfo.practicedPrcntg"
             />
-            <span class="range-slider__value"
-              >{{ songInfo.practicedPrcntg }}%</span
-            >
+            <span class="range-slider__value">
+              {{ songInfo.practicedPrcntg }}%
+            </span>
           </div>
           <!-- yt link -->
           <div class="yt">
@@ -218,12 +188,11 @@
               type="text"
               placeholder="YouTube Link: https://www.youtube.com/..."
             />
-            <span class="yt_questionmark" @click="displayYtModal"
-              ><font-awesome-icon icon="question-circle"></font-awesome-icon
-            ></span>
+            <span class="yt_questionmark" @click="showYtModal">
+              <font-awesome-icon icon="question-circle" />
+            </span>
           </div>
           <!-- chords website link -->
-
           <input
             v-model.trim="songInfo.chordsWebsiteLink"
             class="input-field"
@@ -235,411 +204,325 @@
         <!-- song notes -->
         <div>
           <textarea
-            class="notebook"
-            v-model="songInfo.songText"
             id="txt_area"
+            v-model="songInfo.songText"
+            class="notebook"
             name=""
             rows="20"
             placeholder="Notes about this song..."
             @keydown.tab.prevent="tabber($event)"
-          ></textarea>
+          />
         </div>
       </form>
     </div>
   </base-card>
 </template>
 
-<script>
-// import BaseCard from "../components/ui/BaseCard.vue";
+<script setup>
 import ButtonSave from "../components/ui/ButtonSave.vue";
 import SelectBoxKey from "../components/ui/SelectBoxKey.vue";
-import HowToModal from "../components/ui/HowToModal.vue";
-export default {
-  name: "Add Song",
-  components: {
-    // BaseCard,
-    SelectBoxKey,
-    ButtonSave,
-    HowToModal,
-  },
-  data() {
-    return {
-      songId: null,
-      isFavorite: null,
-      openSecond: false,
-      formIsValid: false,
-      songInfo: {
-        songText: "",
-        practicedPrcntg: 50,
-        bpm: null,
-        capo: null,
-        electric: null,
-        acoustic: null,
-        firstKey: null,
-        firstChordProgression: "",
-        secondKey: null,
-        secondChordProgression: "",
-        chordsWebsiteLink: "",
-        ytLink: "",
-        firstKeyNotes: null,
-        secondKeyNotes: null,
-        tuning: null,
-        isMySong: false,
-        difficulty: "medium",
-        lastViewed: null,
-        imgUrl: "",
-      },
-      haveCapo: null,
-      artist: {
-        val: "",
-        isValid: true,
-      },
-      song: {
-        val: "",
-        isValid: true,
-      },
-      getSongInfoTxt: "Try to get song info",
-      showYtModal: false,
-      errorMsg: "",
-    };
-  },
+import DifficultyChips from "../components/ui/add-song/DifficultyChips.vue";
+import getNotesFromKey from "../helpers/GetKeyNotes";
+import { reactive, ref, computed, onMounted, defineAsyncComponent } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 
-  computed: {
-    iconName() {
-      if (!this.isFavorite) {
-        return ["far", "heart"];
-      }
-      return "heart";
-    },
-    getUsername() {
-      return this.$store.getters.user.username;
-    },
-    getSpotifyKey() {
-      return this.songInfo.firstKey;
-    },
-  },
-  methods: {
-    deleteSong() {
-      if (window.confirm("Are you sure?")) {
-        const payload = {
-          songName: this.song.val,
-          artist: this.artist.val,
-          songId: +this.songId,
-        };
-        this.$store.dispatch("deleteSong", payload).then(() => {
-          this.$router.push(
-            this.songInfo.isMySong ? "/songs?isMySong=True" : "/songs"
-          );
-        });
-      }
-    },
-    goBack() {
-      this.$router.go(-1);
-    },
-    toggleFavorite() {
-      this.isFavorite = !this.isFavorite;
-    },
-    insertKey(data) {
-      // if(!data){
-      //   this.songInfo.firstKey = null;
-      //   this.songInfo.firstKeyNotes = null;
-      // }
-      if (data.name == "firstKey") {
-        this.openSecond = true;
-        this.songInfo.firstKey = data.key;
-        this.songInfo.firstKeyNotes = data.notes;
-      } else {
-        this.songInfo.secondKey = data.key;
-        this.songInfo.secondKeyNotes = data.notes;
-      }
-    },
-    removeSecondKeySelect() {
-      this.openSecond = false;
-      this.songInfo.secondKey = null;
-      this.songInfo.secondKeyNotes = null;
-    },
-    tabber(event) {
-      let text = this.songInfo.songText,
-        originalSelectionStart = event.target.selectionStart,
-        textStart = text.slice(0, originalSelectionStart),
-        textEnd = text.slice(originalSelectionStart);
+const HowToModal = defineAsyncComponent(() => import('../components/ui/HowToModal.vue'));
 
-      this.songInfo.songText = `${textStart}\t${textEnd}`;
-      event.target.value = this.songInfo.songText;
-      event.target.selectionEnd = event.target.selectionStart =
-        originalSelectionStart + 1;
-    },
-    async submitSong(event) {
-      this.validateForm();
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
 
-      if (!this.formIsValid) {
-        return;
-      }
-      event.target.classList.toggle("loading");
+const songId = ref(null);
+const isFavorite = ref(null);
+const formIsValid = ref(false);
+const errorMsg = ref('');
+const getSongInfoTxt = ref('Try to get song info');
+const hasCapo = ref(null);
+const openSecond = ref(false);
+const openYTModal = ref(false);
+const artist = reactive({
+  val: "",
+  isValid: true
+});
+const song = reactive({
+  val: "",
+  isValid: true
+});
 
-      if (this.songInfo.ytLink) {
-        this.songInfo.ytLink = this.handleYTLink(this.songInfo.ytLink);
-      }
+const songInfo = reactive({
+  songText: '',
+  practicedPrcntg: 0,
+  bpm: null,
+  capo: null,
+  electric: null,
+  acoustic: null,
+  firstKey: null,
+  firstChordProgression: '',
+  secondKey: null,
+  secondChordProgression: '',
+  chordsWebsiteLink: '',
+  ytLink: '',
+  firstKeyNotes: null,
+  secondKeyNotes: null,
+  tuning: null,
+  isMySong: false,
+  difficulty: 'medium',
+  lastViewed: null,
+  imgUrl: ''
+});
 
-      const formData = {
-        ...this.songInfo,
-        artist: this.artist.val,
-        songName: this.song.val,
-        songId: +this.songId,
-        isFavorite: this.isFavorite,
-      };
+const favoriteIconName = computed(() => isFavorite.value ?  "heart" : ["far", "heart"]);
+const getUsername = computed(() => store.getters.user.username);
+const allMusicKeys = computed(() => store.getters.getMusicKeys);
 
-      this.$store.dispatch("addNewSong", formData).then((res) => {
-        event.target.classList.remove("loading");
+onMounted(() => {
+  songId.value = route.params.songId;
+  if (!songId.value) return;
 
-        if (res != false) {
-          // let pushRoute = this.songInfo.isMySong
-          //   ? "/songs?isMySong=True"
-          //   : "/songs";
-          let pushRoute = this.songInfo.isMySong
-            ? `/songs/${res}?isMySong=True`
-            : `/songs/${res}`;
-          // event.target.classList.add("success");
-          // event.target.classList.remove("success");
-          this.$router.push(pushRoute);
-          //update artists if there isnt any in app
-          let index = this.$store.getters.getArtists.findIndex(
-            (artist) =>
-              artist.name.toLowerCase() == formData.artist.toLowerCase()
-          );
-          if (index == -1) {
-            this.$store.dispatch("loadAllArtists");
-          }
-        } else {
-          this.formIsValid = false;
-          this.song.isValid = false;
-          this.errorMsg =
-            "Something went wrong. Check if you already have that song or if you have reached maximum number of songs (40).";
-        }
-      });
-    },
-    checkCapo() {
-      this.songInfo.capo = null;
-    },
-    clearValidity(input) {
-      this[input].isValid = true;
-    },
-    validateForm() {
-      this.formIsValid = true;
-      this.errorMsg = "";
-      if (!this.artist.val || this.artist.val.length > 40) {
-        this.formIsValid = false;
-        this.artist.isValid = false;
-        this.errorMsg =
-          "Please check if your artist has less than 40 characters. Yours: " +
-          this.artist.val.length;
-        return;
-      }
+  const isMySong = !!route.query.isMySong;
+  const allSongs = isMySong ? store.getters.getAllMySongs : store.getters.getAllSongs;
+  const songData = allSongs.find((song) => song.songId === +songId.value);
+  if (!songData) {
+    router.push('/songs');
+    return;
+  }
 
-      if (!this.song.val || this.song.val.length > 40) {
-        this.formIsValid = false;
-        this.song.isValid = false;
-        this.errorMsg =
-          "Please check if your song has less than 40 characters. Yours: " +
-          this.song.val.length;
-        return;
-      }
-      //
-      if (this.songInfo.bpm == "" || typeof this.songInfo.bpm == "string") {
-        this.songInfo.bpm = null;
-      }
-      if (this.songInfo.bpm < 0 || this.songInfo.bpm > 300) {
-        this.formIsValid = false;
-        this.errorMsg =
-          "Please check if BPM > 0 and < 300. Yours: " + this.songInfo.bpm;
-        return;
-      }
-      if (
-        this.songInfo.secondChordProgression.length > 100 ||
-        this.songInfo.firstChordProgression.length > 100
-      ) {
-        this.formIsValid = false;
-        this.errorMsg =
-          "Please check if chord progressions have less than 100 characters. First: " +
-          this.songInfo.firstChordProgression.length +
-          " Second: " +
-          this.songInfo.secondChordProgression.length;
-        return;
-      }
-      if (this.songInfo.songText.length > 3500) {
-        this.errorMsg =
-          "Please check if the notes about song have less than 3500 chars. Yours: " +
-          this.songInfo.songText.length;
-        this.formIsValid = false;
+  isFavorite.value = songData.isFavorite;
+  hasCapo.value = !!songData.capo;
+  artist.val = songData.artist;
+  song.val = songData.songName;
+  songInfo.songText = songData.songText;
+  songInfo.practicedPrcntg = songData.practicedPrcntg;
+  songInfo.bpm = songData.bpm;
+  songInfo.capo = songData.capo;
+  songInfo.electric = songData.electric;
+  songInfo.acoustic = songData.acoustic;
+  songInfo.firstChordProgression = songData.firstChordProgression;
+  songInfo.chordsWebsiteLink = songData.chordsWebsiteLink;
+  songInfo.ytLink = songData.ytLink;
+  songInfo.firstKeyNotes = songData.firstKeyNotes;
+  songInfo.tuning = songData.tuning;
+  songInfo.isMySong = songData.isMySong;
+  songInfo.difficulty = songData.difficulty;
+  songInfo.firstKey = songData.firstKey;
+  songInfo.lastViewed = songData.lastViewed;
+  songInfo.imgUrl = songData.imgUrl;
 
-        return;
-      }
-      if (
-        this.songInfo.chordsWebsiteLink.length > 150 ||
-        this.songInfo.ytLink.length > 150
-      ) {
-        this.formIsValid = false;
-        this.errorMsg =
-          "Please check if Youtube or Chord website links have less than 150 chars. Yours YT: " +
-          this.songInfo.ytLink.length +
-          " Chord website: " +
-          this.songInfo.chordsWebsiteLink.length;
+  if(songData.firstKey) openSecond.value = true;
+  if (songData.secondKey) {
+    openSecond.value = true;
+    songInfo.secondKey = songData.secondKey;
+    songInfo.secondKeyNotes = songData.secondKeyNotes;
+    songInfo.secondChordProgression = songData.secondChordProgression;
+  }
+});
 
-        return;
-      }
-      if (typeof this.songInfo.capo == "string" || this.songInfo.capo == "") {
-        this.songInfo.capo = null;
-      }
-      if (this.songInfo.capo > 20 || this.songInfo.capo < 0) {
-        this.formIsValid = false;
-        this.errorMsg = "Capo seems to be wrongly inserted.";
-        return;
-      }
-    },
-    displayYtModal() {
-      this.showYtModal = true;
-    },
-    closeYtModal() {
-      this.showYtModal = false;
-    },
-    handleYTLink(link) {
-      let linkArr = link.split(/[/=]+/);
-      let id = linkArr[linkArr.length - 1];
-      return `https://www.youtube.com/embed/${id}`;
-    },
-    setArtist(e) {
-      if (e.target.checked) {
-        this.artist.val = this.getUsername;
-      } else {
-        this.artist.val = "";
-      }
-    },
+function insertKey(data) {
+  const notesFromKey = getNotesFromKey(data.keyWithQuality, allMusicKeys.value);
 
-    searchSongInfo() {
-      //api call to spotify
+  if (data.keyNumber === "firstKey") {
+    openSecond.value = true;
+    songInfo.firstKey = data.keyWithQuality;
+    songInfo.firstKeyNotes = notesFromKey;
+  } else {
+    songInfo.secondKey = data.keyWithQuality;
+    songInfo.secondKeyNotes = notesFromKey;
+  }
+}
 
-      if (
-        !this.song.val ||
-        !this.artist.val ||
-        this.getSongInfoTxt == "Searching for song..."
-      ) {
-        this.getSongInfoTxt = "Please insert song and artist.";
-        setTimeout(() => {
-          this.getSongInfoTxt = "Try to get song info";
-        }, 2000);
-        return;
-      }
-      const payload = {
-        songName: this.song.val,
-        artist: this.artist.val,
-      };
-      this.getSongInfoTxt = "Searching for song...";
-      this.$store.dispatch("apiForSongInfo", payload).then((res) => {
-        // console.log("response from spotify", res);
+async function deleteSong() {
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${song.val}?`);
+  if (!shouldDelete) return;
 
-        if (!res) {
-          this.getSongInfoTxt = "Couldn't find anything.";
-        } else {
-          this.songInfo.firstKey = res.key;
-          this.artist.val = res.artist;
-          this.song.val = res.songName;
-          this.songInfo.bpm = res.bpm;
-          this.songInfo.imgUrl = res.imgUrl;
-          this.getSongInfoTxt = "Successfuly fetched info!";
-        }
-        setTimeout(() => {
-          this.getSongInfoTxt = "Try to get song info";
-        }, 2000);
-      });
-    },
-  },
-  mounted() {
-    const songId = this.$route.params.songId;
-    this.songId = songId;
-    let mysong = false;
-    if (this.$route.query.isMySong) {
-      {
-        mysong = true;
-      }
+  const payload = {
+    songName: song.val,
+    artist: artist.val,
+    songId: +songId.value,
+  };
+  await store.dispatch("deleteSong", payload);
+  const routePath = songInfo.isMySong ? "/songs?isMySong=True" : "/songs";
+  router.push(routePath);
+}
+
+function toggleFavorite() {
+  isFavorite.value = !isFavorite.value;
+}
+
+function removeSecondKeySelect() {
+  openSecond.value = false;
+  songInfo.secondKey = null;
+  songInfo.secondKeyNotes = null;
+}
+
+function tabber(event) {
+  let text = songInfo.songText,
+      originalSelectionStart = event.target.selectionStart,
+      textStart = text.slice(0, originalSelectionStart),
+      textEnd = text.slice(originalSelectionStart);
+
+  songInfo.songText = `${textStart}\t${textEnd}`;
+  event.target.value = songInfo.songText;
+  event.target.selectionEnd = event.target.selectionStart =
+    originalSelectionStart + 1;
+}
+
+function clearValidity(field) {
+  if (field === "artist") artist.isValid = true;
+  else song.isValid = true;
+}
+
+async function submitSong(event) {
+  validateForm();
+  if (!formIsValid.value) return;
+
+  event.target.classList.toggle("loading");
+
+  if (songInfo.ytLink) songInfo.ytLink = setYTLink(songInfo.ytLink);
+
+  const formData = {
+    ...songInfo,
+    artist: artist.val,
+    songName : song.val,
+    songId: +songId.value,
+    isFavorite: isFavorite.value
+  };
+  
+  try {
+    const response = await store.dispatch("addNewSong", formData);
+    event.target.classList.remove("loading");
+
+    if (response != false) {
+      let pushRoute = songInfo.isMySong ? `/songs/${response}?isMySong=True` : `/songs/${response}`;
+      router.push(pushRoute);
+      const index = store.getters.getArtists.findIndex((artist) => artist.name.toLowerCase() == formData.artist.toLowerCase());
+      if (index === -1) store.dispatch("loadAllArtists");
+    } else {
+      formIsValid.value = false;
+      song.isValid = false;
+      errorMsg.value = "Something went wrong. Check if you already have that song or if you have reached maximum number of songs (40).";
     }
+  } catch(error) {
+    console.log(error);
+  }
+}
 
-    let songData;
-    if (songId) {
-      if (mysong) {
-        songData = this.$store.getters.getAllMySongs.find((song) => {
-          return song.songId == songId;
-        });
-      } else {
-        songData = this.$store.getters.getAllSongs.find((song) => {
-          return song.songId == songId;
-        });
-      }
+function validateForm() {
+  formIsValid.value = true;
+  errorMsg.value = "";
 
-      if (!songData) {
-        this.$router.push("/songs");
-        return;
-      }
+  if (!artist.val || artist.val.length > 40) {
+    artist.isValid = false;
+    errorMsg.value = `Please check if your artist has less than 40 characters. Yours: ${artist.val.length}`;
+  } else if (!song.val || song.val.length > 40) {
+    song.isValid = false;
+    errorMsg.value = `Please check if your song has less than 40 characters. Yours: ${song.val.length}`;
+  } else if (songInfo.bpm === "" || typeof songInfo.bpm === "string") {
+    songInfo.bpm = null;
+  } else if (songInfo.bpm < 0 || songInfo.bpm > 300) {
+    errorMsg.value = `Please check if BPM > 0 and < 300. Yours: ${songInfo.bpm}`;
+  } else if (songInfo.secondChordProgression.length > 100 || songInfo.firstChordProgression.length > 100) {
+    errorMsg.value = `Please check if chord progressions have less than 100 characters. First: ${songInfo.firstChordProgression.length} Second: ${songInfo.secondChordProgression.length}`;
+  } else if (songInfo.songText.length > 3500) {
+    errorMsg.value = `Please check if the notes about song have less than 3500 chars. Yours: ${songInfo.songText.length}`;
+  } else if (songInfo.chordsWebsiteLink.length > 150 || songInfo.ytLink.length > 150)  {
+    errorMsg.value = `Please check if YouTube or Chord website links have less than 150 chars. Yours YT: ${songInfo.ytLink.length} Chord website: ${songInfo.chordsWebsiteLink.length}`;
+  } else if (typeof songInfo.capo === "string" || songInfo.capo === "") {
+    songInfo.capo = null;
+  } else if (songInfo.capo > 20 || songInfo.capo < 0) {
+    errorMsg.value = "Capo seems to be wrongly inserted.";
+  } else {
+    return;
+  }
+  formIsValid.value = false;
+}
 
-      this.songInfo.songText = songData.songText;
-      this.songInfo.practicedPrcntg = songData.practicedPrcntg;
-      this.songInfo.bpm = songData.bpm;
-      this.songInfo.capo = songData.capo;
-      this.songInfo.electric = songData.electric;
-      this.songInfo.acoustic = songData.acoustic;
-      this.songInfo.firstChordProgression = songData.firstChordProgression;
-      this.songInfo.chordsWebsiteLink = songData.chordsWebsiteLink;
-      this.songInfo.ytLink = songData.ytLink;
-      this.songInfo.firstKeyNotes = songData.firstKeyNotes;
-      this.songInfo.tuning = songData.tuning;
-      this.songInfo.isMySong = songData.isMySong;
-      this.isFavorite = songData.isFavorite;
-      this.haveCapo = !!songData.capo;
-      this.artist.val = songData.artist;
-      this.song.val = songData.songName;
-      this.songInfo.difficulty = songData.difficulty;
-      this.songInfo.firstKey = songData.firstKey;
-      this.songInfo.lastViewed = songData.lastViewed;
-      this.songInfo.imgUrl = songData.imgUrl;
+function showYtModal() {
+  openYTModal.value = true;
+}
 
-      if (songData.secondKey) {
-        this.openSecond = true;
-        this.songInfo.secondKey = songData.secondKey;
-        this.songInfo.secondKeyNotes = songData.secondKeyNotes;
-        this.songInfo.secondChordProgression = songData.secondChordProgression;
-      }
+function closeYtModal() {
+  openYTModal.value = false;
+}
+
+function setYTLink(link) {
+  let linkArr = link.split(/[/=]+/);
+  let id = linkArr[linkArr.length - 1];
+  return `https://www.youtube.com/embed/${id}`;
+}
+
+function setMySongArist(event) {
+  if (event.target.checked) artist.val = getUsername;
+}
+
+async function searchSongInfo() {
+  if (!song.val || !artist.val || getSongInfoTxt.value === "Searching for song...") {
+    getSongInfoTxt.value = "Please insert song and artist.";
+    setTimeout(() => getSongInfoTxt.value = "Try to get song info", 2000);
+    return;
+  }
+
+  const payload = {
+    songName: song.val,
+    artist: artist.val,
+  };
+  getSongInfoTxt.value = "Searching for song...";
+  try {
+    const response = await store.dispatch("apiForSongInfo", payload);
+    
+    if (!response) {
+      getSongInfoTxt.value = "Couldn't find anything.";
+    } else {
+      const _firstKeyNotes = getNotesFromKey(response.key, allMusicKeys.value);
+      songInfo.firstKeyNotes = _firstKeyNotes;
+      songInfo.firstKey = response.key;
+      songInfo.bpm = response.bpm;
+      songInfo.imgUrl = response.imgUrl;
+      artist.val = response.artist;
+      song.val = response.songName;
+      getSongInfoTxt.value = "Successfuly fetched info!";
     }
-  },
-};
+  } catch(error) {
+    getSongInfoTxt.value = "Couldn't find anything.";
+  }
+  setTimeout(() => getSongInfoTxt.value = "Try to get song info", 2000);
+}
+
+
 </script>
 
 <style lang="scss" scoped>
 .form-container {
   background-color: #eaebea;
   color: RGB(16, 17, 20);
-  padding: 12px 15px;
-  max-width: 1100px;
+  padding: 0.75rem 0.9375rem;
+  max-width: 68.75rem;
   margin: 0 auto;
-  border-radius: 6px;
-  font-size: 18px;
+  border-radius: 0.375rem;
+  font-size: 1.125rem;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  border-left: 6px solid var(--burgundy);
+  border-left: 0.375rem solid var(--burgundy);
   position: relative;
+
+  @media (min-width: 87.5rem) {
+    margin: 1rem auto 0;
+  }
 
   /* error msg */
   .error-container {
     position: relative;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     z-index: 23;
 
     .error-text {
       color: var(--burgundy);
-      font-size: 14px;
+      font-size: 0.875rem;
       text-align: center;
-      border-radius: 8px;
+      border-radius: 0.5rem;
       background-color: var(--burgundy);
       color: #fff;
-      padding: 16px;
-      margin-top: 6px;
+      padding: 1rem;
+      margin-top: 0.375rem;
     }
   }
 
@@ -647,8 +530,8 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-top: 8px;
-    gap: 26px;
+    padding-top: 0.5rem;
+    gap: 1.625rem;
 
     .is-favorite {
       color: var(--burgundy);
@@ -656,15 +539,15 @@ export default {
 
     .heart {
       position: absolute;
-      left: 20px;
-      top: 33px;
+      left: 1.25rem;
+      top: 2.0625rem;
       cursor: pointer;
     }
 
     .mysong {
       position: absolute;
-      left: 50px;
-      top: 8px;
+      left: 3.5rem;
+      top: 0.5rem;
       cursor: pointer;
       font-weight: 600;
     }
@@ -677,36 +560,37 @@ export default {
         color: black;
       }
 
-      @media (max-width: 380px) {
+      @media (max-width: 23.75rem) {
         position: absolute;
-        top: -40px;
+        top: -2.5rem;
       }
     }
   }
   // fontawesome icons
   svg {
-    font-size: 24px;
+    font-size: 1.5rem;
     transition: all 0.2s ease-in;
     filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
   }
 }
 
-@media (min-width: 420px) {
+@media (min-width: 26.25rem) {
   .top-section {
-    gap: 35px;
+    gap: 2.1875rem;
   }
 
   .top-section .mysong {
-    left: 75px;
+    left: 4.6875rem;
   }
 }
 
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 8px;
-  margin-top: 18px;
+  gap: 0.5rem;
+  margin-top: 1.125rem;
   align-items: center;
+  position: relative;
 
   &:nth-child(-n + 2) {
     margin-top: 0;
@@ -729,24 +613,24 @@ export default {
 
 .grid-2 > input,
 .grid-2 > div {
-  max-width: 500px;
+  max-width: 31.25rem;
 }
 
 form input:nth-child(-n + 2) {
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 
 form .notebook,
 form .input-field {
   border: 0;
   outline: 0;
-  padding: 1em;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
+  padding: 1rem;
+  -moz-border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  border-radius: 0.5rem;
   display: inline-block;
   width: 100%;
-  margin-top: 1em;
+  margin-top: 1rem;
   font-size: inherit;
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -758,67 +642,35 @@ form .input-field {
   &:focus {
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
+
+  &#input-artist:disabled {
+    box-shadow: none;
+    background-color: var(--light_gray);
+  }
 }
 
 form .notebook {
   resize: vertical;
-  line-height: 31px;
+  line-height: 1.9375rem;
 }
 
 #input-bpm {
-  width: 100px;
+  width: 6.25rem;
   justify-self: center;
 }
 
 #input-tuning {
-  width: 200px;
+  width: 13.75rem;
   justify-self: center;
-  padding: 14px;
+  padding: 0.875rem;
 }
 
 /* selectbox for key */
-.secondOption {
-  position: relative;
-  display: flex;
-  width: 100%;
-  padding: 12px 6px;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 26px;
-
-  svg {
-    cursor: pointer;
-  }
-}
-
-/* chips */
-input[type="checkbox"],
-input[type="radio"] {
-  display: none;
-}
-
-input[type="checkbox"] + label,
-input[type="radio"] + label {
-  transition: all 500ms ease;
+.remove-second-key-btn {
+  position: absolute;
+  right: 0;
   cursor: pointer;
-  border-radius: 50px;
-  background-color: #fff;
-  padding: 10px 16px;
-  margin-right: 7px;
-  border: none;
-  display: inline-block;
-  user-select: none;
-  text-transform: capitalize;
-  word-wrap: none;
-  white-space: nowrap;
-  margin-top: 18px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-}
-input[type="checkbox"]:checked + label,
-input[type="radio"]:checked + label {
-  transition: all 500ms ease;
-  background-color: var(--dark_gray_font);
-  color: #fff;
+
 }
 
 form input:-internal-autofill-selected {
@@ -841,9 +693,9 @@ form input:-internal-autofill-selected {
 
 .range-slider__range {
   -webkit-appearance: none;
-  width: calc(100% - (73px));
-  height: 10px;
-  border-radius: 5px;
+  width: calc(100% - (4.5625rem));
+  height: 0.625rem;
+  border-radius: 0.3125rem;
   background: #fff;
   outline: none;
   padding: 0;
@@ -852,8 +704,8 @@ form input:-internal-autofill-selected {
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     border-radius: 50%;
     background: var(--dark_gray_font);
     cursor: pointer;
@@ -870,8 +722,8 @@ form input:-internal-autofill-selected {
   }
 
   &::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     border: 0;
     border-radius: 50%;
     background: #888;
@@ -892,19 +744,19 @@ form input:-internal-autofill-selected {
 .range-slider__value {
   display: inline-block;
   position: relative;
-  width: 60px;
+  width: 3.75rem;
   color: #fff;
-  line-height: 20px;
+  line-height: 1.25rem;
   text-align: center;
-  border-radius: 3px;
+  border-radius: 0.1875rem;
   background: var(--dark_gray_font);
-  padding: 5px 10px;
-  margin-left: 8px;
+  padding: 0.3125rem 0.625rem;
+  margin-left: 0.5rem;
 
   &:after {
     position: absolute;
-    top: 8px;
-    left: -7px;
+    top: 0.5rem;
+    left: -0.4375rem;
     width: 0;
     height: 0;
     border-top: 7px solid transparent;
@@ -923,7 +775,6 @@ input::-moz-focus-outer {
   border: 0;
 }
 
-/* yt  */
 .yt {
   position: relative;
 }
@@ -934,20 +785,20 @@ input::-moz-focus-outer {
   transform: translate(0, -50%);
   cursor: pointer;
 
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .yt input {
-  padding-right: 35px;
+  padding-right: 2.1875rem;
 }
 
 .go-back {
   position: absolute;
-  left: 5px;
-  top: -50px;
+  left: 0.3125rem;
+  top: -3.125rem;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;

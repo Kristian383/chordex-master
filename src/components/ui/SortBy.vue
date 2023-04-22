@@ -2,12 +2,17 @@
   <div class="select-box">
     <div class="options-container" :class="{ active: sortIsActive }">
       <div
-        class="option"
-        @click.prevent="changeSortOption(option)"
         v-for="option in options"
         :key="option"
+        class="option"
+        @click.prevent="changeSortOption(option)"
       >
-        <input type="radio" :id="option" class="radio" name="category" />
+        <input
+          :id="option"
+          type="radio"
+          class="radio"
+          name="category"
+        />
         <label :for="option">{{ option }} </label>
       </div>
     </div>
@@ -62,7 +67,7 @@ export default {
 }
 .selected {
   background: #11101d;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   color: #f1f1f1;
   position: relative;
   order: 0;

@@ -1,111 +1,101 @@
 <template>
   <header :class="{ 'scrolled-nav': scrolledNav }">
     <nav class="container">
-      <span class="logo" v-if="!hideLogo">
-        <router-link to="/home"
-          ><img src="@/assets/guitar.svg" alt="Quote Logo"
-        /></router-link>
+      <span v-if="!hideLogo" class="logo">
+        <router-link to="/home">
+          <img src="@/assets/guitar.svg" alt="Quote Logo" />
+        </router-link>
       </span>
-      <div class="title"><h2>ChordEx</h2> </div>
+      <div class="title"><h2>ChordEx</h2></div>
       <ul class="navigation">
         <li>
-          <router-link class="link" active-class="active" to="/home"
-            >Home</router-link
-          >
+          <router-link class="link" active-class="active" to="/home">
+            Home
+          </router-link>
         </li>
-
         <li>
           <router-link
             class="link"
             :class="{ not_logged: isLogged }"
             active-class="active"
             to="/songs"
-            >App</router-link
           >
+            App
+          </router-link>
         </li>
         <li>
-          <router-link class="link" active-class="active" to="/about"
-            >About</router-link
-          >
+          <router-link class="link" active-class="active" to="/about">
+            About
+          </router-link>
         </li>
         <li>
-          <router-link class="link" active-class="active" to="/metronome"
-            >Metronome</router-link
-          >
+          <router-link class="link" active-class="active" to="/metronome">
+            Metronome
+          </router-link>
         </li>
       </ul>
     </nav>
   </header>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      //  mobile: null,
-      scrolledNav: null,
-      hideLogo: null,
-      windowWidth: null,
-    };
-  },
-  computed: {
-    isLogged() {
-      return !this.$store.getters.token;
-    },
-  },
-  methods: {
-    checkScreen() {
-      this.windowWidth = window.innerWidth;
-      if (this.windowWidth <= 900) {
-        this.$store.commit("setMobile",true)
-        this.hideLogo = true;
-        return;
-      }
-      this.$store.commit("setMobile",false)
-      this.hideLogo = false;
-      return;
-    },
-    updateScroll() {
-      const scrollPosition = window.scrollY;
-      if (scrollPosition >= 50) {
-        this.scrolledNav = true;
-        return;
-      }
-      this.scrolledNav = false;
-    },
-  },
-  created() {
-    this.$nextTick(function () {
-      window.addEventListener("resize", this.checkScreen);
-      this.checkScreen();
-    });
-  },
-  mounted() {
-    this.$nextTick(function () {
-      window.addEventListener("scroll", this.updateScroll);
-    });
-  },
-  beforeUnmount() {
-    window.removeEventListener("resize", this.checkScreen);
-  },
-};
+<script setup>
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+const scrolledNav = ref(false);
+const hideLogo = ref(false);
+const windowWidth = ref(window.innerWidth);
+
+const isLogged = computed(() => {
+  return !store.getters.token;
+});
+
+onMounted(() => {
+  const checkScreen = () => {
+    windowWidth.value = window.innerWidth;
+    if (windowWidth.value <= 900) {
+      store.commit("setMobile", true);
+      hideLogo.value = true;
+    } else {
+      store.commit("setMobile", false);
+      hideLogo.value = false;
+    }
+  };
+
+  window.addEventListener("resize", checkScreen);
+  checkScreen();
+
+  window.addEventListener("scroll", () => {
+    const scrollPosition = window.scrollY;
+    if (scrollPosition >= 50) {
+      scrolledNav.value = true;
+    } else {
+      scrolledNav.value = false;
+    }
+  });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", checkScreen);
+  window.removeEventListener("scroll", updateScroll);
+});
 </script>
-
 <style scoped>
-
-/*  */
 header {
-   background-color: var(--f1_gray); 
+  background-color: var(--white);
   z-index: 70;
   width: 100%;
   transition: 0.5s ease all;
   position: sticky;
   top: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 header nav {
   display: flex;
   flex-direction: column;
-  padding: 12px 0;
+  padding: 0.75rem 0;
   transition: 0.5s ease all;
   margin: 0 auto;
   width: 100%;
@@ -117,27 +107,25 @@ header .navigation {
   align-items: center;
   flex: 1;
   overflow-x: auto;
-
 }
-/*  */
 header .navigation::-webkit-scrollbar {
   display: none;
 }
 /*  */
-@media (min-width: 1140px) {
+@media (min-width: 71.25rem) {
   header nav {
     max-width: 1140px;
   }
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   header nav {
     flex-direction: row;
     width: 90%;
   }
 
   .title {
-    padding-left: 25px;
+    padding-left: 1.5625rem;
   }
   header .navigation {
     justify-content: flex-end;
@@ -157,15 +145,15 @@ header nav .link {
 }
 header nav li {
   text-transform: uppercase;
-  padding: 16px;
-  margin-left: 16px;
+  padding: 1rem;
+  margin-left: 1rem;
   user-select: none;
 }
 header nav .link {
-  font-size: 16px;
+  font-size: 1rem;
   transition: 0.5s ease all;
-  padding-bottom: 4px;
-  border-bottom: 4px solid transparent;
+  padding-bottom: 0.25rem;
+  border-bottom: 0.25rem solid transparent;
 }
 header nav .link:hover {
   color: #d8323c;
@@ -182,20 +170,18 @@ header nav .logo {
   align-items: center;
 }
 header nav .logo img {
-  width: 50px;
+  width: 3.125rem;
   transition: 0.5s ease all;
 }
 
 .scrolled-nav {
-  background-color: rgb(218, 218, 218);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: rgb(245, 245, 245);
 }
 .scrolled-nav nav {
-  padding: 8px 0;
+  padding: 0.5rem 0;
 }
 .scrolled-nav nav .logo img {
-  width: 40px;
+  width: 2.5rem;
 }
 .mobile-nav-enter-active,
 .mobile-nav-leave-active {
@@ -208,6 +194,4 @@ header nav .logo img {
 .mobile-nav-enter-to {
   transform: translateX(0);
 }
-/*  */
-
 </style>

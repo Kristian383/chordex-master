@@ -1,7 +1,7 @@
 <template>
   <base-card>
     <section>
-      <header></header>
+      <header /> <!-- background-image -->
       <main>
         <div class="row">
           <div class="user-info">
@@ -31,24 +31,24 @@
             <div class="container">
               <!-- username -->
               <div>
-                <label class="form-control-label" for="input-username"
-                  >Username</label
-                >
+                <label class="form-control-label" for="input-username">
+                  Username
+                </label>
                 <input
-                  type="text"
                   id="input-username"
+                  type="text"
                   :value="getUserData.username"
                   disabled
                 />
               </div>
               <!-- email -->
               <div>
-                <label class="form-control-label" for="input-email"
-                  >Email</label
-                >
+                <label class="form-control-label" for="input-email">
+                  Email
+                </label>
                 <input
-                  type="text"
                   id="input-email"
+                  type="text"
                   :value="getUserData.email"
                   disabled
                 />
@@ -59,9 +59,7 @@
                 <div class="loader">
                   <the-loader v-if="requestIsPending"></the-loader>
                 </div>
-                <p>
-                  {{ respondMsg }}
-                </p>
+                <p> {{ respondMsg }} </p>
               </div>
             </div>
           </div>
@@ -80,17 +78,12 @@
 </template>
 
 <script>
-// import BaseCard from "./../components/ui/BaseCard.vue";
-import TheLoader from "../components/ui/TheLoader.vue";
-import DeleteModal from "../components/ui/DeleteModal.vue";
-
-import { ref, computed } from "vue";
+import { ref, computed, defineAsyncComponent } from "vue";
 import { useStore } from "vuex";
+const DeleteModal = defineAsyncComponent(() => import('../components/ui/DeleteModal.vue'));
 
 export default {
   components: {
-    TheLoader,
-    // BaseCard,
     DeleteModal,
   },
   setup() {
@@ -171,25 +164,25 @@ header {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  height: 150px;
+  border-top-left-radius: 0.3125rem;
+  border-top-right-radius: 0.3125rem;
+  height: 9.375rem;
 }
 
 .row {
   display: grid;
   color: var(--font_black);
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 @media (min-width: 800px) {
   header {
-    height: 250px;
+    height: 15.625rem;
   }
 }
 @media (min-width: 1000px) {
   header {
-    height: 250px;
+    height: 15.625rem;
   }
   .row {
     grid-template-columns: 1fr 1fr;
@@ -202,41 +195,40 @@ header {
   flex-direction: column;
   width: 100%;
   margin: 0 auto;
-  max-width: 500px;
-  padding: 8px;
+  max-width: 31.25rem;
+  padding: 0.5rem;
 }
 
 .profile-photo {
   object-fit: cover;
-  width: 200px;
-  height: 200px;
-  margin-top: -120px;
-  border-radius: 100px;
-  border: 4px solid var(--white);
+  width: 12.5rem;
+  height: 12.5rem;
+  margin-top: -7.5rem;
+  border-radius: 6.25rem;
+  border: 0.25rem solid var(--white);
 }
 .name {
-  margin-top: 20px;
+  margin-top: 1.25rem;
   font-weight: 600;
-  font-size: 18pt;
+  font-size: 1.5rem;
 }
 .mail {
-  margin-bottom: 5px;
-  font-size: 11pt;
+  margin-bottom: 0.3125rem;
+  font-size: 1rem;
   color: var(--mid_gray);
 }
 .stats {
-  margin-top: 25px;
+  margin-top: 1.5625rem;
   text-align: center;
   display: flex;
   widows: 100%;
-  gap: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 8px;
+  gap: 1.25rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--mid_gray);
 }
 .number-stat {
-  padding: 0px;
-  font-size: 14pt;
+  padding: 0;
   font-weight: bold;
   color: #aaa;
   color: RGB(16, 17, 20);
@@ -244,16 +236,12 @@ header {
 .desc-stat {
   color: #888888;
 }
-.desc {
-  padding-bottom: 25px;
-  border-bottom: 1px solid var(--mid_gray);
-}
 
 /* username, email, pswd */
 .right {
-  padding: 14px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  padding: 0.875rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 .container {
   display: flex;
@@ -261,24 +249,24 @@ header {
   align-items: center;
 }
 .container > div {
-  padding: 14px;
+  padding: 0.875rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   flex-wrap: wrap;
-  max-width: 400px;
+  max-width: 25rem;
   width: 100%;
 }
 .container > div input {
   border: 0;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
   outline: 0;
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   color: RGB(16, 17, 20);
   font-size: inherit;
-  margin-top: 14px;
+  margin-top: 0.875rem;
   cursor: pointer;
   transition: 0.4s;
   background-color: var(--form_gray);
@@ -286,28 +274,9 @@ header {
 
 .delete {
   color: red;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
 }
-/* 
-.delete-acc {
-  align-items: center !important;
-  gap: 4px;
-  font-size: 14px;
-}
-.delete-acc p {
-  color: var(--green);
-}
-.red-text {
-  color: var(--burgundy);
-} */
-/* .delete-btn {
-  background-color: var(--burgundy);
-  padding: 8px;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 8px;
-} */
 
 .fade-enter-active,
 .fade-leave-active {

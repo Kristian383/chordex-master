@@ -3,19 +3,15 @@
     <div class="keys-accordion">
       <div class="tabs">
         <div
-          class="tab"
           v-for="(value, key, index) in sortedSongsByKey"
           :key="key"
+          class="tab"
         >
-          <input type="checkbox" :id="'chck' + index" class="accordion-chk" />
+          <input :id="'chck' + index" type="checkbox" class="accordion-chk" />
           <label class="tab-label" :for="'chck' + index">{{ key }} maj</label>
           <div class="tab-content">
             <ul>
-              <song-by-key
-                v-for="song in value"
-                :key="song"
-                :song="song"
-              ></song-by-key>
+              <song-by-key v-for="song in value" :key="song" :song="song" />
             </ul>
           </div>
         </div>
@@ -39,7 +35,6 @@ export default {
 
     const musicKeys = ref([]);
     const songs = ref([]);
-    const keyChecked = ref("A");
 
     const allKeys = computed(() => {
       return store.getters.getMusicKeys;
@@ -51,7 +46,6 @@ export default {
 
     return {
       musicKeys,
-      keyChecked,
       songs,
       sortedSongsByKey,
       allKeys,
@@ -110,7 +104,6 @@ export default {
       max-height: 0;
       background: white;
       transition: all 0.35s;
-      // display: none;
 
       ul {
         list-style: none;
@@ -132,7 +125,6 @@ export default {
     }
   }
 
-  // :checked
   input:checked {
     + .tab-label {
       background-color: $burgundy;
@@ -145,7 +137,6 @@ export default {
     ~ .tab-content {
       max-height: 100%;
       padding: 8px;
-      // display: block;
 
       ul {
         display: block;
