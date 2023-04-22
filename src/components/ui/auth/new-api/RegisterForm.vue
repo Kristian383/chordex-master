@@ -5,11 +5,11 @@
       <div class="input-group">
         <span><font-awesome-icon icon="user-alt"></font-awesome-icon></span>
         <input
+          v-model.trim="userName"
           type="text"
           class="form-control"
           placeholder="User Name"
           required
-          v-model.trim="userName"
           :class="{ 'error-msg': !formIsValid }"
           @focus="clearValidity"
         />
@@ -18,40 +18,40 @@
       <div class="input-group">
         <span><font-awesome-icon icon="envelope"></font-awesome-icon></span>
         <input
+          v-model.trim="userEmail"
           type="email"
           class="form-control"
           placeholder="Email Address"
           required
-          v-model.trim="userEmail"
           :class="{ 'error-msg': !formIsValid }"
           @focus="clearValidity"
         />
       </div>
 
       <div class="input-group">
-        <span class="icon"
-          ><font-awesome-icon
-            :icon="lockType"
-            @click="togglePassword"
-          ></font-awesome-icon
-        ></span>
+        <span
+          class="icon"
+        ><font-awesome-icon
+          :icon="lockType"
+          @click="togglePassword"
+        ></font-awesome-icon></span>
         <input
+          v-model.trim="userPassword"
           :type="pswdType"
           class="form-control"
           placeholder="Set Password"
           required
-          v-model.trim="userPassword"
           :class="{ 'error-msg': !formIsValid }"
           @focus="clearValidity"
         />
       </div>
-      <p class="feedback-text" v-if="errorText" :class="{ valid: goodRequest }">
+      <p v-if="errorText" class="feedback-text" :class="{ valid: goodRequest }">
         {{ errorText }}
       </p>
       <re-captcha @recaptcha-check="setReCaptchaValidity"></re-captcha>
     </div>
     <div class="form-footer">
-      <button @click.prevent="submitForm" :disabled="isLoading" class="btn">
+      <button :disabled="isLoading" class="btn" @click.prevent="submitForm">
         Sign Up
       </button>
     </div>

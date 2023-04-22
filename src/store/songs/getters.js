@@ -3,7 +3,7 @@ export default {
     //     return state.darkMode;
     // },
     songsLoading(state) {
-        return state.songsLoading
+        return state.songsLoading;
     },
     getMusicKeys(state) {
         return state.musicKeys;
@@ -17,12 +17,12 @@ export default {
     indexOfCurrentSong(state) {
         return (payload) => {
             if (payload.query) {
-                return state.mySongs.findIndex(song => song.songId == payload.id)
+                return state.mySongs.findIndex(song => song.songId == payload.id);
             } else
                 return state.songs.findIndex(song => {
-                    return song.songId == payload.id
-                })
-        }
+                    return song.songId == payload.id;
+                });
+        };
     }
     ,
     getAllSongs(state) {
@@ -39,52 +39,37 @@ export default {
     },
     findSong(state) {
         return songId => {
-            let foundSong = state.songs.find(song => song.songId == songId)
+            let foundSong = state.songs.find(song => song.songId == songId);
             if (!foundSong) {
-                foundSong = state.mySongs.find(song => song.songId == songId)
+                foundSong = state.mySongs.find(song => song.songId == songId);
             }
-            return foundSong
-        }
+            return foundSong;
+        };
     },
-    // lazyLoadSongs(state) {
-
-    //     return (type) => {
-
-    //         if (type == "songs") {
-
-    //             return state.songs.slice(0, state.songsLoaded)
-    //         } else {
-    //             return state.songs.slice(0, state.mySongsLoaded)
-
-    //         }
-    //     }
-
-    // },
-
     filterSongs(state, getters) {
         return (filters, query = null) => {
             // in case of displaying all songs from artist
-            if (!filters.length && query.artist) {
-                return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase())
+            if (filters[0] === "all" && query.artist) {
+                return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase());
             }
             // in case of displaying all songs 
-            if (!filters.length || filters == "all") { // can't use === because "filters" is Proxy object
-                if (query.isMySong) return state.mySongs
-                return state.songs
+            if (filters[0] === "all") {
+                if (query.isMySong) return state.mySongs;
+                return state.songs;
             }
             // in case when we need to filter songs when filter option is !== "all"
             if (query.isMySong) {
                 return state.mySongs.filter(song => getters.shouldFilterSong(filters, song));
             } else if (query.artist) {
                 return state.songs.filter(song => song.artist.toLowerCase() === query.artist.toLowerCase()).filter(song => {
-                    return getters.shouldFilterSong(filters, song)
-                })
+                    return getters.shouldFilterSong(filters, song);
+                });
             } else {
                 return state.songs.filter(song => {
-                    return getters.shouldFilterSong(filters, song)
-                })
+                    return getters.shouldFilterSong(filters, song);
+                });
             }
-        }
+        };
     },
     shouldFilterSong() {
         return (filters, song) => {
@@ -100,14 +85,23 @@ export default {
                 }
                 return song.difficulty === filterOption;
               });
-        }
+        };
     },
-
+    getSongsFromPlaylist(state, getters) {
+        return (filters) => {
+            const activePlaylistSongs = state.activePlaylistSongs;
+            if (filters[0] === "all") return state.songs.filter(song => activePlaylistSongs.includes(song.songId));
+            return state.songs.filter(song =>  activePlaylistSongs.includes(song.songId) && getters.shouldFilterSong(filters, song));
+        };
+    },
+    getActiveFilters(state) {
+        return state.activeFilters;
+    },
     getSongsByKey(state) {
         const keys = state.musicKeys;
-        const sortedSongs = {}
+        const sortedSongs = {};
         const songs = state.songs;
-        if (!keys.length) return
+        if (!keys.length) return;
 
         songs.forEach(song => {
             if (!song.firstKey) return;
@@ -117,37 +111,37 @@ export default {
 
             if (quality === "minor") {
                 let relativeMajor = keys.filter(item => {
-                    return item.relativeMinor.toLowerCase() === key
+                    return item.relativeMinor.toLowerCase() === key;
                 })[0].key.toLowerCase();
 
-                if (sortedSongs[relativeMajor]) sortedSongs[relativeMajor].push(songData)
-                else sortedSongs[relativeMajor] = [songData]
+                if (sortedSongs[relativeMajor]) sortedSongs[relativeMajor].push(songData);
+                else sortedSongs[relativeMajor] = [songData];
 
             } else {
-                if (sortedSongs[key]) sortedSongs[key].push(songData)
-                else sortedSongs[key] = [songData]
+                if (sortedSongs[key]) sortedSongs[key].push(songData);
+                else sortedSongs[key] = [songData];
             }
-        })
-        return sortedSongs
+        });
+        return sortedSongs;
     },
 
     getArtists(state) {
         return state.artists;
     },
-
+    getPlaylists(state) {
+        return state.playlists;
+    },
     // resources
     getUserNotes(state) {
-        return state.usefulResources.notes
+        return state.usefulResources.notes;
     },
     getUserWebsitesLinks(state) {
-        return state.usefulResources.websitesLinks
+        return state.usefulResources.websitesLinks;
     },
     getTxtAreaHeight(state) {
-        return state.usefulResources.txtAreaHeight
+        return state.usefulResources.txtAreaHeight;
     },
     isMobile(state) {
-        return state.mobile
+        return state.mobile;
     }
-
-
-}
+};

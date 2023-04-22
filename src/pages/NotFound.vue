@@ -4,8 +4,8 @@
 
 <script>
 export default {
-    mounted(){
-    this.$store.commit("removeSidebar")
+  mounted(){
+    this.$store.commit("removeSidebar");
   }
 };
 </script>

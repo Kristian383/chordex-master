@@ -1,5 +1,5 @@
 <template>
-  <div class="search-box" id="search_box" :class="searchIsActive">
+  <div id="search_box" class="search-box" :class="searchIsActive">
     <input
       type="text"
       placeholder="Search song or artist"
@@ -9,12 +9,12 @@
       <transition-group name="list">
         <li v-for="match in searchMatch" :key="match">
           <router-link :to="'/songs/' + match.songId">
-            <b>{{ match.artist }} - {{ match.songName }}</b></router-link
-          >
+            <b>{{ match.artist }} - {{ match.songName }}</b>
+          </router-link>
         </li>
       </transition-group>
     </div>
-    <font-awesome-icon icon="search" id="search"> </font-awesome-icon>
+    <font-awesome-icon id="search" icon="search"> </font-awesome-icon>
   </div>
 </template>
 
@@ -32,6 +32,14 @@ export default {
       return this.searchMatch.length ? "active" : "";
     },
   },
+  mounted() {
+    let target = document.getElementById("search_box");
+    onClickOutside(target, () => {
+      target.classList.remove("active");
+      this.searchMatch = [];
+      target.firstElementChild.value = "";
+    });
+  },
   methods: {
     searchTextBox(e) {
       let textValue = e.target.value;
@@ -45,14 +53,6 @@ export default {
       }
       this.searchMatch = foundData;
     },
-  },
-  mounted() {
-    let target = document.getElementById("search_box");
-    onClickOutside(target, () => {
-      target.classList.remove("active");
-      this.searchMatch = [];
-      target.firstElementChild.value = "";
-    });
   },
 };
 </script>

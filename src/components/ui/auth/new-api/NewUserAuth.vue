@@ -4,15 +4,15 @@
       <ul class="tab-group">
         <li
           class="tab"
-          @click.prevent="openLoginForm"
           :class="{ active: showLogin }"
+          @click.prevent="openLoginForm"
         >
           <a href="">Log In</a>
         </li>
         <li
           class="tab"
-          @click.prevent="openRegisterForm"
           :class="{ active: !showLogin && !showReset }"
+          @click.prevent="openRegisterForm"
         >
           <a href="">Sign Up</a>
         </li>
@@ -21,30 +21,30 @@
     <div class="tab-content">
       <transition name="fade" tag="section" mode="out-in">
         <!-- login -->
-        <div id="login" key="login" v-if="showLogin">
+        <div v-if="showLogin" id="login" key="login">
           <login-form
+            :request-is-loading="reqIsLoading"
             @open-reset-form="openResetForm"
             @is-loading="setRequestLoading"
-            :request-is-loading="reqIsLoading"
           ></login-form>
         </div>
         <!-- reset -->
-        <div id="reset" key="reset" v-else-if="showReset">
+        <div v-else-if="showReset" id="reset" key="reset">
           <forgot-form
+            :request-is-loading="reqIsLoading"
             @open-login="openLoginForm"
             @is-loading="setRequestLoading"
-            :request-is-loading="reqIsLoading"
           ></forgot-form>
         </div>
         <!-- ="signup" -->
-        <div id="signup" key="signup" v-else>
+        <div v-else id="signup" key="signup">
           <register-form
-            @is-loading="setRequestLoading"
             :request-is-loading="reqIsLoading"
+            @is-loading="setRequestLoading"
           ></register-form>
         </div>
       </transition>
-      <div class="loader" v-if="reqIsLoading">
+      <div v-if="reqIsLoading" class="loader">
         <the-loader></the-loader>
       </div>
     </div>
@@ -52,15 +52,13 @@
 </template>
 
 <script>
-import TheLoader from "./../../TheLoader.vue";
-import ForgotForm from "./ForgotForm.vue";
-import LoginForm from "./LoginForm.vue";
-import RegisterForm from "./RegisterForm.vue";
+import { defineAsyncComponent, ref } from "vue";
+const ForgotForm = defineAsyncComponent(() => import('./ForgotForm.vue'));
+const LoginForm = defineAsyncComponent(() => import('./LoginForm.vue'));
+const RegisterForm = defineAsyncComponent(() => import('./RegisterForm.vue'));
 
-import { ref } from "vue";
 export default {
   components: {
-    TheLoader,
     ForgotForm,
     LoginForm,
     RegisterForm,

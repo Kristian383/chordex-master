@@ -1,6 +1,6 @@
 <template>
   <div class="delete-container">
-    <div class="in-process" v-if="!requestReceived">
+    <div v-if="!requestReceived" class="in-process">
       <p>Deleting your account... Please wait.</p>
     </div>
     <div v-else>
@@ -14,12 +14,8 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import TheLoader from "@/components/ui/TheLoader";
 
 export default {
-  components: {
-    TheLoader,
-  },
   setup() {
     const router = useRouter();
     const store = useStore();

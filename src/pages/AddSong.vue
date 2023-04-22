@@ -221,12 +221,13 @@
 <script setup>
 import ButtonSave from "../components/ui/ButtonSave.vue";
 import SelectBoxKey from "../components/ui/SelectBoxKey.vue";
-import HowToModal from "../components/ui/HowToModal.vue";
 import DifficultyChips from "../components/ui/add-song/DifficultyChips.vue";
-import getNotesFromKey from "../helpers/GetKeyNotes"
-import { reactive, ref, computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
+import getNotesFromKey from "../helpers/GetKeyNotes";
+import { reactive, ref, computed, onMounted, defineAsyncComponent } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+
+const HowToModal = defineAsyncComponent(() => import('../components/ui/HowToModal.vue'));
 
 const store = useStore();
 const route = useRoute();
@@ -243,11 +244,11 @@ const openYTModal = ref(false);
 const artist = reactive({
   val: "",
   isValid: true
-})
+});
 const song = reactive({
   val: "",
   isValid: true
-})
+});
 
 const songInfo = reactive({
   songText: '',
@@ -269,7 +270,7 @@ const songInfo = reactive({
   difficulty: 'medium',
   lastViewed: null,
   imgUrl: ''
-})
+});
 
 const favoriteIconName = computed(() => isFavorite.value ?  "heart" : ["far", "heart"]);
 const getUsername = computed(() => store.getters.user.username);
@@ -315,10 +316,10 @@ onMounted(() => {
     songInfo.secondKeyNotes = songData.secondKeyNotes;
     songInfo.secondChordProgression = songData.secondChordProgression;
   }
-})
+});
 
 function insertKey(data) {
-  const notesFromKey = getNotesFromKey(data.keyWithQuality, allMusicKeys.value)
+  const notesFromKey = getNotesFromKey(data.keyWithQuality, allMusicKeys.value);
 
   if (data.keyNumber === "firstKey") {
     openSecond.value = true;
@@ -331,15 +332,17 @@ function insertKey(data) {
 }
 
 async function deleteSong() {
-  if (window.confirm(`Are you sure you want to delete ${song.val}?`)) {
-    const payload = {
-      songName: song.val,
-      artist: artist.val,
-      songId: +songId.value,
-    };
-    await store.dispatch("deleteSong", payload);
-    router.push(songInfo.isMySong ? "/songs?isMySong=True" : "/songs");
-  }
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${song.val}?`);
+  if (!shouldDelete) return;
+
+  const payload = {
+    songName: song.val,
+    artist: artist.val,
+    songId: +songId.value,
+  };
+  await store.dispatch("deleteSong", payload);
+  const routePath = songInfo.isMySong ? "/songs?isMySong=True" : "/songs";
+  router.push(routePath);
 }
 
 function toggleFavorite() {
@@ -470,7 +473,7 @@ async function searchSongInfo() {
     if (!response) {
       getSongInfoTxt.value = "Couldn't find anything.";
     } else {
-      const _firstKeyNotes = getNotesFromKey(response.key, allMusicKeys.value)
+      const _firstKeyNotes = getNotesFromKey(response.key, allMusicKeys.value);
       songInfo.firstKeyNotes = _firstKeyNotes;
       songInfo.firstKey = response.key;
       songInfo.bpm = response.bpm;
@@ -500,6 +503,10 @@ async function searchSongInfo() {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   border-left: 0.375rem solid var(--burgundy);
   position: relative;
+
+  @media (min-width: 87.5rem) {
+    margin: 1rem auto 0;
+  }
 
   /* error msg */
   .error-container {

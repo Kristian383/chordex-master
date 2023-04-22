@@ -68,13 +68,11 @@
 </template>
 
 <script>
-// import BaseCard from "../components/ui/BaseCard.vue";
 import TheMetronome from "../components/ui/TheMetronome.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: {
-    // BaseCard,
     TheMetronome,
   },
   setup() {

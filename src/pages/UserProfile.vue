@@ -1,7 +1,7 @@
 <template>
   <base-card>
     <section>
-      <header></header>
+      <header /> <!-- background-image -->
       <main>
         <div class="row">
           <div class="user-info">
@@ -78,15 +78,12 @@
 </template>
 
 <script>
-import TheLoader from "../components/ui/TheLoader.vue";
-import DeleteModal from "../components/ui/DeleteModal.vue";
-
-import { ref, computed } from "vue";
+import { ref, computed, defineAsyncComponent } from "vue";
 import { useStore } from "vuex";
+const DeleteModal = defineAsyncComponent(() => import('../components/ui/DeleteModal.vue'));
 
 export default {
   components: {
-    TheLoader,
     DeleteModal,
   },
   setup() {

@@ -16,8 +16,10 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
-const emit = defineEmits(['filters-changed'])
+import { reactive, onMounted } from "vue";
+import { useStore } from 'vuex';
+
+const store = useStore(); 
 
 const allFilters = ["all", "favorites", "acoustic", "electric", "easy", "medium", "hard"];
 const filters = reactive({
@@ -34,6 +36,13 @@ function clearFilter() {
   for (const item in filters) filters[item] = false;
 }
 
+onMounted(() => {
+  const activeFilters = store.getters.getActiveFilters;
+  for (const filter in filters) {
+    filters[filter] = activeFilters.includes(filter);
+  }
+});
+
 function setFilter(filter) {
   if (filter === "all") {
     clearFilter();
@@ -48,7 +57,7 @@ function setFilter(filter) {
     filters["all"] = true;
     activeFilters = ["all"];
   }
-  emit('filters-changed', activeFilters)
+  store.commit("setActiveFilters", activeFilters);
 }
 </script>
 

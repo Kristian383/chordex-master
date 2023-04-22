@@ -1,15 +1,16 @@
 <template>
   <div v-if="isAuthenticated" class="hamburger" @click="toggleSidebar">
-    <font-awesome-icon id="btn" icon="bars"></font-awesome-icon>
+    <font-awesome-icon id="btn" icon="bars" />
   </div>
   <transition name="fade">
     <aside v-if="sidebarIsActive" class="sidebar">
       <ul class="nav_list">
-        <the-sidebar-link
+        <the-sidebar-playlist-link
           v-for="sidebarLink in sidebarLinks"
           :key="sidebarLink.label"
           v-bind="sidebarLink"
           :is-active="$route.fullPath === `/${sidebarLink.routeName}`"
+          :playlists="getPlaylists"
           @log-out="logOutUser"
         />
         <!-- <li>
@@ -42,7 +43,7 @@
 </template>
 
 <script setup>
-import TheSidebarLink from "./TheSidebarLink.vue";
+import TheSidebarPlaylistLink from "./TheSidebarPlaylistLink.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 
@@ -68,7 +69,13 @@ const sidebarLinks = [
   {
     label: "Songs by Key",
     routeName: "song-keys",
+    iconName: "sort-amount-down-alt",
+  },
+  {
+    label: "My Playlists",
+    routeName: "playlists",
     iconName: "list-ul",
+    isDropdown: true
   },
   {
     label: "Add New Song",
@@ -103,6 +110,8 @@ const sidebarLinks = [
 ];
 
 const store = useStore();
+
+const getPlaylists = computed(() => store.getters.getPlaylists);
 
 const isAuthenticated = computed(() => {
   return store.getters.token;
@@ -167,26 +176,11 @@ function logOutUser() {
 
 .sidebar .nav_list {
   margin-top: 1.25rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-right: 0.25rem;
   height: 100%;
 
-  &::-webkit-scrollbar {
-    width: 0.25rem;
-    background: rgb(56, 55, 55);
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgb(82, 80, 80);
-
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
-
-  @include md {
-    overflow-y: hidden;
-    padding-right: 0;
-  }
+  @include scrollbar;
 }
 
 // dark mode

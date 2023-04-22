@@ -1,5 +1,11 @@
 <template>
-  <div class="card" @click="openSongDetail">
+  <div 
+    class="card"
+    tabindex="0"
+    @click.prevent="openSongDetail"
+    @keydown.enter="openSongDetail"
+    @mousedown.middle.prevent="openSongDetail"
+  >
     <div class="card-header">
       <div class="image">
         <img :src="song.imgUrl || imgUrl" alt="Photo" />
@@ -8,13 +14,47 @@
         <div
           class="icon"
           :class="{ is_favorite: isFavorite }"
+          tabindex="0"
           @click.stop="toggleFavorite"
+          @keydown.enter.stop="toggleFavorite"
         >
           <font-awesome-icon icon="heart" />
         </div>
-        <div id="edit" class="icon" @click.stop="openEditMode">
-          <font-awesome-icon icon="edit" />
-        </div>
+        <!-- dropdown popper -->
+        <VDropdown
+          :dispose-timeout="1000"
+          :distance="13"
+          :container="containerEl || 'body'"
+        >
+          <div
+            class="icon"
+            tabindex="0"
+            @click.stop
+            @keydown.enter.stop
+          >
+            <font-awesome-icon icon="ellipsis-v" />
+          </div>
+          <template #popper>
+            <ul class="dropdown-popup">
+              <li
+                class="dropdown-popup-item"
+                @keydown.enter="openEditMode"
+                @click="openEditMode"
+              >
+                <font-awesome-icon class="popup-item-icon" icon="edit" />
+                <span>Edit</span>
+              </li>
+              <li class="dropdown-popup-item" @click="$emit('openPlaylistModal', song.songId)">
+                <font-awesome-icon class="popup-item-icon" icon="plus" />
+                <span>Playlist</span>
+              </li>
+              <li class="dropdown-popup-item delete" @click="deleteSong">
+                <font-awesome-icon class="popup-item-icon" icon="trash-alt" />
+                <span>Delete</span>
+              </li>
+            </ul>
+          </template>
+        </VDropdown>
       </div>
     </div>
 
@@ -53,14 +93,16 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, defineEmits, defineProps } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 
-const props = defineProps(["song"]);
+const props = defineProps(["song", "containerEl"]);
+const emits = defineEmits(["openPlaylistModal"]);
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
+
 
 const skillLevelClass = computed(() => {
   return props.song.difficulty;
@@ -125,11 +167,18 @@ const timeSince = computed(() => {
   }
 });
 
-function openSongDetail() {
-  const pushRoute = props.song.isMySong
+function openSongDetail(event) {
+  const routePath = props.song.isMySong
     ? `/songs/${props.song.songId}?isMySong=True`
     : `/songs/${props.song.songId}`;
-  router.push(pushRoute);
+  // Check if the ctrl key is pressed (or cmd key on Mac)
+  if (event.ctrlKey || event.metaKey || event.button === 1) {
+    event.preventDefault();
+    const routeURL = router.resolve(routePath).href;
+    window.open(routeURL, '_blank');
+  } else {
+    router.push(routePath);
+  }
 }
 
 function toggleFavorite() {
@@ -147,12 +196,39 @@ function openEditMode() {
   router.push(pushRoute);
 }
 
-function chooseArtist() {
-  if (!props.song.isMySong) router.push("/songs?artist=" + props.song.artist);
+async function deleteSong() {
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${props.song.songName}?\n\nThis song will be removed from the entire app.`);
+  if (!shouldDelete) return;
+
+  const payload = {
+    songName: props.song.songName,
+    artist: props.song.artist,
+    songId: props.song.songId,
+  };
+  await store.dispatch("deleteSong", payload);
 }
+
+function chooseArtist() {
+  if (!props.song.isMySong) router.push("/songs?artist=" + encodeURIComponent(props.song.artist));
+}
+
+// PLAYLISTS - todo: 
+// const playlistMap = reactive(new Map());
+
+// async function fetchPlaylistsOfSong() {
+//   const playlistsOfSong = await store.dispatch("fetchSongPlaylists", props.song.songId);
+//   // mappedPlaylists.value = props.playlists.map({ name: element, checked: playlistsOfSong.includes(element) });
+//   store.getters.getPlaylists.forEach((playlist) => playlistMap.set(playlist, playlistsOfSong.includes(playlist)))
+// }
+// const emitPlaylistData = reactive({
+//   songId: props.song.songId,
+//   playlistMap: playlistMap.value
+// })
+
+// }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card {
   background-color: var(--white);
   border-radius: 0.125rem;
@@ -160,71 +236,74 @@ function chooseArtist() {
   overflow: hidden;
   width: 11.25rem;
   position: relative;
-  height: 16.25rem;
+  height: 15rem;
   color: var(--font_black);
   transition: 0.3s ease-in all;
   cursor: pointer;
-}
-.card:focus {
-  outline: none;
-}
-.card:hover {
-  transform: rotateZ(-1deg) scale(1.04);
-}
-.card-header img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.image {
-  width: 100%;
-  height: 6.25rem;
-  text-align: center;
-}
 
-.progress {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  top: 0;
-}
+  &:hover {
+    transform: rotateZ(-1deg) scale(1.04);
+  }
 
-.progress:before {
-  animation: slideIn 2s ease-out;
-  background-color: v-bind(barColor);
-  bottom: 0;
-  left: 0;
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 0.375rem;
-  border-radius: 0 0 2px 2px;
-}
+  .card-header {
+    .image {
+      width: 100%;
+      height: 6.25rem;
+      text-align: center;
 
-.icons {
-  display: flex;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  justify-content: space-between;
-  padding: 0.25rem;
-  z-index: 14;
-}
-.icons .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.125rem;
-  height: 2.125rem;
-  border-radius: 50%;
-  background-color: var(--white);
-  transition: all 0.5s ease;
-}
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
 
-@media (min-width: 720px) {
-  .icons .icon:hover {
-    background-color: #303030;
-    color: var(--white);
+    .icons {
+      display: flex;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      justify-content: space-between;
+      padding: 0.25rem;
+      z-index: 14;
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.125rem;
+        height: 2.125rem;
+        border-radius: 50%;
+        background-color: var(--white);
+        transition: all 0.5s ease;
+
+        @media (min-width: 720px) {
+          &:hover {
+            background-color: #303030;
+            color: var(--white);
+          }
+        }
+      }
+    } 
+  }
+
+  .progress {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    &:before {
+      animation: slideIn 2s ease-out;
+      background-color: v-bind(barColor);
+      bottom: 0;
+      left: 0;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0.375rem;
+      border-radius: 0 0 2px 2px;
+    }
   }
 }
 
@@ -237,7 +316,7 @@ function chooseArtist() {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+  padding: 0.5rem 0.75rem 0 0.75rem;
   gap: 0.625rem;
   width: 100%;
 }
@@ -288,6 +367,7 @@ function chooseArtist() {
   flex-direction: row;
   align-items: center;
   gap: 0.25rem;
-  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+  margin-top: 0.5rem;
 }
 </style>

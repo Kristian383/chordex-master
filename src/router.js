@@ -1,21 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-import Songs from "./pages/Songs.vue";
-import TheHome from "./pages/TheHome.vue";
-import UserProfile from "./pages/UserProfile.vue";
-import SongDetail from "./pages/SongDetail.vue";
-// import Artists from "./pages/Artists.vue"
-import ArtistsView from "./pages/ArtistsView.vue";
-import AddSong from "./pages/AddSong.vue";
-import ResetPassword from "./pages/ResetPassword.vue";
-import DeleteAccount from "./pages/DeleteAccount.vue";
-import FindKey from "./pages/FindKey.vue";
-import TheAbout from "./pages/TheAbout.vue";
-import ResourcesList from "./components/ui/ResourcesList.vue";
-import NotFound from "./pages/NotFound.vue";
-import MetronomeView from "./pages/MetronomeView.vue";
 import store from "./store/index";
-import SongKeysAccordion from "./pages/SongKeysAccordion.vue";
+
+const Songs = () => import('./pages/Songs.vue');
+// import Songs from "./pages/Songs.vue";
+const TheHome = () => import('./pages/TheHome.vue');
+const UserProfile = () => import('./pages/UserProfile.vue');
+const SongDetail = () => import('./pages/SongDetail.vue');
+const ArtistsView = () => import('./pages/ArtistsView.vue');
+const AddSong = () => import('./pages/AddSong.vue');
+const ResetPassword = () => import('./pages/ResetPassword.vue');
+const DeleteAccount = () => import('./pages/DeleteAccount.vue');
+const FindKey = () => import('./pages/FindKey.vue');
+const TheAbout = () => import('./pages/TheAbout.vue');
+const ResourcesList = () => import('./components/ui/ResourcesList.vue');
+const NotFound = () => import('./pages/NotFound.vue');
+const MetronomeView = () => import('./pages/MetronomeView.vue');
+const SongKeysAccordion = () => import('./pages/SongKeysAccordion.vue');
 
 const router = createRouter({
   history: createWebHistory(),

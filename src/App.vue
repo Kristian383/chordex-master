@@ -1,24 +1,24 @@
 <template>
-  <!-- beta banner -->
-  <!-- <the-beta-banner v-if="!isLogged"></the-beta-banner> -->
-  <!--  -->
-  <the-header></the-header>
-  <the-sidebar></the-sidebar>
+  <!-- <the-beta-banner v-if="" /> -->
+  <the-header />
+  <the-sidebar />
 
-  <router-view v-slot="{ Component }">
-    <keep-alive :max="3" include="Song Keys">
+  <router-view />
+  <!-- <router-view v-slot="{ Component }">
+    <keep-alive>
       <component :is="Component" :key="$route.fullPath" />
     </keep-alive>
-  </router-view>
+  </router-view> -->
 
-  <the-footer></the-footer>
+  <the-footer />
 </template>
 
 <script>
-import TheSidebar from "./components/layout/TheSidebar.vue";
 // import TheBetaBanner from "./components/layout/TheBetaBanner.vue";
+import TheSidebar from "./components/layout/TheSidebar.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheFooter from "./components/layout/TheFooter.vue";
+
 export default {
   name: "App",
   components: {
@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 * {
@@ -75,7 +75,9 @@ html {
   --f1_gray: #f1f1f1;
   --dark_gray_chips: #242424;
   --font_black: #101114;
+  --text_gray: #878787;
   --chips_gray: #e7e7e7;
+  --chips_gray_hover: #e4e4e7;
   --light_gray: #f5f5f5;
   --mid_gray: #888888;
   --dark_gray_font: #424242;
@@ -85,9 +87,9 @@ html {
   --orange: #ff4500;
   --green: #69b34c;
   --save_button_green: #6fc982;
-
   --levi_blue: #1b233a;
   --levi_red: #b0253c;
+  --light_blue: #1f75fe;
 }
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -101,7 +103,7 @@ html {
 
 @-webkit-keyframes shake {
   0% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
   25% {
     margin-left: 0.5rem;
@@ -110,13 +112,13 @@ html {
     margin-left: -0.5rem;
   }
   100% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
 }
 
 @keyframes shake {
   0% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
   25% {
     margin-left: 0.5rem;
@@ -125,7 +127,7 @@ html {
     margin-left: -0.5rem;
   }
   100% {
-    margin-left: 0rem;
+    margin-left: 0;
   }
 }
 
@@ -159,4 +161,36 @@ html {
   color: #fff;
 }
 
+/* song card popup dropdown */
+.v-popper__popper.v-popper--theme-dropdown {
+    z-index: 37;
+
+    .dropdown-popup-item {
+        padding: 0.625rem;
+        cursor: pointer;
+        color: var(--font_black);
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+
+        &:hover {
+          background-color: var(--light_gray);
+        }
+
+        .popup-item-icon {
+          width: 1rem;
+        }
+    }
+    .dropdown-popup-item.delete {
+      background-color: #fbe9e9;
+      color: var(--burgundy);
+      color: rgb(224, 68, 68);
+      border-top: 2px solid #fecaca;
+      
+      &:hover {
+        background-color: #fecaca;
+      } 
+    }
+  }
 </style>

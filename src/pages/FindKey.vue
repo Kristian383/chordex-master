@@ -27,13 +27,13 @@
       </p>
       <div class="notes-div">
         <textarea
+          ref="txtHeight"
           v-model="notes"
           class="notebook"
           placeholder="Notes about certain ideas..."
-          ref="txtHeight"
+          :style="{ height: getTxtAreaHeight + 'px' }"
           @click="updateNotes"
           @blur="updateNotes"
-          :style="{ height: getTxtAreaHeight + 'px' }"
         ></textarea>
       </div>
     </section>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue"; //onMounted
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
 export default {

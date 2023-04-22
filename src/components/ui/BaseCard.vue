@@ -4,16 +4,15 @@
     :class="{ expand_home_section: sidebarIsActive && isDesktop }"
   >
     <nav v-if="!isMetronomeView">
-      <the-search></the-search>
+      <the-search />
       <div class="filter_categories">
-        <slot name="filters"></slot>
+        <slot name="filters" />
       </div>
     </nav>
-    <div
-      class="home-content"
-      :class="{ reduce_content_padding: isMetronomeView }"
-    >
-      <div class="sort-section-title">
+    <div class="home-content" :class="{ reduce_content_padding: isMetronomeView }">
+      <!-- TODO: add slot here and move this logic in songdetail -->
+      <div :style="{ justifyContent: $route.path !== '/songs' ? 'space-around' : 'space-between' }" class="sort-section-title">
+        <slot name="playlist_name_edit" />
         <div class="title">
           <span
             v-if="showArrows == 'both' || showArrows == 'prev'"
@@ -31,20 +30,20 @@
             <font-awesome-icon icon="angle-right" />
           </span>
         </div>
-        <slot name="select_box"></slot>
+        <slot name="sort_select_box" />
       </div>
-      <slot></slot>
-      <scroll-up :class="{ show: showBackToTop }"></scroll-up>
+      <slot />
+      <scroll-up :class="{ show: showBackToTop }" />
     </div>
   </section>
 </template>
 
 <script setup>
-import TheSearch from "./../ui/TheSearch.vue";
-import ScrollUp from "./ScrollUp.vue";
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, defineAsyncComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
+
+const TheSearch = defineAsyncComponent(() => import('./../ui/TheSearch.vue'));
 
 const route = useRoute();
 const router = useRouter();
@@ -74,6 +73,8 @@ const getTitle = computed(() => {
     return `Songs by: ${query?.artist}`;
   }
 
+  if(query?.playlist) return;
+
   return name;
 });
 
@@ -82,7 +83,7 @@ const hasQuery2 = computed(() => {
 });
 
 const indexOfCurrentSong = computed(() => {
-  return store.getters.indexOfCurrentSong({ id: route.params.songId, query: Object.keys(route.query).length > 0 })
+  return store.getters.indexOfCurrentSong({ id: route.params.songId, query: Object.keys(route.query).length > 0 });
 });
 
 const showArrows = computed(() => {
@@ -126,7 +127,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home-section {
   position: relative;
   background: var(--white);
@@ -196,7 +197,7 @@ onBeforeUnmount(() => {
 }
 @media (min-width: 1400px) {
   .home-section .home-content {
-    padding: 6.875rem 1rem 1rem 1rem;
+    padding: 6rem 1rem 1rem 1rem;
   }
 }
 .home-content.reduce_content_padding {
@@ -206,15 +207,19 @@ onBeforeUnmount(() => {
 /*  */
 .sort-section-title {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
   gap: 0.875rem;
   margin-bottom: 0.5rem;
   color: var(--font_black);
+  align-items: center;
+  padding: 0 2rem;
+  
+  @media (min-width: 90rem) {
+    padding-left: 2.5rem;
+  }
 }
 .sort-section-title .title {
   flex-shrink: 0; /*  this doesnt remove arrows down */
-  padding-top: 0.5rem;
   font-size: 1.3125rem;
   font-weight: 600;
 }

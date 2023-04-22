@@ -14,29 +14,29 @@
             ></font-awesome-icon>
           </span>
           <input
+            v-model="newPswd"
             :type="pswdType"
             class="form-control"
             placeholder="New password"
             required
-            @focus="clearValidity"
-            v-model="newPswd"
             :class="{ 'error-msg': !formIsValid }"
+            @focus="clearValidity"
           />
         </div>
 
         <div class="input-group">
           <span><font-awesome-icon icon="lock"></font-awesome-icon> </span>
           <input
+            v-model="confirm"
             type="password"
             class="form-control"
             placeholder="Confirm password"
             required
-            @focus="clearValidity"
-            v-model="confirm"
             :class="{ 'error-msg': !formIsValid }"
+            @focus="clearValidity"
           />
         </div>
-        <p class="error-text" v-if="errorText" :class="{ valid: goodRequest }">
+        <p v-if="errorText" class="error-text" :class="{ valid: goodRequest }">
           {{ errorText }} <br /><br />
           <router-link to="/home">Go to home</router-link>
         </p>
@@ -44,9 +44,9 @@
       <!--  -->
       <div class="form-footer">
         <button
-          @click.prevent="submitReset"
           :disabled="requestIsPending"
           class="btn"
+          @click.prevent="submitReset"
         >
           Send
         </button>
@@ -59,12 +59,7 @@
 </template>
 
 <script>
-import TheLoader from "./../components/ui/TheLoader.vue";
-
 export default {
-  components: {
-    TheLoader,
-  },
   data() {
     return {
       newPswd: "",
@@ -86,6 +81,15 @@ export default {
     eyeIconType() {
       return this.show ? "eye-slash" : "eye";
     },
+  },
+  mounted() {
+    this.token = this.$route.query.token;
+    this.email = this.$route.query.email;
+
+    if (!this.token || !this.email) {
+      this.$router.push("/home");
+    }
+    this.$store.commit("removeSidebar");
   },
   methods: {
     showPswd() {
@@ -143,15 +147,6 @@ export default {
           }, 3000);
         });
     },
-  },
-  mounted() {
-    this.token = this.$route.query.token;
-    this.email = this.$route.query.email;
-
-    if (!this.token || !this.email) {
-      this.$router.push("/home");
-    }
-    this.$store.commit("removeSidebar");
   },
 };
 </script>
