@@ -53,7 +53,7 @@ import { ref, computed, defineProps, defineEmits, watch } from "vue";
 import { useStore} from "vuex";
 
 const store = useStore();
-const props = defineProps( ["keyNumber", "musicKey", "keyNotes"]); // 
+const props = defineProps( ["keyNumber", "musicKey", "keyNotes"]);
 const emit = defineEmits(["keySelected"]);
 
 const dropdownIsOpen = ref(false);
@@ -61,9 +61,7 @@ const showQualities = ref(false);
 const selectedKey = ref(null);
 const selectedQuality = ref(null);
 
-const allMusicKeys = computed(() => {
-  return store.getters.getMusicKeys;
-});
+const allMusicKeys = computed(() => store.getters.getMusicKeys);
 
 function toggleDropdown() {
   dropdownIsOpen.value = !dropdownIsOpen.value;

@@ -6,7 +6,7 @@ import BaseCard from "./components/ui/BaseCard.vue";
 import TheLoader from "./components/ui/TheLoader.vue";
 import ScrollUp from "./components/ui/ScrollUp.vue";
 
-import { Dropdown, Tooltip } from 'floating-vue';
+import { Dropdown } from 'floating-vue';
 import 'floating-vue/dist/style.css';
 
 import { faHeart as HeartRegular, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
@@ -34,7 +34,6 @@ app.component('BaseCard', BaseCard);
 app.component('TheLoader', TheLoader);
 app.component('ScrollUp', ScrollUp);
 app.component('VDropdown', Dropdown);
-app.component('VTooltip', Tooltip);
 
 app.use(router);
 app.use(store);

@@ -44,6 +44,7 @@
         </div>
         <div v-else class="create-new-input-container">
           <input
+            ref="playlistNameInput"
             v-model.trim="playlistName"
             class="create-new-input"
             type="text"
@@ -110,6 +111,7 @@ const inputIsOpen = ref(false);
 const inputIsValid = ref(true);
 const playlistName = ref("");
 const toastsComponents = ref([]);
+const playlistNameInput = ref(null);
 
 const playlistNameChars = computed(() => playlistName.value.length);
 
@@ -145,8 +147,10 @@ async function updatePlaylist(name, {target: {checked}}) {
   if(checked && currentPlaylist.value === name) store.commit("addSongInPlaylist", props.songId);
 }
 
+
 async function createPlaylist() {
   inputIsValid.value = true;
+  playlistNameInput.value.focus();
   if (playlistNameChars.value > 50) {
     inputIsValid.value = false;;
     errorMsg.value = "Character limit exceeded.";
@@ -172,7 +176,6 @@ async function createPlaylist() {
     errorMsg.value = "Playlist creation failed. Please try again.";
     return;
   }
-
   updatePlaylist(playlistName.value, {target: {checked: true}});
   playlistName.value = "";
 }

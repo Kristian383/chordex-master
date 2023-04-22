@@ -9,13 +9,10 @@
           <div class="thumbnail flex-center">
             <img :src="artist.artistImg || artistPhoto" alt="Artist" />
           </div>
-
           <div class="details">
             <h2>
               <router-link :to="'/songs?artist=' + artist.name">
-                {{
-                  artist.name
-                }}
+                {{artist.name}}
               </router-link>
             </h2>
             <p>Songs: {{ artist.totalSongs }}</p>

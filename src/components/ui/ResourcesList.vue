@@ -2,8 +2,6 @@
   <base-card>
     <div class="section">
       <div class="todos">
-        <!-- <span><h2>Useful websites</h2></span> -->
-        <br />
         <div class="inputs">
           <input
             v-model.trim="website.name"

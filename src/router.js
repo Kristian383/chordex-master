@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "./store/index";
 
-const Songs = () => import('./pages/Songs.vue');
-// import Songs from "./pages/Songs.vue";
+// const Songs = () => import('./pages/Songs.vue');
+import Songs from "./pages/Songs.vue";
 const TheHome = () => import('./pages/TheHome.vue');
 const UserProfile = () => import('./pages/UserProfile.vue');
 const SongDetail = () => import('./pages/SongDetail.vue');
