@@ -15,13 +15,19 @@
         <div class="top-section" tabindex="-1">
           <font-awesome-icon
             tabindex="0"
+            class="delete"
+            icon="trash-alt"
+            @click="deleteSong"
+            @keydown.enter="deleteSong"
+          />
+          <font-awesome-icon
+            tabindex="0"
             class="heart"
             :icon="favoriteIconName"
             :class="{ 'is-favorite': isFavorite }"
             @click.prevent="toggleFavorite"
             @keydown.enter="toggleFavorite"
           />
-          <!-- my song checkbox -->
           <div class="mysong">
             <template v-if="!songId">
               <input
@@ -43,13 +49,6 @@
               </label>
             </template>
           </div>
-          <!-- delete and save btns -->
-          <font-awesome-icon
-            tabindex="0"
-            class="delete"
-            icon="trash-alt"
-            @click="deleteSong"
-          />
           <button-save
             tabindex="0"
             name="Save"
@@ -294,7 +293,7 @@ const getUsername = computed(() => store.getters.user.username);
 const allMusicKeys = computed(() => store.getters.getMusicKeys);
 
 onMounted(() => {
-  songId.value = route.params.songId;
+  songId.value = route.params?.songId;
   if (!songId.value) return;
 
   const isMySong = !!route.query?.isMySong;
@@ -349,7 +348,7 @@ function insertKey(data) {
 }
 
 async function deleteSong() {
-  const shouldDelete = window.confirm(`Are you sure you want to delete ${song.val}?`);
+  const shouldDelete = window.confirm(`Are you sure you want to delete ${song.val} song?`);
   if (!shouldDelete) return;
 
   const payload = {
@@ -548,25 +547,21 @@ async function searchSongInfo() {
     justify-content: flex-end;
     align-items: center;
     position: relative;
-    // padding-top: 0.5rem;
-    
-    gap: 1.625rem;
+    gap: 0.5rem;
+
+    @media (min-width: 26.25rem) {
+      gap: 1.5rem;
+    }
 
     .is-favorite {
       color: var(--burgundy);
     }
 
     .heart {
-      position: absolute;
-      left: 1.25rem;
-      top: 0.3125rem;
       cursor: pointer;
     }
 
     .mysong {
-      position: absolute;
-      left: 3.5rem;
-      top: 0;
       cursor: pointer;
 
       label {
@@ -578,14 +573,10 @@ async function searchSongInfo() {
     .delete {
       cursor: pointer;
       color: RGB(16, 17, 20);
+      margin-right: auto;
 
       &:hover {
         color: black;
-      }
-
-      @media (max-width: 23.75rem) {
-        position: absolute;
-        top: -2.5rem;
       }
     }
   }
@@ -594,16 +585,6 @@ async function searchSongInfo() {
     font-size: 1.5rem;
     transition: all 0.2s ease-in;
     filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
-  }
-}
-
-@media (min-width: 26.25rem) {
-  .top-section {
-    gap: 2.1875rem;
-  }
-
-  .top-section .mysong {
-    left: 4.6875rem;
   }
 }
 
