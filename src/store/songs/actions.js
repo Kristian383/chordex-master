@@ -88,11 +88,9 @@ export default {
         let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL);
 
         const body = {
-            // username,
             "songName": payload.songName,
             "artist": payload.artist
         };
-        //console.log("delete body", body);
         let response;
         try {
             response = await fetch(url,
@@ -102,19 +100,18 @@ export default {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + access_token
                     },
-                    body: JSON.stringify(
-                        body
-                    )
+                    body: JSON.stringify(body)
                 });
         } catch {
-            return;
+            return false;
         }
         const responseData = await response.json();
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to delete song.');
-            return;
+            return false;
         }
         context.commit("deleteSong", payload.songId);
+        return true;
     },
     //MUSIC KEYS
     async loadMusicKeys(context) {

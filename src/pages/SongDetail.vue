@@ -119,8 +119,8 @@ export default {
     const showDetails = ref(false);
     const imgUrl = computed(() => require("@/assets/music.png"));
     const isFavorite = computed(() => songData.value?.isFavorite);
-    const songId = computed(() => route.params.songId);
-    const isMySong = computed(() => route.query.isMySong === "True");
+    const songId = computed(() => route.params?.songId);
+    const isMySong = computed(() => route.query?.isMySong === "True");
 
     const allSongs = computed(() => isMySong.value ? store.getters.getAllMySongs : store.getters.getAllSongs);
     const songsLoading = computed(() => store.getters.songsLoading);
@@ -141,7 +141,7 @@ export default {
       // then the watcher will get called.
       if(!songId.value) return;
       if (!loading && !data) {
-        router.push("/songs");
+        router.push(route.query?.isMySong ? "/songs?isMySong=True" : "/songs");
       } else if (!loading && data) {
         showDetails.value = true;
         store.commit("setSongDetailTitle", data.songName);
@@ -158,18 +158,20 @@ export default {
       router.push(pushRoute);
     }
 
-    function deleteSong() {
+    async function deleteSong() {
       if (window.confirm("Are you sure?")) {
         const payload = {
-          songName: songData.value.songName,
-          artist: songData.value.artist,
-          songId: songData.value.songId,
+          songName: songData.value?.songName,
+          artist: songData.value?.artist,
+          songId: songData.value?.songId,
         };
-        store.dispatch("deleteSong", payload).then(() => {
-          router.push(
-            songData.value.isMySong ? "/songs?isMySong=True" : "/songs"
-          );
-        });
+        router.push(
+          route.query?.isMySong ? "/songs?isMySong=True" : "/songs"
+        );
+        const response = await store.dispatch("deleteSong", payload);
+        if (!response) {
+          window.alert("There was an error while trying to delete the song.")
+        } 
       }
     }
 
@@ -186,7 +188,7 @@ export default {
     });
 
     const artistRoute = computed(() => {
-      const { isMySong, artist } = songData.value;
+      const { isMySong, artist } = songData?.value;
       const path = "/songs";
       const query = isMySong ? { isMySong: "True" } : { artist };
       return { path, query };
