@@ -44,7 +44,7 @@
                 <font-awesome-icon class="popup-item-icon" icon="edit" />
                 <span>Edit</span>
               </li>
-              <li class="dropdown-popup-item" @click="$emit('openPlaylistModal', song.songId)">
+              <li v-if="!$route.query.isMySong" class="dropdown-popup-item" @click="$emit('openPlaylistModal', song.songId)">
                 <font-awesome-icon class="popup-item-icon" icon="plus" />
                 <span>Playlist</span>
               </li>
