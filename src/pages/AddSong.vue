@@ -14,10 +14,12 @@
         </div>
         <div class="top-section" tabindex="-1">
           <font-awesome-icon
+            tabindex="0"
             class="heart"
             :icon="favoriteIconName"
             :class="{ 'is-favorite': isFavorite }"
             @click.prevent="toggleFavorite"
+            @keydown.enter="toggleFavorite"
           />
           <!-- my song checkbox -->
           <div class="mysong">
@@ -30,15 +32,30 @@
                 class="form-input-chk-field"
                 @click="setMySongArist"
               />
-              <label for="my-song">My song</label>
+              <label 
+              tabindex="0" 
+              @keydown.enter="{ 
+                songInfo.isMySong = !songInfo.isMySong;
+                artist.val = getUsername;
+              }" 
+              for="my-song">
+                My song
+              </label>
             </template>
           </div>
           <!-- delete and save btns -->
           <font-awesome-icon
-            tabindex="0" class="delete" icon="trash-alt"
+            tabindex="0"
+            class="delete"
+            icon="trash-alt"
             @click="deleteSong"
           />
-          <button-save tabindex="0" name="Save" @click="submitSong" />
+          <button-save
+            tabindex="0"
+            name="Save"
+            @keydown.enter="submitSong"
+            @click="submitSong" 
+          />
         </div>
         <div class="grid-2">
           <!-- artist name -->
@@ -280,7 +297,7 @@ onMounted(() => {
   songId.value = route.params.songId;
   if (!songId.value) return;
 
-  const isMySong = !!route.query.isMySong;
+  const isMySong = !!route.query?.isMySong;
   const allSongs = isMySong ? store.getters.getAllMySongs : store.getters.getAllSongs;
   const songData = allSongs.find((song) => song.songId === +songId.value);
   if (!songData) {
@@ -513,6 +530,7 @@ async function searchSongInfo() {
     position: relative;
     border-radius: 0.5rem;
     z-index: 23;
+    margin-bottom: 0.375rem;
 
     .error-text {
       color: var(--burgundy);
@@ -522,7 +540,6 @@ async function searchSongInfo() {
       background-color: var(--burgundy);
       color: #fff;
       padding: 1rem;
-      margin-top: 0.375rem;
     }
   }
 
@@ -530,7 +547,9 @@ async function searchSongInfo() {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-top: 0.5rem;
+    position: relative;
+    // padding-top: 0.5rem;
+    
     gap: 1.625rem;
 
     .is-favorite {
@@ -540,16 +559,20 @@ async function searchSongInfo() {
     .heart {
       position: absolute;
       left: 1.25rem;
-      top: 2.0625rem;
+      top: 0.3125rem;
       cursor: pointer;
     }
 
     .mysong {
       position: absolute;
       left: 3.5rem;
-      top: 0.5rem;
+      top: 0;
       cursor: pointer;
-      font-weight: 600;
+
+      label {
+        margin: 0;
+        padding: 8px 1rem;
+      }
     }
 
     .delete {

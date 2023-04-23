@@ -12,8 +12,8 @@ export default {};
 /* button */
 .button-container {
   position: relative;
-  width: 100px;
-  height: 50px;
+  width: 5rem;
+  height: 2.5rem;
 }
 .button-container button {
   position: relative;
