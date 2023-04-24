@@ -2,14 +2,7 @@
   <!-- <the-beta-banner v-if="" /> -->
   <the-header />
   <the-sidebar />
-
   <router-view />
-  <!-- <router-view v-slot="{ Component }">
-    <keep-alive>
-      <component :is="Component" :key="$route.fullPath" />
-    </keep-alive>
-  </router-view> -->
-
   <the-footer />
 </template>
 

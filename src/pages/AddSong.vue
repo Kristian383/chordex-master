@@ -584,7 +584,6 @@ async function searchSongInfo() {
   svg {
     font-size: 1.5rem;
     transition: all 0.2s ease-in;
-    filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
   }
 }
 

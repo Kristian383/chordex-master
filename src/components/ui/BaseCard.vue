@@ -21,7 +21,11 @@
           >
             <font-awesome-icon icon="angle-left" />
           </span>
-          <span class="title-text">{{ getTitle }}</span>
+          <div v-if="$route.query?.artist" @click="$router.push('/songs')" class="active-artist-chip">
+            <span>{{ $route.query?.artist }}</span>
+            <font-awesome-icon class="chip-icon" icon="times" />
+          </div>
+          <span v-else class="title-text">{{ getTitle }}</span>
           <span
             v-if="showArrows == 'both' || showArrows == 'next'"
             class="arrow-right"
@@ -194,7 +198,35 @@ onBeforeUnmount(() => {
   background-color: var(--white);
   height: 100%;
   max-width: 106.25rem;
+
+    .active-artist-chip {
+      display: inline-block;
+      border: 2px solid #ccc;
+      border-radius: 1.25rem;
+      padding: 0.3125rem 0.625rem;
+      font-size: 0.875rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--dark_gray_chips);
+
+      &:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+        .chip-icon {
+          color: var(--dark_gray_chips);
+        }
+      }
+      &:active {
+        transform: translateY(1px);
+      }
+      .chip-icon {
+        color: var(--mid_gray);
+      }
+  }
 }
+
 @media (min-width: 1400px) {
   .home-section .home-content {
     padding: 6rem 1rem 1rem 1rem;
@@ -208,6 +240,7 @@ onBeforeUnmount(() => {
 .sort-section-title {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.875rem;
   margin-bottom: 0.5rem;
   color: var(--font_black);
@@ -216,6 +249,9 @@ onBeforeUnmount(() => {
   
   @media (min-width: 90rem) {
     padding-left: 2.5rem;
+  }
+  @media (min-width: 37.5rem) {
+    flex-direction: row;
   }
 }
 .sort-section-title .title {
