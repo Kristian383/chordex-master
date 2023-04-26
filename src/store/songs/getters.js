@@ -131,6 +131,9 @@ export default {
     getPlaylists(state) {
         return state.playlists;
     },
+    getActivePlaylistSongsLength(state) {
+        return state.activePlaylistSongs.length;
+    },
     // resources
     getUserNotes(state) {
         return state.usefulResources.notes;

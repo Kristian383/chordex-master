@@ -239,7 +239,6 @@ onBeforeUnmount(() => {
 /*  */
 .sort-section-title {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
   gap: 0.875rem;
   margin-bottom: 0.5rem;
@@ -258,6 +257,7 @@ onBeforeUnmount(() => {
   flex-shrink: 0; /*  this doesnt remove arrows down */
   font-size: 1.3125rem;
   font-weight: 600;
+  text-align: center;
 }
 
 /* arrows for song */

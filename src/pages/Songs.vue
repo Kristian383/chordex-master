@@ -36,7 +36,8 @@
             </ul>
           </template>
         </VDropdown>
-        <h2 class="playlist-title">{{ playlistQueryName }}</h2>
+        <h2 :title="playlistQueryName" class="playlist-title">{{ playlistQueryName }}</h2>
+        <span class="playlist-song-number-chip">Songs: {{ activePlaylistSongsLength }}</span>
       </div>
       <add-playlist-input
         v-else 
@@ -90,6 +91,7 @@ const router = useRouter();
 
 const filters = computed(() => store.getters.getActiveFilters);
 const playlistQueryName = computed(() => route.query?.playlist);
+const activePlaylistSongsLength = computed(() => store.getters.getActivePlaylistSongsLength)
 const songId = ref(null);
 const openModal = ref(false);
 const playlistNameEdit = ref(false);
@@ -122,7 +124,6 @@ const showEmptySongsMessage = computed(() => !songsAreLoading.value && AllSongs.
 
 const AllSongs = computed(() => {
   const queryName = route.query;
-  //TODO: set loader here?
   if(queryName?.playlist) {
     return store.getters.getSongsFromPlaylist(filters.value);
   }
@@ -170,13 +171,32 @@ async function deletePlaylist() {
   display: flex;
   align-items: center;
   gap: 0.875rem;
-
+  width: 100%;
+  flex-wrap: wrap;
   .playlist-title {
-    max-width: 18rem;
+    max-width: 12.5rem;
+    display: inline-block;
     @include ellipsis-text;
 
-    @media (min-width: 62rem) {
+    @media (min-width: 77rem) {
       max-width: 35rem;
+    }
+
+    @media (min-width: 87rem) {
+      max-width: 45rem;
+    }
+  }
+
+  .playlist-song-number-chip {
+    white-space: nowrap;
+    margin: auto;
+    border: 2px solid #ccc;
+    border-radius: 1.25rem;
+    padding: 0.3125rem 0.625rem;
+    font-size: 0.875rem;
+    color: var(--mid_gray);
+    @media (min-width: 56.26rem) {
+      margin: 0 0 0 auto;
     }
   }
 
