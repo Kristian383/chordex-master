@@ -7,6 +7,6 @@ export default {
     return state.didAutoLogout;
   },
   user(state) {
-    return state.user
+    return state.user;
   },
-}
+};

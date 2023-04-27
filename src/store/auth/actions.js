@@ -15,18 +15,18 @@ export default {
         context.commit("setUser", {
             token: null,
             user: {}
-        })
+        });
 
-        context.commit("clearVuex")
+        context.commit("clearVuex");
     },
 
     async auth(context, payload) {
 
         const mode = payload.mode;
-        let url = new URL(`/login`, process.env.VUE_APP_URL)
+        let url = new URL(`/login`, process.env.VUE_APP_URL);
 
         if (mode === "signup") {
-            url = new URL(`/register`, process.env.VUE_APP_URL)
+            url = new URL(`/register`, process.env.VUE_APP_URL);
         }
         let response;
         try {
@@ -41,17 +41,17 @@ export default {
                         password: payload.user.password,
                         username: payload.user.username
                     })
-                })
+                });
         } catch {
-            return "There was an error!"
+            return "There was an error!";
         }
 
         const responseData = await response.json();
         if (!response.ok) {
-            return responseData.message
+            return responseData.message;
         }
 
-        context.dispatch("setUserAndLoadData", { ...responseData, email: payload.user.email })
+        context.dispatch("setUserAndLoadData", { ...responseData, email: payload.user.email });
     },
 
     async signInWithGoogle() {
@@ -67,9 +67,9 @@ export default {
                 response.msg = "Success.";
                 // response.username = user.displayName;
                 // console.log(user);
-            })
+            });
         } catch (error) {
-            response.google_token = false
+            response.google_token = false;
 
             switch (error.code) {
                 case "auth/user-not-found":
@@ -86,7 +86,7 @@ export default {
                 // response.msg = error;
             }
         }
-        return response
+        return response;
     },
 
     async firebaseBackendCall(context, google_token) {
@@ -104,26 +104,26 @@ export default {
                         google_token
                         // username:payload.username
                     })
-                })
+                });
         } catch {
             return {
                 message: "Something went wrong.",
                 success: false
-            }
+            };
         }
         const responseData = await response.json();
         if (!response.ok) {
             return {
                 message: responseData.message,
                 success: false
-            }
+            };
         }
 
-        context.dispatch("setUserAndLoadData", responseData)
+        context.dispatch("setUserAndLoadData", responseData);
         return {
             success: true,
             message: "ok"
-        }
+        };
     },
     setUserAndLoadData(context, payload) {
         localStorage.setItem("token", payload.token);
@@ -135,7 +135,7 @@ export default {
                 email: payload.email
             },
             token: payload.token
-        })
+        });
         context.dispatch("loadAllSongs");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
@@ -144,26 +144,26 @@ export default {
 
     tryLogin(context) {
         const token = localStorage.getItem("token");
-        const username = localStorage.getItem("username")
-        const email = localStorage.getItem("email")
+        const username = localStorage.getItem("username");
+        const email = localStorage.getItem("email");
         if (!token) return;
 
         const expiresIn = jwt_decode(token).exp;
         var ts = Math.round((new Date()).getTime() / 1000);
         if (expiresIn - ts < 0) {
-            context.dispatch("autoLogout")
+            context.dispatch("autoLogout");
         } else {
-            const user = { username, email }
+            const user = { username, email };
 
             context.commit("setUser", {
                 token: token,
                 expiresIn,
                 user
-            })
+            });
             context.dispatch("loadAllSongs")
                 .then(res => {
                     if (res == "There was an error!" || res == false) {
-                        context.dispatch("autoLogout")
+                        context.dispatch("autoLogout");
                     }
                 });
             context.dispatch("loadMusicKeys");
@@ -173,12 +173,12 @@ export default {
         }
     },
     autoLogout(context) {
-        context.dispatch("logout")
-        context.commit("setAutoLogout")
+        context.dispatch("logout");
+        context.commit("setAutoLogout");
     },
 
     async forgotPassword(_, email) {
-        let url = new URL(`/forgotpassword`, process.env.VUE_APP_URL)
+        let url = new URL(`/forgotpassword`, process.env.VUE_APP_URL);
         let response;
         try {
             response = await fetch(url,
@@ -193,23 +193,23 @@ export default {
 
         } catch {
             console.log("There was an error!");
-            return "error"
+            return "error";
         }
         if (!response.ok) {
-            return false
+            return false;
         } else {
-            return true
+            return true;
         }
     },
 
     async resetPassword(_, payload) {
-        let url = new URL(`/resetpassword/${payload.token}`, process.env.VUE_APP_URL)
+        let url = new URL(`/resetpassword/${payload.token}`, process.env.VUE_APP_URL);
 
         const expiresIn = jwt_decode(payload.token, { header: true }).exp;
         var ts = Math.round((new Date()).getTime() / 1000);
 
         if (expiresIn - ts < 0) {
-            return "expired"
+            return "expired";
         }
         let response;
         try {
@@ -223,16 +223,16 @@ export default {
                 });
         } catch {
             console.log("There was an error!");
-            return "There was an error!"
+            return "There was an error!";
         }
         const responseData = await response.json();
 
-        return responseData.message
+        return responseData.message;
     }
     ,
     async contactMe(context, payload) {
         let access_token = context.getters.token;
-        let url = new URL(`/contactme`, process.env.VUE_APP_URL)
+        let url = new URL(`/contactme`, process.env.VUE_APP_URL);
 
         let response;
         try {
@@ -250,12 +250,12 @@ export default {
                 });
 
         } catch {
-            return false
+            return false;
         }
         if (!response.ok) {
-            return false
+            return false;
         }
-        return true
+        return true;
     },
 
     async requestDeleteAccount(context, payload) {
@@ -275,24 +275,24 @@ export default {
 
         } catch {
             console.log("There was an error!");
-            return "error"
+            return "error";
         }
         if (!response.ok) {
-            return false
+            return false;
         } else {
-            return true
+            return true;
         }
     },
 
     async deleteAccount(context, payload) {
-        let url = new URL(`/delete-acc/${payload.token}`, process.env.VUE_APP_URL)
+        let url = new URL(`/delete-acc/${payload.token}`, process.env.VUE_APP_URL);
         let access_token = context.getters.token;
 
         const expiresIn = jwt_decode(payload.token, { header: true }).exp;
         let ts = Math.round((new Date()).getTime() / 1000);
 
         if (expiresIn - ts < 0) {
-            return "expired"
+            return "expired";
         }
         let response;
         try {
@@ -309,7 +309,7 @@ export default {
                 });
 
         } catch {
-            return { success: false }
+            return { success: false };
         }
         const responseData = await response.json();
 
@@ -317,13 +317,13 @@ export default {
             return {
                 message: responseData.message,
                 success: false
-            }
+            };
         }
         return {
             success: true,
             message: "ok"
-        }
+        };
     },
 
 
-}
+};

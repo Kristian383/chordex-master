@@ -170,7 +170,7 @@ export default {
         );
         const response = await store.dispatch("deleteSong", payload);
         if (!response) {
-          window.alert("There was an error while trying to delete the song.")
+          window.alert("There was an error while trying to delete the song.");
         } 
       }
     }

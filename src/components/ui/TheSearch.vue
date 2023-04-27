@@ -2,21 +2,22 @@
   <div 
     ref="searchBoxRef"
     class="search-box" 
-    :class="searchIsActive">
-      <input
-        type="text"
-        placeholder="Search song or artist"
-        @input="searchTextBox"
-      />
-      <div class="match-list">
-        <transition-group name="list">
-          <li v-for="match in searchMatch" :key="match">
-            <router-link :to="'/songs/' + match.songId">
-              <b>{{ match.artist }} - {{ match.songName }}</b>
-            </router-link>
-          </li>
-        </transition-group>
-      </div>
+    :class="searchIsActive"
+  >
+    <input
+      type="text"
+      placeholder="Search song or artist"
+      @input="searchTextBox"
+    />
+    <div class="match-list">
+      <transition-group name="list">
+        <li v-for="match in searchMatch" :key="match">
+          <router-link :to="'/songs/' + match.songId">
+            <b>{{ match.artist }} - {{ match.songName }}</b>
+          </router-link>
+        </li>
+      </transition-group>
+    </div>
     <font-awesome-icon id="search" icon="search"> </font-awesome-icon>
   </div>
 </template>
@@ -28,7 +29,7 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 const searchMatch = ref([]);
-const searchBoxRef = ref(null)
+const searchBoxRef = ref(null);
 
 const searchIsActive = computed(() => {
   return searchMatch.value.length ? "active" : "";

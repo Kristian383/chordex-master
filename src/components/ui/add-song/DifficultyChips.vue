@@ -20,7 +20,7 @@
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
 
-defineProps(['modelValue'])
+defineProps(['modelValue']);
 const emit = defineEmits(["update:modelValue"]);
 
 const options = ref(
@@ -39,6 +39,6 @@ const options = ref(
     model: 'difficulty',
     value: 'hard',
     label: 'Hard',
-  }])
+  }]);
 
 </script>

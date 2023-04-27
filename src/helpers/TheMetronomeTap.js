@@ -22,7 +22,7 @@ export default class TapBPM {
             this.bpmTotal = this.bpmTotal + this.bpm;
             this.countClicks++;
             this.bpmFinal = (this.bpmTotal / this.countClicks) * 1000;
-            return +this.bpmFinal.toFixed(0)
+            return +this.bpmFinal.toFixed(0);
         }
     }
 

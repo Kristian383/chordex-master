@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["closeModal"])
+const emit = defineEmits(["closeModal"]);
 function closeYtModal() {
   emit("closeModal");
 }

@@ -12,11 +12,11 @@ function Timer(callback, timeInterval, options) {
       } 
       
       this.timeout = setTimeout(this.round, this.timeInterval);
-    }
+    };
     // Add method to stop timer
     this.stop = () => {
       clearTimeout(this.timeout);
-    }
+    };
     // Round method that takes care of running the callback and adjusting the time
     this.round = () => {
       // The drift will be the current moment in time for this round minus the expected time..
@@ -35,7 +35,7 @@ function Timer(callback, timeInterval, options) {
     //   console.log('Next round time interval:', this.timeInterval - drift);
       // Run timeout again and set the timeInterval of the next iteration to the original time interval minus the drift.
       this.timeout = setTimeout(this.round, this.timeInterval - drift);
-    }
+    };
   }
 
   export default Timer;

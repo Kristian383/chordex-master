@@ -34,6 +34,6 @@ module.exports = {
 			"svg": "any",
 			"math": "any"
 		}],
-		semi: ['warning', 'always']
+		semi: ['error', 'always']
 	}
 }

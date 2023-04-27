@@ -91,7 +91,7 @@ const router = useRouter();
 
 const filters = computed(() => store.getters.getActiveFilters);
 const playlistQueryName = computed(() => route.query?.playlist);
-const activePlaylistSongsLength = computed(() => store.getters.getActivePlaylistSongsLength)
+const activePlaylistSongsLength = computed(() => store.getters.getActivePlaylistSongsLength);
 const songId = ref(null);
 const openModal = ref(false);
 const playlistNameEdit = ref(false);
