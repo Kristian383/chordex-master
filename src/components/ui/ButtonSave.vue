@@ -4,10 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style scoped>
 /* button */
 .button-container {
@@ -46,7 +42,7 @@ export default {};
 }
 .button-container button.loading {
   pointer-events: none;
-  width: 50px;
+  width: 2.5rem;
   border-radius: 50%;
 }
 .button-container button.loading:before {
