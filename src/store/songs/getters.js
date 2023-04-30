@@ -14,17 +14,26 @@ export default {
     sidebarIsActive(state) {
         return state.sidebarIsActive;
     },
-    indexOfCurrentSong(state) {
+    indexOfCurrentSong(state, getters) {
         return (payload) => {
-            if (payload.query) {
-                return state.mySongs.findIndex(song => song.songId == payload.id);
-            } else
-                return state.songs.findIndex(song => {
-                    return song.songId == payload.id;
-                });
+            if (payload.query?.isMySong) {
+                return state.mySongs.findIndex(song => song.songId === payload.id);
+            } else if (payload.playlist) {
+                const filteredSongs = getters.getSongsFromPlaylist(state.activeFilters);
+                return filteredSongs.findIndex(song => song.songId === payload.id);
+            } else if (payload.artist) {
+                const filteredSongs = getters.filterSongs(state.activeFilters, { artist: payload.artist });
+                return filteredSongs.findIndex(song => song.songId === payload.id);
+            } 
+            else {
+                if (state.activeFilters[0] !== "all") {
+                    const filteredSongs = getters.filterSongs(state.activeFilters);
+                    return filteredSongs.findIndex(song => song.songId === payload.id);
+                }
+                return state.songs.findIndex(song => song.songId == payload.id);
+            }
         };
-    }
-    ,
+    },
     getAllSongs(state) {
         return state.songs;
     },
@@ -47,21 +56,21 @@ export default {
         };
     },
     filterSongs(state, getters) {
-        return (filters, query = null) => {
+        return (filters, query = {}) => {
             // in case of displaying all songs from artist
-            if (filters[0] === "all" && query.artist) {
-                return state.songs.filter(song => song.artist.toLowerCase() == query.artist.toLowerCase());
+            if (filters[0] === "all" && query?.artist) {
+                return state.songs.filter(song => song.artist.toLowerCase() == query?.artist.toLowerCase());
             }
             // in case of displaying all songs 
             if (filters[0] === "all") {
-                if (query.isMySong) return state.mySongs;
+                if (query?.isMySong) return state.mySongs;
                 return state.songs;
             }
             // in case when we need to filter songs when filter option is !== "all"
-            if (query.isMySong) {
+            if (query?.isMySong) {
                 return state.mySongs.filter(song => getters.shouldFilterSong(filters, song));
-            } else if (query.artist) {
-                return state.songs.filter(song => song.artist.toLowerCase() === query.artist.toLowerCase()).filter(song => {
+            } else if (query?.artist) {
+                return state.songs.filter(song => song.artist.toLowerCase() === query?.artist.toLowerCase()).filter(song => {
                     return getters.shouldFilterSong(filters, song);
                 });
             } else {
@@ -131,6 +140,9 @@ export default {
     getPlaylists(state) {
         return state.playlists;
     },
+    // getActivePlaylist(state) {
+    //     return state.activePlaylist;
+    // },
     getActivePlaylistSongsLength(state) {
         return state.activePlaylistSongs.length;
     },

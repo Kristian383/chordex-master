@@ -171,7 +171,7 @@ export default {
         state.activeFilters = payload;
     },
     addSongsForPlaylist(state, payload) {
-        state.activePlaylistSongs = payload;
+        state.activePlaylistSongs = payload.reverse();
     },
     addSongInPlaylist(state, payload) {
         state.activePlaylistSongs.push(payload);

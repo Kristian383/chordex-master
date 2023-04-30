@@ -122,8 +122,9 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, _, next) => {
+router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title}` || "Quotex";
+  to.meta.previousRoute = from;
 
   if (to.meta.requiresAuth && !store.getters.token) {
     next("/home");

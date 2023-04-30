@@ -168,9 +168,13 @@ const timeSince = computed(() => {
 });
 
 function openSongDetail(event) {
+  let queryUrl = '';
+  if (route.query?.playlist) queryUrl = `?playlist=${route.query?.playlist}`;
+  else if (route.query?.artist) queryUrl = `?artist=${route.query?.artist}`;
+    
   const routePath = props.song.isMySong
     ? `/songs/${props.song.songId}?isMySong=True`
-    : `/songs/${props.song.songId}`;
+    : `/songs/${props.song.songId}${queryUrl}`;
   // Check if the ctrl key is pressed (or cmd key on Mac)
   if (event.ctrlKey || event.metaKey || event.button === 1) {
     event.preventDefault();

@@ -134,6 +134,7 @@ const unwatch = watch(() => route.query?.playlist, async (newVal) => {
   if (newVal) {
     closePlaylistEdit();
     await store.dispatch("fetchSongsForPlaylist", route.query?.playlist);
+    if (!getPlaylists.value.includes(route.query?.playlist)) router.push("/songs");
   } 
 }, {immediate: true});
 onBeforeUnmount(unwatch);

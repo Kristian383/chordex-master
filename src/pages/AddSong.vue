@@ -39,12 +39,13 @@
                 @click="setMySongArist"
               />
               <label 
-              tabindex="0" 
-              @keydown.enter="{ 
-                songInfo.isMySong = !songInfo.isMySong;
-                artist.val = getUsername;
-              }" 
-              for="my-song">
+                tabindex="0" 
+                for="my-song" 
+                @keydown.enter="{ 
+                  songInfo.isMySong = !songInfo.isMySong;
+                  artist.val = getUsername;
+                }"
+              >
                 My song
               </label>
             </template>

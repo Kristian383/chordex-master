@@ -10,29 +10,15 @@
       </div>
     </nav>
     <div class="home-content" :class="{ reduce_content_padding: isMetronomeView }">
-      <!-- TODO: add slot here and move this logic in songdetail -->
-      <div :style="{ justifyContent: $route.path !== '/songs' ? 'space-around' : 'space-between' }" class="sort-section-title">
+      <div :style="{ justifyContent: titleJustifyStyle }" class="sort-section-title">
         <slot name="playlist_name_edit" />
+        <slot name="song_detail_title" />
         <div class="title">
-          <span
-            v-if="showArrows == 'both' || showArrows == 'prev'"
-            class="arrow-left"
-            @click="goToSong('prev')"
-          >
-            <font-awesome-icon icon="angle-left" />
-          </span>
-          <div v-if="$route.query?.artist" @click="$router.push('/songs')" class="active-artist-chip">
+          <div v-if="$route.query?.artist && !route.params.songId" class="active-artist-chip" @click="$router.push('/songs')">
             <span>{{ $route.query?.artist }}</span>
             <font-awesome-icon class="chip-icon" icon="times" />
           </div>
-          <span v-else class="title-text">{{ getTitle }}</span>
-          <span
-            v-if="showArrows == 'both' || showArrows == 'next'"
-            class="arrow-right"
-            @click="goToSong('next')"
-          >
-            <font-awesome-icon icon="angle-right" />
-          </span>
+          <span v-else-if="!$route.query?.artist" class="title-text">{{ getTitle }}</span>
         </div>
         <slot name="sort_select_box" />
       </div>
@@ -44,66 +30,31 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, defineAsyncComponent } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
 const TheSearch = defineAsyncComponent(() => import('./../ui/TheSearch.vue'));
 
 const route = useRoute();
-const router = useRouter();
 const store = useStore();
 const showBackToTop = ref(false);
 
-const sidebarIsActive = computed(() => {
-  return store.getters.sidebarIsActive;
+const titleJustifyStyle = computed(() => {
+  if (route.name === "SongDetail") return "center";
+  return route.path !== "/songs" ? "space-around" : "space-between";
 });
-
-const isDesktop = computed(() => {
-  return !store.getters.isMobile;
-});
-
-const isMetronomeView = computed(() => {
-  return route.path == "/metronome" ? true : false;
-});
+const sidebarIsActive = computed(() => store.getters.sidebarIsActive);
+const isDesktop = computed(() => !store.getters.isMobile);
+const isMetronomeView = computed(() => route.path == "/metronome" ? true : false);
 
 const getTitle = computed(() => {
   const { name, query } = route;
 
-  if (name === "SongDetail") {
-    return store.getters.getSongDetailTitle;
-  }
+  if (query?.artist) return `Songs by: ${query?.artist}`;
 
-  if (query?.artist) {
-    return `Songs by: ${query?.artist}`;
-  }
-
-  if(query?.playlist) return;
+  if(query?.playlist || name === "SongDetail") return;
 
   return name;
-});
-
-const hasQuery2 = computed(() => {
-  return Object.keys(route.query).length > 0;
-});
-
-const indexOfCurrentSong = computed(() => {
-  return store.getters.indexOfCurrentSong({ id: route.params.songId, query: Object.keys(route.query).length > 0 });
-});
-
-const showArrows = computed(() => {
-  if (route.name !== "SongDetail") return false;
-
-  const index = indexOfCurrentSong.value;
-
-  const lenAll = hasQuery2.value ? store.getters.getAllMySongsLen : store.getters.getAllSongsLen;
-
-  if (index === 0) {
-    return lenAll === 1 ? false : "next";
-  } else if (index === lenAll - 1) {
-    return "prev";
-  } else {
-    return "both";
-  }
 });
 
 function showButtonUp() {
@@ -112,14 +63,6 @@ function showButtonUp() {
   } else if (window.scrollY < 800) {
     showBackToTop.value = false;
   }
-};
-
-function goToSong(direction) {
-  const currentSongIndex = indexOfCurrentSong.value;
-  const goToIndex = direction === "next" ? currentSongIndex + 1 : currentSongIndex - 1; 
-  const goToSongId = hasQuery2.value ? store.getters.getAllMySongs[goToIndex].songId : store.getters.getAllSongs[goToIndex].songId;
-  const pushRoute = hasQuery2.value ? `/songs/${goToSongId}?isMySong=True` : `/songs/${goToSongId}`;
-  router.push(pushRoute);
 };
 
 onMounted(() => {
