@@ -24,80 +24,56 @@
     <div v-else-if="showDetails" class="song-detail">
       <div class="box song-info">
         <div class="top-icons">
-          <!-- <div
-            class="go-back"
-            tabindex="0"
-            @keydown.enter="$router.go(-1)"
-            @click="$router.go(-1)"
-          >
-            <font-awesome-icon icon="arrow-left" />
-          </div> -->
-          <div class="middle-icons">
+          <div class="action-icons">
             <font-awesome-icon :icon="favoriteIconName" style="pointer-events: none" :class="{ 'is-favorite': isFavorite }" />
             <font-awesome-icon icon="edit" class="edit" @click="openEdit" />
             <font-awesome-icon icon="trash-alt" class="delete" @click="deleteSong" />
           </div>
         </div>
-        <!-- Artist and learned-->
         <div>
-          <div class="artist-link">
-            <b>Artist: </b>
-            <router-link :to="artistRoute">
-              {{ songData.artist }}
-            </router-link>
-          </div>
-          <div class="song-info-box">
-            <b>Learned:</b> {{ songData.practicedPrcntg }}%
-          </div>
+          <router-link class="artist-link" :to="artistRoute">{{ songData.artist }}</router-link>
         </div>
         <!-- Song and bpm -->
         <div>
-          <div class="song-name"><b>Song:</b> {{ songData.songName }}</div>
-          <div v-if="songData.bpm" class="song-info-box">
-            <b> BPM:</b> {{ songData.bpm }}
+          <div>{{ songData.songName }}</div>
+          <div v-if="songData.bpm" title="BPM">
+            <font-awesome-icon icon="drum" />
+            {{ songData.bpm }}
           </div>
         </div>
         <!-- keys -->
         <div v-if="songData.firstKey">
-          <div class="key"><b>Key:</b> {{ songData.firstKey }}</div>
-          <div class="chords">
-            <b>Chords in key:</b> {{ songData.firstKeyNotes }}
-          </div>
-          <div v-if="songData.firstChordProgression" class="guitar">
+          <div><b>Key:</b> {{ songData.firstKey }}</div>
+          <div><b>Chords in key:</b> {{ songData.firstKeyNotes }}</div>
+          <div v-if="songData.firstChordProgression">
             <b>Chord progression:</b> {{ songData.firstChordProgression }}
           </div>
         </div>
         <div v-if="songData.secondKey">
-          <div class="key"><b>Key Change:</b> {{ songData.secondKey }}</div>
-          <div class="chords">
+          <div><b>Key Change:</b> {{ songData.secondKey }}</div>
+          <div>
             <b>Chords in scale:</b> {{ songData.secondKeyNotes }}
           </div>
-          <div v-if="songData.secondChordProgression" class="guitar">
+          <div v-if="songData.secondChordProgression">
             <b>Chord progression:</b> {{ songData.secondChordProgression }}
           </div>
         </div>
         <!-- capo  tuning guitar-->
         <div>
-          <div v-if="songData.capo" class="capo">
-            <b>Capo:</b> {{ songData.capo }}
-          </div>
-          <div class="tuning">
-            <b>Tuning:</b> {{ songData.tuning ? songData.tuning : "Standard" }}
-          </div>
-
-          <div v-if="songData.acoustic || songData.electric" class="guitar">
+          <div v-if="songData.capo"><b>Capo:</b>{{ songData.capo }}</div>
+          <div><b>Tuning:</b>{{ songData.tuning ? songData.tuning : "Standard" }}</div>
+          <div v-if="songData.acoustic || songData.electric">
             <b>Guitar type:</b> {{ songData.acoustic ? "Acoustic" : "" }}
             {{ songData.electric ? "Eletric" : "" }}
           </div>
         </div>
         <!-- chordsWebsiteLink -->
         <div>
-          <div v-if="songData.chordsWebsiteLink" class="link">
-            <b>Website Link: </b>
-            <a :href="songData.chordsWebsiteLink" target="_blank"> Click me </a>
+          <div v-if="songData.chordsWebsiteLink">
+            <b>Chords website: </b>
+            <a :href="songData.chordsWebsiteLink" target="_blank"> Link </a>
           </div>
         </div>
-        <!-- difficulty -->
         <div v-if="songData.difficulty">
           <div><b>Difficulty:</b> {{ songData.difficulty }}</div>
         </div>
@@ -112,9 +88,8 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         />
-        <img v-else :src="songData.imgUrl || imgUrl" alt="" />
+        <img v-else :src="songData.imgUrl || imgUrl" alt="Artist" />
       </div>
-
       <div class="box notebook">
         <hr v-if="songData.songText" />
         <br />
@@ -179,7 +154,7 @@ export default {
     }
 
     async function deleteSong() {
-      if (window.confirm("Are you sure?")) {
+      if (window.confirm(`Are you sure you want to delete '${songData.value?.songName}' song?`)) {
         const payload = {
           songName: songData.value?.songName,
           artist: songData.value?.artist,
@@ -293,6 +268,7 @@ export default {
 <style lang="scss" scoped>
 .navigation-buttons {
   position: relative;
+  
   &::before {
     content: "";
     position: absolute;
@@ -303,7 +279,7 @@ export default {
     box-sizing: border-box;
     border-right: 1px solid #e4e4e7;
   }
-
+  
   .prev-button,
   .next-button {
     background-color: #fff;
@@ -344,11 +320,10 @@ export default {
     border-left: none;
   }
 }
-
 .song-detail {
   background-color: var(--white);
   color: var(--font_black);
-  padding: 12px 15px;
+  padding: 1rem;
   display: grid;
   gap: 10px;
   position: relative;
@@ -357,36 +332,51 @@ export default {
   max-width: 1400px;
   margin: 0 auto;
   border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  font-size: 18px;
-  border-right: 6px solid var(--burgundy);
-  .artist-link a {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 5px 0, rgba(0, 0, 0, 0.1) 0 0 1px 0;
+  font-size: 1.125rem;
+  .artist-link {
     color: inherit;
     font-weight: 600;
-  }
-  .artist-link a:hover {
-    color: var(--mid_gray);
+    &:hover {
+      color: var(--mid_gray);
+    }
   }
 
   .box {
     border-radius: 0 0 6px 6px;
     width: 240px;
     justify-self: center;
-  }
-  .box.notebook {
-    font-weight: 400;
-    line-height: 31px;
-    order: 3;
-    padding-bottom: 52px;
-  }
-  .box.video {
-    text-align: center;
-    order: 1;
+    
+    &.notebook {
+      font-weight: 400;
+      line-height: 1.75rem;
+      order: 3;
+      // padding-bottom: 52px;
+
+      pre {
+        white-space: pre-wrap; /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        word-wrap: break-word;
+      }
+    }
+    &.video {
+      text-align: center;
+      order: 1;
+
+      iframe {
+        width: 230px;
+      }
+
+      img {
+        height: 100%;
+        max-height: 400px;
+        max-width: 100%;
+      }
+    }
   }
 
-  .box.video iframe {
-    width: 230px;
-  }
 
   @media (min-width: 600px) {
     .box {
@@ -414,11 +404,6 @@ export default {
       width: 100%;
     }
   }
-  .box.video img {
-    height: 100%;
-    max-height: 400px;
-    max-width: 100%;
-  }
   @media (min-width: 1500px) {
     .song-detail {
       grid-template-columns: displayAccordingToYT;
@@ -434,12 +419,6 @@ export default {
       order: 2;
     }
   }
-
-  .song-info-box {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
   .song-info > div {
     display: flex;
     justify-content: space-between;
@@ -449,49 +428,7 @@ export default {
     align-items: center;
     flex-wrap: wrap;
   }
-
-  pre {
-    white-space: pre-wrap; /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-    white-space: -pre-wrap; /* Opera 4-6 */
-    white-space: -o-pre-wrap; /* Opera 7 */
-    word-wrap: break-word;
-  }
-  svg {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 28px;
-
-    filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
-  }
-
-  // .go-back {
-  //   position: absolute;
-  //   left: -5px;
-  //   top: -2.5rem;
-  //   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-  //     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  //   width: 2.5rem;
-  //   height: 2.5rem;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   border-radius: 50%;
-  //   @media (min-width: 720px) {
-  //     left: 15px;
-  //   }
-  //   a {
-  //     text-decoration: none;
-  //     color: var(--font_black);
-  //   }
-  //   &:hover {
-  //     background-color: #f1f1f1;
-  //   }
-  // }
-  .is-favorite {
-    color: #c22a2a;
-  }
-  .middle-icons {
+  .action-icons {
     position: relative;
     display: flex;
     justify-content: flex-start;
@@ -499,29 +436,37 @@ export default {
     outline: none;
     color: var(--dark_gray_chips);
     padding: 0 18px;
-  }
 
-  @media (min-width: 720px) {
-    .middle-icons {
-      padding: 0;
+    svg {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 28px;
+
+      :hover {
+        filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
+      }
     }
-  }
 
-  .middle-icons .delete {
-    position: absolute;
-    right: 0;
-  }
-  .middle-icons .edit {
-    position: absolute;
-    right: 50px;
-  }
-  .middle-icons .delete:hover,
-  .middle-icons .edit:hover {
-    color: var(--font_black);
-  }
+    .is-favorite {
+      color: var(--burgundy);
+    }
+    .delete {
+      position: absolute;
+      right: 0;
+    }
 
-  .link {
-    word-break: break-all;
+    .edit {
+      position: absolute;
+      right: 50px;
+    }
+
+    .delete:hover,
+    .edit:hover {
+      color: var(--font_black);
+    }
+    @media (min-width: 720px) {
+        padding: 0;
+    }
   }
 }
 

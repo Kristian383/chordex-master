@@ -1,13 +1,6 @@
 <template>
   <footer>
     <div class="container">
-      <div class="logo"><img src="@/assets/guitar.svg" alt="Logo" /></div>
-      <!-- <div>
-        <ul class="footer-pages">
-          <li><router-link to="/home">Home</router-link></li>
-          <li><router-link to="/about">About</router-link></li>
-        </ul>
-      </div> -->
       <a href="https://ko-fi.com/I2I0JPDGB" target="_blank">
         <img
           height="36"
@@ -45,25 +38,6 @@ footer {
   padding: 1.25rem;
   max-width: 71.25rem;
   margin: 0 auto;
-
-  .logo {
-    width: 3.125rem;
-
-    img {
-      width: 100%;
-    }
-  }
-  // .footer-pages {
-  //   gap: 1rem;
-  //   list-style: none;
-  //   display: flex;
-
-  //   li a {
-  //     text-decoration: none;
-  //     color: RGB(16, 17, 20);
-  //     font-weight: 500;
-  //     font-size: 18px;
-  //   }
 
   .spotify-logo {
     width: 6rem;
