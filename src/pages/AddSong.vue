@@ -417,7 +417,7 @@ async function submitSong(event) {
     } else {
       formIsValid.value = false;
       song.isValid = false;
-      errorMsg.value = "Something went wrong. Check if you already have that song or if you have reached maximum number of songs (40).";
+      errorMsg.value = "Something went wrong. Check if you already have that song or if you have reached maximum number of songs (30).";
     }
   } catch(error) {
     console.log(error);
