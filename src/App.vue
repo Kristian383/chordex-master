@@ -1,44 +1,30 @@
 <template>
-  <!-- <the-beta-banner v-if="" /> -->
   <the-header />
   <the-sidebar />
   <router-view />
   <the-footer />
 </template>
 
-<script>
-// import TheBetaBanner from "./components/layout/TheBetaBanner.vue";
+<script setup>
+import { computed, watch } from 'vue';
 import TheSidebar from "./components/layout/TheSidebar.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheFooter from "./components/layout/TheFooter.vue";
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
-export default {
-  name: "App",
-  components: {
-    TheSidebar,
-    TheHeader,
-    TheFooter,
-    // TheBetaBanner,
-  },
-  computed: {
-    didAutoLogout() {
-      return this.$store.getters.didAutoLogout;
-    },
-    isLogged() {
-      return this.$store.getters.token;
-    },
-  },
-  watch: {
-    didAutoLogout(curValue, oldValue) {
-      if (curValue && curValue !== oldValue) {
-        this.$router.replace("/home");
-      }
-    },
-  },
-  created() {
-    this.$store.dispatch("tryLogin");
-  },
-};
+const store = useStore();
+const router = useRouter();
+
+store.dispatch("tryLogin");
+
+const didAutoLogout = computed(() => store.getters.didAutoLogout);
+
+watch(didAutoLogout, (curValue, oldValue) => {
+  if (curValue && curValue !== oldValue) {
+    router.replace('/home');
+  }
+});
 </script>
 
 <style lang="scss">
