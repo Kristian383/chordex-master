@@ -52,29 +52,29 @@ const isLogged = computed(() => {
   return !store.getters.token;
 });
 
+const checkScreen = () => {
+  windowWidth.value = window.innerWidth;
+  if (windowWidth.value <= 900) {
+    store.commit("setMobile", true);
+    hideLogo.value = true;
+  } else {
+    store.commit("setMobile", false);
+    hideLogo.value = false;
+  }
+};
+const updateScroll = () => {
+  const scrollPosition = window.scrollY;
+  if (scrollPosition >= 50) {
+    scrolledNav.value = true;
+  } else {
+    scrolledNav.value = false;
+  }
+};
+
 onMounted(() => {
-  const checkScreen = () => {
-    windowWidth.value = window.innerWidth;
-    if (windowWidth.value <= 900) {
-      store.commit("setMobile", true);
-      hideLogo.value = true;
-    } else {
-      store.commit("setMobile", false);
-      hideLogo.value = false;
-    }
-  };
-
   window.addEventListener("resize", checkScreen);
+  window.addEventListener("scroll", updateScroll);
   checkScreen();
-
-  window.addEventListener("scroll", () => {
-    const scrollPosition = window.scrollY;
-    if (scrollPosition >= 50) {
-      scrolledNav.value = true;
-    } else {
-      scrolledNav.value = false;
-    }
-  });
 });
 
 onBeforeUnmount(() => {
