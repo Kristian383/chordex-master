@@ -197,10 +197,9 @@ watch(
 .selected {
   padding: 12px 20px;
   cursor: pointer;
-  transition: all 0.5s ease;
 }
 .select-box .option:hover {
-  background: #d8d8d8;
+  background-color: var(--f1_gray);
 }
 
 .select-box label {
