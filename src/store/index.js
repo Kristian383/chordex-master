@@ -12,6 +12,8 @@ const store = createStore({
             songDetailTitle: null,
             // darkMode: false,
             songsLoading: false,
+            songsOffset: 0,
+            allSongsLoaded: false,
             mobile:null,
             musicKeys: [],
             artists: [],

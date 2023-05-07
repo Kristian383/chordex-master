@@ -1,17 +1,21 @@
 
 export default {
     clearVuex(state) {
+        state.songDetailTitle = null;
+        state.songsLoading = false;
+        state.songsOffset = 0;
+        state.allSongsLoaded = false;
         state.musicKeys = [];
         state.artists = [];
         state.mySongs = [];
         state.songs = [];
-        state.songDetailTitle = null;
         state.playlists = [];
-
+        state.activePlaylistSongs = [];
+        state.activeFilters = ["all"];
         state.usefulResources = {
             notes: null,
             websitesLinks: [],
-            txtAreaHeight: 400
+            txtAreaHeight: 600
         };
     },
     setMobile(state, payload) {
@@ -82,9 +86,8 @@ export default {
         if (index == -1) {
             index = state.mySongs.findIndex(song => song.songId == id);
             state.mySongs.splice(index, 1);
-        }else{
+        } else {
             state.songs.splice(index, 1);
-
         }
     },
     updateSong(state, payload) {
@@ -99,7 +102,6 @@ export default {
     },
     insertSong(state, payload) {
         if (payload.isMySong) {
-
             state.mySongs.unshift(payload);
         } else {
             state.songs.unshift(payload);
@@ -110,12 +112,10 @@ export default {
             if (payload[i].isMySong) {
                 state.mySongs.push(payload[i]);
             } else {
-
                 state.songs.push(payload[i]);
             }
         }
     },
-
     //artists
     setAllArtists(state, payload) {
         state.artists = [];
@@ -129,7 +129,6 @@ export default {
         for (let i = 0; i < state.artists.length; i++) {
             state.artists[i].order = i + 1;
         }
-
     },
     sortArtists(state, option) {
         if (option == "A-Z") {
@@ -192,5 +191,11 @@ export default {
             state.playlists.splice(index, 1);
             state.activePlaylistSongs = [];
         }
+    },
+    setAllSongsLoaded(state, payload) {
+        state.allSongsLoaded = payload;
+    },
+    increaseSongsOffset(state, payload) {
+        state.songsOffset = state.songsOffset + payload;
     }
 };

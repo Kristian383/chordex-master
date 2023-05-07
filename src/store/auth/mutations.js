@@ -1,9 +1,7 @@
 export default {
-
    setAutoLogout(state) {
       state.didAutoLogout = true;
-   } ,
-
+   },
    setUser(state, payload) {
       state.user = payload.user;
       // state.tokenExpiration=payload.tokenExpiration;

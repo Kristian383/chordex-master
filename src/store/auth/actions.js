@@ -6,7 +6,6 @@ import {
 } from "firebase/auth";
 
 export default {
-
     logout(context) {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
@@ -16,12 +15,9 @@ export default {
             token: null,
             user: {}
         });
-
         context.commit("clearVuex");
     },
-
     async auth(context, payload) {
-
         const mode = payload.mode;
         let url = new URL(`/login`, process.env.VUE_APP_URL);
 
@@ -50,7 +46,6 @@ export default {
         if (!response.ok) {
             return responseData.message;
         }
-
         context.dispatch("setUserAndLoadData", { ...responseData, email: payload.user.email });
     },
 
@@ -65,8 +60,6 @@ export default {
                 var user = result.user;
                 response.google_token = user.accessToken;
                 response.msg = "Success.";
-                // response.username = user.displayName;
-                // console.log(user);
             });
         } catch (error) {
             response.google_token = false;
@@ -83,16 +76,13 @@ export default {
                     break;
                 default:
                     response.msg = "Something went wrong";
-                // response.msg = error;
             }
         }
         return response;
     },
-
     async firebaseBackendCall(context, google_token) {
         let url = new URL(`/firebase`, process.env.VUE_APP_URL);
         let response;
-        // console.log(payload);
         try {
             response = await fetch(url,
                 {
@@ -100,10 +90,7 @@ export default {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({
-                        google_token
-                        // username:payload.username
-                    })
+                    body: JSON.stringify({google_token})
                 });
         } catch {
             return {
@@ -125,7 +112,7 @@ export default {
             message: "ok"
         };
     },
-    setUserAndLoadData(context, payload) {
+    async setUserAndLoadData(context, payload) {
         localStorage.setItem("token", payload.token);
         localStorage.setItem("username", payload.user);
         localStorage.setItem("email", payload.email);
@@ -136,13 +123,21 @@ export default {
             },
             token: payload.token
         });
-        context.dispatch("loadAllSongs");
+        // context.dispatch("loadAllSongs");
+        context.commit("setLoader");
+        while (!context.rootState.allSongsLoaded) {
+            const res = await context.dispatch("loadPaginatedSongs");
+            if (res === false) {
+                context.dispatch("autoLogout");
+                break;
+            }
+        }
+        context.commit("removeLoader");
         context.dispatch("loadAllArtists");
         context.dispatch("loadMusicKeys");
         context.dispatch("loadPlaylists");
     },
-
-    tryLogin(context) {
+    async tryLogin(context) {
         const token = localStorage.getItem("token");
         const username = localStorage.getItem("username");
         const email = localStorage.getItem("email");
@@ -160,16 +155,23 @@ export default {
                 expiresIn,
                 user
             });
-            context.dispatch("loadAllSongs")
-                .then(res => {
-                    if (res == "There was an error!" || res == false) {
-                        context.dispatch("autoLogout");
-                    }
-                });
-            context.dispatch("loadMusicKeys");
-            context.dispatch("loadAllArtists");
-            context.dispatch("loadPlaylists");
+            // const response = await context.dispatch("loadAllSongs");
+            // if (!response) {
+            //     context.dispatch("autoLogout");
+            // }
             context.commit("activateSidebar");
+            context.dispatch("loadPlaylists");
+            context.commit("setLoader");
+            while (!context.rootState.allSongsLoaded) {
+                const res = await context.dispatch("loadPaginatedSongs");
+                if (res === false) {
+                    context.dispatch("autoLogout");
+                    break;
+                }
+            }
+            context.commit("removeLoader");
+            context.dispatch("loadAllArtists");
+            context.dispatch("loadMusicKeys");
         }
     },
     autoLogout(context) {

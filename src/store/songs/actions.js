@@ -1,10 +1,41 @@
 export default {
-    async loadAllSongs(context) {
-        let user_email = context.getters.user.email;
-        let access_token = context.getters.token;
-        let url = new URL(`/songs/${user_email}`, process.env.VUE_APP_URL);
+    // async loadAllSongs(context) {
+    //     const user_email = context.getters.user.email;
+    //     const access_token = context.getters.token;
+    //     const url = new URL(`/songs/${user_email}`, process.env.VUE_APP_URL);
 
-        context.commit("setLoader");
+    //     context.commit("setLoader");
+    //     let response;
+    //     try {
+    //         response = await fetch(url,
+    //             {
+    //                 method: "GET",
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     "Authorization": "Bearer " + access_token
+    //                 },
+    //             });
+    //     } catch {
+    //         context.commit("removeLoader");
+    //         return "There was an error!";
+    //     }
+    //     const responseData = await response.json();
+
+    //     if (!response.ok) {
+    //         context.commit("removeLoader");
+    //         return false;
+    //     }
+
+    //     context.commit("setAllSongs", responseData.songs);
+    //     context.commit("removeLoader");
+    //     return true;
+    // },
+    async loadPaginatedSongs(context) {
+        const user_email = context.getters.user.email;
+        const access_token = context.getters.token;
+        const newSongsOffset = context.state.songsOffset;
+        const url = new URL(`/songs-paginated/${user_email}?offset=${newSongsOffset}&limit=40`, process.env.VUE_APP_URL);
+
         let response;
         try {
             response = await fetch(url,
@@ -14,35 +45,29 @@ export default {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + access_token
                     },
-
                 });
         } catch {
-            // console.log("There was an error!");
-            context.commit("removeLoader");
-            return "There was an error!";
+            context.commit("setAllSongsLoaded", true);
+            return false;
         }
         const responseData = await response.json();
 
         if (!response.ok) {
-            // window.alert(responseData.message || 'Failed to load more songs.');
-            context.commit("removeLoader");
+            context.commit("setAllSongsLoaded", true);
             return false;
         }
+        if (responseData?.songs?.length === 0) context.commit("setAllSongsLoaded", true);
 
         context.commit("setAllSongs", responseData.songs);
-        context.commit("removeLoader");
-
+        context.commit("increaseSongsOffset", 40);
+        return true;
     },
     async addNewSong(context, payload) {
-        let user_email = context.getters.user.email;
-        let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}song/${username}`;
-        let url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL);
+        const user_email = context.getters.user.email;
+        const access_token = context.getters.token;
+        const url = new URL(`/song/${user_email}`, process.env.VUE_APP_URL);
 
-        const body = {
-            // user_email,
-            ...payload
-        };
+        const body = {...payload};
         let methodType = "POST";
         if (payload.songId) {
             methodType = "PUT";
@@ -68,7 +93,6 @@ export default {
         }
         const responseData = await response.json();
         if (!response.ok) {
-            //  window.alert( 'Failed to add song.');
             return false;
         } else {
             if (payload.songId) {
@@ -132,7 +156,6 @@ export default {
         const responseData = await response.json();
 
         if (!response.ok) {
-            // window.alert(responseData.message || 'Failed to load more songs.');
             return;
         }
         context.commit("storeMusicKeys", responseData.musicKeys);
@@ -165,7 +188,6 @@ export default {
         }
         context.commit("setAllArtists", responseData.artists);
     },
-
     //NOTES 
     async loadUsersNotes(context) {
         let user_email = context.getters.user.email;
@@ -187,12 +209,10 @@ export default {
             return;
         }
         const responseData = await response.json();
-        //console.log("userNotes", responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to load user notes.');
             return;
         }
-        // console.log(responseData)
         context.commit("updateUserNotes", responseData.notes);
         context.commit("updateTxtAreaHeight", responseData.txtAreaHeight);
 
@@ -258,7 +278,6 @@ export default {
     async deleteUserWebsite(context, name) {
         let user_email = context.getters.user.email;
         let access_token = context.getters.token;
-        // let url = `${process.env.VUE_APP_URL}website/${username}`;
         let url = new URL(`/website/${user_email}`, process.env.VUE_APP_URL);
 
         let response;
@@ -280,7 +299,6 @@ export default {
             return;
         }
         const responseData = await response.json();
-        // console.log("deleteUserWebsite", responseData);
         if (!response.ok) {
             window.alert(responseData.message || 'Failed to add user website.');
             return;
@@ -312,7 +330,6 @@ export default {
         }
         context.commit("setUserWebsites", responseData.websites);
     },
-
     //SPOTIFY API
     async apiForSongInfo(_, payload) {
         let url = new URL("/spotifyacess", process.env.VUE_APP_URL);
@@ -328,7 +345,6 @@ export default {
                         payload
                     )
                 });
-
         } catch {
             console.log("There was an error!");
             return false;

@@ -21,7 +21,7 @@
       </li>
     </ul>
   </li>
-  <li v-else class="cx-sidebar-link-li" @click="emitLogOut">
+  <li v-else class="cx-sidebar-link-li" @click.capture="emitLogOut">
     <router-link :to="`/${routeName}`" :class="{ 'cx-active_item': isActive }">
       <font-awesome-icon :icon="iconName" class="cx-icon" />
       <span class="links_name">{{ label }}</span>

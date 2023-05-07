@@ -158,5 +158,11 @@ export default {
     },
     isMobile(state) {
         return state.mobile;
+    },
+    allSongsLoaded(state) {
+        return state.allSongsLoaded;
+    },
+    getSongsOffset(state) {
+        return state.songsOffset;
     }
 };

@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer id="footer">
     <div class="container">
       <a href="https://ko-fi.com/I2I0JPDGB" target="_blank">
         <img

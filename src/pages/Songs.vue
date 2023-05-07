@@ -51,7 +51,8 @@
     </template>
     <div v-if="AllSongs.length" class="song-cards">
       <song-card
-        v-for="song in AllSongs"
+        v-for="(song, index) in AllSongs"
+        v-show="index < renderedSongsOffset * 30"
         :key="song.songId"
         :song="song"
         :container-el="getContainer"
@@ -78,7 +79,7 @@
 import SongsFilters from "../components/ui/SongsFilters.vue";
 import SongCard from "./../components/song/SongCard.vue";
 import SortBy from "../components/ui/SortBy.vue";
-import { ref, computed, defineAsyncComponent, watch, onBeforeUnmount } from "vue";
+import { ref, computed, defineAsyncComponent, watch, onBeforeUnmount, onMounted, onUnmounted } from "vue";
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -121,6 +122,8 @@ const getContainer = computed(() => document.getElementById('app'));
 const getPlaylists = computed(() => store.getters.getPlaylists);
 const songsAreLoading = computed(() => store.getters.songsLoading);
 const showEmptySongsMessage = computed(() => !songsAreLoading.value && AllSongs.value.length === 0);
+const renderedSongsOffset = ref(1); 
+const footerEl = computed(() => document.getElementById("footer"));
 
 const AllSongs = computed(() => {
   const queryName = route.query;
@@ -137,8 +140,23 @@ const unwatch = watch(() => route.query?.playlist, async (newVal) => {
     if (!getPlaylists.value.includes(route.query?.playlist)) router.push("/songs");
   } 
 }, {immediate: true});
+
+const observer = new IntersectionObserver(entries => {
+  if (entries?.[0].isIntersecting && !songsAreLoading.value && renderedSongsOffset.value * 30 < AllSongs.value.length) {
+    renderedSongsOffset.value += 1;
+  }
+}, { rootMargin: "50px" });
+
 onBeforeUnmount(unwatch);
 
+onMounted(() => {
+  if (footerEl.value) observer.observe(footerEl.value);
+});
+
+onUnmounted(() => {
+  observer.disconnect();
+});
+  
 async function deletePlaylist() {
   if (!playlistQueryName.value) return;
   if(window.confirm(`Are you sure you want to DELETE the playlist "${playlistQueryName.value}"?\n\nSongs from playlist will NOT be removed from your account.`)) {

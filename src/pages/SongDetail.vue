@@ -348,10 +348,8 @@ export default {
     justify-self: center;
     
     &.notebook {
-      font-weight: 400;
       line-height: 1.75rem;
       order: 3;
-      // padding-bottom: 52px;
 
       pre {
         white-space: pre-wrap; /* Since CSS 2.1 */
