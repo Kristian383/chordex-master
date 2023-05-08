@@ -18,7 +18,7 @@
             class="delete"
             icon="trash-alt"
             @click="deleteSong"
-            @keydown.enter="deleteSong"
+            @keydown.enter.prevent="deleteSong"
           />
           <font-awesome-icon
             tabindex="0"
@@ -59,19 +59,37 @@
         </div>
         <div class="grid-2">
           <!-- artist name -->
-          <input
-            id="input-artist"
-            v-model.trim="artist.val"
-            class="input-field"
-            type="text"
-            placeholder="Artist name"
-            :disabled="songInfo.isMySong || songId"
-            :class="{ 'error-msg': !artist.isValid }"
-            @focus="clearValidity('artist')"
-          />
+          <div class="artist-input-container">
+            <input
+              id="input-artist"
+              v-model.trim="artist.val"
+              class="input-field"
+              type="text"
+              placeholder="Artist name"
+              :disabled="songInfo.isMySong || songId"
+              :class="{ 'error-msg': !artist.isValid }"
+              @focus="clearValidity('artist'); artistDropdownOpen = true;"
+              @input="searchArtistsInput"
+              @keydown.esc="artistDropdownOpen = false;"
+            />
+            <div v-if="artistDropdownOpen && searchMatch.length" class="popup-aritst">
+              <ul>
+                <li
+                  v-for="(artistData, index) in searchMatch"
+                  :key="artistData.name + index" 
+                  tabindex="0" 
+                  @click="handleArtistSelect(artistData.name)"
+                  @keydown.enter.prevent="handleArtistSelect(artistData.name)"
+                >
+                  {{ artistData.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
           <!-- song name -->
           <input
             id="input-song"
+            ref="songInputRef"
             v-model.trim="song.val"
             class="input-field"
             type="text"
@@ -86,7 +104,7 @@
               class="find-data"
               tabindex="0"
               @click="searchSongInfo"
-              @keydown.enter="searchSongInfo"
+              @keydown.enter.prevent="searchSongInfo"
             >
               {{ getSongInfoTxt }}
               <font-awesome-icon icon="question-circle" />
@@ -505,7 +523,25 @@ async function searchSongInfo() {
   setTimeout(() => getSongInfoTxt.value = "Try to get song info", 2000);
 }
 
+const getAllArtists = computed(() => store.getters.getArtists);
+const searchMatch = ref([]);
+const artistDropdownOpen = ref(false);
+const songInputRef = ref(null);
 
+const handleArtistSelect = (selectedValue) => {
+  artist.val = selectedValue;
+  artistDropdownOpen.value = false;
+  songInputRef.value.focus();
+};
+
+const searchArtistsInput = (e) => {
+  const textValue = e.target.value;
+  const foundData = getAllArtists.value.filter((artist) => {
+    const regex = new RegExp(textValue, "gi");
+    return artist.name.match(regex);
+  });
+  searchMatch.value = foundData;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -652,7 +688,42 @@ form .input-field {
     background-color: var(--light_gray);
   }
 }
+.artist-input-container {
+  position: relative;
+  .popup-aritst {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 15rem;
+    overflow-y: auto;
+    border-radius: 0.5rem;
+    background-color: var(--white);
+    margin-top: 0.25rem;
+    z-index: 21;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding: 0.125rem;
 
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      
+      li {
+        padding: 0.625rem;
+        font-size: 1rem;
+        cursor: pointer;
+        @include ellipsis-text;
+        &:hover {
+          background-color: var(--f1_gray);
+        }
+        &:active {
+          background-color: var(--light_gray);
+        }
+      }
+    }
+  }
+}
 form .notebook {
   resize: vertical;
   line-height: 1.9375rem;
@@ -674,7 +745,6 @@ form .notebook {
   position: absolute;
   right: 0;
   cursor: pointer;
-
 }
 
 form input:-internal-autofill-selected {
@@ -781,6 +851,9 @@ input::-moz-focus-outer {
 
 .yt {
   position: relative;
+  input {
+    padding-right: 2.875rem;
+  }
 }
 .yt_questionmark {
   position: absolute;
@@ -788,19 +861,14 @@ input::-moz-focus-outer {
   left: 90%;
   transform: translate(0, -50%);
   cursor: pointer;
-
   width: 1.5rem;
   height: 1.5rem;
-}
-.yt input {
-  padding-right: 2.1875rem;
 }
 
 .go-back {
   position: absolute;
   left: 0.3125rem;
   top: -3.125rem;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   width: 2.5rem;
   height: 2.5rem;
   display: flex;
@@ -808,6 +876,7 @@ input::-moz-focus-outer {
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 5px 0, rgba(0, 0, 0, 0.1) 0 0 1px 0;
 
   &:hover {
     background-color: var(--f1_gray);

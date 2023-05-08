@@ -61,9 +61,9 @@
         <!-- capo  tuning guitar-->
         <div>
           <div v-if="songData.capo"><b>Capo:</b>{{ songData.capo }}</div>
-          <div><b>Tuning:</b>{{ songData.tuning ? songData.tuning : "Standard" }}</div>
+          <div><b>Tuning: </b>{{ songData.tuning ? songData.tuning : "Standard" }}</div>
           <div v-if="songData.acoustic || songData.electric">
-            <b>Guitar type:</b> {{ songData.acoustic ? "Acoustic" : "" }}
+            <b>Guitar type: </b> {{ songData.acoustic ? "Acoustic" : "" }}
             {{ songData.electric ? "Eletric" : "" }}
           </div>
         </div>
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div v-if="songData.difficulty">
-          <div><b>Difficulty:</b> {{ songData.difficulty }}</div>
+          <div><b>Difficulty: </b> {{ songData.difficulty }}</div>
         </div>
       </div>
       <!-- yt video  -->
