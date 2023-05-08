@@ -1,13 +1,19 @@
 <template>
   <div ref="searchBoxRef" class="search-box">
     <input
+      v-model.trim="searchText"
       type="text"
       placeholder="Search song or artist"
       @input="searchTextBox"
     />
-    <div v-if="searchMatch.length" class="match-list">
+    <div v-if="searchMatch.length && searchText" class="match-list">
       <transition-group name="list">
-        <li v-for="match in searchMatch" :key="match">
+        <li 
+          v-for="match in searchMatch"
+          :key="match" 
+          @keydown.enter.prevent="handleSelect(match.songId)"
+          @click.capture="handleSelect(match.songId)"
+        >
           <router-link :to="'/songs/' + match.songId">
             <b>{{ match.artist }} - {{ match.songName }}</b>
           </router-link>
@@ -20,18 +26,21 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
 import { useStore } from 'vuex';
 
 const store = useStore();
 const searchMatch = ref([]);
 const searchBoxRef = ref(null);
+const searchText = ref("");
+const router = useRouter();
 
 const allSongs = computed(() => store.getters.getAllSongs);
 
 const handleOutsideClick = (event) => {
   if (!searchBoxRef.value.contains(event.target)) {
     searchMatch.value = [];
-    searchBoxRef.value.firstElementChild.value = "";
+    searchText.value = "";
   }
 };
 
@@ -42,6 +51,12 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick);
 });
+
+const handleSelect = (songId) => {
+  router.push(`/songs/${songId}`);
+  searchMatch.value = [];
+  searchText.value = "";
+};
 
 const searchTextBox = (e) => {
   const textValue = e.target.value;
