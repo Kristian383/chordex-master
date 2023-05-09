@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { ref, computed, onBeforeUnmount, watch, onMounted } from "vue";
+import { ref, computed, onBeforeUnmount, watch, onMounted, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -241,10 +241,23 @@ export default {
       router.push(pushRoute);
     };
 
+    const handleArrowKeys = (event) => {
+      if (event.code === 'ArrowLeft') {
+        goToSong("prev");
+      } else if (event.code === 'ArrowRight') {
+        goToSong("next");
+      }
+    };
+
     onMounted(() => {
       if (route.query?.playlist && store.getters.getActivePlaylistSongsLength === 0) {
         store.dispatch("fetchSongsForPlaylist", route.query?.playlist);
       }
+      window.addEventListener('keydown', handleArrowKeys);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('keydown', handleArrowKeys);
     });
 
     return {
