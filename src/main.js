@@ -9,7 +9,7 @@ import ScrollUp from "./components/ui/ScrollUp.vue";
 import { Dropdown } from 'floating-vue';
 import 'floating-vue/dist/style.css';
 
-import { faHeart as HeartRegular, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as HeartRegular, faCopy, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars, faPenSquare, faEye, faSearch, faMusic, faSignOutAlt, faUserAlt, faGuitar, faPlusSquare, faEdit, faStar, faHistory, faClipboard, faClipboardList, faQuestionCircle, faPlayCircle, faHeadphones, faHeart, faVolumeUp, faArrowLeft, faTrashAlt, faMoon, faSun, faMapPin, faCheckSquare, faSave, faLock, faEnvelope, faAngleRight, faAngleLeft, faStickyNote, faArrowUp, faEyeSlash, faLockOpen, faPauseCircle, faMinus, faPlus, faDrum, faListUl, faUsers, faChevronDown, faChevronUp, faEllipsisV, faTimes, faCheckCircle, faExclamationCircle, faPen, faSortAmountDownAlt, faCog, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +24,7 @@ library.add(
          faStickyNote, faArrowUp, faEyeSlash, faAngleLeft, faAngleRight, faLockOpen,
           faPauseCircle, faMinus, faPlus, faDrum, faListUl, faUsers, faChevronDown,
            faChevronUp, faEllipsisV, faTimes, faCheckCircle, faExclamationCircle,
-           faPen, faSortAmountDownAlt, faCog, faChevronLeft, faChevronRight
+           faPen, faSortAmountDownAlt, faCog, faChevronLeft, faChevronRight, faCopy
            );
 
 const app = createApp(App);

@@ -90,9 +90,17 @@
         />
         <img v-else :src="songData.imgUrl || imgUrl" alt="Artist" />
       </div>
-      <div class="box notebook">
-        <hr v-if="songData.songText" />
+      <div v-if="songData.songText" class="box notebook">
+        <hr />
         <br />
+        <div class="copy-notes-container">
+          <font-awesome-icon
+            v-if="!copiedSongText" 
+            class="copy-notes-icon" :icon="['far', 'copy']"
+            title="Copy notes" @click="copyToClipboard"
+          />
+          <span v-else>Copied!</span>
+        </div>
         <pre>{{ songData.songText }}</pre>
       </div>
     </div>
@@ -260,6 +268,15 @@ export default {
       window.removeEventListener('keydown', handleArrowKeys);
     });
 
+    const copiedSongText = ref(false);
+    const copyToClipboard = () => {
+      copiedSongText.value = true;
+      navigator.clipboard.writeText(songData?.value.songText);
+      setTimeout(() => {
+        copiedSongText.value = false;
+      }, 2000);
+    };
+
     return {
       openEdit,
       deleteSong,
@@ -272,7 +289,9 @@ export default {
       songsLoading, 
       artistRoute,
       goToSong,
-      disableNavigationButton
+      disableNavigationButton,
+      copyToClipboard,
+      copiedSongText
     };
   },
 };
@@ -359,10 +378,25 @@ export default {
     border-radius: 0 0 6px 6px;
     width: 240px;
     justify-self: center;
-    
+    position: relative;
     &.notebook {
       line-height: 1.75rem;
       order: 3;
+
+      .copy-notes-container {
+        position: absolute;
+        top: 0.5rem;
+        right: 0;
+        .copy-notes-icon {
+          cursor: pointer;
+          &:hover {
+            color: var(--dark_gray_font);
+          }
+        }
+        span {
+          font-size: 0.875rem;
+        }
+      }
 
       pre {
         white-space: pre-wrap; /* Since CSS 2.1 */
