@@ -22,6 +22,18 @@
     </template>
     <the-loader v-if="songsLoading" />
     <div v-else-if="showDetails" class="song-detail">
+      <!-- yt video  -->
+      <div class="box video"> 
+        <iframe
+          v-if="songData.ytLink"
+          :src="songData.ytLink"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        />
+        <img v-else :src="songData.imgUrl || imgUrl" alt="Artist" />
+      </div>
       <div class="box song-info">
         <div class="top-icons">
           <div class="action-icons">
@@ -44,7 +56,7 @@
         <!-- keys -->
         <div v-if="songData.firstKey">
           <div><b>Key:</b> {{ songData.firstKey }}</div>
-          <div><b>Chords in key:</b> {{ songData.firstKeyNotes }}</div>
+          <div v-if="songData.firstKeyNotes"><b>Chords in key:</b> {{ songData.firstKeyNotes }}</div>
           <div v-if="songData.firstChordProgression">
             <b>Chord progression:</b> {{ songData.firstChordProgression }}
           </div>
@@ -60,7 +72,7 @@
         </div>
         <!-- capo  tuning guitar-->
         <div>
-          <div v-if="songData.capo"><b>Capo:</b>{{ songData.capo }}</div>
+          <div v-if="songData.capo"><b>Capo: </b>{{ songData.capo }}</div>
           <div><b>Tuning: </b>{{ songData.tuning ? songData.tuning : "Standard" }}</div>
           <div v-if="songData.acoustic || songData.electric">
             <b>Guitar type: </b> {{ songData.acoustic ? "Acoustic" : "" }}
@@ -77,18 +89,6 @@
         <div v-if="songData.difficulty">
           <div><b>Difficulty: </b> {{ songData.difficulty }}</div>
         </div>
-      </div>
-      <!-- yt video  -->
-      <div class="box video"> 
-        <iframe
-          v-if="songData.ytLink"
-          :src="songData.ytLink"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        />
-        <img v-else :src="songData.imgUrl || imgUrl" alt="Artist" />
       </div>
       <div v-if="songData.songText" class="box notebook">
         <hr />
@@ -185,11 +185,6 @@ export default {
       return "heart";
     });
 
-    const displayAccordingToYT = computed(() => {
-      if (songData.value.yt_link) return "1fr";
-      else return "1fr 1fr";
-    });
-
     const artistRoute = computed(() => {
       const isMySong = songData?.value?.isMySong;
       const artist = songData?.value?.artist;
@@ -281,7 +276,6 @@ export default {
       openEdit,
       deleteSong,
       favoriteIconName,
-      displayAccordingToYT,
       imgUrl,
       songData,
       isFavorite,
@@ -353,36 +347,41 @@ export default {
   }
 }
 .song-detail {
-  background-color: var(--white);
   color: var(--font_black);
   padding: 1rem;
   display: grid;
-  gap: 10px;
-  position: relative;
   grid-template-columns: 1fr;
   justify-content: center;
-  max-width: 1400px;
+  gap: 1rem;
+  position: relative;
+  max-width: 87.5rem;
   margin: 0 auto;
-  border-radius: 6px;
+  border-radius: 0.375rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 5px 0, rgba(0, 0, 0, 0.1) 0 0 1px 0;
   font-size: 1.125rem;
+
+  @media (min-width: 93.75rem) {
+      grid-template-columns: 1fr 1fr;
+
+      .box.notebook {
+        grid-column: 1/3;
+      }
+  }
+  
   .artist-link {
     color: inherit;
     font-weight: 600;
     &:hover {
-      color: var(--mid_gray);
+      color: var(--dark_gray_font);
     }
   }
 
   .box {
-    border-radius: 0 0 6px 6px;
-    width: 240px;
+    width: 15rem;
     justify-self: center;
     position: relative;
     &.notebook {
       line-height: 1.75rem;
-      order: 3;
-
       .copy-notes-container {
         position: absolute;
         top: 0.5rem;
@@ -408,84 +407,55 @@ export default {
     }
     &.video {
       text-align: center;
-      order: 1;
-
       iframe {
-        width: 230px;
+        width: 14.375rem;
+        width: 100%;
+        height: 100%;
       }
 
       img {
         height: 100%;
-        max-height: 400px;
+        max-height: 25rem;
         max-width: 100%;
+        min-height: 12.5rem;
       }
     }
-  }
 
-
-  @media (min-width: 600px) {
-    .box {
-      width: 400px;
+    @media (min-width: 25rem) {
+      width: 18.75rem;
+      min-height: 12.5rem;
     }
-    .box.video iframe {
-      width: 100%;
-      height: 300px;
+    @media (min-width: 37.5rem) {
+      width: 25rem;
     }
   }
-  @media (min-width: 770px) {
-    .song-info {
-      order: 2;
-      overflow: hidden;
-    }
+  @media (min-width: 48.125rem) {
     .box.song-info,
     .box.video {
-      width: 600px;
-      min-height: 400px;
-    }
-    .box.video iframe {
-      height: 100%;
+      width: 37.5rem;
+      min-height: 25rem;
     }
     .box.notebook {
       width: 100%;
-    }
-  }
-  @media (min-width: 1500px) {
-    .song-detail {
-      grid-template-columns: displayAccordingToYT;
-    }
-    .box.notebook {
-      grid-column: 1/3;
-    }
-    .song-info {
-      margin: auto;
-      order: 1;
-    }
-    .box.video {
-      order: 2;
     }
   }
   .song-info > div {
     display: flex;
     justify-content: space-between;
-    gap: 25px;
+    gap: 1.5rem;
     margin: 0 auto;
-    padding-bottom: 20px;
+    padding-bottom: 1.25rem;
     align-items: center;
     flex-wrap: wrap;
   }
   .action-icons {
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-    width: 600px;
-    outline: none;
+    width: 100%;
     color: var(--dark_gray_chips);
-    padding: 0 18px;
 
     svg {
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 28px;
+      font-size: 1.5rem;
 
       :hover {
         filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
@@ -509,10 +479,6 @@ export default {
     .edit:hover {
       color: var(--font_black);
     }
-    @media (min-width: 720px) {
-        padding: 0;
-    }
   }
 }
-
 </style>
