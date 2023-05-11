@@ -12,6 +12,7 @@
       </div>
     </div>
     <font-awesome-icon
+      v-if="showCloseButton"
       class="close-icon"
       :icon="['far', 'times-circle']"
       @click="closeToast" 
@@ -32,20 +33,24 @@ const props = defineProps({
     type: String,
     required: true
   },
+  showCloseButton: {
+    type: Boolean,
+    required: false,
+    default: true
+  }
 });
 
 const getStatusIcon = computed(() => {
-  if (props.status === "Error") {
-    return 'exclamation-circle';
-  } else if (props.status === "Add") {
-    return 'check-circle';
-  }
+  if (props.status === "Error") return 'exclamation-circle';
+  else if (props.status === "Add") return 'check-circle';
+  else if (props.status === "Unsuccessful") return 'search-minus';
   return 'minus';
 });
 
 const getStatusText = computed(() => {
   if (props.status === "Error") return "Error";
   else if (props.status === "Add") return "Success";
+  else if (props.status === "Unsuccessful") return "Unsuccessful";
   return "Deleted";
 });
   

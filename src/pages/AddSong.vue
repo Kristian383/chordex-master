@@ -99,16 +99,17 @@
           />
           <!-- spotify api and bpm -->
           <div class="grid-2">
-            <div
+            <button
               v-if="!songInfo.isMySong"
-              class="find-data"
-              tabindex="0"
+              class="spotify-btn"
+              :disabled="showToast"
               @click="searchSongInfo"
               @keydown.enter.prevent="searchSongInfo"
             >
+              <!-- Get song info -->
               {{ getSongInfoTxt }}
               <font-awesome-icon icon="question-circle" />
-            </div>
+            </button>
             <input
               id="input-bpm"
               v-model="songInfo.bpm"
@@ -251,6 +252,15 @@
       </form>
     </div>
   </base-card>
+  <teleport to="#app">
+    <div v-if="showToast" class="toast-container">
+      <the-toast 
+        :message="toastMessage" 
+        :status="toastStatus" 
+        :show-close-button="false"
+      />
+    </div>
+  </teleport>
 </template>
 
 <script setup>
@@ -263,6 +273,7 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
 const HowToModal = defineAsyncComponent(() => import('../components/ui/HowToModal.vue'));
+const TheToast = defineAsyncComponent(() => import('../components/ui/TheToast.vue'));
 
 const store = useStore();
 const route = useRoute();
@@ -272,7 +283,6 @@ const songId = ref(null);
 const isFavorite = ref(null);
 const formIsValid = ref(false);
 const errorMsg = ref('');
-const getSongInfoTxt = ref('Try to get song info');
 const hasCapo = ref(null);
 const openSecond = ref(false);
 const openYTModal = ref(false);
@@ -490,10 +500,21 @@ function setMySongArist(event) {
   if (event.target.checked) artist.val = getUsername;
 }
 
+const toastMessage = ref("");
+const toastStatus = ref(null);
+const showToast = ref(false);
+const getSongInfoTxt = ref('Get song info');
+
+function callToast(status, message) {
+  toastStatus.value = status;
+  toastMessage.value = message;
+}
+
 async function searchSongInfo() {
-  if (!song.val || !artist.val || getSongInfoTxt.value === "Searching for song...") {
-    getSongInfoTxt.value = "Please insert song and artist.";
-    setTimeout(() => getSongInfoTxt.value = "Try to get song info", 2000);
+  if (!song.val || !artist.val || getSongInfoTxt.value === "Searching...") {
+    callToast("Error", "Please insert song and artist.");
+    showToast.value = true;
+    setTimeout(() => showToast.value = false, 3000);
     return;
   }
 
@@ -501,12 +522,13 @@ async function searchSongInfo() {
     songName: song.val,
     artist: artist.val,
   };
-  getSongInfoTxt.value = "Searching for song...";
+  getSongInfoTxt.value = "Searching...";
   try {
     const response = await store.dispatch("apiForSongInfo", payload);
     
     if (!response) {
-      getSongInfoTxt.value = "Couldn't find anything.";
+      callToast("Unsuccessful", "Couldn't find anything.");
+      showToast.value = true;
     } else {
       const _firstKeyNotes = getNotesFromKey(response.key, allMusicKeys.value);
       songInfo.firstKeyNotes = _firstKeyNotes;
@@ -515,12 +537,15 @@ async function searchSongInfo() {
       songInfo.imgUrl = response.imgUrl;
       artist.val = response.artist;
       song.val = response.songName;
-      getSongInfoTxt.value = "Successfuly fetched info!";
+      callToast("Add", "Successfuly fetched song info!");
+      showToast.value = true;
     }
   } catch(error) {
-    getSongInfoTxt.value = "Couldn't find anything.";
+    callToast("Unsuccessful", "Couldn't find anything.");
+    showToast.value = true;
   }
-  setTimeout(() => getSongInfoTxt.value = "Try to get song info", 2000);
+  setTimeout(() => showToast.value = false, 3000);
+  getSongInfoTxt.value = "Get song info";
 }
 
 const getAllArtists = computed(() => store.getters.getArtists);
@@ -639,16 +664,6 @@ const searchArtistsInput = (e) => {
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .find-data {
-    color: rgb(136, 136, 136);
-    text-align: center;
-    cursor: pointer;
-
-    &:hover {
-      color: RGB(16, 17, 20);
-    }
-  }
 }
 
 .grid-2 > input,
@@ -729,9 +744,45 @@ form .notebook {
   line-height: 1.9375rem;
 }
 
+.spotify-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  border: 2px solid var(--dark_gray_font);
+  padding: 0.3125rem 0.625rem;
+  font-size: inherit;
+  border-radius: 1.25rem;
+  color: var(--dark_gray_font);
+  width: 12.5rem;
+  margin: 0 auto;
+  
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--orange);
+  }
+  svg {
+    margin-left: 0.5rem;
+    color: var(--dark_gray_font);
+  }
+
+  @media (min-width: 640px) {
+    margin: 0;
+  }
+}
+
 #input-bpm {
   width: 6.25rem;
   justify-self: center;
+  margin-top: 0;
+  @media (min-width: 640px) {
+    margin-left: 0;
+  }
 }
 
 #input-tuning {
@@ -881,5 +932,12 @@ input::-moz-focus-outer {
   &:hover {
     background-color: var(--f1_gray);
   }
+}
+
+.toast-container {
+  position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 10000;
 }
 </style>
