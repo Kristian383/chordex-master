@@ -46,7 +46,7 @@
               </li>
               <li v-if="!$route.query.isMySong" class="dropdown-popup-item" @click="$emit('openPlaylistModal', song.songId)">
                 <!-- <font-awesome-icon class="popup-item-icon" icon="plus" /> -->
-                <img src="@/assets/add_to_playlist.png" />
+                <img style="width: 1rem;" src="@/assets/add-to-playlist.png" />
                 <span>Playlist</span>
               </li>
               <li class="dropdown-popup-item delete" @click="deleteSong">

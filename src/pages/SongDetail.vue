@@ -38,6 +38,7 @@
         <div class="top-icons">
           <div class="action-icons">
             <font-awesome-icon :icon="favoriteIconName" style="pointer-events: none" :class="{ 'is-favorite': isFavorite }" />
+            <img class="add-to-playlist-icon" src="@/assets/add-to-playlist.png" @click="openModal = true" />
             <font-awesome-icon icon="edit" class="edit" @click="openEdit" />
             <font-awesome-icon icon="trash-alt" class="delete" @click="deleteSong" />
           </div>
@@ -104,16 +105,26 @@
         <pre>{{ songData.songText }}</pre>
       </div>
     </div>
+    <add-to-playlist-modal
+      v-if="openModal"
+      :playlists="getPlaylists"
+      :song-id="songId"
+      @close-modal="closePlaylistModal"
+    />
   </base-card>
 </template>
 
 <script>
-import { ref, computed, onBeforeUnmount, watch, onMounted, onUnmounted } from "vue";
+import { ref, computed, onBeforeUnmount, watch, onMounted, onUnmounted, defineAsyncComponent } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
+const AddToPlaylistModal = defineAsyncComponent(() => import('../components/playlist/AddToPlaylistModal.vue'));
 
 export default {
   name: "SongDetail",
+  components: {
+    AddToPlaylistModal
+  },
   setup() {
     const router = useRouter();
     const route = useRoute();
@@ -272,6 +283,12 @@ export default {
       }, 2000);
     };
 
+    const getPlaylists = computed(() => store.getters.getPlaylists);
+    const openModal = ref(false);
+    const closePlaylistModal = () => {
+      openModal.value = false;
+    };
+
     return {
       openEdit,
       deleteSong,
@@ -285,7 +302,11 @@ export default {
       goToSong,
       disableNavigationButton,
       copyToClipboard,
-      copiedSongText
+      copiedSongText,
+      openModal,
+      closePlaylistModal,
+      getPlaylists,
+      songId
     };
   },
 };
@@ -451,13 +472,16 @@ export default {
   .action-icons {
     width: 100%;
     color: var(--dark_gray_chips);
+    display: flex;
+    gap: 1rem;
 
-    svg {
+    svg,
+    .add-to-playlist-icon {
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 1.5rem;
 
-      :hover {
+      &:hover {
         filter: drop-shadow(1.5px 2px 2px rgb(0 0 0 / 0.3));
       }
     }
