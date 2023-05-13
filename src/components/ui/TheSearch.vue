@@ -5,6 +5,7 @@
       type="text"
       placeholder="Search song or artist"
       @input="searchTextBox"
+      @keydown.esc="searchText = ''"
     />
     <div v-if="searchMatch.length && searchText" class="match-list">
       <transition-group name="list">
