@@ -165,10 +165,9 @@ export default {
     onBeforeUnmount(unwatch);
 
     function openEdit() {
-      let song = store.getters.findSong(songId.value);
-      const pushRoute = song.isMySong
-        ? `/new/${song.songId}?isMySong=True`
-        : `/new/${song.songId}`;
+      const pushRoute = isMySong.value
+        ? `/new/${songId.value}?isMySong=True`
+        : `/new/${songId.value}`;
       router.push(pushRoute);
     }
 
