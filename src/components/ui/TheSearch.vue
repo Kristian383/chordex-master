@@ -13,6 +13,7 @@
           v-for="match in searchMatch"
           :key="match" 
           @keydown.enter.prevent="handleSelect(match.songId)"
+          @keydown.esc="searchText = ''"
           @click.capture="handleSelect(match.songId)"
         >
           <router-link :to="'/songs/' + match.songId">
