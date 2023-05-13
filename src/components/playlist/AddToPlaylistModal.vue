@@ -7,7 +7,7 @@
     >
       <div class="add-to-playlist-container">
         <div class="add-to-playlist-header">
-          <p>Save to:</p>
+          <p>Save <b>{{ songName }}</b> to:</p>
           <font-awesome-icon
             class="exit-icon"
             icon="times"
@@ -114,6 +114,7 @@ const toastsComponents = ref([]);
 const playlistNameInput = ref(null);
 
 const playlistNameChars = computed(() => playlistName.value.length);
+const songName = computed(() => store.getters.findSong(props.songId)?.songName);
 
 function openCreatePlaylist() {
   inputIsOpen.value = true;
@@ -143,7 +144,7 @@ async function updatePlaylist(name, {target: {checked}}) {
     return;
   }
     
-  addToast(checked ? "Add" : "Delete", `Song ${checked ? "added to" : "removed from"} '${name}'.`);
+  addToast(checked ? "Add" : "Delete", `Song ${songName.value} ${checked ? "added to" : "removed from"} '${name}' playlist.`);
   if(!checked && currentPlaylist.value === name) store.commit("deleteSongFromPlaylist", props.songId);
   if(checked && currentPlaylist.value === name) store.commit("addSongInPlaylist", props.songId);
   nextTick(() => playlistNameInput.value?.focus());
@@ -228,8 +229,12 @@ const handleToastUpdate = (id) => {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 600;
-      font-size: 1.125rem;
+      font-size: 1rem;
+
+      p {
+        @include ellipsis-text;
+        text-align: start;
+      }
 
       .exit-icon {
         width: 1.75rem;
